@@ -10,5 +10,8 @@ import Onboarding from './src/screens/Onboarding.tsx';
 import SignInEmail from './src/screens/SignInEmail.tsx';
 import Registeration from './src/screens/Registeration.tsx';
 import OtpVerification from './src/screens/OtpVerification.tsx';
+import ForgotPassword from './src/screens/ForgotPassword.tsx';
+import SetNewPassword from './src/screens/SetNewPassword.tsx';
+import CreateProfile from './src/screens/CreateProfile.tsx';
 
-AppRegistry.registerComponent(appName, () => OtpVerification);
+AppRegistry.registerComponent(appName, () => CreateProfile);

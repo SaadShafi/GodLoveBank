@@ -26,7 +26,7 @@ const CustomMultiInput: React.FC<CustomMultiInputProps> = ({
     inputWidth = '100%',
     values = [],
     borderWidth = 1,
-    borderColor = '#FF6A00',
+    borderColor,
     backgroundColor,
     borderRadius = 10,
     onChangeText,

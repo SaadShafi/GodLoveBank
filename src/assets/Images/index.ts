@@ -12,6 +12,7 @@ const images: { [key: string]: ImageSourcePropType } = {
     England: require('../Images/England.png'),
     arrowdown: require('../Images/arrowdown.png'),
     line: require('../Images/line.png'),
+    profile: require('../Images/profile.png'),
 };
 
 export default images;
