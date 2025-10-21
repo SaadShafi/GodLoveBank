@@ -1,10 +1,3 @@
-// import { DrawerActions, NavigationProp } from '@react-navigation/native';
-import {
-    DrawerActions,
-    NavigationProp,
-    useNavigation,
-} from '@react-navigation/native';
-// import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import {
     Image,
@@ -16,22 +9,19 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { fontFamily } from '../assets/Fonts';
+import { colors } from '../utilities/colors';
 import images from '../assets/Images';
 import { height, width } from '../utilities';
-import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { fontFamily } from '../assets/Fonts';
 
-// type NavigationProp = NativeStackNavigationProp<
-//   StackParamList,
-//   keyof StackParamList
-// >;
 
 interface TopHeaderProps {
     text?: string;
     title?: string;
     transparent?: boolean;
     isBack?: boolean;
+    isBackBlack?: boolean;
     steps?: string;
     isMenu?: boolean;
     isMenuSec?: boolean;
@@ -64,6 +54,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     backIcon,
     transparent = false,
     isBack = false,
+    isBackBlack = false,
     steps,
     isMenu = false,
     isMenuSec = false,
@@ -89,7 +80,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     isBackWhite = false,
     // navigation,
 }) => {
-    const navigation = useNavigation<NavigationProp<any>>();
+    // const navigation = useNavigation<NavigationProp<any>>();
     const [disputeOpen, setdisputeOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [reportModal, setReportModal] = useState(false);
@@ -123,7 +114,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     };
 
     const handleDrawer = () => {
-        navigation.dispatch(DrawerActions.openDrawer());
+        // navigation.dispatch(DrawerActions.openDrawer());
     };
 
     const handlePress = () => {
@@ -162,39 +153,44 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                     {isBack && (
                         <Pressable
                             style={styles.headerArrow}
-                            // onPress={() => {
-                            //   navigation.canGoBack()
-                            //     ? navigation.goBack()
-                            //     : navigation.navigate('Home' as never);
-                            // }}
-                            onPress={() => {
-                                if (navigation) {
-                                    navigation.canGoBack()
-                                        ? navigation.goBack()
-                                        : navigation.navigate('Home' as never);
-                                }
-                            }}
+                        // onPress={() => {
+                        //   if (navigation) {
+                        //     navigation.canGoBack()
+                        //       ? navigation.goBack()
+                        //       : navigation.navigate('Home' as never);
+                        //   }
+                        // }}
+                        >
+                            <Image source={images.backIcon} style={styles.backArrow} />
+                        </Pressable>
+                    )}
+                    {isBackBlack && (
+                        <Pressable
+                            style={styles.headerArrow}
+                        // onPress={() => {
+                        //   if (navigation) {
+                        //     navigation.canGoBack()
+                        //       ? navigation.goBack()
+                        //       : navigation.navigate('Home' as never);
+                        //   }
+                        // }}
                         >
                             <Image
-                                source={
-                                    backSec === 'whiteArrow'
-                                        ? images.whiteArrow
-                                        : images.backArrow
-                                }
-                                style={styles.backArrow}
+                                source={images.backIconBlack}
+                                style={styles.backArrowBlack}
                             />
                         </Pressable>
                     )}
                     {isBackWhite && (
                         <TouchableOpacity
                             style={styles.headerArrow}
-                            onPress={() => {
-                                if (navigation) {
-                                    navigation.canGoBack()
-                                        ? navigation.goBack()
-                                        : navigation.navigate('Home' as never);
-                                }
-                            }}
+                            // onPress={() => {
+                            //   if (navigation) {
+                            //     navigation.canGoBack()
+                            //       ? navigation.goBack()
+                            //       : navigation.navigate('Home' as never);
+                            //   }
+                            // }}
                             activeOpacity={0.7}
                         >
                             <Image source={images.backWhite} style={styles.backArrow} />
@@ -203,18 +199,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                     {isClose && (
                         <Pressable
                             style={styles.headerArrow}
-                            //   onPress={() => {
-                            //     navigation.canGoBack()
-                            //       ? navigation.goBack()
-                            //       : navigation.navigate('Home' as never);
-                            //   }}
-                            onPress={() => {
-                                if (navigation) {
-                                    navigation.canGoBack()
-                                        ? navigation.goBack()
-                                        : navigation.navigate('Home' as never);
-                                }
-                            }}
+                        // onPress={() => {
+                        //   if (navigation) {
+                        //     navigation.canGoBack()
+                        //       ? navigation.goBack()
+                        //       : navigation.navigate('Home' as never);
+                        //   }
+                        // }}
                         >
                             {transparent ? (
                                 <Image source={images.closeTopWhite} style={styles.closeTop} />
@@ -272,7 +263,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                         <View style={styles.headerBell}>
                             <TouchableOpacity
                                 activeOpacity={0.7}
-                                onPress={() => navigation.navigate('CallMain')}
+                            // onPress={() => navigation.navigate('CallMain')}
                             >
                                 <Image source={images.phoneBlack} style={styles.isChatImg} />
                             </TouchableOpacity>
@@ -309,13 +300,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                             <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity
                                     activeOpacity={0.7}
-                                    onPress={() => navigation.navigate('CallMain')}
+                                // onPress={() => navigation.navigate('CallMain')}
                                 >
                                     <Image source={images.phoneBlack} style={styles.isChatImg} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     activeOpacity={0.7}
-                                    onPress={() => navigation.navigate('Chat')}
+                                // onPress={() => navigation.navigate('Chat')}
                                 >
                                     <Image source={images.chat} style={styles.isChatImg} />
                                 </TouchableOpacity>
@@ -352,7 +343,6 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         justifyContent: 'center',
-        // backgroundColor: colors.black,
     },
     headerBell: {
         position: 'absolute',
@@ -363,11 +353,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     MainHeaderText: {
-        fontSize: fontSizes.lg2,
-        fontFamily: fontFamily.ClashDisplayMedium,
+        fontSize: fontSizes.md,
+        fontFamily: fontFamily.UrbanistBold,
+        color: colors.black,
     },
     backArrow: {
-        width: width * 0.045,
+        width: width * 0.09,
+        height: height * 0.09,
+        resizeMode: 'contain',
+    },
+    backArrowBlack: {
+        width: width * 0.04,
+        height: height * 0.017,
         resizeMode: 'contain',
     },
     closeTop: {

@@ -28,7 +28,6 @@ const SignInEmail = () => {
                         inputWidth={width * 0.85}
                         backgroundColor={colors.lightGray}
                         borderRadius={20}
-                        value={email}
                         onChangeText={setEmail}
                     />
                     <CustomTextInput
@@ -43,15 +42,18 @@ const SignInEmail = () => {
                         onChangeText={setPassword}
                     />
                     <TouchableOpacity activeOpacity={0.7} style={styles.forgotPassMain}>
-                        <Text style={styles.forgotPass}>Forget Password?</Text>
+                        <Text style={styles.forgotPass}>Forgot Password?</Text>
                     </TouchableOpacity>
-                    <CustomButton
-                        btnHeight={height * 0.06}
-                        btnWidth={width * 0.85}
-                        text="Login"
-                        backgroundColor={colors.marhoon}
-                        textColor={colors.white}
-                        borderRadius={20} />
+                    <View style={{ alignItems: 'center', top: height * 0.04 }}>
+                        <CustomButton
+                            btnHeight={height * 0.06}
+                            btnWidth={width * 0.85}
+                            text="Login"
+                            backgroundColor={colors.marhoon}
+                            textColor={colors.white}
+                            borderRadius={20}
+                        />
+                    </View>
                 </View>
                 <View style={styles.belowMain}>
                     <Image source={images.continue} style={styles.continueImg} />
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     inputMain: {
         marginTop: height * 0.12,
         gap: height * 0.01,
+        borderRadius: 25,
     },
     forgotPassMain: {
         alignSelf: 'flex-end',
@@ -99,6 +102,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.UrbanistMedium,
         fontSize: fontSizes.sm,
         color: colors.black,
+        top: height * 0.01,
     },
     belowMain: {
         marginTop: height * 0.03,

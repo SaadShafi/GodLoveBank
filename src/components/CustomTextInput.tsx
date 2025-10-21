@@ -34,10 +34,10 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     isPassword = false,
     keyboardType = 'default',
     multiline = false,
-    borderColor = colors.gray,
+    borderColor,
     borderWidth = 1,
     borderRadius = 8,
-    backgroundColor,
+    backgroundColor = colors.lightGray,
     onChangeText,
     value,
     onRightIconPress,
@@ -65,8 +65,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
                     width: inputWidth,
                     borderWidth,
                     borderRadius,
-                    borderColor: isActive ? colors.brown : colors.gray,
-                    backgroundColor: isActive ? colors.lightBrown : colors.gray,
+                    borderColor: isActive ? colors.brownishRed : colors.lightGray,
+                    backgroundColor: isActive ? colors.lightBrown : colors.lightGray,
                 },
             ]}
         >
@@ -111,8 +111,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
                 >
                     <AntDesign
                         name={showPassword ? 'eye-invisible' : 'eye'}
-                        size={22}
-                        color={colors.black}
+                        size={18}
+                        color={colors.Gray}
                     />
                 </TouchableOpacity>
             )}
