@@ -8,4 +8,12 @@ export const fontFamily: Record<string, string> = {
     UrbanistRegular: 'Urbanist-Regular',
     UrbanistSemiBold: 'Urbanist-SemiBold',
     UrbanistThin: 'Urbanist-Thin',
+    GilroyBold: 'Gilroy-Bold',
+    GilroyLight: 'Gilroy-Light',
+    GilroyMedium: 'Gilroy-Medium',
+    GilroyRegular: 'Gilroy-Regular',
+    GilroySemiBold: 'Gilroy-SemiBold',
+    GilroyThin: 'Gilroy-Thin',
+    GilroyBlack: 'Gilroy-Black',
+    GilroyExtraBold: 'Gilroy-ExtraBold',
 };

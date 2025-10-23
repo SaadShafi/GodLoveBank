@@ -13,5 +13,6 @@ import OtpVerification from './src/screens/OtpVerification.tsx';
 import ForgotPassword from './src/screens/ForgotPassword.tsx';
 import SetNewPassword from './src/screens/SetNewPassword.tsx';
 import CreateProfile from './src/screens/CreateProfile.tsx';
+import HomeBase from './src/screens/HomeBase.tsx';
 
-AppRegistry.registerComponent(appName, () => CreateProfile);
+AppRegistry.registerComponent(appName, () => HomeBase);

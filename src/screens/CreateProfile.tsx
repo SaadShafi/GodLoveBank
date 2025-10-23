@@ -1,208 +1,3 @@
-// import { useState } from 'react';
-// import { Image, StyleSheet, Text, View } from 'react-native';
-// import TopHeader from '../components/Topheader';
-// import { colors } from '../utilities/colors';
-// import images from '../assets/Images';
-// import CustomSelect from '../components/CustomSelect';
-// import { height, width } from '../utilities';
-// import CustomMultiInput from '../components/CustomMultiInput';
-// import CustomButton from '../components/CustomButton';
-// import { fontFamily } from '../assets/Fonts';
-// import { fontSizes } from '../utilities/fontsizes';
-
-
-// const CreateProfile = () => {
-//     const [city, setCity] = useState('');
-//     const [country, setCountry] = useState('');
-//     const [postalCode, setPostalCode] = useState('');
-//     const [gender, setGender] = useState('');
-//     const [status, setStatus] = useState('');
-//     const [bio, setBio] = useState('');
-
-//     const countryOption = [
-//         { name: 'Country', id: '' },
-//         { name: 'Bangladesh', id: 'bangladesh' },
-//         { name: 'Saudia Arabia', id: 'saudia arabia' },
-//         { name: 'Other', id: 'other' },
-//     ];
-//     const cityOptions = [
-//         { name: 'City', id: '' },
-//         { name: 'Lahore', id: 'lahore' },
-//         { name: 'Quetta', id: 'quetta' },
-//         { name: 'Other', id: 'other' },
-//     ];
-//     const postalOptions = [
-//         { name: 'Postal Code', id: '' },
-//         { name: '1234', id: '1234' },
-//         { name: '4312', id: '4312' },
-//         { name: '4533', id: '4533' },
-//         { name: 'Other', id: 'other' },
-//     ];
-//     const genderOptions = [
-//         { name: 'Gender', id: '' },
-//         { name: 'Male', id: 'male' },
-//         { name: 'Female', id: 'female' },
-//         { name: 'Other', id: 'other' },
-//     ];
-//     const relationshipOptions = [
-//         { name: 'Relationship Status', id: '' },
-//         { name: 'Single', id: 'single' },
-//         { name: 'Married', id: 'married' },
-//     ];
-
-//     return (
-//         <View style={{ flex: 1, backgroundColor: colors.white }}>
-//             <TopHeader text="Create Profile" isBackBlack={true} />
-//             <View style={styles.container}>
-//                 <View style={styles.imgMain}>
-//                     <Image source={images.profile} style={styles.profileImg} />
-//                     <Text style={styles.profText}>Harold Smith</Text>
-//                 </View>
-//                 <View style={styles.inputMain}>
-//                     <View style={styles.row}>
-//                         <CustomSelect
-//                             inputWidth={width * 0.41}
-//                             inputHeight={height * 0.06}
-//                             selectElements={countryOption}
-//                             borderColor={country ? colors.lightGray : colors.lightGray}
-//                             borderWidth={1}
-//                             inputColor={country ? colors.lightGray : colors.lightGray}
-//                             borderRadius={18}
-//                             onChangeText={value => setCountry(value)}
-//                             setSelectedElement={setCountry}
-//                             defaultValue=""
-//                         />
-//                         <CustomSelect
-//                             inputWidth={width * 0.41}
-//                             inputHeight={height * 0.06}
-//                             selectElements={cityOptions}
-//                             borderColor={city ? colors.lightGray : colors.lightGray}
-//                             borderWidth={1}
-//                             inputColor={city ? colors.lightGray : colors.lightGray}
-//                             borderRadius={18}
-//                             onChangeText={value => setCity(value)}
-//                             setSelectedElement={setCity}
-//                             defaultValue=""
-//                         />
-//                     </View>
-//                     <View style={styles.row}>
-//                         <CustomSelect
-//                             inputWidth={width * 0.41}
-//                             inputHeight={height * 0.06}
-//                             selectElements={postalOptions}
-//                             borderColor={postalCode ? colors.lightGray : colors.lightGray}
-//                             borderWidth={1}
-//                             inputColor={postalCode ? colors.lightGray : colors.lightGray}
-//                             borderRadius={18}
-//                             onChangeText={value => setPostalCode(value)}
-//                             setSelectedElement={setPostalCode}
-//                             defaultValue=""
-//                         />
-//                         <CustomSelect
-//                             inputWidth={width * 0.41}
-//                             inputHeight={height * 0.06}
-//                             selectElements={genderOptions}
-//                             borderColor={gender ? colors.lightGray : colors.lightGray}
-//                             borderWidth={1}
-//                             inputColor={gender ? colors.lightGray : colors.lightGray}
-//                             borderRadius={18}
-//                             onChangeText={value => setGender(value)}
-//                             setSelectedElement={setGender}
-//                             defaultValue=""
-//                         />
-//                     </View>
-//                     <CustomSelect
-//                         inputWidth={width * 0.85}
-//                         inputHeight={height * 0.06}
-//                         selectElements={relationshipOptions}
-//                         borderColor={status ? colors.lightGray : colors.lightGray}
-//                         borderWidth={1}
-//                         inputColor={status ? colors.lightGray : colors.lightGray}
-//                         borderRadius={18}
-//                         onChangeText={value => setStatus(value)}
-//                         setSelectedElement={setStatus}
-//                         defaultValue=""
-//                     />
-//                     <CustomMultiInput
-//                         inputHeight={height * 0.13}
-//                         inputWidth={width * 0.85}
-//                         borderRadius={18}
-//                         backgroundColor={bio ? colors.lightGray : colors.lightGray}
-//                         placeholder="Type Here"
-//                         placeholderTextColor={colors.black}
-//                     />
-//                 </View>
-//                 <View style={styles.btnMain}>
-//                     <CustomButton
-//                         text="Continue"
-//                         textColor={colors.white}
-//                         btnHeight={height * 0.065}
-//                         btnWidth={width * 0.85}
-//                         backgroundColor={colors.marhoon}
-//                         borderRadius={20}
-//                     />
-//                 </View>
-//             </View>
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         alignItems: 'center',
-//         backgroundColor: colors.lightBlue,
-//         top: height * 0.015,
-//         flex: 1,
-//     },
-//     imgMain: {
-//         top: height * 0.03,
-//         alignItems: 'center',
-//     },
-//     profileImg: {
-//         width: width * 0.7,
-//         height: height * 0.15,
-//         resizeMode: 'contain',
-//     },
-//     profText: {
-//         fontFamily: fontFamily.UrbanistBold,
-//         fontSize: fontSizes.md,
-//         color: colors.black,
-//         top: height * 0.01,
-//     },
-//     inputMain: {
-//         alignItems: 'center',
-//         top: height * 0.07,
-//         gap: height * 0.01,
-//     },
-//     row: {
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         width: width * 0.85,
-//     },
-//     btnMain: {
-//         top: height * 0.3,
-//     },
-// });
-
-// export default CreateProfile;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import { useState } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput } from 'react-native';
@@ -270,7 +65,7 @@ const CreateProfile = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.white }}>
-            <TopHeader text="Profile Setup" isBackBlack={true} />
+            <TopHeader text="Profile Setup" isBack={true} />
             <View style={styles.container}>
                 <View style={styles.imgMain}>
                     <Image source={images.profile} style={styles.profileImg} />
@@ -350,7 +145,6 @@ const CreateProfile = () => {
                         rightIcon={images.arrowdown}
                     />
 
-                    {/* ✨ Updated Field Section (matches your image) */}
                     <View style={styles.newHomeBaseWrapper}>
                         <View style={styles.newHomeBaseCard}>
                             <Text style={styles.newHomeBaseLabel}>Enter your New Self Love HomeBase</Text>
@@ -368,7 +162,7 @@ const CreateProfile = () => {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Added tags */}
+
                     <View style={styles.tagsContainer}>
                         <FlatList
                             data={tags}
