@@ -10,4 +10,6 @@ export const colors: { [key: string]: string } = {
   red: '#EF2525',
   blue: '#0455CD',
   yellow: '#FBC505',
+  darkGray: '#565656',
+  green: '#44A834',
 };

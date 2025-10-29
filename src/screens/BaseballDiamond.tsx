@@ -1,6 +1,7 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
+import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
@@ -12,7 +13,7 @@ const BaseballDiamond = () => {
       <TopHeader text="Self Love Home Base" isBack={true} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: height * 0.2 }}
+        contentContainerStyle={{ paddingBottom: height * 0.02 }}
       >
         <Text style={styles.text}>HOW TO GET YOUR OSL SCORE:</Text>
         <Text style={styles.subText}>
@@ -102,6 +103,31 @@ const BaseballDiamond = () => {
           <Text style={styles.num}>2</Text>
           <Text style={styles.thirdBase}>3RD BASE</Text>
         </View>
+
+        <Text style={styles.worth}>WORTHLESSNESS</Text>
+        <View style={{ bottom: height * 0.155, left: width * 0.52 }}>
+          <Image source={images.worth} style={styles.abandonmentImg} />
+          <Text style={styles.One}>1</Text>
+          <Text style={styles.firstBase}>1ST BASE</Text>
+        </View>
+
+        <Text style={styles.chose}>CHOSEN-NESS</Text>
+        <View style={{ bottom: height * 0.15, left: width * 0.27 }}>
+          <Image source={images.homeBase} style={styles.homeBaseImg} />
+          <Text style={styles.One}>1</Text>
+          <Text style={styles.homeBase}>HOME BASE</Text>
+        </View>
+
+        <View style={styles.btnMain}>
+          <CustomButton
+            text="Next"
+            textColor={colors.white}
+            btnHeight={height * 0.065}
+            btnWidth={width * 0.85}
+            backgroundColor={colors.marhoon}
+            borderRadius={20}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -174,6 +200,20 @@ const styles = StyleSheet.create({
     top: height * 0.12,
     left: width * 0.09,
   },
+  worth: {
+    color: colors.darkGray,
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.sm2,
+    bottom: height * 0.065,
+    left: width * 0.6,
+  },
+  chose: {
+    color: colors.green,
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.sm2,
+    bottom: height * 0.06,
+    left: width * 0.37,
+  },
   base: {
     color: colors.red,
     fontFamily: fontFamily.GilroyBold,
@@ -188,11 +228,29 @@ const styles = StyleSheet.create({
     top: height * 0.07,
     left: width * 0.16,
   },
+  firstBase: {
+    color: colors.darkGray,
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.sm,
+    top: height * 0.07,
+    left: width * 0.17,
+  },
+  homeBase: {
+    color: colors.green,
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.sm,
+    top: height * 0.07,
+    left: width * 0.15,
+  },
   rejImg: {
     alignSelf: 'center',
     top: height * 0.1,
   },
   abandonmentImg: {
+    top: height * 0.1,
+    left: width * 0.12,
+  },
+  homeBaseImg: {
     top: height * 0.1,
     left: width * 0.12,
   },
@@ -209,6 +267,16 @@ const styles = StyleSheet.create({
     color: colors.white,
     top: height * 0.03,
     left: width * 0.215,
+  },
+  One: {
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.xl,
+    color: colors.white,
+    top: height * 0.03,
+    left: width * 0.215,
+  },
+  btnMain: {
+    alignItems: 'center',
   },
 });
 
