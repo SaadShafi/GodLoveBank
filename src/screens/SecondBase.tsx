@@ -6,44 +6,42 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const HomeBase = () => {
+const SecondBase = () => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <TopHeader text="Home Base" isBack={true} />
+      <TopHeader text="2nd Base" isBack={true} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: height * 0.1 }}
       >
+        {/* OLD SELF-LOVE SECTION */}
         <View style={{ gap: width * 0.01 }}>
           <Text style={[styles.textOne, { textAlign: 'center' }]}>
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>REJECTION!</Text>
+            Story was <Text style={{ color: colors.red }}>ABUSE!</Text>
           </Text>
         </View>
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
-              REJECTION:
-            </Text>
-            The Old Self–Love Story Of Rejection Has A Home Base And A Life
-            Paradigm Which Makes You Feel Unaccepted, Disowned, Denied, Refused,
-            Disliked, And Not Good Enough, Like The Black Sheep In The Family.
-            It Causes You To Have A Great Fear Of Failure Because Failure, To
-            You, Equals Rejection, And You Avoid Feeling Rejected At Any Cost.
-            Thus, You Feel You Always Have To Get Everything Right So You Won't
-            Be Rejected. Often, When You Feel Threatened By Failure, You
-            Covertly Close Your Spirit In Rebellion To Gain Control, Or You
-            Overtly Under–Compensate And Settle For Less In Your Life To Avoid
-            Being Rejected. You Also Have A Very Hard Time Trusting Others In
-            Your Life. Therefore, The Stress Drivers For Rejection Are Distrust,
-            Under–Compensation, And Rebellion.
+            <Text style={{ fontFamily: fontFamily.GilroyBold }}>ABUSE:</Text>
+            The old self-love story of Abuse has a home base and a life
+            paradigm, mistreated, cheated, victimized, battered, robbed, and
+            defenseless. You always feel like someone is going to hurt or harm
+            you. Since you have been betrayed by someone you once trusted, you
+            sabotage relationships with people trusting other real people. You
+            then blame them for doing it. What you are really doing is testing
+            your loved ones to see if they truly love you, and if you can trust
+            trusting even in your relationship with God. Therefore, the Stress
+            Drivers for the story of Abuse are Sabotage, and Blame, and when you
+            get desperate you may Project your own abuse on others.
           </Text>
         </View>
 
+        {/* NEW SELF-LOVE SECTION */}
         <View style={{ top: height * 0.05, gap: width * 0.01 }}>
           <Text style={[styles.textOne, { textAlign: 'center' }]}>
             Your <Text style={{ color: colors.blue }}>New Self-Love</Text>
@@ -55,7 +53,7 @@ const HomeBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            CHOSEN–NESS!
+            PURPOSE!
           </Text>
         </View>
 
@@ -63,24 +61,21 @@ const HomeBase = () => {
           style={[styles.subContainer, { paddingVertical: height * 0.015 }]}
         >
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
-              CHOSENNESS:
-            </Text>
-            The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
-            Special, Appointed, Selected, Accepted, And Truly Loved. You Now
-            Know You Are Chosen For A Unique Purpose In Life; Consequently, It
-            Causes You To Feel A Sense Of Calling And Chosenness In Everything
-            You Are Appointed And Chosen To Do. Since You Know And Own That You
-            Are Chosen, You Do Not Settle For Less. You No Longer Allow Yourself
-            To Associate Fear And Failure With Rejection. You Know Rejection Is
-            "Because Of," But Your Chosenness Is "In Spite Of." Now You Trust
-            God, Yourself, And Significant Others, Knowing That You Can't Fail
-            In Anything As Long As You Trust And Obey The Logic And Reason Of
-            The Holy Spirit. Therefore, The Spirit Drivers For Chosenness Are
-            Trust And Obey.
+            <Text style={{ fontFamily: fontFamily.GilroyBold }}>PURPOSE:</Text>
+            The new self-love story of Purpose makes you feel a sense of calling
+            on earth for a purpose. Your purpose gives you a sense of meaning,
+            significance, and value in your life. In spite of what has happened
+            for the good of your purpose and you have a destiny to fulfill. Now
+            you live with daily passion, your passion equal to purpose, and God
+            has called you to fulfill. Your painful experiences have taught you
+            to find purpose. Now, you hold yourself accountable and responsible
+            to the logic of the Holy Spirit without complaining or blaming or
+            murmuring. Therefore, the Spirit Drivers for the story of Purpose
+            are Accountability and Responsibility to the Holy Spirit!
           </Text>
         </View>
 
+        {/* NEXT BUTTON */}
         <View style={styles.btnMain}>
           <CustomButton
             text="Next"
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: colors.marhoon,
-    height: height * 0.4,
+    height: height * 0.36,
     width: width * 0.9,
     alignSelf: 'center',
     borderRadius: 16,
@@ -121,7 +116,7 @@ const styles = StyleSheet.create({
   subContainer: {
     borderWidth: 1,
     borderColor: colors.marhoon,
-    height: height * 0.4,
+    height: height * 0.36,
     width: width * 0.9,
     alignSelf: 'center',
     borderRadius: 16,
@@ -142,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeBase;
+export default SecondBase;

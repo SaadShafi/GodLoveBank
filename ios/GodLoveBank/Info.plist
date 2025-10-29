@@ -34,16 +34,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-<<<<<<< HEAD
 	<string/>
-=======
-	<string></string>
->>>>>>> bc75264
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-<<<<<<< HEAD
 		<string>Gilroy-Black.ttf</string>
 		<string>Gilroy-Bold.ttf</string>
 		<string>Gilroy-ExtraBold.ttf</string>
@@ -53,8 +48,6 @@
 		<string>Gilroy-Regular.ttf</string>
 		<string>Gilroy-SemiBold.ttf</string>
 		<string>Gilroy-Thin.ttf</string>
-=======
->>>>>>> bc75264
 		<string>Urbanist-Black.ttf</string>
 		<string>Urbanist-Bold.ttf</string>
 		<string>Urbanist-ExtraBold.ttf</string>
@@ -79,9 +72,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
 	<key>UIAppFonts</key>
 	<array>
 		<string>Urbanist-Black.ttf</string>
@@ -103,8 +94,5 @@
 		<string>Gilroy-SemiBold.ttf</string>
 		<string>Gilroy-Thin.ttf</string>
 	</array>
-=======
->>>>>>> c5a9cba (changes merge)
->>>>>>> bc75264
 </dict>
 </plist>

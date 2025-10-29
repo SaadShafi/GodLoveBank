@@ -6,44 +6,46 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const HomeBase = () => {
+const FirstBase = () => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <TopHeader text="Home Base" isBack={true} />
+      <TopHeader text="1st Base" isBack={true} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: height * 0.1 }}
       >
+        {/* OLD SELF-LOVE SECTION */}
         <View style={{ gap: width * 0.01 }}>
           <Text style={[styles.textOne, { textAlign: 'center' }]}>
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>REJECTION!</Text>
+            Story was <Text style={{ color: colors.red }}>WORTHLESSNESS!</Text>
           </Text>
         </View>
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
             <Text style={{ fontFamily: fontFamily.GilroyBold }}>
-              REJECTION:
+              WORTHLESSNESS:
             </Text>
-            The Old Self–Love Story Of Rejection Has A Home Base And A Life
-            Paradigm Which Makes You Feel Unaccepted, Disowned, Denied, Refused,
-            Disliked, And Not Good Enough, Like The Black Sheep In The Family.
-            It Causes You To Have A Great Fear Of Failure Because Failure, To
-            You, Equals Rejection, And You Avoid Feeling Rejected At Any Cost.
-            Thus, You Feel You Always Have To Get Everything Right So You Won't
-            Be Rejected. Often, When You Feel Threatened By Failure, You
-            Covertly Close Your Spirit In Rebellion To Gain Control, Or You
-            Overtly Under–Compensate And Settle For Less In Your Life To Avoid
-            Being Rejected. You Also Have A Very Hard Time Trusting Others In
-            Your Life. Therefore, The Stress Drivers For Rejection Are Distrust,
-            Under–Compensation, And Rebellion.
+            The old self-love story of Worthlessness has home base and a life
+            paradigm which makes you feel unworthy, undeserving, insignificant,
+            inadequate, unimportant, and useless—like something valuable is
+            missing in your soul. It makes you feel like you are never good
+            enough. And this, in turn, causes you to underestimate your true
+            worth. Worthlessness compels you to have a tendency to
+            over-compensate and control everyone around you so you and don't
+            feel the pain of worthlessness. Often, in your attempt to avoid
+            feeling worthless you may begin to become manipulative in your
+            words, thoughts, actions, and deeds. Therefore, the Stress Drivers
+            for the story of Worthlessness are Overcompensation,you may result
+            to Manipulation.
           </Text>
         </View>
 
+        {/* NEW SELF-LOVE SECTION */}
         <View style={{ top: height * 0.05, gap: width * 0.01 }}>
           <Text style={[styles.textOne, { textAlign: 'center' }]}>
             Your <Text style={{ color: colors.blue }}>New Self-Love</Text>
@@ -55,7 +57,7 @@ const HomeBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            CHOSEN–NESS!
+            GREATNESS!
           </Text>
         </View>
 
@@ -64,23 +66,24 @@ const HomeBase = () => {
         >
           <Text style={styles.description}>
             <Text style={{ fontFamily: fontFamily.GilroyBold }}>
-              CHOSENNESS:
+              GREATNESS:
             </Text>
-            The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
-            Special, Appointed, Selected, Accepted, And Truly Loved. You Now
-            Know You Are Chosen For A Unique Purpose In Life; Consequently, It
-            Causes You To Feel A Sense Of Calling And Chosenness In Everything
-            You Are Appointed And Chosen To Do. Since You Know And Own That You
-            Are Chosen, You Do Not Settle For Less. You No Longer Allow Yourself
-            To Associate Fear And Failure With Rejection. You Know Rejection Is
-            "Because Of," But Your Chosenness Is "In Spite Of." Now You Trust
-            God, Yourself, And Significant Others, Knowing That You Can't Fail
-            In Anything As Long As You Trust And Obey The Logic And Reason Of
-            The Holy Spirit. Therefore, The Spirit Drivers For Chosenness Are
-            Trust And Obey.
+            The new self-love story of Greatness makes you feel worthy. Since
+            the Holy Spirit is great and He lives in you, now you feel great
+            because you know Greater is He who is in you, than he who is in the
+            world. This makes you feel worthy, deserving, significant,
+            sufficient, important, and very valuable. You accept your greatness
+            as a part of your spiritual inheritance and you believe that you are
+            destined for greatness, for greatness underestimates your true
+            worth. You avoid over-compensation and you refuse to control anyone
+            or anything to get what you want. Instead, you learn to surrender
+            and depend on the Holy Spirit to get what you want in life.
+            Therefore, the Spirit Drivers for Greatness are Surrender and Depend
+            on the power of the Holy Spirit.
           </Text>
         </View>
 
+        {/* NEXT BUTTON */}
         <View style={styles.btnMain}>
           <CustomButton
             text="Next"
@@ -142,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeBase;
+export default FirstBase;
