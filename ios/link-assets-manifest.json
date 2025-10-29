@@ -36,6 +36,13 @@
     {
       "path": "src/assets/Fonts/Gilroy-Thin.ttf",
       "sha1": "af4998778ceb58ef38ff3fe5441eec696cb970dc"
+<<<<<<< HEAD
+=======
+    },
+    {
+      "path": "src/assets/Fonts/index.ts",
+      "sha1": "8ba866360e528547122160dd1905fa34fd968bd6"
+>>>>>>> bc75264
     },
     {
       "path": "src/assets/Fonts/Urbanist-Black.ttf",

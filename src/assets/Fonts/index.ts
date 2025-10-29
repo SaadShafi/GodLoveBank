@@ -1,4 +1,5 @@
 export const fontFamily: Record<string, string> = {
+<<<<<<< HEAD
   UrbanistBlack: 'Urbanist-Black',
   UrbanistBold: 'Urbanist-Bold',
   UrbanistExtraBold: 'Urbanist-ExtraBold',
@@ -17,4 +18,23 @@ export const fontFamily: Record<string, string> = {
   GilroyRegular: 'Gilroy-Regular',
   GilroySemiBold: 'Gilroy-SemiBold',
   GilroyThin: 'Gilroy-Thin',
+=======
+    UrbanistBlack: 'Urbanist-Black',
+    UrbanistBold: 'Urbanist-Bold',
+    UrbanistExtraBold: 'Urbanist-ExtraBold',
+    UrbanistExtraLight: 'Urbanist-ExtraLight',
+    UrbanistLight: 'Urbanist-Light',
+    UrbanistMedium: 'Urbanist-Medium',
+    UrbanistRegular: 'Urbanist-Regular',
+    UrbanistSemiBold: 'Urbanist-SemiBold',
+    UrbanistThin: 'Urbanist-Thin',
+    GilroyBold: 'Gilroy-Bold',
+    GilroyLight: 'Gilroy-Light',
+    GilroyMedium: 'Gilroy-Medium',
+    GilroyRegular: 'Gilroy-Regular',
+    GilroySemiBold: 'Gilroy-SemiBold',
+    GilroyThin: 'Gilroy-Thin',
+    GilroyBlack: 'Gilroy-Black',
+    GilroyExtraBold: 'Gilroy-ExtraBold',
+>>>>>>> bc75264
 };
