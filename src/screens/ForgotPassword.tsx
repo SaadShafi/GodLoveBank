@@ -1,3 +1,5 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import {
   FlatList,
@@ -13,9 +15,12 @@ import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
+import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+
+type Props = NativeStackScreenProps<StackParamList, 'OtpVerification'>;
 
 const countryData = [
   { code: '+1', flag: '🇺🇸', name: 'United States' },
@@ -31,6 +36,7 @@ const countryData = [
 ];
 
 const ForgotPassword = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
   const [phone, setPhone] = useState('');
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
@@ -169,6 +175,7 @@ const ForgotPassword = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
+            onPress={() => navigation.navigate('OtpVerification')}
           />
         </View>
       </View>
@@ -223,7 +230,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   btnMain: {
-    top: height * 0.6,
+    top: height * 0.58,
   },
   countryItem: {
     flexDirection: 'row',

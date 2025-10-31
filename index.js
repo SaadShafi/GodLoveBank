@@ -3,7 +3,7 @@
  */
 
 import { AppRegistry } from 'react-native';
+import App from './App';
 import { name as appName } from './app.json';
-import BaseballDiamond from './src/screens/BaseballDiamond.tsx';
 
-AppRegistry.registerComponent(appName, () => BaseballDiamond);
+AppRegistry.registerComponent(appName, () => App);

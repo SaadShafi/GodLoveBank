@@ -1,22 +1,22 @@
-
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import {
+  FlatList,
   Image,
+  Modal,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Modal,
-  FlatList,
 } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import CustomTextInput from '../components/CustomTextInput';
-import images from '../assets/Images';
-import { colors } from '../utilities/colors';
-import { height, width } from '../utilities';
-import CustomButton from '../components/CustomButton';
 import { fontFamily } from '../assets/Fonts';
+import images from '../assets/Images';
+import CustomButton from '../components/CustomButton';
+import CustomTextInput from '../components/CustomTextInput';
+import { height, width } from '../utilities';
+import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
 const countryData = [
@@ -33,6 +33,7 @@ const countryData = [
 ];
 
 const Registeration = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -44,7 +45,7 @@ const Registeration = () => {
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
 
-  const handleCountrySelect = (country) => {
+  const handleCountrySelect = country => {
     setSelectedCountry(country);
     setShowCountryPicker(false);
   };
@@ -109,9 +110,11 @@ const Registeration = () => {
               styles.phoneRow,
               {
                 borderColor:
-                  isPhoneFocused || phone ? colors.brownishRed : colors.lightGray,
+                  isPhoneFocused || phone
+                    ? colors.brownishRed
+                    : colors.lightGray,
                 backgroundColor:
-                  isPhoneFocused || phone ? colors.bgBlue : colors.lightGray,
+                  isPhoneFocused || phone ? colors.lightGray : colors.lightGray,
               },
             ]}
           >
@@ -123,12 +126,26 @@ const Registeration = () => {
               <Text style={styles.flagEmoji}>{selectedCountry.flag}</Text>
               <Image source={images.arrowdown} />
             </TouchableOpacity>
-            <Text style={[styles.numberText, { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm2 }]}>
+            <Text
+              style={[
+                styles.numberText,
+                {
+                  fontFamily: fontFamily.UrbanistMedium,
+                  fontSize: fontSizes.sm2,
+                },
+              ]}
+            >
               {selectedCountry.code}
             </Text>
             <Image source={images.line} style={styles.lineImg} />
             <TextInput
-              style={[styles.phoneInput, { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm2 }]}
+              style={[
+                styles.phoneInput,
+                {
+                  fontFamily: fontFamily.UrbanistMedium,
+                  fontSize: fontSizes.sm2,
+                },
+              ]}
               placeholder="Phone Number"
               placeholderTextColor={colors.black}
               keyboardType="phone-pad"
@@ -185,7 +202,7 @@ const Registeration = () => {
               <FlatList
                 data={countryData}
                 renderItem={renderCountryItem}
-                keyExtractor={(item) => item.code}
+                keyExtractor={item => item.code}
                 showsVerticalScrollIndicator={false}
               />
             </View>
@@ -213,26 +230,30 @@ const Registeration = () => {
           </View>
           <View style={styles.checkBoxTextMain}>
             <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
-              <Text style={[styles.signIn, { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm }]}>
+              <Text
+                style={[
+                  styles.signIn,
+                  {
+                    fontFamily: fontFamily.UrbanistMedium,
+                    fontSize: fontSizes.sm,
+                  },
+                ]}
+              >
                 Agree to God Love Bank
               </Text>
               <TouchableOpacity
                 activeOpacity={0.7}
-              //   onPress={() => navigation.navigate('TermsCondition')}
+                //   onPress={() => navigation.navigate('TermsCondition')}
               >
-                <Text style={styles.text}>
-                  Terms & Conditions &
-                </Text>
+                <Text style={styles.text}>Terms & Conditions &</Text>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
               <TouchableOpacity
                 activeOpacity={0.7}
-              //   onPress={() => navigation.navigate('PrivacyPolicy')}
+                //   onPress={() => navigation.navigate('PrivacyPolicy')}
               >
-                <Text style={styles.text}>
-                  Privacy Policy
-                </Text>
+                <Text style={styles.text}>Privacy Policy</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -248,10 +269,19 @@ const Registeration = () => {
           />
         </View>
         <View style={styles.bottomMain}>
-          <Text style={[styles.memberText, { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm }]}>
+          <Text
+            style={[
+              styles.memberText,
+              { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm },
+            ]}
+          >
             Already a member?
           </Text>
-          <TouchableOpacity activeOpacity={0.7}>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('SignInEmail')}
+          >
             <Text style={styles.loginText}>Login</Text>
           </TouchableOpacity>
         </View>

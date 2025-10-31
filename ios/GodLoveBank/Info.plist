@@ -39,6 +39,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+	
 		<string>Gilroy-Black.ttf</string>
 		<string>Gilroy-Bold.ttf</string>
 		<string>Gilroy-ExtraBold.ttf</string>

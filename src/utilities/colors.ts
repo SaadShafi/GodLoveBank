@@ -12,4 +12,6 @@ export const colors: { [key: string]: string } = {
   yellow: '#FBC505',
   darkGray: '#565656',
   green: '#44A834',
+  bordercolor: '#E9E9E9',
+  sheetcolor: '#F6F6F6',
 };
