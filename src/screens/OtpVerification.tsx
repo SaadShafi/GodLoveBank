@@ -1,4 +1,8 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
@@ -16,6 +20,7 @@ import { fontSizes } from '../utilities/fontsizes';
 
 const OtpVerification = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const route = useRoute();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<TextInput[]>([]);
@@ -59,6 +64,10 @@ const OtpVerification = () => {
     setOtp(['', '', '', '']);
     inputRefs.current[0]?.focus();
   };
+
+  useEffect(() => {
+    console.log('OTP Screen Params:', route.params);
+  }, [route.params]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -119,7 +128,11 @@ const OtpVerification = () => {
           backgroundColor={colors.marhoon}
           text="Continue"
           textColor={colors.white}
-          onPress={() => navigation.navigate('SetNewPassword')}
+          onPress={() =>
+            route.params?.from === 'register'
+              ? navigation.navigate('Questionnaire')
+              : navigation.navigate('SetNewPassword')
+          }
         />
       </View>
     </View>

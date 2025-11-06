@@ -266,6 +266,9 @@ const Registeration = () => {
             borderRadius={20}
             text="Register"
             textColor={colors.white}
+            onPress={() =>
+              navigation.navigate('OtpVerification', { from: 'register' })
+            }
           />
         </View>
         <View style={styles.bottomMain}>

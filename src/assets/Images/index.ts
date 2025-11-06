@@ -22,6 +22,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   support: require('../Images/support.png'),
   email: require('../Images/email.png'),
   chat: require('../Images/chat.png'),
+  arrow: require('../Images/arrow.png'),
+  tick: require('../Images/tick.png'),
 };
 
 export default images;

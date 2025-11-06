@@ -175,7 +175,9 @@ const ForgotPassword = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('OtpVerification')}
+            onPress={() =>
+              navigation.navigate('OtpVerification', { from: 'forget' })
+            }
           />
         </View>
       </View>
