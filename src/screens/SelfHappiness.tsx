@@ -17,7 +17,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const SelfRespect = () => {
+const SelfHappiness = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [selectedCount, setSelectedCount] = useState<number | null>(null);
 
@@ -58,7 +58,7 @@ const SelfRespect = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
       >
-        <Image source={images.respect} style={styles.img} />
+        <Image source={images.happiness} style={styles.img} />
 
         {/* Count buttons row */}
         <View style={styles.countsContainer}>
@@ -67,20 +67,25 @@ const SelfRespect = () => {
           ))}
         </View>
 
-        <Text style={styles.jan}>NOVEMBER</Text>
-        <Text style={styles.luke}>1. The Prodigal Son (Luke 15:11-32)</Text>
-        <Text style={styles.peter}>2. Sheba & Solomon (1 Kgs 10:1-13)</Text>
-        <Text style={styles.nanas}>3. Eutychus in Window (Acts 20:7-12) </Text>
+        <Text style={styles.jan}>EXTRA CORE VALUE OF JESUS</Text>
+        <Text style={styles.luke}>
+          1. Jesus Teaches B-Attitudes (Mt. 5:1-12)
+        </Text>
+        <Text style={styles.peter}>
+          2. Mary Visits Elizabeth (Luke 1:26-56)
+        </Text>
+        <Text style={styles.nanas}>3. Jacob’s Ladder (Gen. 28:10-22)</Text>
         <Text style={styles.publican}>
-          4. Dorcas is Respected ( Acts 9:4-43)
+          4. Philip and the Eunuch (Acts 8:26-40)
         </Text>
 
         <View>
-          <Text style={styles.today}>I respect myself today by taking</Text>
           <Text style={styles.today}>
-            responsibility for my life, thoughts,
+            {' '}
+            I will be true to God & my New Self,
           </Text>
-          <Text style={styles.today}>and actions!</Text>
+          <Text style={styles.today}>then I won’t be false to anyone,</Text>
+          <Text style={styles.today}>especially myself.</Text>
         </View>
 
         <Image source={images.low} style={styles.low} />
@@ -94,7 +99,7 @@ const SelfRespect = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfLove')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -106,9 +111,9 @@ const SelfRespect = () => {
               backgroundColor={colors.white}
               borderColor={colors.marhoon}
               borderWidth={1}
-              text="Move To Next Core Values"
+              text="Finish"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('LoveDepositReps')}
             />
           </View>
         </View>
@@ -171,35 +176,35 @@ const styles = StyleSheet.create({
   jan: {
     alignSelf: 'center',
     bottom: height * 0.39,
-    color: colors.white,
+    color: colors.black,
     fontFamily: fontFamily.UrbanistExtraBold,
     fontSize: fontSizes.lg2,
   },
   luke: {
     alignSelf: 'center',
     bottom: height * 0.37,
-    color: colors.white,
+    color: colors.black,
     fontFamily: fontFamily.UrbanistSemiBold,
     fontSize: fontSizes.sm,
   },
   peter: {
     alignSelf: 'center',
     bottom: height * 0.35,
-    color: colors.white,
+    color: colors.black,
     fontFamily: fontFamily.UrbanistSemiBold,
     fontSize: fontSizes.sm,
   },
   nanas: {
     alignSelf: 'center',
     bottom: height * 0.33,
-    color: colors.white,
+    color: colors.black,
     fontFamily: fontFamily.UrbanistSemiBold,
     fontSize: fontSizes.sm,
   },
   publican: {
     alignSelf: 'center',
     bottom: height * 0.31,
-    color: colors.white,
+    color: colors.black,
     fontFamily: fontFamily.UrbanistSemiBold,
     fontSize: fontSizes.sm,
   },
@@ -224,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelfRespect;
+export default SelfHappiness;

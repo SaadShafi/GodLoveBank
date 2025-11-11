@@ -6,6 +6,7 @@ import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
 import Home from '../screens/Home';
 import HomeBase from '../screens/HomeBase';
+import LoveDepositReps from '../screens/LoveDepositReps';
 import Onboarding from '../screens/Onboarding';
 import OtpVerification from '../screens/OtpVerification';
 import Questionnaire from '../screens/Questionnaire';
@@ -17,9 +18,13 @@ import SelfCourage from '../screens/SelfCourage';
 import SelfDiscipline from '../screens/SelfDiscipline';
 import SelfExcellence from '../screens/SelfExcellence';
 import SelfForgiveness from '../screens/SelfForgiveness';
+import SelfHappiness from '../screens/SelfHappiness';
 import SelfHonesty from '../screens/SelfHonesty';
 import SelfImage from '../screens/SelfImage';
+import SelfIntegrity from '../screens/SelfIntegrity';
+import SelfLove from '../screens/SelfLove';
 import SelfPower from '../screens/SelfPower';
+import SelfProsperity from '../screens/SelfProsperity';
 import SelfPurpose from '../screens/SelfPurpose';
 import SelfRespect from '../screens/SelfRespect';
 import SelfWorth from '../screens/SelfWorth';
@@ -56,6 +61,11 @@ export type StackParamList = {
   SelfConfidence: undefined;
   SelfWorth: undefined;
   SelfRespect: undefined;
+  SelfLove: undefined;
+  SelfProsperity: undefined;
+  SelfIntegrity: undefined;
+  SelfHappiness: undefined;
+  LoveDepositReps: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -93,6 +103,11 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SelfConfidence" component={SelfConfidence} />
       <Stack.Screen name="SelfWorth" component={SelfWorth} />
       <Stack.Screen name="SelfRespect" component={SelfRespect} />
+      <Stack.Screen name="SelfLove" component={SelfLove} />
+      <Stack.Screen name="SelfProsperity" component={SelfProsperity} />
+      <Stack.Screen name="SelfIntegrity" component={SelfIntegrity} />
+      <Stack.Screen name="SelfHappiness" component={SelfHappiness} />
+      <Stack.Screen name="LoveDepositReps" component={LoveDepositReps} />
     </Stack.Navigator>
   );
 };

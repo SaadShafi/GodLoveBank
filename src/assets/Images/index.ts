@@ -44,6 +44,10 @@ const images: { [key: string]: ImageSourcePropType } = {
   confidence: require('../Images/confidence.png'),
   selfworth: require('../Images/selfworth.png'),
   respect: require('../Images/respect.png'),
+  love: require('../Images/love.png'),
+  prosperity: require('../Images/prosperity.png'),
+  integrity: require('../Images/integrity.png'),
+  happiness: require('../Images/happiness.png'),
 };
 
 export default images;

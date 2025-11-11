@@ -17,7 +17,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const SelfRespect = () => {
+const SelfProsperity = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [selectedCount, setSelectedCount] = useState<number | null>(null);
 
@@ -58,7 +58,7 @@ const SelfRespect = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
       >
-        <Image source={images.respect} style={styles.img} />
+        <Image source={images.prosperity} style={styles.img} />
 
         {/* Count buttons row */}
         <View style={styles.countsContainer}>
@@ -67,20 +67,20 @@ const SelfRespect = () => {
           ))}
         </View>
 
-        <Text style={styles.jan}>NOVEMBER</Text>
-        <Text style={styles.luke}>1. The Prodigal Son (Luke 15:11-32)</Text>
-        <Text style={styles.peter}>2. Sheba & Solomon (1 Kgs 10:1-13)</Text>
-        <Text style={styles.nanas}>3. Eutychus in Window (Acts 20:7-12) </Text>
-        <Text style={styles.publican}>
-          4. Dorcas is Respected ( Acts 9:4-43)
+        <Text style={styles.jan}>JUNE</Text>
+        <Text style={styles.luke}>1. The Rich Man (Luke 12:13-21)</Text>
+        <Text style={styles.peter}>2. The Shrewd Manager (Luke 16:1-9)</Text>
+        <Text style={styles.nanas}>
+          3. Solomon Asks for Wisdom (1 Kgs 3:1-15)
         </Text>
+        <Text style={styles.publican}>4. The Widow’s Oil (2 Kings 4:1-9)</Text>
 
         <View>
-          <Text style={styles.today}>I respect myself today by taking</Text>
+          <Text style={styles.today}>Today I will use my money to let God</Text>
           <Text style={styles.today}>
-            responsibility for my life, thoughts,
+            know, how much I love Him when I Save
           </Text>
-          <Text style={styles.today}>and actions!</Text>
+          <Text style={styles.today}>some, Spend some, & Sow some.</Text>
         </View>
 
         <Image source={images.low} style={styles.low} />
@@ -94,7 +94,7 @@ const SelfRespect = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfLove')}
+              onPress={() => navigation.navigate('SelfIntegrity')}
             />
           </View>
 
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelfRespect;
+export default SelfProsperity;
