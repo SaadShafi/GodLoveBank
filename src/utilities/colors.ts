@@ -12,7 +12,9 @@ export const colors: { [key: string]: string } = {
   yellow: '#FBC505',
   darkGray: '#565656',
   green: '#44A834',
+  lightGreen: '#4EA72E',
   bordercolor: '#E9E9E9',
   sheetcolor: '#F6F6F6',
-  darkRed: '##DA1212',
+  darkRed: '#DA1212',
+  purple: '#282634',
 };

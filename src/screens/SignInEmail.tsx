@@ -61,6 +61,7 @@ const SignInEmail = () => {
               backgroundColor={colors.marhoon}
               textColor={colors.white}
               borderRadius={20}
+              onPress={() => navigation.navigate('Home')}
             />
           </View>
         </View>

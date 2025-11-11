@@ -46,6 +46,7 @@ interface TopHeaderProps {
   backIcon?: boolean;
   isPhone?: boolean;
   isBackWhite?: boolean;
+  isProfile?: boolean;
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({
@@ -78,6 +79,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   list = false,
   isPhone = false,
   isBackWhite = false,
+  isProfile = false,
   // navigation,
 }) => {
   // const navigation = useNavigation<NavigationProp<any>>();
@@ -217,7 +219,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           )}
           {isMenu && (
             <Pressable style={styles.headerArrow} onPress={handleDrawer}>
-              {/* <Image source={images.DrawerImg} style={styles.menuIcon}/> */}
+              <Image source={images.DrawerImg} style={styles.menuIcon} />
               <Image
                 // source={
                 //   menuSecond === 'MenuColor' ? images.menuImg : images.menuImg
@@ -245,7 +247,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <TouchableOpacity
               // onPress={() => navigation.navigate('notifications')}
               >
-                {/* <Image source={images.bell} style={styles.bellImg}/> */}
+                <Image source={images.bell} style={styles.bellImg} />
                 <Image
                   source={
                     notificationImage === 'notiSec'
@@ -314,6 +316,36 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               </View>
             </View>
           )}
+
+          {isProfile && (
+            <View style={styles.headerProfile}>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  // onPress={() => navigation.navigate('CallMain')}
+                >
+                  <Image
+                    source={images.headerprofile}
+                    style={styles.isChatImg}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  // onPress={() => navigation.navigate('Chat')}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'column',
+                      left: width * 0.01,
+                    }}
+                  >
+                    <Text style={styles.headerWelcome}>Welcome</Text>
+                    <Text style={styles.headerJaydon}>Jaydon</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
         </View>
       </SafeAreaView>
     </View>
@@ -346,6 +378,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerBell: {
+    position: 'absolute',
+    height: '100%',
+    alignContent: 'center',
+    top: 0,
+    right: 0,
+    justifyContent: 'center',
+  },
+  headerProfile: {
     position: 'absolute',
     height: '100%',
     alignContent: 'center',
@@ -387,7 +427,8 @@ const styles = StyleSheet.create({
   },
   bellImg: {
     width: width * 0.11,
-    height: width * 0.11,
+    // height: width * 0.11,
+    right: width * 0.25,
     resizeMode: 'contain',
   },
   notiText: {
@@ -510,6 +551,16 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: fontFamily.JakartaRegular,
     left: width * 0.08,
+  },
+  headerWelcome: {
+    fontFamily: fontFamily.UrbanistRegular,
+    fontSize: fontSizes.xsm,
+    color: colors.black,
+  },
+  headerJaydon: {
+    fontFamily: fontFamily.UrbanistBold,
+    fontSize: fontSizes.md,
+    color: colors.black,
   },
 });
 

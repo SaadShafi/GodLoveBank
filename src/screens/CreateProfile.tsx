@@ -1,42 +1,41 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
 import CustomSelect from '../components/CustomSelect';
 import TopHeader from '../components/Topheader';
+import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
+type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
+
 const CreateProfile = () => {
   const [city, setCity] = useState('');
+  const navigation = useNavigation<NavigationProp<any>>();
   const [country, setCountry] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [gender, setGender] = useState('');
   const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
   const [tags, setTags] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const countryOption = [
     { name: 'Country', id: '' },
-    { name: 'Bangladesh', id: 'bangladesh' },
-    { name: 'Saudia Arabia', id: 'saudia arabia' },
+    { name: 'United State', id: 'united state' },
+    { name: 'United Kingdom', id: 'united kingdom' },
     { name: 'Other', id: 'other' },
   ];
   const cityOptions = [
     { name: 'City', id: '' },
-    { name: 'Lahore', id: 'lahore' },
-    { name: 'Quetta', id: 'quetta' },
-    { name: 'Other', id: 'other' },
+    { name: 'New York', id: 'new york' },
+    { name: 'Texas', id: 'texas' },
+    { name: 'Los Angles', id: 'los angles' },
   ];
   const postalOptions = [
     { name: 'Postal Code', id: '' },
@@ -152,44 +151,21 @@ const CreateProfile = () => {
             rightIcon={images.arrowdown}
           />
 
-          {/* ✨ Updated Field Section (matches your image) */}
+          {/* ✨ Updated Field Section */}
           <View style={styles.newHomeBaseWrapper}>
             <View style={styles.newHomeBaseCard}>
               <Text style={styles.newHomeBaseLabel}>
-                Enter your New Self Love HomeBase
+                Your New Self Love HomeBase
               </Text>
               <TextInput
                 style={styles.newHomeBaseInput}
-                placeholder="Type here..."
+                placeholder="Rejection"
                 placeholderTextColor={colors.black}
                 value={bio}
                 onChangeText={setBio}
+                editable={false}
               />
             </View>
-
-            <TouchableOpacity
-              style={styles.newHomeBasePlus}
-              onPress={handleAddTag}
-            >
-              <Text style={styles.plusText}>＋</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Added tags */}
-          <View style={styles.tagsContainer}>
-            <FlatList
-              data={tags}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal={false}
-              renderItem={({ item, index }) => (
-                <View style={styles.tagItem}>
-                  <Text style={styles.tagText}>{item}</Text>
-                  <TouchableOpacity onPress={() => handleRemoveTag(index)}>
-                    <Text style={styles.removeTag}>✕</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
           </View>
         </View>
 
@@ -201,9 +177,42 @@ const CreateProfile = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
+            onPress={() => setIsModalVisible(true)} // 👈 Show modal
           />
         </View>
       </View>
+
+      {/* ✅ Success Modal - placed outside container */}
+      {isModalVisible && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.iconCircle}>
+              <Image source={images.success} />
+            </View>
+            <Text style={styles.modalTitle}>Register Success</Text>
+            <View style={{ gap: height * 0.005 }}>
+              <Text style={styles.modalMessage}>
+                Congratulation! Your Account Is Created.
+              </Text>
+              <Text style={styles.modalMessage}>
+                Now You Can Easily Use This Application
+              </Text>
+            </View>
+            <View style={{ top: height * 0.02 }}>
+              <CustomButton
+                text="Let's Get Started!"
+                textColor={colors.white}
+                backgroundColor={colors.marhoon}
+                btnHeight={height * 0.06}
+                btnWidth={width * 0.65}
+                borderRadius={30}
+                // onPress={() => setIsModalVisible(false)}
+                onPress={() => navigation.navigate('Home')}
+              />
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -242,10 +251,8 @@ const styles = StyleSheet.create({
     width: width * 0.85,
   },
   btnMain: {
-    top: height * 0.25,
+    top: height * 0.2,
   },
-
-  /** ✨ Updated field styling **/
   newHomeBaseWrapper: {
     width: width * 0.85,
     alignSelf: 'center',
@@ -270,44 +277,54 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     paddingVertical: 4,
   },
-  newHomeBasePlus: {
-    position: 'absolute',
-    right: -width * 0,
-    top: '50%',
-    transform: [{ translateY: -height * 0.025 }],
-    borderRadius: 25,
-    width: width * 0.1,
-    height: width * 0.18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  plusText: {
-    color: colors.black,
-    fontSize: fontSizes.lg,
-    fontWeight: '600',
-    right: width * 0.01,
-  },
 
-  tagsContainer: {
-    width: width * 0.28,
-    right: width * 0.27,
-  },
-  tagItem: {
-    backgroundColor: colors.marhoon,
-    borderRadius: 20,
-    paddingVertical: height * 0.007,
-    paddingHorizontal: width * 0.04,
-    flexDirection: 'row',
+  /** ✅ Fullscreen Modal Styles **/
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 999,
   },
-  tagText: {
-    color: colors.white,
-    fontFamily: fontFamily.UrbanistMedium,
-    fontSize: fontSizes.sm,
+  modalContainer: {
+    width: width * 0.8,
+    height: height * 0.35,
+    backgroundColor: colors.white,
+    borderRadius: 30,
+    paddingVertical: height * 0.03,
+    paddingHorizontal: width * 0.05,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 10,
   },
-  removeTag: {
-    color: colors.white,
-    marginLeft: width * 0.03,
+  iconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#EAF9E8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: height * 0.02,
+    marginBottom: height * 0.08,
+  },
+  modalTitle: {
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.lg,
+    color: colors.black,
+    bottom: height * 0.02,
+  },
+  modalMessage: {
+    textAlign: 'center',
+    color: colors.Gray,
+    fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
   },
 });

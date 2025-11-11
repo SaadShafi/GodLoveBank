@@ -1,3 +1,5 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
   Image,
@@ -12,10 +14,14 @@ import {
 } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
+import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
+import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+
+type Props = NativeStackScreenProps<StackParamList, 'Questionnaire'>;
 
 // enable LayoutAnimation on Android
 if (
@@ -122,6 +128,7 @@ const Questionnaire: React.FC = () => {
     // close the dropdown after selecting (as in video)
     setOpenId(null);
   };
+  const navigation = useNavigation<NavigationProp<any>>();
 
   return (
     <View style={styles.container}>
@@ -229,6 +236,18 @@ const Questionnaire: React.FC = () => {
             </View>
           );
         })}
+
+        <View style={styles.btnMain}>
+          <CustomButton
+            btnHeight={height * 0.06}
+            btnWidth={width * 0.9}
+            borderRadius={20}
+            backgroundColor={colors.marhoon}
+            text="Next"
+            textColor={colors.white}
+            onPress={() => navigation.navigate('BaseballDiamond')}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -356,5 +375,9 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm,
+  },
+  btnMain: {
+    top: height * 0.07,
+    alignItems: 'center',
   },
 });

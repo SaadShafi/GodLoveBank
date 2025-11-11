@@ -1,13 +1,20 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
+import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
+type Props = NativeStackScreenProps<StackParamList, 'BaseballDiamond'>;
+
 const BaseballDiamond = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Self Love Home Base" isBack={true} />
@@ -126,6 +133,7 @@ const BaseballDiamond = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
+            onPress={() => navigation.navigate('HomeBase')}
           />
         </View>
       </ScrollView>
@@ -277,6 +285,7 @@ const styles = StyleSheet.create({
   },
   btnMain: {
     alignItems: 'center',
+    bottom: height * 0.03,
   },
 });
 

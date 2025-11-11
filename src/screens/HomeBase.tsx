@@ -1,12 +1,19 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
+import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
+type Props = NativeStackScreenProps<StackParamList, 'HomeBase'>;
+
 const HomeBase = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Home Base" isBack={true} />
@@ -89,6 +96,7 @@ const HomeBase = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
+            onPress={() => navigation.navigate('FirstBase')}
           />
         </View>
       </ScrollView>
