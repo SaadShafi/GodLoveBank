@@ -48,6 +48,21 @@ const images: { [key: string]: ImageSourcePropType } = {
   prosperity: require('../Images/prosperity.png'),
   integrity: require('../Images/integrity.png'),
   happiness: require('../Images/happiness.png'),
+  macro: require('../Images/macro.png'),
+  amen: require('../Images/amen.png'),
+  spirits: require('../Images/spirits.png'),
+  Compounding: require('../Images/Compounding.png'),
+  card: require('../Images/card.png'),
+  planner: require('../Images/planner.png'),
+  deposits: require('../Images/deposits.png'),
+  toolbox: require('../Images/toolbox.png'),
+  reapin: require('../Images/reapin.png'),
+  instruments: require('../Images/instruments.png'),
+  stations: require('../Images/stations.png'),
+  deeds: require('../Images/deeds.png'),
+  pyramid: require('../Images/pyramid.png'),
+  thermostat: require('../Images/thermostat.png'),
+  stages: require('../Images/stages.png'),
 };
 
 export default images;
