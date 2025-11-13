@@ -34,21 +34,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-	
-		<string>Gilroy-Black.ttf</string>
-		<string>Gilroy-Bold.ttf</string>
-		<string>Gilroy-ExtraBold.ttf</string>
-		<string>Gilroy-Heavy.ttf</string>
-		<string>Gilroy-Light.ttf</string>
-		<string>Gilroy-Medium.ttf</string>
-		<string>Gilroy-Regular.ttf</string>
-		<string>Gilroy-SemiBold.ttf</string>
-		<string>Gilroy-Thin.ttf</string>
 		<string>Urbanist-Black.ttf</string>
 		<string>Urbanist-Bold.ttf</string>
 		<string>Urbanist-ExtraBold.ttf</string>
@@ -58,6 +48,15 @@
 		<string>Urbanist-Regular.ttf</string>
 		<string>Urbanist-SemiBold.ttf</string>
 		<string>Urbanist-Thin.ttf</string>
+		<string>Gilroy-Black.ttf</string>
+		<string>Gilroy-Bold.ttf</string>
+		<string>Gilroy-ExtraBold.ttf</string>
+		<string>Gilroy-Heavy.ttf</string>
+		<string>Gilroy-Light.ttf</string>
+		<string>Gilroy-Medium.ttf</string>
+		<string>Gilroy-Regular.ttf</string>
+		<string>Gilroy-SemiBold.ttf</string>
+		<string>Gilroy-Thin.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -65,6 +64,8 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -73,27 +74,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>UIAppFonts</key>
-	<array>
-		<string>Urbanist-Black.ttf</string>
-		<string>Urbanist-Bold.ttf</string>
-		<string>Urbanist-ExtraBold.ttf</string>
-		<string>Urbanist-ExtraLight.ttf</string>
-		<string>Urbanist-Light.ttf</string>
-		<string>Urbanist-Medium.ttf</string>
-		<string>Urbanist-Regular.ttf</string>
-		<string>Urbanist-SemiBold.ttf</string>
-		<string>Urbanist-Thin.ttf</string>
-		<string>Gilroy-Black.ttf</string>
-		<string>Gilroy-Bold.ttf</string>
-		<string>Gilroy-ExtraBold.ttf</string>
-		<string>Gilroy-Heavy.ttf</string>
-		<string>Gilroy-Light.ttf</string>
-		<string>Gilroy-Medium.ttf</string>
-		<string>Gilroy-Regular.ttf</string>
-		<string>Gilroy-SemiBold.ttf</string>
-		<string>Gilroy-Thin.ttf</string>
-	</array>
 </dict>
 </plist>

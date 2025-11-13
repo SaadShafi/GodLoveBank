@@ -63,6 +63,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   pyramid: require('../Images/pyramid.png'),
   thermostat: require('../Images/thermostat.png'),
   stages: require('../Images/stages.png'),
+  mindful: require('../Images/mindful.png'),
+  prayeramacro: require('../Images/prayeramacro.png'),
 };
 
 export default images;
