@@ -65,6 +65,10 @@ const images: { [key: string]: ImageSourcePropType } = {
   stages: require('../Images/stages.png'),
   mindful: require('../Images/mindful.png'),
   prayeramacro: require('../Images/prayeramacro.png'),
+  play: require('../Images/play.png'),
+  timer: require('../Images/timer.png'),
+  spirit: require('../Images/spirit.png'),
+  playbutton: require('../Images/playbutton.png'),
 };
 
 export default images;

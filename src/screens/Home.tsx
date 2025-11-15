@@ -36,9 +36,9 @@ const Home = () => {
     {
       id: '4',
       title1: 'OPENING AND',
-      title2: 'PRINCIPLE',
+      title2: 'CLOSING PRINCIPLE',
       image: images.spirits,
-      navigate: 'LoveDepositReps',
+      navigate: 'ClosingSpirits',
     },
     {
       id: '5',

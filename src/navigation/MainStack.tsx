@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import BaseballDiamond from '../screens/BaseballDiamond';
+import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
 import FirstBase from '../screens/FirstBase';
@@ -68,6 +69,7 @@ export type StackParamList = {
   SelfHappiness: undefined;
   LoveDepositReps: undefined;
   DailyPrayerMacro: undefined;
+  ClosingSpirits: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -111,6 +113,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SelfHappiness" component={SelfHappiness} />
       <Stack.Screen name="LoveDepositReps" component={LoveDepositReps} />
       <Stack.Screen name="DailyPrayerMacro" component={DailyPrayerMacro} />
+      <Stack.Screen name="ClosingSpirits" component={ClosingSpirits} />
     </Stack.Navigator>
   );
 };

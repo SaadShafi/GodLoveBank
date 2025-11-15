@@ -57,7 +57,7 @@ const SpiritualGrowth = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: colors.purple,
-    height: height * 0.15,
+    height: height * 0.1,
     width: width * 0.9999,
     alignSelf: 'center',
     borderBottomRightRadius: 34,

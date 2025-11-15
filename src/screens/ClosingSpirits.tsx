@@ -1,5 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const ClosingSpirits = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -18,9 +25,7 @@ const DailyPrayerMacro = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
+            <Text style={styles.headerText}>OPENING AND CLOSING SPIRITS</Text>
           }
         />
       </View>
@@ -30,56 +35,80 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
+        <Image source={images.spirit} style={styles.img} />
         <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
+          OPENING AND CLOSING SPIRITS (REVELATIONS 3:20)
         </Text>
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          Opening And Closing Spirits is one of the greatest freedoms given to
+          humans. However, it's great benefit is totally dependent upon your
+          awareness that you are a threefold Spiritual being. Depending upon
+          your awareness of yourself as a threefold being, you have the freedom
+          to choose to open and close your spirit at any given moment. You can
+          open or close your spirit to God, yourself, and to others no matter
+          what happens in your life. There are five keys to re-opening other's
+          spirit: (1) Listen to their spirit. (2) Feel their feelings. (3)
+          Repent for offending them (4) Accept them again. (5) Seek forgiveness
+          for hurting them.
         </Text>
 
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
+        <Text style={styles.prayer}>
+          IDEAS ON WHEN AND HOW TO USE OPENING AND{' '}
+        </Text>
+        <Text style={styles.prayer}>CLOSING SPIRITS!</Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
+              When you have been hurt by some one and you want to re-open your
+              spirit!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
+              When you can't forgive, and you need compassion to re-open your
+              spirit!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
+              When you are trying to yourself out of the Debt Trap and don't
+              know how!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text4}>
+              When you've made a mistake in your life and closed your spirit tor
+              yourself!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text5}>
+              When you are trying to forgive yourself and you want to get back
+              on track!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text5}>
+              When you are having a difficult time forgiving yourself and
+              significant others!
             </Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -88,13 +117,15 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
           <CustomButton
-            text="Done"
+            text="Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
@@ -180,6 +211,18 @@ const styles = StyleSheet.create({
     color: colors.black,
     width: width * 0.87,
   },
+  text4: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
+  text5: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
@@ -191,8 +234,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
@@ -200,4 +244,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DailyPrayerMacro;
+export default ClosingSpirits;

@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     position: 'relative',
-    marginHorizontal: width * 0.07,
+    marginHorizontal: width * 0.04,
   },
   headerArrow: {
     position: 'absolute',
