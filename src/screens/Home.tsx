@@ -129,28 +129,28 @@ const Home = () => {
       title1: 'THE FIVE STAGES OF ',
       title2: 'SPIRITUAL GROWTH',
       image: images.stages,
-      navigate: 'LoveDepositReps',
+      navigate: 'SpirtualGrowthStages',
     },
     {
       id: '18',
       title1: 'NEW SELF-LOVE ',
       title2: 'MINDFULNESS',
       image: images.mindful,
-      navigate: 'LoveDepositReps',
+      navigate: 'SelfLoveMindfulness',
     },
     {
       id: '19',
       title1: 'GOLD RULE OF EFFECTIVE',
       title2: 'COMMUNICATION',
       image: images.stages,
-      navigate: 'LoveDepositReps',
+      navigate: 'GoldenRule',
     },
     {
       id: '20',
       title1: 'Gods Love Bank',
       title2: 'Curriculum',
       image: images.mindful,
-      navigate: 'LoveDepositReps',
+      navigate: 'GodLoveBankCurriculum',
     },
     // add more items as needed
   ];

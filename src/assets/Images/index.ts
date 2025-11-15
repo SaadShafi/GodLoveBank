@@ -69,6 +69,13 @@ const images: { [key: string]: ImageSourcePropType } = {
   timer: require('../Images/timer.png'),
   spirit: require('../Images/spirit.png'),
   playbutton: require('../Images/playbutton.png'),
+  analogy: require('../Images/analogy.png'),
+  reopening: require('../Images/reopening.png'),
+  godlove: require('../Images/godlove.png'),
+  rule: require('../Images/rule.png'),
+  goldenrule: require('../Images/goldenrule.png'),
+  mindfulness: require('../Images/mindfulness.png'),
+  fivestages: require('../Images/fivestages.png'),
 };
 
 export default images;

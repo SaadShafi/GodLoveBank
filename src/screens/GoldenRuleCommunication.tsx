@@ -15,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const ClosingSpirits = () => {
+const GoldenRuleCommunication = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -25,7 +25,7 @@ const ClosingSpirits = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>OPENING AND CLOSING SPIRITS</Text>
+            <Text style={styles.headerText}>THE GOLDEN EFFECTIVE RULE</Text>
           }
         />
       </View>
@@ -35,75 +35,51 @@ const ClosingSpirits = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.spirit} style={styles.img} />
+        <Image source={images.goldenrule} style={styles.img} />
         <Text style={styles.mathew}>
-          OPENING AND CLOSING SPIRITS (REVELATIONS 3:20)
+          THE GOLDEN RULE OF EFFECTIVE COMMUNICATION (LUKE 6:31!)
         </Text>
 
         <Text style={styles.description}>
-          Opening And Closing Spirits is one of the greatest freedoms given to
-          humans. However, it's great benefit is totally dependent upon your
-          awareness that you are a threefold Spiritual being. Depending upon
-          your awareness of yourself as a threefold being, you have the freedom
-          to choose to open and close your spirit at any given moment. You can
-          open or close your spirit to God, yourself, and to others no matter
-          what happens in your life. There are five keys to re-opening other's
-          spirit: (1) Listen to their spirit. (2) Feel their feelings. (3)
-          Repent for offending them (4) Accept them again. (5) Seek forgiveness
-          for hurting them.
+          The Golden Rule of Effective Communication is designed to help you
+          understand others and be understood by them. Jesus summed up the
+          Golden Rule of Effective Communication like this, "Do unto others as
+          you would have them do unto you." (Luke 6:31) According to Jesus, we
+          should treat others exactly like we want them to treat us. It seeks to
+          understand the thinking, feelings, experiences of others, then
+          accurately expressing that understanding back to them. Jesus
+          introduced the concept of empathy in the golden rule over two thousand
+          years ago. If you respect and treat people like they are important,
+          they will do the same to you, unless something is wrong with them.
+          Jesus explains, For with the same measure you mete, empathize with
+          others it will be measured back to you.
         </Text>
 
-        <Text style={styles.prayer}>
-          IDEAS ON WHEN AND HOW TO USE OPENING AND{' '}
-        </Text>
-        <Text style={styles.prayer}>CLOSING SPIRITS!</Text>
+        <Text style={styles.prayer}>HOW TO APPLY THE GOLDEN RULE!</Text>
+        {/* <Text style={styles.prayer}>CLOSING SPIRITS!</Text> */}
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you have been hurt by some one and you want to re-open your
-              spirit!
+              Seek to understand the person's SPIRIT by learning what they're
+              thinking.
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you can't forgive, and you need compassion to re-open your
-              spirit!
+              Seek to have compassion for their SOUL by learning what they are
+              feeling.
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are trying to yourself out of the Debt Trap and don't
-              know how!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>4. </Text>
-            <Text style={styles.text4}>
-              When you've made a mistake in your life and closed your spirit tor
-              yourself!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>5. </Text>
-            <Text style={styles.text5}>
-              When you are trying to forgive yourself and you want to get back
-              on track!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>6. </Text>
-            <Text style={styles.text5}>
-              When you are having a difficult time forgiving yourself and
-              significant others!
+              Seek to extend mercy to the person's BODY by observing their
+              behavior.
             </Text>
           </View>
         </View>
@@ -125,13 +101,13 @@ const ClosingSpirits = () => {
 
         <View style={styles.btn}>
           <CustomButton
-            text="Continue"
+            text="Done"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('ClosingPrinciples')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </View>
@@ -244,4 +220,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClosingSpirits;
+export default GoldenRuleCommunication;

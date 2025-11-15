@@ -15,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const ClosingSpirits = () => {
+const GodLoveBankCurriculum = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -25,7 +25,7 @@ const ClosingSpirits = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>OPENING AND CLOSING SPIRITS</Text>
+            <Text style={styles.headerText}>God's Love Bank Curriculum</Text>
           }
         />
       </View>
@@ -35,75 +35,50 @@ const ClosingSpirits = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.spirit} style={styles.img} />
-        <Text style={styles.mathew}>
-          OPENING AND CLOSING SPIRITS (REVELATIONS 3:20)
-        </Text>
+        <Image source={images.godlove} style={styles.img} />
 
         <Text style={styles.description}>
-          Opening And Closing Spirits is one of the greatest freedoms given to
-          humans. However, it's great benefit is totally dependent upon your
-          awareness that you are a threefold Spiritual being. Depending upon
-          your awareness of yourself as a threefold being, you have the freedom
-          to choose to open and close your spirit at any given moment. You can
-          open or close your spirit to God, yourself, and to others no matter
-          what happens in your life. There are five keys to re-opening other's
-          spirit: (1) Listen to their spirit. (2) Feel their feelings. (3)
-          Repent for offending them (4) Accept them again. (5) Seek forgiveness
-          for hurting them.
+          The God's Love Bank Curriculum is a Spiritual Growth Program designed
+          to help children, youth, and adults put off their Old Self-Love, and
+          RE-AUTHOR and put on New Self-Love according to Ephesians 4:22-24 and
+          Colossians 3:9-10, NIV. It provides fifteen (15) New Self-love Core
+          Values of Jesus called New Self-Love Accounts, and fifteen (15)
+          Systematic New Self-Love Tools of Thinking designed to empower people
+          to grow up Spiritually toward their Gift's Purpose and their Fullest
+          potential.
         </Text>
 
-        <Text style={styles.prayer}>
-          IDEAS ON WHEN AND HOW TO USE OPENING AND{' '}
-        </Text>
-        <Text style={styles.prayer}>CLOSING SPIRITS!</Text>
+        <Text style={styles.prayer}>The GLB Curriculum includes:</Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you have been hurt by some one and you want to re-open your
-              spirit!
+              Sixty-Six (66) age appropriate Bible stories taught in conjunction
+              with fifteen (15) New Self-love Core Values Of Jesus; one story
+              for each Sunday and Wednesday of the year.
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you can't forgive, and you need compassion to re-open your
-              spirit!
+              A Biblically Based Curriculum for children, youth, and adults
+              designed to help them think with Love Deposit thinking of (Faith,
+              Hope, Love, Purpose, and Good News) rather than Love Withdrawal
+              thinking based on (Fear, Worry, Doubt, Pain, and bad news).
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are trying to yourself out of the Debt Trap and don't
-              know how!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>4. </Text>
-            <Text style={styles.text4}>
-              When you've made a mistake in your life and closed your spirit tor
-              yourself!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>5. </Text>
-            <Text style={styles.text5}>
-              When you are trying to forgive yourself and you want to get back
-              on track!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>6. </Text>
-            <Text style={styles.text5}>
-              When you are having a difficult time forgiving yourself and
-              significant others!
+              Included in the Curriculum are lesson plans, art projects, story
+              applications, New Self-Love Core Values of Jesus Calendars, New
+              Self-Love songbooks, God's Love Bank books, bulletin board ideas,
+              visual aids, parent/child involvement activities, and other tools
+              and exercises designed to enhance, promote, and bring about
+              Spiritual growth.
             </Text>
           </View>
         </View>
@@ -125,13 +100,13 @@ const ClosingSpirits = () => {
 
         <View style={styles.btn}>
           <CustomButton
-            text="Continue"
+            text="Done"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('ClosingPrinciples')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </View>
@@ -198,30 +173,21 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     color: colors.black,
     width: width * 0.9,
+    lineHeight: fontSizes.sm * 1.2,
   },
   text2: {
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
     color: colors.black,
     width: width * 0.9,
+    lineHeight: fontSizes.sm * 1.2,
   },
   text3: {
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
     color: colors.black,
     width: width * 0.87,
-  },
-  text4: {
-    fontFamily: fontFamily.GilroyRegular,
-    fontSize: fontSizes.sm,
-    color: colors.black,
-    width: width * 0.87,
-  },
-  text5: {
-    fontFamily: fontFamily.GilroyRegular,
-    fontSize: fontSizes.sm,
-    color: colors.black,
-    width: width * 0.87,
+    lineHeight: fontSizes.sm * 1.2,
   },
   audioContainer: {
     backgroundColor: colors.purple,
@@ -234,9 +200,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
+    alignSelf: 'center',
     // left: width * 0.22,
     // top: height * 0.04,
-    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
@@ -244,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClosingSpirits;
+export default GodLoveBankCurriculum;

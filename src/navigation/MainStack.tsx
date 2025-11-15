@@ -1,11 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import BaseballDiamond from '../screens/BaseballDiamond';
+import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
+import GodLoveBankCurriculum from "../screens/God'sLoveBankCurriculum";
+import GoldenRule from '../screens/GoldenRule';
+import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
 import Home from '../screens/Home';
 import HomeBase from '../screens/HomeBase';
 import LoveDepositReps from '../screens/LoveDepositReps';
@@ -25,6 +29,7 @@ import SelfHonesty from '../screens/SelfHonesty';
 import SelfImage from '../screens/SelfImage';
 import SelfIntegrity from '../screens/SelfIntegrity';
 import SelfLove from '../screens/SelfLove';
+import SelfLoveMindfulness from '../screens/SelfLoveMindfulness';
 import SelfPower from '../screens/SelfPower';
 import SelfProsperity from '../screens/SelfProsperity';
 import SelfPurpose from '../screens/SelfPurpose';
@@ -33,6 +38,7 @@ import SelfWorth from '../screens/SelfWorth';
 import SetNewPassword from '../screens/SetNewPassword';
 import SignInEmail from '../screens/SignInEmail';
 import SpiritualGrowth from '../screens/SpiritualGrowth';
+import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
 import ThirdBase from '../screens/ThirdBase';
 
 export type StackParamList = {
@@ -70,6 +76,12 @@ export type StackParamList = {
   LoveDepositReps: undefined;
   DailyPrayerMacro: undefined;
   ClosingSpirits: undefined;
+  ClosingPrinciples: undefined;
+  GodLoveBankCurriculum: undefined;
+  GoldenRule: undefined;
+  GoldenRuleCommunication: undefined;
+  SelfLoveMindfulness: undefined;
+  SpirtualGrowthStages: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -114,6 +126,25 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="LoveDepositReps" component={LoveDepositReps} />
       <Stack.Screen name="DailyPrayerMacro" component={DailyPrayerMacro} />
       <Stack.Screen name="ClosingSpirits" component={ClosingSpirits} />
+      <Stack.Screen name="ClosingPrinciples" component={ClosingPrinciples} />
+      <Stack.Screen
+        name="GodLoveBankCurriculum"
+        component={GodLoveBankCurriculum}
+      />
+      <Stack.Screen name="GoldenRule" component={GoldenRule} />
+      <Stack.Screen
+        name="GoldenRuleCommunication"
+        component={GoldenRuleCommunication}
+      />
+      <Stack.Screen
+        name="SelfLoveMindfulness"
+        component={SelfLoveMindfulness}
+      />
+
+      <Stack.Screen
+        name="SpirtualGrowthStages"
+        component={SpirtualGrowthStages}
+      />
     </Stack.Navigator>
   );
 };

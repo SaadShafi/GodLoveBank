@@ -15,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const ClosingSpirits = () => {
+const SpirtualGrowthStages = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -25,7 +25,7 @@ const ClosingSpirits = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>OPENING AND CLOSING SPIRITS</Text>
+            <Text style={styles.headerText}>STAGES OF SPIRITUAL GROWTH</Text>
           }
         />
       </View>
@@ -35,78 +35,24 @@ const ClosingSpirits = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.spirit} style={styles.img} />
-        <Text style={styles.mathew}>
-          OPENING AND CLOSING SPIRITS (REVELATIONS 3:20)
-        </Text>
+        <Image source={images.fivestages} style={styles.img} />
+        {/* <Text style={styles.mathew}>
+          THE GOLDEN RULE OF EFFECTIVE COMMUNICATION (LUKE 6:31!)
+        </Text> */}
 
         <Text style={styles.description}>
-          Opening And Closing Spirits is one of the greatest freedoms given to
-          humans. However, it's great benefit is totally dependent upon your
-          awareness that you are a threefold Spiritual being. Depending upon
-          your awareness of yourself as a threefold being, you have the freedom
-          to choose to open and close your spirit at any given moment. You can
-          open or close your spirit to God, yourself, and to others no matter
-          what happens in your life. There are five keys to re-opening other's
-          spirit: (1) Listen to their spirit. (2) Feel their feelings. (3)
-          Repent for offending them (4) Accept them again. (5) Seek forgiveness
-          for hurting them.
+          THE FIVE STAGES OF SPIRITUAL GROWTH helps you grow Spiritually toward
+          a life of peace, joy, happiness, abundance, and purpose! You can
+          identify what level of Spiritual Growth you are in at any given
+          moment. The Five Stages represents different levels of your Spiritual
+          Growth. You start in the INFANCY stage where you first realize the
+          truth about your Old Self-love. You can grow to the CHILDHOOD stage
+          where you OWN your Old Self-Love. The YOUTH stage where you learn to
+          Reauthor your Old Self and replace it with your New Self. The ADULT
+          stage of Spiritual Growth IS where you renounce your Old Self-love and
+          start living in your New Self-love. The PURPOSE stage is when you
+          start living with New Self-Purpose.
         </Text>
-
-        <Text style={styles.prayer}>
-          IDEAS ON WHEN AND HOW TO USE OPENING AND{' '}
-        </Text>
-        <Text style={styles.prayer}>CLOSING SPIRITS!</Text>
-
-        <View style={{ gap: height * 0.02, top: height * 0.04 }}>
-          <View style={styles.row}>
-            <Text style={styles.number}>1. </Text>
-            <Text style={styles.text1}>
-              When you have been hurt by some one and you want to re-open your
-              spirit!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>2. </Text>
-            <Text style={styles.text2}>
-              When you can't forgive, and you need compassion to re-open your
-              spirit!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>3. </Text>
-            <Text style={styles.text3}>
-              When you are trying to yourself out of the Debt Trap and don't
-              know how!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>4. </Text>
-            <Text style={styles.text4}>
-              When you've made a mistake in your life and closed your spirit tor
-              yourself!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>5. </Text>
-            <Text style={styles.text5}>
-              When you are trying to forgive yourself and you want to get back
-              on track!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>6. </Text>
-            <Text style={styles.text5}>
-              When you are having a difficult time forgiving yourself and
-              significant others!
-            </Text>
-          </View>
-        </View>
       </ScrollView>
       <View style={styles.audioContainer}>
         <View
@@ -125,13 +71,13 @@ const ClosingSpirits = () => {
 
         <View style={styles.btn}>
           <CustomButton
-            text="Continue"
+            text="Done"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('ClosingPrinciples')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </View>
@@ -156,7 +102,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   scrollContainer: {
-    paddingTop: height * 0.01, // space below header
+    paddingTop: height * 0.01,
     paddingBottom: height * 0.05,
   },
   img: {
@@ -226,7 +172,7 @@ const styles = StyleSheet.create({
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
-    height: height * 0.23,
+    height: height * 0.2,
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
   },
@@ -234,8 +180,6 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    // left: width * 0.22,
-    // top: height * 0.04,
     alignSelf: 'center',
   },
   btn: {
@@ -244,4 +188,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClosingSpirits;
+export default SpirtualGrowthStages;
