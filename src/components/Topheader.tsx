@@ -245,7 +245,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {notification && (
             <View style={styles.headerBell}>
               <TouchableOpacity
-              // onPress={() => navigation.navigate('notifications')}
+                onPress={() => navigation.navigate('NotificationsScreen')}
               >
                 <Image source={images.bell} style={styles.bellImg} />
                 <Image

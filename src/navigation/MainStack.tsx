@@ -1,11 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
+import ChangePassword from '../screens/ChangePassword';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
+import DepositsSteps from '../screens/DepositsSteps';
+import FAQs from '../screens/FAQs';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
 import GiftJourney from '../screens/GiftJourney';
@@ -15,9 +19,14 @@ import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
 import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
+import LoveDeposits from '../screens/LoveDeposits';
+import NotificationsScreen from '../screens/Notifications';
 import Onboarding from '../screens/Onboarding';
 import OtpVerification from '../screens/OtpVerification';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
+import Profile from '../screens/Profile';
 import PurposeInstrumental from '../screens/PurposeInstrumental';
+import PurposeToolbox from '../screens/PurposeToolbox';
 import Pyramid from '../screens/Pyramid';
 import PyramidGoals from '../screens/PyramidGoals';
 import Questionnaire from '../screens/Questionnaire';
@@ -45,9 +54,12 @@ import SevenLaws from '../screens/SevenLaws';
 import SignInEmail from '../screens/SignInEmail';
 import SpiritualGrowth from '../screens/SpiritualGrowth';
 import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
+import TermsConditions from '../screens/TermsConditions';
+import TheAmenPrinciple from '../screens/TheAmenPrinciple';
 import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
 import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
+import Toolbox from '../screens/Toolbox';
 import BottomTabs from './BottomTabs';
 
 export type StackParamList = {
@@ -101,6 +113,18 @@ export type StackParamList = {
   ThreeFoldSpirtual: undefined;
   SevenLaws: undefined;
   BottomTabs: undefined;
+  PurposeToolbox: undefined;
+  Toolbox: undefined;
+  LoveDeposits: undefined;
+  DepositsSteps: undefined;
+  AmenPrinciples: undefined;
+  TheAmenPrinciple: undefined;
+  NotificationsScreen: undefined;
+  Profile: undefined;
+  TermsConditions: undefined;
+  PrivacyPolicy: undefined;
+  FAQs: undefined;
+  ChangePassword: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -178,6 +202,22 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="InstrumentalGoals" component={InstrumentalGoals} />
       <Stack.Screen name="ThreeFoldSpirtual" component={ThreeFoldSpirtual} />
       <Stack.Screen name="SevenLaws" component={SevenLaws} />
+      <Stack.Screen name="PurposeToolbox" component={PurposeToolbox} />
+      <Stack.Screen name="Toolbox" component={Toolbox} />
+      <Stack.Screen name="LoveDeposits" component={LoveDeposits} />
+      <Stack.Screen name="DepositsSteps" component={DepositsSteps} />
+      <Stack.Screen name="AmenPrinciples" component={AmenPrinciples} />
+      <Stack.Screen name="TheAmenPrinciple" component={TheAmenPrinciple} />
+      <Stack.Screen
+        name="NotificationsScreen"
+        component={NotificationsScreen}
+      />
+
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="TermsConditions" component={TermsConditions} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="FAQs" component={FAQs} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
     </Stack.Navigator>
   );
 };

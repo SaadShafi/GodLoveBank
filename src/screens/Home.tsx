@@ -31,7 +31,7 @@ const Home = () => {
       title1: 'THE A-M-E-N ',
       title2: 'CLOSING SPIRITS',
       image: images.amen,
-      navigate: 'LoveDepositReps',
+      navigate: 'AmenPrinciples',
     },
     {
       id: '4',
@@ -66,14 +66,14 @@ const Home = () => {
       title1: 'LOVE DEPOSITS &',
       title2: 'WITHDRAWALS',
       image: images.deposits,
-      navigate: 'LoveDepositReps',
+      navigate: 'LoveDeposits',
     },
     {
       id: '9',
       title1: 'GOD’S PURPOSE ',
       title2: 'TOOLBOX',
       image: images.toolbox,
-      navigate: 'LoveDepositReps',
+      navigate: 'PurposeToolbox',
     },
     {
       id: '10',

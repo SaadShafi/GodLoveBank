@@ -89,6 +89,21 @@ const images: { [key: string]: ImageSourcePropType } = {
   chatIcon: require('../Images/chatIcon.png'),
   cartIcon: require('../Images/cartIcon.png'),
   bottomTabSecIcon: require('../Images/bottomTabSecIcon.png'),
+  box: require('../Images/box.png'),
+  godspurpose: require('../Images/godspurpose.png'),
+  lovedeposit: require('../Images/lovedeposit.png'),
+  steps: require('../Images/steps.png'),
+  ame: require('../Images/ame.png'),
+  sound: require('../Images/sound.png'),
+  doctrine: require('../Images/doctrine.png'),
+  bible: require('../Images/bible.png'),
+  mate: require('../Images/mate.png'),
+  example: require('../Images/example.png'),
+  self: require('../Images/self.png'),
+  notification: require('../Images/notification.png'),
+  ProfilePic: require('../Images/ProfilePic.png'),
+  cross: require('../Images/cross.png'),
+  back: require('../Images/back.png'),
 };
 
 export default images;

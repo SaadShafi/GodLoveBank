@@ -8,7 +8,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const AmenPrinciples = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -17,11 +17,7 @@ const DailyPrayerMacro = () => {
       <View style={styles.mainContainer}>
         <TopHeader
           isBack={true}
-          text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
-          }
+          text={<Text style={styles.headerText}>THE A-M-E-N PRINCIPLE</Text>}
         />
       </View>
 
@@ -30,50 +26,68 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
+        <Image source={images.ame} style={styles.img} />
         <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
+          THE SOUND DOCTRINE A-M-E-N PRINCIPLE (MATTHEW 18:15)
         </Text>
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          The A-M-E-N Principle is really derived Jesus when He said, "Out the
+          mouth of two or three witnesses let every word or subject be
+          established." It is designed to help you study, interpret, and
+          understand the Bible as easy as saying AMEN. It also helps you prove
+          the leading of the Holy Spirit in your life. You can always know it's
+          the Holy Spirit leading you since He never contradicts the Bible. The
+          Amen Principle is not designed to replace the Bible, only to help it
+          be more user-friendly. All you have to do to use the Amen Principle is
+          to find a Bible A-nswer, the primary passage that answers the subject
+          under study. A Bible M-ate, the secondary passage to the same subject.
+          A Bible E-xample illustrating the subject, and a Bible N-vitation
+          inviting you to respond to the answers from your study.
         </Text>
 
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
+        <Text style={styles.prayer}>
+          IDEAS ON WHEN AND HOW TO USE THE A-M-E-N PRINCIPLE!
+        </Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
+              When you want to study the Bible yourself to get sound and healthy
+              answers.
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
+              When you want to be sure you interpret and understand the Bible
+              correctly
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
+              When you want to find the will of God and prove the leading of the
+              Holy Spirit.
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text3}>
+              When using other tools in the God's Love Bank—The Gift Journey
+              Program.
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text3}>
+              When in your Prayer Macro and you want a quick interpretation of
+              Bible texts.
             </Text>
           </View>
         </View>
@@ -94,13 +108,13 @@ const DailyPrayerMacro = () => {
 
         <View style={styles.btn}>
           <CustomButton
-            text="Done"
+            text="Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('TheAmenPrinciple')}
           />
         </View>
       </View>
@@ -200,4 +214,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DailyPrayerMacro;
+export default AmenPrinciples;
