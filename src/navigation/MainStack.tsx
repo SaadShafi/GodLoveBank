@@ -1,20 +1,26 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import BaseballDiamond from '../screens/BaseballDiamond';
+import CaringDeeds from '../screens/CaringDeeds';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
+import GiftJourney from '../screens/GiftJourney';
 import GodLoveBankCurriculum from "../screens/God'sLoveBankCurriculum";
 import GoldenRule from '../screens/GoldenRule';
 import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
 import Home from '../screens/Home';
 import HomeBase from '../screens/HomeBase';
+import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
 import Onboarding from '../screens/Onboarding';
 import OtpVerification from '../screens/OtpVerification';
+import PurposeInstrumental from '../screens/PurposeInstrumental';
+import Pyramid from '../screens/Pyramid';
+import PyramidGoals from '../screens/PyramidGoals';
 import Questionnaire from '../screens/Questionnaire';
 import Register from '../screens/Register';
 import Registeration from '../screens/Registeration';
@@ -36,11 +42,13 @@ import SelfPurpose from '../screens/SelfPurpose';
 import SelfRespect from '../screens/SelfRespect';
 import SelfWorth from '../screens/SelfWorth';
 import SetNewPassword from '../screens/SetNewPassword';
+import SevenLaws from '../screens/SevenLaws';
 import SignInEmail from '../screens/SignInEmail';
 import SpiritualGrowth from '../screens/SpiritualGrowth';
 import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
 import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
+import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 
 export type StackParamList = {
   Register: undefined;
@@ -84,6 +92,14 @@ export type StackParamList = {
   SelfLoveMindfulness: undefined;
   SpirtualGrowthStages: undefined;
   Thermostat: undefined;
+  Pyramid: undefined;
+  PyramidGoals: undefined;
+  CaringDeeds: undefined;
+  GiftJourney: undefined;
+  PurposeInstrumental: undefined;
+  InstrumentalGoals: undefined;
+  ThreeFoldSpirtual: undefined;
+  SevenLaws: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -149,6 +165,18 @@ const MainStack: React.FC = () => {
       />
 
       <Stack.Screen name="Thermostat" component={Thermostat} />
+      <Stack.Screen name="Pyramid" component={Pyramid} />
+      <Stack.Screen name="PyramidGoals" component={PyramidGoals} />
+      <Stack.Screen name="CaringDeeds" component={CaringDeeds} />
+      <Stack.Screen name="GiftJourney" component={GiftJourney} />
+      <Stack.Screen
+        name="PurposeInstrumental"
+        component={PurposeInstrumental}
+      />
+
+      <Stack.Screen name="InstrumentalGoals" component={InstrumentalGoals} />
+      <Stack.Screen name="ThreeFoldSpirtual" component={ThreeFoldSpirtual} />
+      <Stack.Screen name="SevenLaws" component={SevenLaws} />
     </Stack.Navigator>
   );
 };
