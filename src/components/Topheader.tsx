@@ -322,7 +322,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('CallMain')}
+                  onPress={() => navigation.navigate('Profile')}
                 >
                   <Image
                     source={images.headerprofile}
@@ -331,7 +331,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('Chat')}
+                  onPress={() => navigation.navigate('Profile')}
                 >
                   <View
                     style={{

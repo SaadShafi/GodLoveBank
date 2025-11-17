@@ -9,6 +9,7 @@ import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
 import DepositsSteps from '../screens/DepositsSteps';
+import EditProfile from '../screens/EditProfile';
 import FAQs from '../screens/FAQs';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
@@ -125,6 +126,7 @@ export type StackParamList = {
   PrivacyPolicy: undefined;
   FAQs: undefined;
   ChangePassword: undefined;
+  EditProfile: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -218,6 +220,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="FAQs" component={FAQs} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
   );
 };

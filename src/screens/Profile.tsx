@@ -60,7 +60,7 @@ const Profile = () => {
         <TouchableOpacity
           style={styles.optionRow}
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('EditProfile')}
         >
           <Text style={styles.optionText}>Edit Profile</Text>
         </TouchableOpacity>
@@ -120,7 +120,7 @@ const Profile = () => {
           textColor={colors.white}
           onPress={() => setModalOpen(true)}
         /> */}
-        <View style={{ top: height * 0.01 }}>
+        <View style={{}}>
           <CustomButton
             btnHeight={height * 0.06}
             btnWidth={width * 0.9}
@@ -142,10 +142,14 @@ const Profile = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Image source={images.TrashIcon} style={styles.trashIcon} />
+            <Image source={images.Bin} />
             <Text style={styles.modalTitle}>Are you Sure?</Text>
             <Text style={styles.modalSubtitle}>
-              Do you really want to delete this Account?{'\n'}
+              Do you really want to delete these Account,
+            </Text>
+
+            <Text style={styles.modalSubtitle2}>
+              you’ll permanently lose your:
             </Text>
 
             <View style={styles.modalButtonContainer}>
@@ -160,7 +164,7 @@ const Profile = () => {
                 style={styles.deleteButtonModal}
                 onPress={() => {
                   setModalVisible(false);
-                  navigation.navigate('getStarted');
+                  navigation.navigate('Register');
                 }}
               >
                 <Text style={styles.deleteTextModal}>Delete Account</Text>
@@ -314,15 +318,23 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: fontSizes.lg,
-    fontFamily: fontFamily.RubikMedium,
+    fontFamily: fontFamily.GilroyBold,
     color: colors.black,
     marginBottom: 8,
   },
   modalSubtitle: {
-    fontSize: fontSizes.sm2,
-    fontFamily: fontFamily.RubikRegular,
-    color: '#555',
+    fontSize: fontSizes.sm,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.black,
     textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalSubtitle2: {
+    fontSize: fontSizes.sm,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.black,
+    textAlign: 'center',
+    bottom: height * 0.02,
     marginBottom: 20,
   },
   modalButtonContainer: {
@@ -334,27 +346,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: colors.gray,
+    borderColor: colors.marhoon,
     paddingVertical: 12,
     borderRadius: 25,
     marginRight: 10,
     alignItems: 'center',
   },
   cancelText: {
-    fontFamily: fontFamily.RubikMedium,
+    fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm2,
-    color: colors.black,
+    color: colors.marhoon,
   },
   deleteButtonModal: {
     flex: 1,
-    backgroundColor: colors.btnBlue,
+    backgroundColor: colors.marhoon,
     paddingVertical: 12,
     borderRadius: 25,
     marginLeft: 10,
     alignItems: 'center',
   },
   deleteTextModal: {
-    fontFamily: fontFamily.RubikMedium,
+    fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm2,
     color: colors.white,
   },
