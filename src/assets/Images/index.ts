@@ -80,8 +80,18 @@ const images: { [key: string]: ImageSourcePropType } = {
   homeIcon: require("../Images/homeIcon.png"),
   profileIcon: require("../Images/profileIcon.png"),
   chatIcon: require("../Images/chatIcon.png"),
-  cartIcon: require("../Images/cartIcon.png"),
+  eCommerceIcon: require("../Images/eCommerce.png"),
   bottomTabSecIcon: require("../Images/bottomTabSecIcon.png"),
+  cartIcon: require("../Images/cartIcon.png"),
+  searchIcon: require("../Images/searchIcon.png"),
+  ratingIcon: require("../Images/ratingIcon.png"),
+  recBookOne: require("../Images/recBookOne.png"),
+  recBookSec: require("../Images/recBookSec.png"),
+  heartIcon: require("../Images/heartIcon.png"),
+  trendingBooksOne: require("../Images/trendingBooksOne.png"),
+  trendingBooksSec: require("../Images/trendingBooksSec.png"),
+  cross: require("../Images/cross.png"),
+  trashIcon: require("../Images/trashIcon.png"),
 };
 
 export default images;

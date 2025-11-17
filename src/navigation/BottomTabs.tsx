@@ -8,6 +8,7 @@ import images from '../assets/Images';
 import { colors } from '../utilities/colors';
 import { height, width } from '../utilities';
 import FirstBase from '../screens/FirstBase';
+import ECommerce from '../screens/ECommerce';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,8 +81,8 @@ const BottomTabs = () => {
       />
 
       <Tab.Screen
-        name="GoldenRule"
-        component={GoldenRule}
+        name="ECommerce"
+        component={ECommerce}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{
@@ -90,7 +91,7 @@ const BottomTabs = () => {
               borderRadius: 50,
             }}>
               <Image
-                source={images.cartIcon}
+                source={images.eCommerceIcon}
                 style={{
                   width: 24,
                   height: 24,

@@ -70,7 +70,7 @@ const SignInEmail = () => {
           <View style={styles.socialMain}>
             <Image source={images.googleIcon} style={styles.scialImg} />
             <Image source={images.appleIcon} style={styles.scialImg} />
-            <Image source={images.facebookIcon} style={styles.scialImg} />
+            {/* <Image source={images.facebookIcon} style={styles.scialImg} /> */}
           </View>
           <View style={styles.memberMain}>
             <Text style={styles.memberText}>Not a member?</Text>
@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
   socialMain: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // width: width * 0.6,
+    alignItems: "center"
   },
   scialImg: {
     width: width * 0.25,
