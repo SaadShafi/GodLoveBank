@@ -39,6 +39,7 @@ import SetNewPassword from '../screens/SetNewPassword';
 import SignInEmail from '../screens/SignInEmail';
 import SpiritualGrowth from '../screens/SpiritualGrowth';
 import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
+import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
 
 export type StackParamList = {
@@ -82,6 +83,7 @@ export type StackParamList = {
   GoldenRuleCommunication: undefined;
   SelfLoveMindfulness: undefined;
   SpirtualGrowthStages: undefined;
+  Thermostat: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -145,6 +147,8 @@ const MainStack: React.FC = () => {
         name="SpirtualGrowthStages"
         component={SpirtualGrowthStages}
       />
+
+      <Stack.Screen name="Thermostat" component={Thermostat} />
     </Stack.Navigator>
   );
 };

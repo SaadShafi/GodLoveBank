@@ -76,6 +76,7 @@ const images: { [key: string]: ImageSourcePropType } = {
   goldenrule: require('../Images/goldenrule.png'),
   mindfulness: require('../Images/mindfulness.png'),
   fivestages: require('../Images/fivestages.png'),
+  soul: require('../Images/soul.png'),
 };
 
 export default images;

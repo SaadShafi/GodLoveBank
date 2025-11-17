@@ -122,7 +122,7 @@ const Home = () => {
       title1: 'THE  THERMOSTAT',
       title2: 'OF YOUR SOUL!',
       image: images.thermostat,
-      navigate: 'LoveDepositReps',
+      navigate: 'Thermostat',
     },
     {
       id: '17',
