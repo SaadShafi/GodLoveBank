@@ -77,6 +77,11 @@ const images: { [key: string]: ImageSourcePropType } = {
   mindfulness: require('../Images/mindfulness.png'),
   fivestages: require('../Images/fivestages.png'),
   soul: require('../Images/soul.png'),
+  homeIcon: require("../Images/homeIcon.png"),
+  profileIcon: require("../Images/profileIcon.png"),
+  chatIcon: require("../Images/chatIcon.png"),
+  cartIcon: require("../Images/cartIcon.png"),
+  bottomTabSecIcon: require("../Images/bottomTabSecIcon.png"),
 };
 
 export default images;

@@ -41,6 +41,7 @@ import SpiritualGrowth from '../screens/SpiritualGrowth';
 import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
 import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
+import BottomTabs from './BottomTabs';
 
 export type StackParamList = {
   Register: undefined;
@@ -84,6 +85,7 @@ export type StackParamList = {
   SelfLoveMindfulness: undefined;
   SpirtualGrowthStages: undefined;
   Thermostat: undefined;
+  BottomTabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -108,7 +110,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
-      <Stack.Screen name="Home" component={Home} />
+      {/* <Stack.Screen name="Home" component={Home} /> */}
+      <Stack.Screen name="Home" component={BottomTabs} />
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
       <Stack.Screen name="SelfCourage" component={SelfCourage} />
