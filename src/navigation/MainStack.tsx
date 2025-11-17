@@ -12,7 +12,6 @@ import GiftJourney from '../screens/GiftJourney';
 import GodLoveBankCurriculum from "../screens/God'sLoveBankCurriculum";
 import GoldenRule from '../screens/GoldenRule';
 import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
-import Home from '../screens/Home';
 import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
@@ -49,6 +48,7 @@ import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
 import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
 import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
+import BottomTabs from './BottomTabs';
 
 export type StackParamList = {
   Register: undefined;
@@ -100,6 +100,7 @@ export type StackParamList = {
   InstrumentalGoals: undefined;
   ThreeFoldSpirtual: undefined;
   SevenLaws: undefined;
+  BottomTabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -124,7 +125,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={BottomTabs} />
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
       <Stack.Screen name="SelfCourage" component={SelfCourage} />
