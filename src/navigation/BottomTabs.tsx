@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, View } from 'react-native';
 import images from '../assets/Images';
+import ECommerce from '../screens/ECommerce';
 import FirstBase from '../screens/FirstBase';
-import GoldenRule from '../screens/GoldenRule';
 import Home from '../screens/Home';
 import HomeBase from '../screens/HomeBase';
 import Profile from '../screens/Profile';
@@ -84,8 +84,8 @@ const BottomTabs = () => {
       />
 
       <Tab.Screen
-        name="GoldenRule"
-        component={GoldenRule}
+        name="ECommerce"
+        component={ECommerce}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -96,7 +96,7 @@ const BottomTabs = () => {
               }}
             >
               <Image
-                source={images.cartIcon}
+                source={images.eCommerceIcon}
                 style={{
                   width: 24,
                   height: 24,

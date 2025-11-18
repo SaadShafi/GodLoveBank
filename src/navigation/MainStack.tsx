@@ -4,6 +4,7 @@ import AAACard from '../screens/AAACard';
 import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
+import Cart from '../screens/Cart';
 import ChangePassword from '../screens/ChangePassword';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
@@ -11,6 +12,7 @@ import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
 import DepositInterestReps from '../screens/DepositInterestReps';
 import DepositsSteps from '../screens/DepositsSteps';
+import ECommerce from '../screens/ECommerce';
 import EditProfile from '../screens/EditProfile';
 import FAQs from '../screens/FAQs';
 import FirstBase from '../screens/FirstBase';
@@ -135,6 +137,8 @@ export type StackParamList = {
   RepsHistory: undefined;
   HolySpirits: undefined;
   AAACard: undefined;
+  ECommerce: undefined;
+  Cart: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -236,6 +240,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="RepsHistory" component={RepsHistory} />
       <Stack.Screen name="HolySpirits" component={HolySpirits} />
       <Stack.Screen name="AAACard" component={AAACard} />
+      <Stack.Screen name="ECommerce" component={ECommerce} />
+      <Stack.Screen name="Cart" component={Cart} />
     </Stack.Navigator>
   );
 };

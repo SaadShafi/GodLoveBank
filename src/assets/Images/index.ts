@@ -110,6 +110,15 @@ const images: { [key: string]: ImageSourcePropType } = {
   calender: require('../Images/calender.png'),
   AAA: require('../Images/AAA.png'),
   addCard: require('../Images/addCard.png'),
+  eCommerceIcon: require('../Images/eCommerce.png'),
+  searchIcon: require('../Images/searchIcon.png'),
+  ratingIcon: require('../Images/ratingIcon.png'),
+  recBookOne: require('../Images/recBookOne.png'),
+  recBookSec: require('../Images/recBookSec.png'),
+  heartIcon: require('../Images/heartIcon.png'),
+  trendingBooksOne: require('../Images/trendingBooksOne.png'),
+  trendingBooksSec: require('../Images/trendingBooksSec.png'),
+  trashIcon: require('../Images/trashIcon.png'),
 };
 
 export default images;

@@ -1,6 +1,7 @@
 import { width } from '.';
 export const fontSizes: Record<string, number> = {
     xsm: width * 0.03,
+    msm: width * 0.033,
     sm: width * 0.035,
     sm2: width * 0.039,
     md: width * 0.045,
