@@ -52,7 +52,7 @@ const Home = () => {
       title1: 'THE HOLY SPIRIT',
       title2: 'AAA CARD',
       image: images.card,
-      navigate: 'LoveDepositReps',
+      navigate: 'HolySpirits',
     },
     {
       id: '7',

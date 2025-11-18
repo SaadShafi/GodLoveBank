@@ -108,6 +108,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   Bin: require('../Images/Bin.png'),
   reps: require('../Images/reps.png'),
   calender: require('../Images/calender.png'),
+  AAA: require('../Images/AAA.png'),
+  addCard: require('../Images/addCard.png'),
 };
 
 export default images;

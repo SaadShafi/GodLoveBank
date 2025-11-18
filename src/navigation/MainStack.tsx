@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import AAACard from '../screens/AAACard';
 import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
@@ -18,6 +19,7 @@ import GiftJourney from '../screens/GiftJourney';
 import GodLoveBankCurriculum from "../screens/God'sLoveBankCurriculum";
 import GoldenRule from '../screens/GoldenRule';
 import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
+import HolySpirits from '../screens/HolySpirits';
 import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
@@ -131,6 +133,8 @@ export type StackParamList = {
   EditProfile: undefined;
   DepositInterestReps: undefined;
   RepsHistory: undefined;
+  HolySpirits: undefined;
+  AAACard: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -230,6 +234,8 @@ const MainStack: React.FC = () => {
         component={DepositInterestReps}
       />
       <Stack.Screen name="RepsHistory" component={RepsHistory} />
+      <Stack.Screen name="HolySpirits" component={HolySpirits} />
+      <Stack.Screen name="AAACard" component={AAACard} />
     </Stack.Navigator>
   );
 };

@@ -284,8 +284,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </View>
           )}
           {addCard && (
-            <TouchableOpacity style={styles.headerBell}>
-              <Text style={styles.addCardText}>Add Card</Text>
+            <TouchableOpacity style={styles.headeraddCard}>
+              {/* <Text style={styles.addCardText}>Add Card</Text> */}
+              <Image source={images.addCard} />
             </TouchableOpacity>
           )}
           {msgIcon && (
@@ -383,6 +384,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     top: 0,
     right: 0,
+    justifyContent: 'center',
+  },
+  headeraddCard: {
+    position: 'absolute',
+    height: '100%',
+    alignContent: 'center',
+    top: height * 0.001,
+    left: width * 0.78,
     justifyContent: 'center',
   },
   headerProfile: {
