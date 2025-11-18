@@ -8,6 +8,7 @@ import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
+import DepositInterestReps from '../screens/DepositInterestReps';
 import DepositsSteps from '../screens/DepositsSteps';
 import EditProfile from '../screens/EditProfile';
 import FAQs from '../screens/FAQs';
@@ -33,6 +34,7 @@ import PyramidGoals from '../screens/PyramidGoals';
 import Questionnaire from '../screens/Questionnaire';
 import Register from '../screens/Register';
 import Registeration from '../screens/Registeration';
+import RepsHistory from '../screens/RepsHistory';
 import SecondBase from '../screens/SecondBase';
 import SelfConfidence from '../screens/SelfConfidence';
 import SelfCourage from '../screens/SelfCourage';
@@ -127,6 +129,8 @@ export type StackParamList = {
   FAQs: undefined;
   ChangePassword: undefined;
   EditProfile: undefined;
+  DepositInterestReps: undefined;
+  RepsHistory: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -221,6 +225,11 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="FAQs" component={FAQs} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        name="DepositInterestReps"
+        component={DepositInterestReps}
+      />
+      <Stack.Screen name="RepsHistory" component={RepsHistory} />
     </Stack.Navigator>
   );
 };

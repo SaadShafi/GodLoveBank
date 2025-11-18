@@ -45,7 +45,7 @@ const Home = () => {
       title1: 'LOVE DEPOSIT',
       title2: 'INTEREST REPS',
       image: images.Compounding,
-      navigate: 'LoveDepositReps',
+      navigate: 'DepositInterestReps',
     },
     {
       id: '6',
