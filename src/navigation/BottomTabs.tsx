@@ -8,6 +8,7 @@ import MediaLibrary from '../screens/MediaLibrary';
 import Profile from '../screens/Profile';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
+import Chat from '../screens/Chat';
 
 const Tab = createBottomTabNavigator();
 
@@ -110,8 +111,8 @@ const BottomTabs = () => {
       />
 
       <Tab.Screen
-        name="FirstBase"
-        component={FirstBase}
+        name="Chat"
+        component={Chat}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

@@ -116,7 +116,6 @@ const OrderConfirmed = () => {
                             columnWrapperStyle={styles.columnWrapper}
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.flatListContent}
-                            scrollEnabled={false}
                         />
                     </View>
                 </ScrollView>

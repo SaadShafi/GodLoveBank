@@ -41,7 +41,7 @@ interface TopHeaderProps {
   toggleSwitch?: (newState: any) => void;
   toggleValue?: boolean;
   addCard?: boolean;
-  onAddCardPress?: () => void; // Add this line
+  onAddCardPress?: () => void; 
   msgIcon?: boolean;
   favIcon?: boolean;
   skip?: boolean;
@@ -50,6 +50,7 @@ interface TopHeaderProps {
   isPhone?: boolean;
   isBackWhite?: boolean;
   isProfile?: boolean;
+  isCart?: boolean;
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({
@@ -78,7 +79,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   toggleSwitch,
   toggleValue = true,
   addCard = false,
-  onAddCardPress, // Destructure it
+  onAddCardPress, 
   msgIcon = false,
   favIcon = false,
   skip = false,
@@ -86,9 +87,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isPhone = false,
   isBackWhite = false,
   isProfile = false,
-  // navigation,
+  isCart = false,
 }) => {
-  // const navigation = useNavigation<NavigationProp<any>>();
   const navigation = useNavigation<NavigationProp<any>>();
   const [disputeOpen, setdisputeOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -190,13 +190,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {isBackWhite && (
             <TouchableOpacity
               style={styles.headerArrow}
-              // onPress={() => {
-              //   if (navigation) {
-              //     navigation.canGoBack()
-              //       ? navigation.goBack()
-              //       : navigation.navigate('Home' as never);
-              //   }
-              // }}
               activeOpacity={0.7}
             >
               <Image source={images.backWhite} style={styles.backArrow} />
@@ -205,13 +198,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {isClose && (
             <Pressable
               style={styles.headerArrow}
-              // onPress={() => {
-              //   if (navigation) {
-              //     navigation.canGoBack()
-              //       ? navigation.goBack()
-              //       : navigation.navigate('Home' as never);
-              //   }
-              // }}
             >
               {transparent ? (
                 <Image source={images.closeTopWhite} style={styles.closeTop} />
@@ -224,19 +210,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <Pressable style={styles.headerArrow} onPress={handleDrawer}>
               <Image source={images.DrawerImg} style={styles.menuIcon} />
               <Image
-                // source={
-                //   menuSecond === 'MenuColor' ? images.menuImg : images.menuImg
-                // }
                 source={images.drawerIcon}
                 style={styles.menuIcon}
               />
             </Pressable>
           )}
-          {/* {isMenuSec && (
-            <Pressable style={styles.headerArrow} onPress={handleDrawer}> 
-                <Image source={images.MenuColor} style={styles.menuIcon}/>
-            </Pressable>
-          )} */}
           <Text
             style={[
               styles.MainHeaderText,
@@ -272,9 +250,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   }
                   style={styles.bellImg}
                 />
-                {/* <View style={styles.headerBellNoti}>
-                <Text style={styles.notiText}>1</Text>
-              </View> */}
               </TouchableOpacity>
             </View>
           )}
@@ -294,7 +269,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 activeOpacity={0.6}
                 onPress={toggleDisputeModal}
               >
-                {/* onPress={handleChat} */}
                 <Image source={images.listImg} style={styles.bellImgSec} />
               </TouchableOpacity>
             </View>
@@ -314,7 +288,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </TouchableOpacity>
           )}
           {favIcon && (
-            <TouchableOpacity style={styles.headerBell}>
+            <TouchableOpacity style={styles.headerBell} activeOpacity={0.7} onPress={() => navigation.navigate("Favourites")}>
               <Image source={images.favIcon} style={styles.favIcon} />
             </TouchableOpacity>
           )}
@@ -341,7 +315,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               </View>
             </View>
           )}
-
           {isProfile && (
             <View style={styles.headerProfile}>
               <View style={{ flexDirection: 'row' }}>
@@ -370,6 +343,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </TouchableOpacity>
               </View>
             </View>
+          )}
+          {isCart && (
+            <TouchableOpacity activeOpacity={0.7} style={styles.headerBell} onPress={() => navigation.navigate("Cart")}>
+              <Image source={images.cartIcon} style={styles.cartIconImg}/>
+            </TouchableOpacity>
           )}
         </View>
       </SafeAreaView>
@@ -528,7 +506,6 @@ const styles = StyleSheet.create({
     height: width * 0.06,
     resizeMode: 'contain',
   },
-
   modalContainer: {
     flex: 1,
     backgroundColor: colors.white,
@@ -600,6 +577,12 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.md,
     color: colors.black,
   },
+  cartIconImg: {
+    width: width * 0.1,
+    height: width * 0.1,
+    resizeMode: 'contain',
+    right: width * 0.35
+  }
 });
 
 export default TopHeader;

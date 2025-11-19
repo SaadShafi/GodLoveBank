@@ -25,7 +25,7 @@ const CustomMultiInput: React.FC<CustomMultiInputProps> = ({
   inputHeight = 100,
   inputWidth = '100%',
   values = [],
-  borderWidth = 1,
+  borderWidth,
   borderColor,
   backgroundColor,
   borderRadius = 10,
@@ -40,9 +40,6 @@ const CustomMultiInput: React.FC<CustomMultiInputProps> = ({
       setInputText(values.join(', '));
     }
   }, [values]);
-
-  // const textColor =
-  //   backgroundColor === colors.white ? colors.gray : colors.white;
 
   return (
     <View style={styles.inputContainer}>
@@ -86,10 +83,10 @@ const styles = StyleSheet.create({
   inputWrapper: {
     paddingHorizontal: 12,
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: '#FF6A00',
+    // borderWidth: 1,
+    // borderColor: colors.Gray,
     borderRadius: 10,
-    backgroundColor: 'white',
+    backgroundColor: colors.Gray,
     textAlignVertical: 'top',
   },
   textInput: {

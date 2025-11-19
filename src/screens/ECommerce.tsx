@@ -6,8 +6,22 @@ import { colors } from "../utilities/colors";
 import images from "../assets/Images";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+
+interface Prop {
+    headText?: string;
+    headImg?: any;
+    authorName?: string;
+    rating?: string;
+    ratingIcon?: any;
+    amount?: string;
+    btnText?: string;
+    heartIcon?: any;
+}
 
 const ECommerce = () => {
+    const navigation = useNavigation<NavigationProp<any>>()
+
     const recommendedData = [
         {
             headText: "Dummy Text",
@@ -138,7 +152,7 @@ const ECommerce = () => {
         },
     ]
 
-    const renderRecommendedBooks = ({ item }) => {
+    const renderRecommendedBooks = ({ item }: {item: Prop}) => {
         return (
             <View style={styles.bookCard}>
                 <Image source={item.headImg} style={styles.bookImage} />
@@ -147,7 +161,9 @@ const ECommerce = () => {
                 </TouchableOpacity>
                 <View style={styles.ratingRow}>
                     <Image source={item.ratingIcon} style={styles.ratingIcon} />
-                    <Text style={styles.ratingText}>{item.rating}</Text>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Reviews")}>
+                        <Text style={styles.ratingText}>{item.rating}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ gap: height * 0.01 }}>
                     <Text style={styles.bookTitle}>{item.headText}</Text>
@@ -155,7 +171,7 @@ const ECommerce = () => {
                 </View>
                 <View style={styles.amountMain}>
                     <Text style={styles.amount}>{item.amount}</Text>
-                    <TouchableOpacity style={styles.addButton} activeOpacity={0.7}>
+                    <TouchableOpacity style={styles.addButton} activeOpacity={0.7} onPress={() => navigation.navigate("AddBook")}>
                         <Text style={styles.addButtonText}>{item.btnText}</Text>
                     </TouchableOpacity>
                 </View>
@@ -163,7 +179,7 @@ const ECommerce = () => {
         )
     };
 
-    const renderTrendingBooks = ({ item }) => {
+    const renderTrendingBooks = ({ item }: {item: Prop}) => {
         return (
             <View style={styles.bookCard}>
                 <Image source={item.headImg} style={styles.bookImage} />
@@ -172,7 +188,9 @@ const ECommerce = () => {
                 </TouchableOpacity>
                 <View style={styles.ratingRow}>
                     <Image source={item.ratingIcon} style={styles.ratingIcon} />
-                    <Text style={styles.ratingText}>{item.rating}</Text>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Reviews")}>
+                        <Text style={styles.ratingText}>{item.rating}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ gap: height * 0.01 }}>
                     <Text style={styles.bookTitle}>{item.headText}</Text>
@@ -188,7 +206,7 @@ const ECommerce = () => {
         )
     }
 
-    const renderCurriculum = ({ item }) => {
+    const renderCurriculum = ({ item }: {item: Prop}) => {
         return (
             <View style={styles.bookCard}>
                 <Image source={item.headImg} style={styles.bookImage} />
@@ -197,7 +215,9 @@ const ECommerce = () => {
                 </TouchableOpacity>
                 <View style={styles.ratingRow}>
                     <Image source={item.ratingIcon} style={styles.ratingIcon} />
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Reviews")}>
                     <Text style={styles.ratingText}>{item.rating}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ gap: height * 0.01 }}>
                     <Text style={styles.bookTitle}>{item.headText}</Text>
@@ -407,4 +427,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ECommerce;
+export default ECommerce; 

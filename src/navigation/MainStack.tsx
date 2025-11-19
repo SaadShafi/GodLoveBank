@@ -78,7 +78,10 @@ import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
 import BottomTabs from './BottomTabs';
-// import DrawerNav from './Drawer';
+import Reviews from '../screens/Reviews';
+import AddBook from '../screens/AddBook';
+import Favourites from '../screens/Favourites';
+import Chat from '../screens/Chat';
 
 export type StackParamList = {
   Register: undefined;
@@ -160,7 +163,9 @@ export type StackParamList = {
   OrderConfirmed: undefined;
   MyOrders: undefined;
   WriteReview: undefined;
-  DrawerNav: undefined;
+  Reviews: undefined;
+  AddBook: undefined;
+  Favourites: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -278,6 +283,10 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
       <Stack.Screen name="MyOrders" component={MyOrders} />
       <Stack.Screen name="WriteReview" component={WriteReview} />
+      <Stack.Screen name="Reviews" component={Reviews} />
+      <Stack.Screen name="AddBook" component={AddBook} />
+      <Stack.Screen name="Favourites" component={Favourites} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   );
 };

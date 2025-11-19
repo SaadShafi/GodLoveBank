@@ -17,4 +17,5 @@ export const colors: { [key: string]: string } = {
   sheetcolor: '#F6F6F6',
   darkRed: '#DA1212',
   purple: '#282634',
+  midGray: "#cbc9c9ff"
 };

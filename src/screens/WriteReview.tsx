@@ -9,6 +9,7 @@ import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
 import StarRating from "react-native-star-rating-widget";
 import { useState } from "react";
+import CustomMultiInput from "../components/CustomMultiInput";
 
 const WriteReview = () => {
     const navigation = useNavigation<NavigationProp<any>>()
@@ -42,13 +43,33 @@ const WriteReview = () => {
                             rating={rating}
                             onChange={setRating}
                             maxStars={5}
-                            starSize={width * 0.1}
+                            starSize={width * 0.12}
                             color={colors.yellow}
                             starStyle={styles.starRating}
                             emptyColor={colors.Gray}
                             style={styles.starRating}
                         />
+                        <CustomMultiInput
+                            inputHeight={height * 0.17}
+                            inputWidth={width * 0.85}
+                            placeholder="Write A Review Here....."
+                            placeholderTextColor={colors.black}
+                            backgroundColor={colors.midGray}
+                            borderRadius={10}
+                        />
                     </View>
+                </View>
+
+                <View style={styles.btnMain}>
+                    <CustomButton
+                        btnHeight={height * 0.06}
+                        btnWidth={width * 0.85}
+                        backgroundColor={colors.marhoon}
+                        text="Submit Review"
+                        textColor={colors.white}
+                        borderRadius={20}
+                        // onPress={() => navigation.navigate("Reviews")}
+                    />
                 </View>
             </View>
         </View>
@@ -118,10 +139,15 @@ const styles = StyleSheet.create({
         color: colors.black,
     },
     starRating: {
-        borderColor: colors.black
+        alignItems: "center"
     },
     ratingMain: {
-        marginTop: height * 0.03
+        marginTop: height * 0.03,
+        gap: height * 0.04,
+        alignItems: "center"
+    },
+    btnMain: {
+        marginTop: height * 0.33
     }
 })
 
