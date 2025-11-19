@@ -2,15 +2,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import MainStack from './src/navigation/MainStack';
 import { Provider } from 'react-redux';
-import { store } from "./src/redux/store"
+import { persistor, store } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ActivityIndicator } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App = () => {
   return (
-    // <Provider store={store}>
+    <GestureHandlerRootView style={{flex: 1}}>
+    <Provider store={store}>
+      <PersistGate  loading={<ActivityIndicator />} persistor={persistor}>
       <NavigationContainer>
         <MainStack />
       </NavigationContainer>
-    // </Provider>
+      </PersistGate>
+    </Provider>
+    </GestureHandlerRootView>
   );
 };
 

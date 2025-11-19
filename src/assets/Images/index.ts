@@ -145,7 +145,10 @@ const images: { [key: string]: ImageSourcePropType } = {
   addBook: require("../Images/addBook.png"),
   plusSign: require("../Images/plusSign.png"),
   minusSign: require("../Images/minusSign.png"),
-  chatImg: require("../Images/chatImg.png")
+  chatImg: require("../Images/chatImg.png"),
+  drawerProf: require("../Images/drawerProf.png"),
+  crossIcon: require("../Images/crossIcon.png"),
+  logoutIcon: require("../Images/logoutIcon.png"),
 };
 
 export default images;

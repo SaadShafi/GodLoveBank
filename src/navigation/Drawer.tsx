@@ -1,755 +1,402 @@
-// // import React from 'react';
-// // import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
-// // import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-
-// // import BottomTabs from './BottomTabs'; // ⬅ your existing tabs file
-// // import images from '../assets/Images';
-
-// // const Drawer = createDrawerNavigator();
-
-
-// // // ---------------------
-// // //  CUSTOM DRAWER UI
-// // // ---------------------
-// // function CustomDrawer(props) {
-// //   return (
-// //     <View style={styles.drawerContainer}>
-
-// //       {/* Top Profile Section */}
-// //       <View style={styles.topSection}>
-// //         <Image source={images.userProfile} style={styles.avatar} />
-
-// //         <View>
-// //           <Text style={styles.name}>Harden Scott</Text>
-// //           <Text style={styles.email}>harden.scott@example.com</Text>
-// //         </View>
-
-// //         {/* Close Drawer */}
-// //         <TouchableOpacity
-// //           onPress={() => props.navigation.closeDrawer()}
-// //           style={styles.closeBtn}
-// //         >
-// //           <Text style={{ color: "#fff", fontSize: 20 }}>✕</Text>
-// //         </TouchableOpacity>
-// //       </View>
-
-// //       {/* Drawer Menu */}
-// //       <DrawerContentScrollView contentContainerStyle={styles.menuContainer}>
-        
-// //         <TouchableOpacity
-// //           style={styles.menuBtn}
-// //           onPress={() => props.navigation.navigate("HomeDrawer")}
-// //         >
-// //           <Text style={styles.menuText}>Home</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity style={styles.menuBtn}>
-// //           <Text style={styles.menuText}>My Orders</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity style={styles.menuBtn}>
-// //           <Text style={styles.menuText}>Favourites</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity style={styles.menuBtn}>
-// //           <Text style={styles.menuText}>Get Help</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity style={styles.menuBtn}>
-// //           <Text style={styles.menuText}>Payment Methods</Text>
-// //         </TouchableOpacity>
-
-// //       </DrawerContentScrollView>
-
-// //       {/* Logout */}
-// //       <TouchableOpacity style={styles.logoutBtn}>
-// //         <Text style={styles.logoutText}>Logout</Text>
-// //       </TouchableOpacity>
-// //     </View>
-// //   );
-// // }
-
-
-// // // ---------------------
-// // //  DRAWER NAVIGATION
-// // // ---------------------
-// // export default function DrawerNav() {
-// //   return (
-// //     <Drawer.Navigator
-// //       screenOptions={{
-// //         headerShown: false,
-// //         drawerType: "front",
-// //         overlayColor: "rgba(0,0,0,0.5)",
-// //         drawerStyle: {
-// //           width: "75%",
-// //           backgroundColor: "transparent"
-// //         }
-// //       }}
-// //       drawerContent={(props) => <CustomDrawer {...props} />}
-// //     >
-// //       {/* Home loads your Bottom Tabs */}
-// //       <Drawer.Screen name="Home" component={BottomTabs} />
-// //     </Drawer.Navigator>
-// //   );
-// // }
-
-
-// // // ---------------------
-// // //  STYLES
-// // // ---------------------
-// // const styles = StyleSheet.create({
-// //   drawerContainer: {
-// //     flex: 1,
-// //     backgroundColor: "#fff",
-// //     borderTopRightRadius: 40,
-// //     borderBottomRightRadius: 40,
-// //     overflow: "hidden",
-// //   },
-
-// //   topSection: {
-// //     backgroundColor: "#4C0F0D",
-// //     padding: 20,
-// //     borderTopRightRadius: 40,
-// //   },
-
-// //   avatar: {
-// //     width: 55,
-// //     height: 55,
-// //     borderRadius: 30,
-// //     marginBottom: 12,
-// //   },
-
-// //   name: {
-// //     color: "#fff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-
-// //   email: {
-// //     color: "#ddd",
-// //     fontSize: 12,
-// //   },
-
-// //   closeBtn: {
-// //     position: "absolute",
-// //     right: 20,
-// //     top: 20,
-// //   },
-
-// //   menuContainer: {
-// //     paddingHorizontal: 20,
-// //     paddingTop: 20,
-// //   },
-
-// //   menuBtn: {
-// //     backgroundColor: "#F6F6F6",
-// //     paddingVertical: 15,
-// //     paddingHorizontal: 20,
-// //     borderRadius: 12,
-// //     marginBottom: 15,
-// //   },
-
-// //   menuText: {
-// //     fontSize: 15,
-// //     color: "#000",
-// //   },
-
-// //   logoutBtn: {
-// //     backgroundColor: "#FF6A6A",
-// //     padding: 15,
-// //     borderRadius: 12,
-// //     margin: 20,
-// //   },
-
-// //   logoutText: {
-// //     color: "#fff",
-// //     fontSize: 16,
-// //     fontWeight: "bold",
-// //     textAlign: "center",
-// //   },
-// // });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import {
-//   CommonActions,
-//   NavigationProp,
-//   useNavigation,
-// } from '@react-navigation/native';
-// import { useState } from 'react';
-// import {
-//   Image,
-//   Modal,
-//   Platform,
-//   SafeAreaView,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from 'react-native';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fontFamily } from '../assets/Fonts';
-// import images from '../assets/Images';
-// import CustomButton from '../components/CustomButton';
-// import { logout } from '../redux/slice/authSlice';
-// import { removeUser } from '../redux/slice/roleSlice';
-// import { RootState } from '../redux/store';
-// import { height, width } from '../utilities';
-// import { colors } from '../utilities/colors';
-// import { fontSizes } from '../utilities/fontsizes';
-// import DriverStack from './DriverStack';
-// import UserStack from './UserStack';
-// import Toast from 'react-native-toast-message';
-
-// const CustomDrawerContent = (props: any) => {
-//   const selectedRole = useSelector(
-//     (state: RootState) => state.role.selectedRole,
-//   );
-//   const navigation = useNavigation<NavigationProp<any>>();
-//   const dispatch = useDispatch();
-//   const [modalOpen, setModalOpen] = useState(false);
-//   const User = useSelector((state: RootState) => state.role.user)
-//   console.log("User from redux in the Drawer!", User)
-
-//   const toggleModal = () => {
-//     setModalOpen(!modalOpen);
-//   };
-
-//   const handleLogout = () => {
-//     dispatch(removeUser());
-//     dispatch(logout());
-
-//     setModalOpen(false);
-
-//     Toast.show({
-//       type: 'success',
-//       text1: 'Success',
-//       text2: 'Profile Logged out Successfully',
-//     });
-
-//     navigation.dispatch(
-//       CommonActions.reset({
-//         index: 0,
-//         routes: [{ name: 'AuthStack' }],
-//       }),
-//     );
-
-//     console.log('User logged out successfully');
-//   };
-
-//   const handleHomeNavigation = () => {
-//     if (selectedRole === 'user') {
-//       navigation.navigate('UserApp', { screen: 'HomeUser' });
-//     } else if (selectedRole === 'driver') {
-//       navigation.navigate('DriverApp', { screen: 'HomeDriver' });
-//     }
-//     props.navigation.closeDrawer();
-//   };
-
-//   const handleNavigation = (routeName: string) => {
-//     if (selectedRole === 'user') {
-//       navigation.navigate('UserApp', { screen: routeName });
-//     } else if (selectedRole === 'driver') {
-//       navigation.navigate('DriverApp', { screen: routeName });
-//     }
-//     props.navigation.closeDrawer();
-//   };
-
-//   const UserDrawerList = [
-//     {
-//       title: 'Home',
-//       icon: images.homeIcon,
-//       screen: 'HomeUser',
-//     },
-//     {
-//       title: 'Booking History',
-//       icon: images.historyIcon,
-//       screen: 'History',
-//     },
-//     {
-//       title: 'Schedule',
-//       icon: images.scheduleIcon,
-//       screen: 'Schedule',
-//     },
-//     {
-//       title: 'Wallet',
-//       icon: images.walletIcon,
-//       screen: 'WalletUser',
-//     },
-//     {
-//       title: 'Settings',
-//       icon: images.settingsIcon,
-//       screen: 'Settings',
-//     },
-//     {
-//       title: 'Help & Support',
-//       icon: images.helpSupportIcon,
-//       screen: 'HelpSupport',
-//     },
-//     {
-//       title: 'Logout',
-//       icon: images.logoutIcon,
-//       screen: 'Logout',
-//       onPress: () => toggleModal(),
-//     },
-//   ];
-
-//   const DriverDrawerList = [
-//     {
-//       title: 'Home',
-//       icon: images.homeIcon,
-//       screen: 'HomeDriver',
-//     },
-//     {
-//       title: 'Wallet',
-//       icon: images.walletIcon,
-//       screen: 'Wallet',
-//     },
-//     {
-//       title: 'Booking History',
-//       icon: images.historyIcon,
-//       screen: 'History',
-//     },
-//     {
-//       title: 'Payment History',
-//       icon: images.historyIcon,
-//       screen: 'PaymentHistory',
-//     },
-//     {
-//       title: 'Settings',
-//       icon: images.settingsIcon,
-//       screen: 'Settings',
-//     },
-//     {
-//       title: 'Help & Support',
-//       icon: images.helpSupportIcon,
-//       screen: 'HelpSupport',
-//     },
-//     {
-//       title: 'Logout',
-//       icon: images.logoutIcon,
-//       screen: 'Logout',
-//       onPress: () => toggleModal(),
-//     },
-//   ];
-
-//   const handleRoleModeNavigation = () => {
-//     // dispatch(removeUser());
-//     // dispatch(logout());
-//     navigation.navigate('RoleSwitch');
-//   };
-
-//   const truncateText = (text: string, maxLength: number) => {
-//     if (!text) return '';
-//     return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
-//   };
-
-//   return (
-//     <View style={styles.gradientContainer}>
-//       <View style={styles.gradientTop} />
-//       <View style={styles.gradientMiddle}>
-//         <Image source={images.drawerBg} style={styles.drawerBgImg} />
-//       </View>
-//       <SafeAreaView style={styles.container}>
-//         <TouchableOpacity
-//           style={styles.closeButton}
-//           onPress={() => props.navigation.closeDrawer()}
-//         >
-//           <Image source={images.drawerBack} style={styles.drawerBackIcon} />
-//           <Text style={styles.closeButtonText}> Close</Text>
-//         </TouchableOpacity>
-//         <View style={styles.profileSection}>
-//           <TouchableOpacity
-//             style={{ right: width * 0.04 }}
-//             activeOpacity={0.7}
-//             onPress={() => navigation.navigate('Profile')}
-//           >
-//             <Image
-//               source={
-//                 User?.profile_picture
-//                   ? { uri: `https://api.traveloservices.com/uploads/profile-pictures/${User.profile_picture.replace(/^\//, '')}` }
-//                   : images.drawerProf
-//               }
-//               style={styles.profileImage}
-//               onError={(e) => console.log('❌ Image failed to load:', e.nativeEvent.error)}
-//               onLoad={() => console.log('✅ Profile image loaded successfully')}
-//             />
-//           </TouchableOpacity>
-
-//           <View style={styles.profileTextContainer}>
-//             <Text style={styles.profileName}>{User?.full_name || "Name"}</Text>
-//             <Text style={styles.profileEmail}>{truncateText(User?.email || "info@yourmail.com", 15)}</Text>
-//           </View>
-//         </View>
-//         <View style={styles.menuContainer}>
-//           {
-//             UserDrawerList.map((data, index) => (
-//               <View style={styles.menuItemMain} key={index}>
-//                 <TouchableOpacity
-//                   style={styles.menuItem}
-//                   onPress={() => {
-//                     if (data.onPress) {
-//                       data.onPress();
-//                     } else {
-//                       handleNavigation(data.screen);
-//                     }
-//                   }}
-//                   activeOpacity={0.5}
-//                 >
-//                   <Image source={data.icon} style={styles.menuIcon} />
-//                   <Text style={styles.menuText}>{data.title}</Text>
-//                 </TouchableOpacity>
-//               </View>
-// }
-//         </View>
-//         <Modal
-//           animationType="fade"
-//           transparent={true}
-//           visible={modalOpen}
-//           onRequestClose={() => setModalOpen(false)}
-//         >
-//           <View style={styles.modalOverlay}>
-//             <View style={styles.modalContainer}>
-//               <Text style={styles.modalTitle}>Logout</Text>
-//               <Text style={styles.modalMessage}>
-//                 Are you sure you want to logout?
-//               </Text>
-//               <View style={styles.modalButtons}>
-//                 <CustomButton
-//                   text="Cancel"
-//                   textColor={colors.black}
-//                   btnHeight={height * 0.05}
-//                   btnWidth={width * 0.33}
-//                   backgroundColor={colors.gray}
-//                   borderRadius={10}
-//                   onPress={toggleModal}
-//                 />
-//                 <CustomButton
-//                   text="Logout"
-//                   textColor={colors.white}
-//                   btnHeight={height * 0.05}
-//                   btnWidth={width * 0.33}
-//                   backgroundColor={colors.brown}
-//                   borderRadius={10}
-//                   onPress={handleLogout}
-//                 />
-//               </View>
-//             </View>
-//           </View>
-//         </Modal>
-//         {selectedRole === 'user' && (
-//           <View style={styles.driverModeContainer}>
-//             <TouchableOpacity
-//               style={styles.driverModeButton}
-//               onPress={handleRoleModeNavigation}
-//             >
-//               <Text style={styles.driverModeText}>Driver Mode</Text>
-//             </TouchableOpacity>
-//           </View>
-//         )}
-//         {selectedRole === 'driver' && (
-//           <View style={styles.driverModeContainer}>
-//             <TouchableOpacity
-//               style={styles.driverModeButton}
-//               onPress={handleRoleModeNavigation}
-//             >
-//               <Text style={styles.driverModeText}>User Mode</Text>
-//             </TouchableOpacity>
-//           </View>
-//         )}
-//       </SafeAreaView>
-//     </View>
-//   );
-// };
-
-// const Drawer = () => {
-//   const Drawer = createDrawerNavigator();
-//   const selectedRole = useSelector(
-//     (state: RootState) => state.role.selectedRole,
-//   );
-
-//   return (
-//     <Drawer.Navigator
-//       drawerContent={props => <CustomDrawerContent {...props} />}
-//       screenOptions={{
-//         headerShown: false,
-//         drawerType: 'slide',
-//         overlayColor: 'rgba(0,0,0,0.5)',
-//         drawerStyle: {
-//           flex: 1,
-//           width: '70%',
-//           backgroundColor: colors.transparent,
-//         },
-//       }}
-//     >
-//       {selectedRole === 'user' && (
-//         <Drawer.Screen
-//           name="UserApp"
-//           component={UserStack}
-//           options={{ swipeEnabled: false }}
-//         />
-//       )}
-//       {selectedRole === 'driver' && (
-//         <Drawer.Screen
-//           name="DriverApp"
-//           component={DriverStack}
-//           options={{ swipeEnabled: false }}
-//         />
-//       )}
-//     </Drawer.Navigator>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   gradientContainer: {
-//     flex: 1,
-//     borderTopRightRadius: 20,
-//     borderBottomRightRadius: 20,
-//     position: 'relative',
-//     backgroundColor: colors.white,
-//   },
-//   gradientTop: {
-//     position: 'absolute',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     height: height * 0.125,
-//     backgroundColor: colors.brown,
-//   },
-//   gradientMiddle: {
-//     position: 'absolute',
-//     top: height * 0.12,
-//     height: height * 0.09,
-//     right: -width * 0.001,
-//   },
-//   drawerBgImg: {
-//     width: width * 0.9,
-//     height: height * 0.9,
-//     resizeMode: 'cover',
-//   },
-//   container: {
-//     flex: 1,
-//     paddingHorizontal: 20,
-//     backgroundColor: 'transparent',
-//     zIndex: 1,
-//   },
-//   drawerBackIcon: {
-//     width: width * 0.04,
-//     height: height * 0.04,
-//     resizeMode: 'contain',
-//   },
-//   closeButton: {
-//     paddingTop: height * 0.03,
-//     paddingBottom: height * 0.02,
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     width: width * 0.19,
-//   },
-//   closeButtonText: {
-//     color: colors.white,
-//     fontSize: fontSizes.md,
-//     fontFamily: fontFamily.ClashDisplayMedium,
-//   },
-//   profileSection: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingVertical: 20,
-//     paddingHorizontal: 10,
-//   },
-//   profileImage: {
-//     width: width * 0.25,
-//     height: height * 0.085,
-//     resizeMode: 'contain',
-//   },
-//   profileTextContainer: {
-//     right: width * 0.03,
-//   },
-//   profileName: {
-//     fontSize: fontSizes.sm2,
-//     fontFamily: fontFamily.ClashDisplayMedium,
-//     color: colors.black,
-//   },
-//   profileEmail: {
-//     fontSize: fontSizes.sm,
-//     fontFamily: fontFamily.ClashDisplayRegular,
-//     color: colors.black,
-//   },
-//   menuContainer: {
-//     flex: 1,
-//     paddingTop: height * 0.03,
-//   },
-//   menuItem: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingHorizontal: 10,
-//   },
-//   menuItemMain: {
-//     height: height * 0.06,
-//     width: width * 0.68,
-//     right: width * 0.03,
-//     justifyContent: 'center',
-//     borderBottomWidth: 0.9,
-//     borderBottomColor: '#EFEFEF',
-//   },
-//   menuIcon: {
-//     marginRight: 15,
-//     width: width * 0.09,
-//     resizeMode: 'contain',
-//     textAlign: 'center',
-//   },
-//   menuText: {
-//     fontSize: fontSizes.sm2,
-//     fontFamily: fontFamily.ClashDisplayMedium,
-//     color: colors.black,
-//   },
-//   logoutSection: {
-//     paddingVertical: 20,
-//   },
-//   logoutButton: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingVertical: 15,
-//     paddingHorizontal: 10,
-//   },
-//   logoutIcon: {
-//     fontSize: 20,
-//     marginRight: 15,
-//     color: colors.brown,
-//   },
-//   logoutText: {
-//     fontSize: 16,
-//     fontFamily: fontFamily.JakartaRegular,
-//     color: colors.shadeBlack,
-//   },
-//   driverModeContainer: {
-//     paddingBottom: 30,
-//     paddingHorizontal: 10,
-//   },
-//   driverModeButton: {
-//     backgroundColor: colors.shadeBlack,
-//     paddingVertical: 15,
-//     paddingHorizontal: 20,
-//     borderRadius: 25,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   driverModeText: {
-//     color: colors.white,
-//     fontSize: 16,
-//     fontFamily: fontFamily.JakartaMedium,
-//   },
-
-//   modalOverlay: {
-//     position: 'absolute',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     bottom: 0,
-//     backgroundColor: 'rgba(0, 0, 0, 0.61)',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   modalContainer: {
-//     backgroundColor: colors.white,
-//     padding: 20,
-//     borderRadius: 15,
-//     width: width * 0.8,
-//     alignItems: 'center',
-//   },
-//   modalTitle: {
-//     fontSize: fontSizes.lg2,
-//     fontFamily: fontFamily.ClashDisplayMedium,
-//     color: colors.black,
-//     marginBottom: 10,
-//   },
-//   modalMessage: {
-//     fontSize: fontSizes.md,
-//     fontFamily: fontFamily.ClashDisplayRegular,
-//     color: colors.darkGray,
-//     textAlign: 'center',
-//     marginBottom: 20,
-//   },
-//   modalButtons: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     width: '100%',
-//     gap: height * 0.02,
-//   },
-//   modalButton: {
-//     flex: 1,
-//     paddingVertical: 12,
-//     borderRadius: 8,
-//     alignItems: 'center',
-//   },
-//   cancelButton: {
-//     backgroundColor: colors.gray,
-//   },
-//   logoutConfirmButton: {
-//     backgroundColor: colors.brown,
-//   },
-//   cancelButtonText: {
-//     color: colors.black,
-//     fontFamily: fontFamily.JakartaMedium,
-//     fontSize: fontSizes.md,
-//   },
-//   logoutConfirmText: {
-//     color: colors.white,
-//     fontFamily: fontFamily.JakartaMedium,
-//     fontSize: fontSizes.md,
-//   },
-// });
-
-// export default Drawer;
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
+import { useState } from 'react';
+import {
+  Image,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { fontFamily } from '../assets/Fonts';
+import images from '../assets/Images';
+import CustomButton from '../components/CustomButton';
+import { logout } from '../redux/slice/authSlice';
+import { removeUser } from '../redux/slice/roleSlice';
+import { RootState } from '../redux/store';
+import { height, width } from '../utilities';
+import { colors } from '../utilities/colors';
+import { fontSizes } from '../utilities/fontsizes';
+import MainStack from './MainStack';
+import BottomTabs from './BottomTabs';
+import { hideLoader } from '../redux/slice/screenSlice';
+
+const Drawer = createDrawerNavigator();
+
+const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerType: 'slide',
+        overlayColor: 'rgba(0,0,0,0.5)',
+        drawerStyle: {
+          flex: 1,
+          width: '70%',
+          backgroundColor: colors.transparent,
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="MainApp"
+        component={BottomTabs}
+        options={{ swipeEnabled: false }}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+const CustomDrawerContent = (props: any) => {
+  const navigation = useNavigation<NavigationProp<any>>();
+  const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
+  const User = useSelector((state: RootState) => state.role.user);
+
+  console.log("User from redux in the Drawer!", User);
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(removeUser());
+    dispatch(logout());
+    setModalOpen(false);
+
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Onboarding' }],
+      }),
+    );
+  };
+
+  const handleNavigation = (routeName: string) => {
+    navigation.navigate(routeName);
+    props.navigation.closeDrawer();
+  };
+
+  const UserDrawerList = [
+    {
+      title: 'Home',
+      screen: 'Home',
+    },
+    {
+      title: 'My Orders',
+      screen: 'MyOrders',
+    },
+    {
+      title: 'Favourites',
+      screen: 'Favourites',
+    },
+    {
+      title: 'Get Help',
+      screen: 'CustomerSupport',
+    },
+    {
+      title: 'Payment Methods',
+      screen: 'PaymentMethod',
+    },
+  ];
+
+  return (
+    <View style={styles.gradientContainer}>
+      <View style={styles.gradientTop} />
+      <View style={styles.gradientMiddle}>
+        <Image source={images.drawerBg} style={styles.drawerBgImg} />
+      </View>
+      <SafeAreaView style={styles.container}>
+
+        <View style={styles.profileSection}>
+          <TouchableOpacity
+            style={{ right: width * 0.04 }}
+            activeOpacity={0.7}
+          >
+            <Image
+              source={images.drawerProf}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.profileTextContainer}>
+            <Text style={styles.profileName}>Harden Scott</Text>
+            <Text style={styles.profileEmail}>hardenScott@example.com</Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={() => {
+          props.navigation.closeDrawer();
+        }}>
+          <Image source={images.crossIcon} style={styles.closeButton} />
+        </TouchableOpacity>
+
+        <View style={styles.menuContainer}>
+          {UserDrawerList.map((data, index) => (
+            <View style={styles.menuItemMain} key={index}>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => {
+                  if (data.onPress) {
+                    data.onPress();
+                  } else {
+                    handleNavigation(data.screen);
+                  }
+                }}
+                activeOpacity={0.5}
+              >
+                <Text style={styles.menuText}>{data.title}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.logoutMain} activeOpacity={0.7} onPress={toggleModal}>
+          <Text style={styles.logoutText}>Logout</Text>
+          <Image source={images.logoutIcon} />
+        </TouchableOpacity>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalOpen}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.bottomContainer}>
+              <Text style={styles.modalTitle}>Logout</Text>
+
+              <Text style={styles.modalMessage}>
+                Are you sure you want to log out?
+              </Text>
+
+              <View style={styles.modalButtons}>
+                <CustomButton
+                  btnHeight={height * 0.06}
+                  btnWidth={width * 0.43}
+                  text='Cancel'
+                  textColor={colors.black}
+                  borderWidth={1}
+                  borderColor={colors.black}
+                  backgroundColor={colors.white}
+                  borderRadius={30}
+                  onPress={toggleModal}
+                />
+                <CustomButton
+                  btnHeight={height * 0.06}
+                  btnWidth={width * 0.43}
+                  text='Yes, Logout'
+                  textColor={colors.white}
+                  backgroundColor={colors.logoutColor}
+                  borderRadius={30}
+                  onPress={handleLogout}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </View>
+  );
+};
+
+
+const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40,
+    position: 'relative',
+    backgroundColor: colors.white,
+  },
+  gradientTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: height * 0.125,
+    backgroundColor: colors.darkmarhoon,
+  },
+  gradientMiddle: {
+    position: 'absolute',
+    top: height * 0.12,
+    height: height * 0.09,
+    right: -width * 0.001,
+    backgroundColor: colors.darkmarhoon
+  },
+  drawerBgImg: {
+    width: width * 0.9,
+    height: height * 0.9,
+    resizeMode: 'cover',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+    zIndex: 1,
+  },
+  drawerBackIcon: {
+    width: width * 0.04,
+    height: height * 0.04,
+    resizeMode: 'contain',
+  },
+  closeButton: {
+    width: width * 0.045,
+    resizeMode: "contain",
+    left: width * 0.55,
+    bottom: height * 0.025
+  },
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: colors.darkmarhoon,
+    top: height * 0.08
+  },
+  profileImage: {
+    width: width * 0.25,
+    height: height * 0.085,
+    resizeMode: 'contain',
+  },
+  profileTextContainer: {
+    right: width * 0.03,
+  },
+  profileName: {
+    fontSize: fontSizes.sm2,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.white,
+  },
+  profileEmail: {
+    fontSize: fontSizes.xsm,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.white,
+  },
+  menuContainer: {
+    flex: 1,
+    paddingTop: height * 0.1,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: width * 0.1,
+    backgroundColor: colors.lightGray,
+    padding: 19,
+    borderRadius: 30,
+    width: width * 0.5,
+  },
+  menuItemMain: {
+    height: height * 0.075,
+    width: width * 0.69,
+    justifyContent: 'center',
+    alignItems: "center",
+    right: width * 0.06,
+  },
+  menuText: {
+    fontSize: fontSizes.sm2,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.black,
+    width: width * 0.5,
+  },
+
+  logoutMain: {
+    backgroundColor: colors.logoutColor,
+    bottom: height * 0.06,
+    padding: 19,
+    borderRadius: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: width * 0.04
+  },
+  logoutText: {
+    fontFamily: fontFamily.GilroySemiBold,
+    fontSize: fontSizes.lg,
+    color: colors.white
+  },
+
+
+  // modalOverlay: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   left: 0,
+  //   right: 0,
+  //   bottom: 0,
+  //   backgroundColor: 'rgba(0, 0, 0, 0.61)',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // modalContainer: {
+  //   backgroundColor: colors.white,
+  //   padding: 20,
+  //   borderRadius: 15,
+  //   width: width * 0.8,
+  //   alignItems: 'center',
+  // },
+  // modalTitle: {
+  //   fontSize: fontSizes.lg2,
+  //   fontFamily: fontFamily.ClashDisplayMedium,
+  //   color: colors.black,
+  //   marginBottom: 10,
+  // },
+  // modalMessage: {
+  //   fontSize: fontSizes.md,
+  //   fontFamily: fontFamily.ClashDisplayRegular,
+  //   color: colors.darkGray,
+  //   textAlign: 'center',
+  //   marginBottom: 20,
+  // },
+  // modalButtons: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   width: '100%',
+  //   gap: height * 0.02,
+  // },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'flex-end',
+  },
+
+  bottomContainer: {
+    width: '100%',
+    backgroundColor: colors.white,
+    paddingVertical: 25,
+    paddingHorizontal: 20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    alignItems: 'center',
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+
+  modalTitle: {
+    fontSize: fontSizes.lg2,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.black,
+    marginBottom: 10,
+  },
+
+  modalMessage: {
+    fontSize: fontSizes.md,
+    fontFamily: fontFamily.GilroyMedium,
+    color: colors.darkGray,
+    textAlign: 'center',
+    marginBottom: 25,
+  },
+
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+});
+
+export default DrawerNavigator;

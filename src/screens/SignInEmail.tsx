@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -10,6 +10,8 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useDispatch } from 'react-redux';
+import { setFullName, setLogin, setUser, setUserEmail } from '../redux/slice/roleSlice';
 
 type Props = NativeStackScreenProps<StackParamList, 'Onboarding'>;
 
@@ -17,8 +19,30 @@ const SignInEmail = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   // const isFormValid = email.includes('@') && password.length > 5;
+
+  const handleLogin = () => {
+    const mockUser = {
+      email: email,
+      fullName: 'Test User',
+      role: 'user',
+    };
+    dispatch(setLogin());
+    dispatch(setUser(mockUser));
+    dispatch(setUserEmail(email));
+    dispatch(setFullName(mockUser.fullName));
+
+    console.log('Mock login successful');
+    // navigation.navigate("Home");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      }),
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -61,7 +85,8 @@ const SignInEmail = () => {
               backgroundColor={colors.marhoon}
               textColor={colors.white}
               borderRadius={20}
-              onPress={() => navigation.navigate('Home')}
+              // onPress={() => navigation.navigate('Home')}
+              onPress={handleLogin}
             />
           </View>
         </View>

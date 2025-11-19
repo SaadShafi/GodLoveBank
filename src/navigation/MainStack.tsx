@@ -82,6 +82,9 @@ import Reviews from '../screens/Reviews';
 import AddBook from '../screens/AddBook';
 import Favourites from '../screens/Favourites';
 import Chat from '../screens/Chat';
+import DrawerNavigator from './Drawer';
+import CustomerSupport from '../screens/CustomerSupport';
+import PaymentMethod from '../screens/PaymentMethod';
 
 export type StackParamList = {
   Register: undefined;
@@ -166,6 +169,9 @@ export type StackParamList = {
   Reviews: undefined;
   AddBook: undefined;
   Favourites: undefined;
+  Chat: undefined;
+  CustomerSupport: undefined;
+  PaymentMethod: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -190,8 +196,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
-      {/* <Stack.Screen name="Home" component={DrawerNav} /> */}
-      <Stack.Screen name="Home" component={BottomTabs} />
+      <Stack.Screen name="Home" component={DrawerNavigator} />
+      {/* <Stack.Screen name="Home" component={BottomTabs} /> */}
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
       <Stack.Screen name="SelfCourage" component={SelfCourage} />
@@ -287,6 +293,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="AddBook" component={AddBook} />
       <Stack.Screen name="Favourites" component={Favourites} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="CustomerSupport" component={CustomerSupport} />
+      <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
     </Stack.Navigator>
   );
 };
