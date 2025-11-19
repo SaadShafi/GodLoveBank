@@ -31,7 +31,7 @@ const Home = () => {
       title1: 'THE A-M-E-N ',
       title2: 'CLOSING SPIRITS',
       image: images.amen,
-      navigate: 'LoveDepositReps',
+      navigate: 'AmenPrinciples',
     },
     {
       id: '4',
@@ -45,77 +45,77 @@ const Home = () => {
       title1: 'LOVE DEPOSIT',
       title2: 'INTEREST REPS',
       image: images.Compounding,
-      navigate: 'LoveDepositReps',
+      navigate: 'DepositInterestReps',
     },
     {
       id: '6',
       title1: 'THE HOLY SPIRIT',
       title2: 'AAA CARD',
       image: images.card,
-      navigate: 'LoveDepositReps',
+      navigate: 'HolySpirits',
     },
     {
       id: '7',
       title1: 'THE DAILY PURPOSE',
       title2: 'PLANNER AND JOURNAL',
       image: images.planner,
-      navigate: 'LoveDepositReps',
+      navigate: 'PurposePlanner',
     },
     {
       id: '8',
       title1: 'LOVE DEPOSITS &',
       title2: 'WITHDRAWALS',
       image: images.deposits,
-      navigate: 'LoveDepositReps',
+      navigate: 'LoveDeposits',
     },
     {
       id: '9',
       title1: 'GOD’S PURPOSE ',
       title2: 'TOOLBOX',
       image: images.toolbox,
-      navigate: 'LoveDepositReps',
+      navigate: 'PurposeToolbox',
     },
     {
       id: '10',
       title1: 'SEVEN LAWS OF SOWING',
       title2: 'AND REAPING FAITH!',
       image: images.reapin,
-      navigate: 'LoveDepositReps',
+      navigate: 'SevenLaws',
     },
     {
       id: '11',
       title1: 'GLB RATIONALE:THREEFOLD',
       title2: 'SPIRITUAL BEING ',
       image: images.Compounding,
-      navigate: 'LoveDepositReps',
+      navigate: 'ThreeFoldSpirtual',
     },
     {
       id: '12',
       title1: 'PURPOSE',
       title2: 'INSTRUMENTAL GOALS',
       image: images.instruments,
-      navigate: 'LoveDepositReps',
+      navigate: 'PurposeInstrumental',
     },
     {
       id: '13',
       title1: 'THE FIVE STATIONS OF',
       title2: 'THE GIFT JOURNEY',
       image: images.stations,
-      navigate: 'LoveDepositReps',
+      navigate: 'GiftJourney',
     },
     {
       id: '14',
       title1: 'THE FIVE CARING ',
       title2: 'DEEDS OF THE BODY',
       image: images.deeds,
-      navigate: 'LoveDepositReps',
+      navigate: 'CaringDeeds',
     },
     {
       id: '15',
       title1: 'THE  100%',
       title2: 'PYRAMID!',
       image: images.pyramid,
-      navigate: 'LoveDepositReps',
+      navigate: 'Pyramid',
     },
     {
       id: '16',
@@ -180,7 +180,9 @@ const Home = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
-      <TopHeader isMenu={true} notification={true} isProfile={true} />
+      <View>
+        <TopHeader isMenu={true} notification={true} isProfile={true} />
+      </View>
       <FlatList
         data={data}
         keyExtractor={item => item.id}

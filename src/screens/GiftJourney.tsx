@@ -1,5 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const GiftJourney = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -18,9 +25,7 @@ const DailyPrayerMacro = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
+            <Text style={styles.headerText}>FIVE STATIONS OF GIFT JOURNEY</Text>
           }
         />
       </View>
@@ -30,56 +35,75 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
-        <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
-        </Text>
+        <Image source={images.giftjourney} style={styles.img} />
+        {/* <Text style={styles.mathew}>
+          FIVE DAILY CARING DEEDS OF THE HOUSE OF YOUR BODY (ROMANS 12:3)
+        </Text> */}
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          The FIRST STATION on the Gift Journey occurs when you own that God
+          Created you with a unique and special Gift. You arrive at the SECOND
+          STATION on your Gift Journey when you realize that God Called you to
+          discover your Gift and to share it with the world. The THIRD STATION
+          on the Gift Journey occurs when you realize that God uses your Clan to
+          help you find and understand the story behind your Gift. The FOURTH
+          STATION on your Gift Journey occurs when you decide which Career you
+          will use as the vehicle to display your Gift to the world. The FIFTH
+          STATION occurs when you merge all five Gift Stations together to find
+          and fulfill your unique and special Gift’s destiny through eternity!”
         </Text>
 
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
+        <Text style={styles.prayer}>
+          USE THE (5) STATIONS OF THE GIFT JOURNEY TO FIND YOUR GOD-GIVEN GIFT!
+        </Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
+              Seek to discover what you do absolute best with the least amount
+              of effort!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
+              Identify times in your life when you did something very well and
+              loved doing it!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
+              Try to remember things, you were good at as a child, that came
+              natural to you!
+            </Text>
+          </View>
+
+          <Text style={styles.mathew}>
+            CHOOSE ONE SKILL FROM THE LIST BELOW THAT YOU ARE BEST AT:
+          </Text>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text4}>
+              Is the dominate SKILL you are best at in life COGNITIVE---THINKING
+              SKILLS?
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text4}>
+              Is the dominate SKILL you are best at in life
+              COMMUNICATIVE---TALKING SKILLS?
             </Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -88,8 +112,10 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
@@ -180,6 +206,18 @@ const styles = StyleSheet.create({
     color: colors.black,
     width: width * 0.87,
   },
+  text4: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
+  text5: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
@@ -191,8 +229,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
@@ -200,4 +239,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DailyPrayerMacro;
+export default GiftJourney;

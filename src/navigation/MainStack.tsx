@@ -1,23 +1,53 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import AAACard from '../screens/AAACard';
+import AAACardHistory from '../screens/AAACardHistory';
+import AAARequestCardHistory from '../screens/AAARequestCardHistory';
+import AddDeliveryddress from '../screens/AddDeliveryAddress';
+import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
+import CaringDeeds from '../screens/CaringDeeds';
+import Cart from '../screens/Cart';
+import ChangePassword from '../screens/ChangePassword';
+import Checkout from '../screens/Checkout';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
+import DepositInterestReps from '../screens/DepositInterestReps';
+import DepositsSteps from '../screens/DepositsSteps';
+import ECommerce from '../screens/ECommerce';
+import EditProfile from '../screens/EditProfile';
+import FAQs from '../screens/FAQs';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
+import GiftJourney from '../screens/GiftJourney';
 import GodLoveBankCurriculum from "../screens/God'sLoveBankCurriculum";
 import GoldenRule from '../screens/GoldenRule';
 import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
-import Home from '../screens/Home';
+import HolySpirits from '../screens/HolySpirits';
 import HomeBase from '../screens/HomeBase';
+import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
+import LoveDeposits from '../screens/LoveDeposits';
+import MediaDetails from '../screens/MediaDetails';
+import MediaLibrary from '../screens/MediaLibrary';
+import MyOrders from '../screens/MyOrders';
+import NotificationsScreen from '../screens/Notifications';
 import Onboarding from '../screens/Onboarding';
+import OrderConfirmed from '../screens/OrderConfirmed';
 import OtpVerification from '../screens/OtpVerification';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
+import Profile from '../screens/Profile';
+import PurposeInstrumental from '../screens/PurposeInstrumental';
+import PurposePlanner from '../screens/PurposePlanner';
+import PurposeToolbox from '../screens/PurposeToolbox';
+import Pyramid from '../screens/Pyramid';
+import PyramidGoals from '../screens/PyramidGoals';
 import Questionnaire from '../screens/Questionnaire';
 import Register from '../screens/Register';
 import Registeration from '../screens/Registeration';
+import RepsHistory from '../screens/RepsHistory';
 import SecondBase from '../screens/SecondBase';
 import SelfConfidence from '../screens/SelfConfidence';
 import SelfCourage from '../screens/SelfCourage';
@@ -36,19 +66,18 @@ import SelfPurpose from '../screens/SelfPurpose';
 import SelfRespect from '../screens/SelfRespect';
 import SelfWorth from '../screens/SelfWorth';
 import SetNewPassword from '../screens/SetNewPassword';
+import SevenLaws from '../screens/SevenLaws';
 import SignInEmail from '../screens/SignInEmail';
 import SpiritualGrowth from '../screens/SpiritualGrowth';
 import SpirtualGrowthStages from '../screens/SpirtualGrowthStages';
+import TermsConditions from '../screens/TermsConditions';
+import TheAmenPrinciple from '../screens/TheAmenPrinciple';
 import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
-import BottomTabs from './BottomTabs';
-import ECommerce from '../screens/ECommerce';
-import Cart from '../screens/Cart';
-import Checkout from '../screens/Checkout';
-import AddDeliveryddress from '../screens/AddDeliveryAddress';
-import OrderConfirmed from '../screens/OrderConfirmed';
-import MyOrders from '../screens/MyOrders';
+import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
+import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
+import BottomTabs from './BottomTabs';
 // import DrawerNav from './Drawer';
 
 export type StackParamList = {
@@ -93,9 +122,39 @@ export type StackParamList = {
   SelfLoveMindfulness: undefined;
   SpirtualGrowthStages: undefined;
   Thermostat: undefined;
+  Pyramid: undefined;
+  PyramidGoals: undefined;
+  CaringDeeds: undefined;
+  GiftJourney: undefined;
+  PurposeInstrumental: undefined;
+  InstrumentalGoals: undefined;
+  ThreeFoldSpirtual: undefined;
+  SevenLaws: undefined;
   BottomTabs: undefined;
+  PurposeToolbox: undefined;
+  Toolbox: undefined;
+  LoveDeposits: undefined;
+  DepositsSteps: undefined;
+  AmenPrinciples: undefined;
+  TheAmenPrinciple: undefined;
+  NotificationsScreen: undefined;
+  Profile: undefined;
+  TermsConditions: undefined;
+  PrivacyPolicy: undefined;
+  FAQs: undefined;
+  ChangePassword: undefined;
+  EditProfile: undefined;
+  DepositInterestReps: undefined;
+  RepsHistory: undefined;
+  HolySpirits: undefined;
+  AAACard: undefined;
   ECommerce: undefined;
   Cart: undefined;
+  AAACardHistory: undefined;
+  AAARequestCardHistory: undefined;
+  PurposePlanner: undefined;
+  MediaDetails: undefined;
+  MediaLibrary: undefined;
   Checkout: undefined;
   AddDeliveryddress: undefined;
   OrderConfirmed: undefined;
@@ -168,8 +227,52 @@ const MainStack: React.FC = () => {
       />
 
       <Stack.Screen name="Thermostat" component={Thermostat} />
+      <Stack.Screen name="Pyramid" component={Pyramid} />
+      <Stack.Screen name="PyramidGoals" component={PyramidGoals} />
+      <Stack.Screen name="CaringDeeds" component={CaringDeeds} />
+      <Stack.Screen name="GiftJourney" component={GiftJourney} />
+      <Stack.Screen
+        name="PurposeInstrumental"
+        component={PurposeInstrumental}
+      />
+
+      <Stack.Screen name="InstrumentalGoals" component={InstrumentalGoals} />
+      <Stack.Screen name="ThreeFoldSpirtual" component={ThreeFoldSpirtual} />
+      <Stack.Screen name="SevenLaws" component={SevenLaws} />
+      <Stack.Screen name="PurposeToolbox" component={PurposeToolbox} />
+      <Stack.Screen name="Toolbox" component={Toolbox} />
+      <Stack.Screen name="LoveDeposits" component={LoveDeposits} />
+      <Stack.Screen name="DepositsSteps" component={DepositsSteps} />
+      <Stack.Screen name="AmenPrinciples" component={AmenPrinciples} />
+      <Stack.Screen name="TheAmenPrinciple" component={TheAmenPrinciple} />
+      <Stack.Screen
+        name="NotificationsScreen"
+        component={NotificationsScreen}
+      />
+
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="TermsConditions" component={TermsConditions} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="FAQs" component={FAQs} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        name="DepositInterestReps"
+        component={DepositInterestReps}
+      />
+      <Stack.Screen name="RepsHistory" component={RepsHistory} />
+      <Stack.Screen name="HolySpirits" component={HolySpirits} />
+      <Stack.Screen name="AAACard" component={AAACard} />
       <Stack.Screen name="ECommerce" component={ECommerce} />
       <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="AAACardHistory" component={AAACardHistory} />
+      <Stack.Screen
+        name="AAARequestCardHistory"
+        component={AAARequestCardHistory}
+      />
+      <Stack.Screen name="PurposePlanner" component={PurposePlanner} />
+      <Stack.Screen name="MediaLibrary" component={MediaLibrary} />
+      <Stack.Screen name="MediaDetails" component={MediaDetails} />
       <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen name="AddDeliveryddress" component={AddDeliveryddress} />
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />

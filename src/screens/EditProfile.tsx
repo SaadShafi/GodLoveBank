@@ -14,7 +14,7 @@ import { fontSizes } from '../utilities/fontsizes';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
-const CreateProfile = () => {
+const EditProfile = () => {
   const [city, setCity] = useState('');
   const navigation = useNavigation<NavigationProp<any>>();
   const [country, setCountry] = useState('');
@@ -71,7 +71,7 @@ const CreateProfile = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <TopHeader text="Profile Setup" isBack={true} />
+      <TopHeader text="Edit Profile" isBack={true} />
       <View style={styles.container}>
         <View style={styles.imgMain}>
           <Image source={images.profile} style={styles.profileImg} />
@@ -171,48 +171,16 @@ const CreateProfile = () => {
 
         <View style={styles.btnMain}>
           <CustomButton
-            text="Continue"
+            text="Save & Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => setIsModalVisible(true)} // 👈 Show modal
+            onPress={() => navigation.navigate('Profile')}
           />
         </View>
       </View>
-
-      {/* ✅ Success Modal - placed outside container */}
-      {isModalVisible && (
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.iconCircle}>
-              <Image source={images.success} />
-            </View>
-            <Text style={styles.modalTitle}>Register Success</Text>
-            <View style={{ gap: height * 0.005 }}>
-              <Text style={styles.modalMessage}>
-                Congratulation! Your Account Is Created.
-              </Text>
-              <Text style={styles.modalMessage}>
-                Now You Can Easily Use This Application
-              </Text>
-            </View>
-            <View style={{ top: height * 0.02 }}>
-              <CustomButton
-                text="Let's Get Started!"
-                textColor={colors.white}
-                backgroundColor={colors.marhoon}
-                btnHeight={height * 0.06}
-                btnWidth={width * 0.65}
-                borderRadius={30}
-                // onPress={() => setIsModalVisible(false)}
-                onPress={() => navigation.navigate('Home')}
-              />
-            </View>
-          </View>
-        </View>
-      )}
     </View>
   );
 };
@@ -251,7 +219,7 @@ const styles = StyleSheet.create({
     width: width * 0.85,
   },
   btnMain: {
-    top: height * 0.2,
+    top: height * 0.28,
   },
   newHomeBaseWrapper: {
     width: width * 0.85,
@@ -294,7 +262,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: width * 0.8,
-    height: height * 0.38,
+    height: height * 0.35,
     backgroundColor: colors.white,
     borderRadius: 30,
     paddingVertical: height * 0.03,
@@ -329,4 +297,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateProfile;
+export default EditProfile;

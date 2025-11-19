@@ -1,5 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const Toolbox = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -17,11 +24,7 @@ const DailyPrayerMacro = () => {
       <View style={styles.mainContainer}>
         <TopHeader
           isBack={true}
-          text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
-          }
+          text={<Text style={styles.headerText}>GOD’S PURPOSE TOOLBOX</Text>}
         />
       </View>
 
@@ -30,56 +33,71 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
+        <Image source={images.godspurpose} style={styles.img} />
         <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
+          THE GOD'S PURPOSE TOOLBOX (LUKE 14:25-33)
         </Text>
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          God's Purpose Toolbox is one tool of thinking with four tools in the
+          toolbox. Each tool helps you discover God's purpose for your life. It
+          asserts that Jesus gives us five contexts for purpose discovery. The
+          first is the Context Of Your CREATION. The second is the Context Of
+          Your CALLING. The third is the Context Of Your Family CLAN. The fourth
+          context of purpose is the Context Of Your CAREER. And the fifth
+          context is the Context of Your CROSS. The other tools in the toolbox
+          are 2 The Five Components of Purpose Problem Solving, 3 The Five
+          Operations of Purpose Choice Making, and 4 The Five Seasons of Purpose
+          Fulfillment.
         </Text>
 
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
+        <Text style={styles.prayer}>
+          IDEAS ON WHEN AND HOW TO USE THE GOD'S PURPOSE TOOL!
+        </Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
+              When you want to find and fulfill God's lifelong purpose for your
+              life?
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
+              When you want to choose instrumental goals toward fulfillment of
+              purpose!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
+              When you have a problem, and you want to solve it based on God's
+              purpose!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text4}>
+              When you want to use the five components of problem solving know
+              history!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text4}>
+              When you want to know what season of your purpose fulfillment you
+              are in!
             </Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -88,8 +106,10 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
@@ -180,6 +200,18 @@ const styles = StyleSheet.create({
     color: colors.black,
     width: width * 0.87,
   },
+  text4: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
+  text5: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
@@ -191,8 +223,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
@@ -200,4 +233,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DailyPrayerMacro;
+export default Toolbox;

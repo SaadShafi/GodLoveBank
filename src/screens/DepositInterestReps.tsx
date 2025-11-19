@@ -1,5 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const DepositInterestReps = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -18,9 +25,7 @@ const DailyPrayerMacro = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
+            <Text style={styles.headerText}>COMPOUNDING INTEREST REPS</Text>
           }
         />
       </View>
@@ -30,56 +35,39 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
+        <Image source={images.reps} style={styles.img} />
         <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
+          LOVE DEPOSIT COMPOUNDING INTEREST REPS
         </Text>
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          You can measure, monitor, and score your Spiritual Growth by tracking
+          the number of Love Deposits Interest Reps you invest in the bank of
+          your soul on a daily basis. Every L/D Rep you make in your New
+          Self-Love Accounts strengthens your New Self-Love Mindfulness. You can
+          turn every withdrawal situation, challenge, problem, adversity or
+          defeating experience into a Love Deposit Rep in the bank accounts of
+          your soul. Much like lifting weights to build your physical strength,
+          L/D Reps builds your Spiritual Growth. They can be performed during
+          everyday activities—while walking, stretching, praying, breathing,
+          reading and studying your Bible—turning ordinary moments into Love
+          Deposit opportunities for your Spiritual Growth.
         </Text>
-
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
-
-        <View style={{ gap: height * 0.02, top: height * 0.04 }}>
-          <View style={styles.row}>
-            <Text style={styles.number}>1. </Text>
-            <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>2. </Text>
-            <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
-            </Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.number}>3. </Text>
-            <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
-            </Text>
-          </View>
+        <View style={styles.btn1}>
+          <CustomButton
+            text="Reps History"
+            textColor={colors.marhoon}
+            btnHeight={height * 0.06}
+            btnWidth={width * 0.85}
+            backgroundColor={colors.white}
+            borderColor={colors.marhoon}
+            borderWidth={1}
+            borderRadius={30}
+            onPress={() => navigation.navigate('RepsHistory')}
+          />
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -88,19 +76,21 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
           <CustomButton
-            text="Done"
+            text="Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('')}
           />
         </View>
       </View>
@@ -180,6 +170,18 @@ const styles = StyleSheet.create({
     color: colors.black,
     width: width * 0.87,
   },
+  text4: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
+  text5: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
@@ -191,13 +193,18 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
     top: height * 0.05,
   },
+  btn1: {
+    alignSelf: 'center',
+    top: height * 0.03,
+  },
 });
 
-export default DailyPrayerMacro;
+export default DepositInterestReps;

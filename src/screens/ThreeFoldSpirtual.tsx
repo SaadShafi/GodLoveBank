@@ -1,5 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +15,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DailyPrayerMacro = () => {
+const ThreeFoldSpirtual = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -18,9 +25,7 @@ const DailyPrayerMacro = () => {
         <TopHeader
           isBack={true}
           text={
-            <Text style={styles.headerText}>
-              The Daily Prayer Macro Strategy
-            </Text>
+            <Text style={styles.headerText}>THREEFOLD SPIRITUAL BEING </Text>
           }
         />
       </View>
@@ -30,56 +35,71 @@ const DailyPrayerMacro = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={images.prayeramacro} style={styles.img} />
+        <Image source={images.threefold} style={styles.img} />
         <Text style={styles.mathew}>
-          THE DAILY PRAYER MACRO STRATEGY (MATTHEW 6:9-13)
+          THE GOD's LOVE BANK RATIONALE (1 Thes. 5:23)
         </Text>
 
         <Text style={styles.description}>
-          The Daily Prayer Macro Strategy is designed to help you maintain your
-          single most important relationship with God to keep the main things,
-          the main things. You can stay in a state of prayer for a few minutes a
-          day or for 24 hours a day. The strategy in the Prayer Macro Strategy
-          employs the seven essential principles Jesus used in His own prayer
-          life in the acronym P-E-R-F-E-C-T. When you use it, it will daily
-          enhance your important relationships with Jesus, the Holy Spirit, and
-          God. It then becomes a vehicle God uses to talk to you through His
-          Holy Spirit, and for you to listen and talk back to Him. It is also a
-          powerful tool you can use to record your conversations and experiences
-          in the God’s Love Bank Journal and Planner.
+          The God's Love Bank Rationale or your threefold Spiritual being is
+          designed to help you reclaim the Original Self-Image given to you by
+          God in the beginning. It is your divine self, your supreme self, your
+          higher self, your best self, or your Old Self resurrected and made new
+          by the Holy Spirit to be your New Self. The God's Love Bank Rationale
+          asserts that your spirit who is the real you, your soul is your
+          personality, and your body is the house that you live in on earth. The
+          God's Love Bank Rationale also asserts that your spirit, soul, and
+          body function and operate as God's Love Bank in heaven and on earth,
+          not only in theory, but also in fact!
         </Text>
 
-        <Text style={styles.prayer}>WHEN AND HOW TO USE THE DAILY PRAYER</Text>
-        <Text style={styles.prayer}>MACRO STRATEGY!</Text>
+        <Text style={styles.prayer}>
+          Ideas on When and How to Use The God's Love Bank Rationale!
+        </Text>
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
             <Text style={styles.number}>1. </Text>
             <Text style={styles.text1}>
-              When you want to take your important relationship with God to the
-              next level!
+              When you want to own your threefold being as your original self
+              and true self image!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>2. </Text>
             <Text style={styles.text2}>
-              When you want to pray for your needs, desires and wants in your
-              devotional.
+              When you want to learn how to own your original identity from God
+              as the true you!
             </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.number}>3. </Text>
             <Text style={styles.text3}>
-              When you are struggling with fears, worries, doubts, and painful
-              concerns!
+              When you want to know the real you, your personality, and your
+              body as your house!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text4}>
+              When you want to own that your spirit, soul, body functions as
+              God's Love Bank!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text4}>
+              When you want to do business in the Marketplace of Kingdom of God
+              in your own soul!
             </Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -88,8 +108,10 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
@@ -180,6 +202,18 @@ const styles = StyleSheet.create({
     color: colors.black,
     width: width * 0.87,
   },
+  text4: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
+  text5: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.black,
+    width: width * 0.87,
+  },
   audioContainer: {
     backgroundColor: colors.purple,
     width: width,
@@ -191,8 +225,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',
@@ -200,4 +235,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DailyPrayerMacro;
+export default ThreeFoldSpirtual;

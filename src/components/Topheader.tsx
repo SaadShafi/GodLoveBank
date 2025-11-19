@@ -1,4 +1,4 @@
-import { DrawerActions, NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
@@ -41,45 +41,69 @@ interface TopHeaderProps {
   toggleSwitch?: (newState: any) => void;
   toggleValue?: boolean;
   addCard?: boolean;
+  onAddCardPress?: () => void; // Add this line
   msgIcon?: boolean;
+  favIcon?: boolean;
   skip?: boolean;
   list?: boolean;
   backIcon?: boolean;
   isPhone?: boolean;
   isBackWhite?: boolean;
   isProfile?: boolean;
-  isCart?: boolean;
-  isCross?: boolean;
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({
   text,
+  title,
+  backIcon,
   textIcon = false,
   transparent = false,
   isBack = false,
   isBackBlack = false,
+  steps,
   isMenu = false,
+  isMenuSec = false,
   notification = false,
   notificationImage,
+  menuSecond,
+  backSec,
+  add = false,
   isChat = false,
+  isWhite = false,
   isClose = false,
   setIsCompleted,
   isQr = false,
   isBlueBg = false,
+  statusToggle = false,
+  toggleSwitch,
+  toggleValue = true,
   addCard = false,
+  onAddCardPress, // Destructure it
   msgIcon = false,
+  favIcon = false,
   skip = false,
   list = false,
   isPhone = false,
   isBackWhite = false,
   isProfile = false,
-  isCart = false,
-  isCross = false
+  // navigation,
 }) => {
+  // const navigation = useNavigation<NavigationProp<any>>();
   const navigation = useNavigation<NavigationProp<any>>();
   const [disputeOpen, setdisputeOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  
+  const [reportModal, setReportModal] = useState(false);
+  const [blockModal, setBlockModal] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked3, setIsChecked3] = useState(false);
+  const [isChecked4, setIsChecked4] = useState(false);
+  const [isChecked5, setIsChecked5] = useState(false);
+  const [isChecked6, setIsChecked6] = useState(false);
+  const [isChecked7, setIsChecked7] = useState(false);
+  const [value, setValue] = useState({
+    reason: '',
+  });
 
   const toggleDisputeModal = () => {
     setdisputeOpen(!disputeOpen);
@@ -88,8 +112,36 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     setModalOpen(!modalOpen);
   };
 
+  const toggleReportModal = () => {
+    setdisputeOpen(false);
+    setReportModal(true);
+  };
+
+  const toggleBlockModal = () => {
+    setdisputeOpen(false);
+    setBlockModal(true);
+  };
+
   const handleDrawer = () => {
     // navigation.dispatch(DrawerActions.openDrawer());
+  };
+
+  const handlePress = () => {
+    setReportModal(false);
+    setdisputeOpen(true);
+  };
+
+  const handleBlockPress = () => {
+    setBlockModal(false);
+    // setdisputeOpen(true);
+  };
+
+  const handleOtherReasonChange = (text: string) => {
+    setValue(prev => ({ ...prev, reason: text }));
+  };
+
+  const handkeIconPressed = () => {
+    // navigation.navigate('editProfile')
   };
 
   useEffect(() => {
@@ -121,20 +173,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <Image source={images.backIcon} style={styles.backArrow} />
             </Pressable>
           )}
-          {isCross &&(
-            <Pressable
-              style={styles.headerArrow}
-              onPress={() => {
-                if (navigation) {
-                  navigation.canGoBack()
-                    ? navigation.goBack()
-                    : navigation.navigate('Home' as never);
-                }
-              }}
-            >
-              <Image source={images.cross} style={styles.backArrowSec} />
-            </Pressable>
-          )}
           {isBackBlack && (
             <Pressable
               style={styles.headerArrow}
@@ -146,10 +184,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 }
               }}
             >
-              <Image
-                source={images.isBack}
-                style={styles.backArrowBlack}
-              />
+              <Image source={images.isBack} style={styles.backArrowBlack} />
             </Pressable>
           )}
           {isBackWhite && (
@@ -197,6 +232,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               />
             </Pressable>
           )}
+          {/* {isMenuSec && (
+            <Pressable style={styles.headerArrow} onPress={handleDrawer}> 
+                <Image source={images.MenuColor} style={styles.menuIcon}/>
+            </Pressable>
+          )} */}
           <Text
             style={[
               styles.MainHeaderText,
@@ -206,19 +246,22 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             {text}
           </Text>
 
-          { textIcon && (
+          {textIcon && (
             <View>
-              <Text 
+              <Text
                 style={[
-                styles.MainHeaderText,
-                { color: transparent ? colors.white : colors.black },
-                ]}>{text}
+                  styles.MainHeaderText,
+                  { color: transparent ? colors.white : colors.black },
+                ]}
+              >
+                {text}
               </Text>
             </View>
           )}
           {notification && (
             <View style={styles.headerBell}>
               <TouchableOpacity
+                onPress={() => navigation.navigate('NotificationsScreen')}
               >
                 <Image source={images.bell} style={styles.bellImg} />
                 <Image
@@ -229,13 +272,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   }
                   style={styles.bellImg}
                 />
-              </TouchableOpacity>
-            </View>
-          )}
-          {isCart && (
-            <View style={styles.cartMain}>
-              <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Cart")}>
-                <Image source={images.cartIcon} style={styles.cartIcon} />
+                {/* <View style={styles.headerBellNoti}>
+                <Text style={styles.notiText}>1</Text>
+              </View> */}
               </TouchableOpacity>
             </View>
           )}
@@ -261,13 +300,22 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </View>
           )}
           {addCard && (
-            <TouchableOpacity style={styles.headerBell}>
-              <Text style={styles.addCardText}>Add Card</Text>
+            <TouchableOpacity
+              style={styles.headeraddCard}
+              onPress={onAddCardPress}
+            >
+              {/* <Text style={styles.addCardText}>Add Card</Text> */}
+              <Image source={images.addCard} />
             </TouchableOpacity>
           )}
           {msgIcon && (
             <TouchableOpacity style={styles.headerBell}>
               <Image source={images.messageIcon} style={styles.msgIcon} />
+            </TouchableOpacity>
+          )}
+          {favIcon && (
+            <TouchableOpacity style={styles.headerBell}>
+              <Image source={images.favIcon} style={styles.favIcon} />
             </TouchableOpacity>
           )}
           {skip && (
@@ -293,12 +341,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               </View>
             </View>
           )}
+
           {isProfile && (
             <View style={styles.headerProfile}>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('CallMain')}
+                  onPress={() => navigation.navigate('Profile')}
                 >
                   <Image
                     source={images.headerprofile}
@@ -307,7 +356,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('Chat')}
+                  onPress={() => navigation.navigate('Profile')}
                 >
                   <View
                     style={{
@@ -361,12 +410,12 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'center',
   },
-  cartMain: {
+  headeraddCard: {
     position: 'absolute',
     height: '100%',
     alignContent: 'center',
-    top: 0,
-    left: width * 0.71,
+    top: height * 0.001,
+    left: width * 0.78,
     justifyContent: 'center',
   },
   headerProfile: {
@@ -379,17 +428,12 @@ const styles = StyleSheet.create({
   },
   MainHeaderText: {
     fontSize: fontSizes.md,
-    fontFamily: fontFamily.GilroyBold,
+    fontFamily: fontFamily.UrbanistBold,
     color: colors.black,
   },
   backArrow: {
     width: width * 0.09,
     height: height * 0.09,
-    resizeMode: 'contain',
-  },
-    backArrowSec: {
-    width: width * 0.05,
-    height: height * 0.04,
     resizeMode: 'contain',
   },
   backArrowBlack: {
@@ -416,11 +460,7 @@ const styles = StyleSheet.create({
   },
   bellImg: {
     width: width * 0.11,
-    right: width * 0.25,
-    resizeMode: 'contain',
-  },
-  cartIcon: {
-    width: width * 0.11,
+    // height: width * 0.11,
     right: width * 0.25,
     resizeMode: 'contain',
   },
@@ -477,6 +517,11 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? width * 0.08 : height * 0.02,
     padding: Platform.OS === 'ios' ? 8 : 15,
     borderRadius: 30,
+  },
+  favIcon: {
+    left: width * 0.88,
+    top: height * 0.003,
+    resizeMode: 'contain',
   },
   bellImgSec: {
     width: width * 0.06,

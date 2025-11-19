@@ -112,7 +112,7 @@ const BaseballDiamond = () => {
         </View>
 
         <Text style={styles.worth}>WORTHLESSNESS</Text>
-        <View style={{ bottom: height * 0.155, left: width * 0.52 }}>
+        <View style={{ bottom: height * 0.17, left: width * 0.52 }}>
           <Image source={images.worth} style={styles.abandonmentImg} />
           <Text style={styles.One}>1</Text>
           <Text style={styles.firstBase}>1ST BASE</Text>
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    bottom: height * 0.065,
+    bottom: height * 0.085,
     left: width * 0.6,
   },
   chose: {
@@ -267,21 +267,21 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.xl,
     alignSelf: 'center',
     color: colors.white,
-    top: height * 0.03,
+    top: height * 0.02,
   },
   num: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.03,
-    left: width * 0.215,
+    top: height * 0.02,
+    left: width * 0.225,
   },
   One: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.03,
-    left: width * 0.215,
+    top: height * 0.02,
+    left: width * 0.225,
   },
   btnMain: {
     alignItems: 'center',
