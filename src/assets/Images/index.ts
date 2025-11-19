@@ -126,6 +126,18 @@ const images: { [key: string]: ImageSourcePropType } = {
   video: require('../Images/video.png'),
   amet: require('../Images/amet.png'),
   dolor: require('../Images/dolor.png'),
+  addIcon: require('../Images/addIcon.png'),
+  applePay: require('../Images/applePay.png'),
+  isBack: require('../Images/isBack.png'),
+  editIcon: require('../Images/editIcon.png'),
+  successCart: require('../Images/successCart.png'),
+  status: require('../Images/status.png'),
+  toggleBar: require('../Images/toggleBar.png'),
+  locationIcon: require('../Images/locationIcon.png'),
+  helpBtn: require('../Images/helpBtn.png'),
+  sendBtn: require('../Images/sendBtn.png'),
+  cameraIcon: require('../Images/cameraIcon.png'),
+  emojiIcon: require('../Images/emojiIcon.png'),
 };
 
 export default images;

@@ -79,17 +79,17 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     tabWrapper: {
-        width: width * 0.87,
-        height: height * 0.07,
+        width: width * 0.85,
+        height: height * 0.045,
         borderRadius: 30,
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
         alignSelf: 'center',
-        backgroundColor: colors.white,
+        backgroundColor: colors.lightGray,
         borderWidth: 1,
-        borderColor: colors.gray,
+        borderColor: colors.Gray,
         paddingHorizontal: width * 0.02,
     },
     tabContainer: {
@@ -104,22 +104,22 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: fontSizes.sm2,
         color: colors.black,
-        fontFamily: fontFamily.ClashDisplayRegular,
+        fontFamily: fontFamily.GilroyMedium,
     },
     activeText: {
         fontSize: fontSizes.md,
         color: colors.white,
-        fontFamily: fontFamily.ClashDisplayRegular,
+        fontFamily: fontFamily.GilroyMedium,
     },
     screenContainer: {
         height: height * 0.99,
         width: width,
     },
     tabActive: {
-        backgroundColor: colors.brown,
+        backgroundColor: colors.marhoon,
         borderRadius: 30,
-        height: height * 0.055,
-        top: height * 0.006,
+        height: height * 0.045,
+        right: width * 0.025
     },
 });
 

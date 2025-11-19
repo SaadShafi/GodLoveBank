@@ -127,7 +127,7 @@ const BottomTabs = () => {
                   width: 24,
                   height: 24,
                   resizeMode: 'contain',
-                  tintColor: focused ? colors.white : colors.Gray,
+                  tintColor: focused ? colors.lightGray : colors.Gray,
                 }}
               />
             </View>

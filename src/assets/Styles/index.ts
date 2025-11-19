@@ -71,7 +71,7 @@ export const globalStyle = StyleSheet.create({
         elevation: 5,
     },
     TextInputMain: {
-        backgroundColor: colors.inputBg,
+        backgroundColor: colors.lightGray,
         borderRadius: 7,
         alignItems: 'center',
         paddingHorizontal: 20,

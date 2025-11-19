@@ -18,6 +18,7 @@ import { fontSizes } from '../utilities/fontsizes';
 
 interface TopHeaderProps {
   text?: string;
+  textIcon?: boolean;
   title?: string;
   transparent?: boolean;
   isBack?: boolean;
@@ -55,6 +56,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   text,
   title,
   backIcon,
+  textIcon = false,
   transparent = false,
   isBack = false,
   isBackBlack = false,
@@ -174,18 +176,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {isBackBlack && (
             <Pressable
               style={styles.headerArrow}
-              // onPress={() => {
-              //   if (navigation) {
-              //     navigation.canGoBack()
-              //       ? navigation.goBack()
-              //       : navigation.navigate('Home' as never);
-              //   }
-              // }}
+              onPress={() => {
+                if (navigation) {
+                  navigation.canGoBack()
+                    ? navigation.goBack()
+                    : navigation.navigate('Home' as never);
+                }
+              }}
             >
-              <Image
-                source={images.backIconBlack}
-                style={styles.backArrowBlack}
-              />
+              <Image source={images.isBack} style={styles.backArrowBlack} />
             </Pressable>
           )}
           {isBackWhite && (
@@ -246,6 +245,19 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           >
             {text}
           </Text>
+
+          {textIcon && (
+            <View>
+              <Text
+                style={[
+                  styles.MainHeaderText,
+                  { color: transparent ? colors.white : colors.black },
+                ]}
+              >
+                {text}
+              </Text>
+            </View>
+          )}
           {notification && (
             <View style={styles.headerBell}>
               <TouchableOpacity
@@ -425,7 +437,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   backArrowBlack: {
-    width: width * 0.04,
+    width: width * 0.05,
     height: height * 0.017,
     resizeMode: 'contain',
   },

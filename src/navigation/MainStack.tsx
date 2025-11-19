@@ -3,11 +3,13 @@ import React from 'react';
 import AAACard from '../screens/AAACard';
 import AAACardHistory from '../screens/AAACardHistory';
 import AAARequestCardHistory from '../screens/AAARequestCardHistory';
+import AddDeliveryddress from '../screens/AddDeliveryAddress';
 import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
 import Cart from '../screens/Cart';
 import ChangePassword from '../screens/ChangePassword';
+import Checkout from '../screens/Checkout';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
@@ -30,8 +32,10 @@ import LoveDepositReps from '../screens/LoveDepositReps';
 import LoveDeposits from '../screens/LoveDeposits';
 import MediaDetails from '../screens/MediaDetails';
 import MediaLibrary from '../screens/MediaLibrary';
+import MyOrders from '../screens/MyOrders';
 import NotificationsScreen from '../screens/Notifications';
 import Onboarding from '../screens/Onboarding';
+import OrderConfirmed from '../screens/OrderConfirmed';
 import OtpVerification from '../screens/OtpVerification';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Profile from '../screens/Profile';
@@ -72,7 +76,9 @@ import Thermostat from '../screens/Thermostat';
 import ThirdBase from '../screens/ThirdBase';
 import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 import Toolbox from '../screens/Toolbox';
+import WriteReview from '../screens/WriteReview';
 import BottomTabs from './BottomTabs';
+// import DrawerNav from './Drawer';
 
 export type StackParamList = {
   Register: undefined;
@@ -149,6 +155,12 @@ export type StackParamList = {
   PurposePlanner: undefined;
   MediaDetails: undefined;
   MediaLibrary: undefined;
+  Checkout: undefined;
+  AddDeliveryddress: undefined;
+  OrderConfirmed: undefined;
+  MyOrders: undefined;
+  WriteReview: undefined;
+  DrawerNav: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -173,6 +185,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
+      {/* <Stack.Screen name="Home" component={DrawerNav} /> */}
       <Stack.Screen name="Home" component={BottomTabs} />
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
@@ -260,6 +273,11 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="PurposePlanner" component={PurposePlanner} />
       <Stack.Screen name="MediaLibrary" component={MediaLibrary} />
       <Stack.Screen name="MediaDetails" component={MediaDetails} />
+      <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="AddDeliveryddress" component={AddDeliveryddress} />
+      <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
+      <Stack.Screen name="MyOrders" component={MyOrders} />
+      <Stack.Screen name="WriteReview" component={WriteReview} />
     </Stack.Navigator>
   );
 };

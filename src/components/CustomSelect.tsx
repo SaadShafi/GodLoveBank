@@ -91,7 +91,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                     <Text style={globalStyle.selectText}>
                         {selectElem || placeholder}
                     </Text>
-                    <Image source={images.arrowDropDown} style={styles.icon} />
+                    <Image source={images.arrowdown} style={styles.icon} />
                 </TouchableOpacity>
             </View>
 
@@ -176,11 +176,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     selectedTab: {
-        backgroundColor: colors.lightPrimary,
+        backgroundColor: colors.lightGray,
     },
     selectTabText: {
         fontSize: fontSizes.sm2,
-        fontFamily: fontFamily.JakartaBold,
+        fontFamily: fontFamily.GilroyMedium,
         color: colors.black,
     },
     icon: {

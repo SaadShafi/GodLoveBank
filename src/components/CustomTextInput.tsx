@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { width } from '../utilities';
 import { colors } from '../utilities/colors';
+import { fontFamily } from '../assets/Fonts';
+import { fontSizes } from '../utilities/fontsizes';
 
 interface CustomTextInputProps extends TextInputProps {
   leftIcon?: React.ReactNode;
@@ -35,7 +37,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   keyboardType = 'default',
   multiline = false,
   borderColor,
-  borderWidth = 1,
+  // borderWidth = 1,
   borderRadius = 8,
   backgroundColor = colors.lightGray,
   onChangeText,
@@ -63,10 +65,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         {
           height: inputHeight,
           width: inputWidth,
-          borderWidth,
+          // borderWidth,
           borderRadius,
-          borderColor: isActive ? colors.brownishRed : colors.bordercolor,
-          backgroundColor: isActive ? colors.lightBrown : colors.bordercolor,
+          borderColor,
+          // borderColor: isActive ? colors.brownishRed : colors.bordercolor,
+          backgroundColor: colors.lightGray,
+          // backgroundColor: isActive ? colors.lightBrown : colors.bordercolor,
         },
       ]}
     >
@@ -132,6 +136,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 10,
     color: colors.black,
+    fontFamily: fontFamily.GilroyMedium,
+    fontSize: fontSizes.sm2
   },
   leftIcon: {
     marginRight: 10,
