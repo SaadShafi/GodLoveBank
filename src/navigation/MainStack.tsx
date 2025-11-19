@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import AAACard from '../screens/AAACard';
+import AAACardHistory from '../screens/AAACardHistory';
+import AAARequestCardHistory from '../screens/AAARequestCardHistory';
 import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
@@ -26,12 +28,15 @@ import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
 import LoveDepositReps from '../screens/LoveDepositReps';
 import LoveDeposits from '../screens/LoveDeposits';
+import MediaDetails from '../screens/MediaDetails';
+import MediaLibrary from '../screens/MediaLibrary';
 import NotificationsScreen from '../screens/Notifications';
 import Onboarding from '../screens/Onboarding';
 import OtpVerification from '../screens/OtpVerification';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Profile from '../screens/Profile';
 import PurposeInstrumental from '../screens/PurposeInstrumental';
+import PurposePlanner from '../screens/PurposePlanner';
 import PurposeToolbox from '../screens/PurposeToolbox';
 import Pyramid from '../screens/Pyramid';
 import PyramidGoals from '../screens/PyramidGoals';
@@ -139,6 +144,11 @@ export type StackParamList = {
   AAACard: undefined;
   ECommerce: undefined;
   Cart: undefined;
+  AAACardHistory: undefined;
+  AAARequestCardHistory: undefined;
+  PurposePlanner: undefined;
+  MediaDetails: undefined;
+  MediaLibrary: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -242,6 +252,14 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="AAACard" component={AAACard} />
       <Stack.Screen name="ECommerce" component={ECommerce} />
       <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="AAACardHistory" component={AAACardHistory} />
+      <Stack.Screen
+        name="AAARequestCardHistory"
+        component={AAARequestCardHistory}
+      />
+      <Stack.Screen name="PurposePlanner" component={PurposePlanner} />
+      <Stack.Screen name="MediaLibrary" component={MediaLibrary} />
+      <Stack.Screen name="MediaDetails" component={MediaDetails} />
     </Stack.Navigator>
   );
 };

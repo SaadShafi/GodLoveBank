@@ -119,6 +119,11 @@ const images: { [key: string]: ImageSourcePropType } = {
   trendingBooksOne: require('../Images/trendingBooksOne.png'),
   trendingBooksSec: require('../Images/trendingBooksSec.png'),
   trashIcon: require('../Images/trashIcon.png'),
+  media: require('../Images/media.png'),
+  favIcon: require('../Images/favIcon.png'),
+  search: require('../Images/search.png'),
+  recent: require('../Images/recent.png'),
+  video: require('../Images/video.png'),
 };
 
 export default images;

@@ -47,7 +47,7 @@ const Profile = () => {
       <TouchableOpacity
         style={styles.profileContainer}
         activeOpacity={0.7}
-        onPress={() => navigation.navigate('')}
+        onPress={() => navigation.navigate('EditProfile')}
       >
         {/* <View style={styles.profileContainer}> */}
         <Image source={images.ProfilePic} style={styles.profileImage} />

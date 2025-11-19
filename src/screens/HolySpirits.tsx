@@ -94,7 +94,7 @@ const HolySpirits = () => {
               borderColor={colors.marhoon}
               borderWidth={1}
               borderRadius={30}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('AAACardHistory')}
             />
           </View>
         </View>

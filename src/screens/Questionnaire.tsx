@@ -35,7 +35,7 @@ const groupsData = [
   {
     id: 1,
     title: 'Group 1',
-    // question: 'I Often Disengage In My Life',
+    question: 'I Often Disengage In My Life',
     options: [
       'I withdraw when I feel stressed',
       'I stop answering messages',
@@ -96,16 +96,12 @@ const groupsData = [
   },
 ];
 
-// use your colors util if has success/green keys, otherwise fallback
 const SUCCESS_GREEN =
   (colors as any).success || (colors as any).green || '#27ae60';
 
 const Questionnaire: React.FC = () => {
-  // which group dropdown is open (single id or null)
   const [openId, setOpenId] = useState<number | null>(null);
 
-  // record which group has been selected (turns red->green)
-  // stores selected option text (or index) per group
   const [selectedMap, setSelectedMap] = useState<
     Record<number, { optionIndex: number; optionText: string }>
   >({});
@@ -125,7 +121,6 @@ const Questionnaire: React.FC = () => {
       ...prev,
       [groupId]: { optionIndex, optionText },
     }));
-    // close the dropdown after selecting (as in video)
     setOpenId(null);
   };
   const navigation = useNavigation<NavigationProp<any>>();
@@ -178,10 +173,9 @@ const Questionnaire: React.FC = () => {
 
           return (
             <View key={group.id} style={styles.rowContainer}>
-              {/* LEFT: Red group (shows arrow or check) */}
               <TouchableOpacity
                 activeOpacity={0.85}
-                onPress={() => toggleOpen(group.id)} // you may change to no-op if you want red non-tappable
+                onPress={() => toggleOpen(group.id)}
                 style={[
                   styles.groupButton,
                   isSelected ? { backgroundColor: SUCCESS_GREEN } : null,
@@ -196,28 +190,25 @@ const Questionnaire: React.FC = () => {
                 )}
               </TouchableOpacity>
 
-              {/* RIGHT: Gray question box (tapping opens dropdown below) */}
               <View style={styles.rightColumn}>
                 <TouchableOpacity
                   activeOpacity={0.9}
                   onPress={() => toggleOpen(group.id)}
                   style={styles.questionBox}
                 >
-                  <Text
-                    style={[
-                      styles.questionText,
-                      { lineHeight: height * 0.025 },
-                    ]}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {isSelected
-                      ? selectedMap[group.id].optionText
-                      : group.question}
-                  </Text>
+                  <View style={styles.textContainer}>
+                    <Text
+                      style={styles.questionText}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {isSelected
+                        ? selectedMap[group.id].optionText
+                        : group.question}
+                    </Text>
+                  </View>
                 </TouchableOpacity>
 
-                {/* Dropdown area (plain text lines). appears below the gray box */}
                 {isOpen && (
                   <View style={styles.dropdown}>
                     {group.options.map((opt, idx) => (
@@ -310,6 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginTop: height * 0.015,
+    gap: width * 0.03, // Added gap between red and grey containers
   },
 
   /* left red button */
@@ -332,31 +324,30 @@ const styles = StyleSheet.create({
 
   /* right column */
   rightColumn: {
-    width: width * 0.6,
+    width: width * 0.57, // Slightly reduced to accommodate the gap
   },
 
-  /* grey question box */
+  /* grey question box - FIXED */
   questionBox: {
-    height: height * 0.085, // fixed height instead of minHeight
+    width: '100%',
+    height: height * 0.085,
     borderRadius: 20,
     backgroundColor: '#EFEFEF',
     paddingHorizontal: width * 0.04,
     justifyContent: 'center',
     alignSelf: 'center',
-    overflow: 'hidden', // ensures text stays inside
+  },
+
+  textContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
 
   questionText: {
     color: colors.black,
     fontFamily: fontFamily.GilroyBold,
-    fontSize: fontSizes.sm2,
-  },
-
-  selectedSummary: {
-    color: '#666',
-    fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm,
-    marginTop: height * 0.005,
+    lineHeight: height * 0.022,
   },
 
   /* dropdown plain text list */

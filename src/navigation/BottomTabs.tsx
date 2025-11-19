@@ -4,7 +4,7 @@ import images from '../assets/Images';
 import ECommerce from '../screens/ECommerce';
 import FirstBase from '../screens/FirstBase';
 import Home from '../screens/Home';
-import HomeBase from '../screens/HomeBase';
+import MediaLibrary from '../screens/MediaLibrary';
 import Profile from '../screens/Profile';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
@@ -58,8 +58,8 @@ const BottomTabs = () => {
       />
 
       <Tab.Screen
-        name="HomeBase"
-        component={HomeBase}
+        name="MediaLibrary"
+        component={MediaLibrary}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

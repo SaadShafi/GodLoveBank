@@ -40,7 +40,9 @@ interface TopHeaderProps {
   toggleSwitch?: (newState: any) => void;
   toggleValue?: boolean;
   addCard?: boolean;
+  onAddCardPress?: () => void; // Add this line
   msgIcon?: boolean;
+  favIcon?: boolean;
   skip?: boolean;
   list?: boolean;
   backIcon?: boolean;
@@ -74,7 +76,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   toggleSwitch,
   toggleValue = true,
   addCard = false,
+  onAddCardPress, // Destructure it
   msgIcon = false,
+  favIcon = false,
   skip = false,
   list = false,
   isPhone = false,
@@ -284,7 +288,10 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </View>
           )}
           {addCard && (
-            <TouchableOpacity style={styles.headeraddCard}>
+            <TouchableOpacity
+              style={styles.headeraddCard}
+              onPress={onAddCardPress}
+            >
               {/* <Text style={styles.addCardText}>Add Card</Text> */}
               <Image source={images.addCard} />
             </TouchableOpacity>
@@ -292,6 +299,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {msgIcon && (
             <TouchableOpacity style={styles.headerBell}>
               <Image source={images.messageIcon} style={styles.msgIcon} />
+            </TouchableOpacity>
+          )}
+          {favIcon && (
+            <TouchableOpacity style={styles.headerBell}>
+              <Image source={images.favIcon} style={styles.favIcon} />
             </TouchableOpacity>
           )}
           {skip && (
@@ -493,6 +505,11 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? width * 0.08 : height * 0.02,
     padding: Platform.OS === 'ios' ? 8 : 15,
     borderRadius: 30,
+  },
+  favIcon: {
+    left: width * 0.88,
+    top: height * 0.003,
+    resizeMode: 'contain',
   },
   bellImgSec: {
     width: width * 0.06,

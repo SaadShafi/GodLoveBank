@@ -59,7 +59,7 @@ const Home = () => {
       title1: 'THE DAILY PURPOSE',
       title2: 'PLANNER AND JOURNAL',
       image: images.planner,
-      navigate: 'LoveDepositReps',
+      navigate: 'PurposePlanner',
     },
     {
       id: '8',
@@ -180,7 +180,9 @@ const Home = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
-      <TopHeader isMenu={true} notification={true} isProfile={true} />
+      <View>
+        <TopHeader isMenu={true} notification={true} isProfile={true} />
+      </View>
       <FlatList
         data={data}
         keyExtractor={item => item.id}
