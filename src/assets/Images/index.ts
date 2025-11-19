@@ -124,6 +124,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   search: require('../Images/search.png'),
   recent: require('../Images/recent.png'),
   video: require('../Images/video.png'),
+  amet: require('../Images/amet.png'),
+  dolor: require('../Images/dolor.png'),
 };
 
 export default images;
