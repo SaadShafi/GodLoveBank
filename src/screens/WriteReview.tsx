@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const WriteReview = () => {
     const navigation = useNavigation<NavigationProp<any>>()
-    // const [rating, setRating] = useState(0)
+    const [rating, setRating] = useState(0)
 
     return (
         <View style={{ flex: 1 }}>
@@ -37,18 +37,18 @@ const WriteReview = () => {
                     <Text style={styles.expText}>How is your experience?</Text>
                     <Text style={styles.descText}>Lorem Ipsum is simply a dummy text of the printing and</Text>
                     <Text style={styles.descText}>typesetting industry</Text>
-                    {/* <StarRating
-                        rating={rating}
-                        onChange={setRating}
-                        maxStars={5}
-                        starSize={width * 0.09}
-                        // enableHalfStar={false}
-                        color={colors.marhoon}
-                        emptyColor={colors.lightGray}
-                        style={styles.starRating}
-                    /> */}
-
-                    <TopHeader isMenu={true}/>
+                    <View style={styles.ratingMain}>
+                        <StarRating
+                            rating={rating}
+                            onChange={setRating}
+                            maxStars={5}
+                            starSize={width * 0.1}
+                            color={colors.yellow}
+                            starStyle={styles.starRating}
+                            emptyColor={colors.Gray}
+                            style={styles.starRating}
+                        />
+                    </View>
                 </View>
             </View>
         </View>
@@ -118,7 +118,10 @@ const styles = StyleSheet.create({
         color: colors.black,
     },
     starRating: {
-
+        borderColor: colors.black
+    },
+    ratingMain: {
+        marginTop: height * 0.03
     }
 })
 
