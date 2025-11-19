@@ -44,6 +44,12 @@ import ThirdBase from '../screens/ThirdBase';
 import BottomTabs from './BottomTabs';
 import ECommerce from '../screens/ECommerce';
 import Cart from '../screens/Cart';
+import Checkout from '../screens/Checkout';
+import AddDeliveryddress from '../screens/AddDeliveryAddress';
+import OrderConfirmed from '../screens/OrderConfirmed';
+import MyOrders from '../screens/MyOrders';
+import WriteReview from '../screens/WriteReview';
+// import DrawerNav from './Drawer';
 
 export type StackParamList = {
   Register: undefined;
@@ -90,6 +96,12 @@ export type StackParamList = {
   BottomTabs: undefined;
   ECommerce: undefined;
   Cart: undefined;
+  Checkout: undefined;
+  AddDeliveryddress: undefined;
+  OrderConfirmed: undefined;
+  MyOrders: undefined;
+  WriteReview: undefined;
+  DrawerNav: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -114,6 +126,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
+      {/* <Stack.Screen name="Home" component={DrawerNav} /> */}
       <Stack.Screen name="Home" component={BottomTabs} />
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
@@ -157,6 +170,11 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="Thermostat" component={Thermostat} />
       <Stack.Screen name="ECommerce" component={ECommerce} />
       <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="AddDeliveryddress" component={AddDeliveryddress} />
+      <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
+      <Stack.Screen name="MyOrders" component={MyOrders} />
+      <Stack.Screen name="WriteReview" component={WriteReview} />
     </Stack.Navigator>
   );
 };

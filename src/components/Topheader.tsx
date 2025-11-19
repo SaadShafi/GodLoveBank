@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { DrawerActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
@@ -18,6 +18,7 @@ import { fontSizes } from '../utilities/fontsizes';
 
 interface TopHeaderProps {
   text?: string;
+  textIcon?: boolean;
   title?: string;
   transparent?: boolean;
   isBack?: boolean;
@@ -53,6 +54,7 @@ interface TopHeaderProps {
 
 const TopHeader: React.FC<TopHeaderProps> = ({
   text,
+  textIcon = false,
   transparent = false,
   isBack = false,
   isBackBlack = false,
@@ -136,16 +138,16 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {isBackBlack && (
             <Pressable
               style={styles.headerArrow}
-              // onPress={() => {
-              //   if (navigation) {
-              //     navigation.canGoBack()
-              //       ? navigation.goBack()
-              //       : navigation.navigate('Home' as never);
-              //   }
-              // }}
+              onPress={() => {
+                if (navigation) {
+                  navigation.canGoBack()
+                    ? navigation.goBack()
+                    : navigation.navigate('Home' as never);
+                }
+              }}
             >
               <Image
-                source={images.backIconBlack}
+                source={images.isBack}
                 style={styles.backArrowBlack}
               />
             </Pressable>
@@ -203,6 +205,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           >
             {text}
           </Text>
+
+          { textIcon && (
+            <View>
+              <Text 
+                style={[
+                styles.MainHeaderText,
+                { color: transparent ? colors.white : colors.black },
+                ]}>{text}
+              </Text>
+            </View>
+          )}
           {notification && (
             <View style={styles.headerBell}>
               <TouchableOpacity
@@ -380,7 +393,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   backArrowBlack: {
-    width: width * 0.04,
+    width: width * 0.05,
     height: height * 0.017,
     resizeMode: 'contain',
   },

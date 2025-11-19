@@ -1,14 +1,13 @@
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, ScrollView } from "react-native";
-import TopHeader from "../components/Topheader";
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import images from "../assets/Images";
 import { height, width } from "../utilities";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
-import CustomButton from "../components/CustomButton";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import CustomButton from "../components/CustomButton";
 
-const Cart = () => {
+const OrderConfirmed = () => {
     const navigation = useNavigation<NavigationProp<any>>()
     const bookData = [
         {
@@ -77,23 +76,23 @@ const Cart = () => {
             </View>
         )
     }
-
+    
     return (
         <View style={{ flex: 1 }}>
-            <TopHeader text="Cart" isCross={true} />
             <View style={styles.container}>
-                <ScrollView 
+                <Image source={images.successCart} />
+                <Text style={styles.headText}>Checkout Successfully</Text>
+                <ScrollView
                     style={styles.scrollView}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContent}
                 >
-                    <View style={{paddingHorizontal: width * 0.03}}>
                     <View style={styles.bookContainer}>
                         <View style={styles.selectedBookMain}>
                             <Image source={images.recBookSec} style={styles.imgMain} />
                             <View style={styles.textContent}>
                                 <View style={styles.headTextMain}>
-                                    <Text style={styles.bookText}>Dummy Text</Text>
+                                    <Text style={styles.bookText}>Mapo Tofu</Text>
                                     <TouchableOpacity>
                                         <Image source={images.trashIcon} style={styles.trashIcon} />
                                     </TouchableOpacity>
@@ -105,7 +104,6 @@ const Cart = () => {
                             <Text style={styles.stockText}>Only 5 items in stock</Text>
                             <Text style={styles.priceText}>$12.56</Text>
                         </View>
-                    </View>
                     </View>
 
                     <View style={styles.flatlistContainer}>
@@ -122,19 +120,27 @@ const Cart = () => {
                         />
                     </View>
                 </ScrollView>
-                <View style={styles.orderMain}>
-                    <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total 3 Items</Text>
-                        <Text style={styles.totalAmount}>$25.56</Text>
-                    </View>
+
+                <View style={styles.bottomMain}>
                     <CustomButton
-                    btnHeight={height * 0.07}
-                    btnWidth={width * 0.4}
-                    text="Order Now"
-                    textColor={colors.white}
-                    backgroundColor={colors.darkmarhoon}
+                    btnHeight={height * 0.06}
+                    btnWidth={width * 0.45}
+                    text="Cont. Shopping"
+                    textColor={colors.marhoon}
+                    borderColor={colors.marhoon}
+                    borderWidth={1}
                     borderRadius={20}
-                    onPress={() => navigation.navigate("Checkout")}
+                    onPress={() => navigation.navigate("ECommerce")}
+                    />
+                    <CustomButton
+                    btnHeight={height * 0.06}
+                    btnWidth={width * 0.4}
+                    text="View Order"
+                    textColor={colors.white}
+                    backgroundColor={colors.marhoon}
+                    borderWidth={1}
+                    borderRadius={20}
+                    onPress={() => navigation.navigate("MyOrders")}
                     />
                 </View>
             </View>
@@ -144,22 +150,24 @@ const Cart = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        alignItems: "center",
+        marginTop: height * 0.015,
+        flex: 1
     },
     scrollView: {
         flex: 1,
     },
     scrollContent: {
-        paddingBottom: height * 0.02, 
+        paddingBottom: height * 0.02,
     },
-    sectionTitle: {
-        fontSize: fontSizes.md,
+    headText: {
         fontFamily: fontFamily.GilroyBold,
-        marginBottom: height * 0.02,
+        fontSize: fontSizes.lg2,
+        color: colors.black
     },
     bookContainer: {
         width: width * 0.93,
-        height: height * 0.17,
+        height: height * 0.155,
         backgroundColor: colors.white,
         borderRadius: 8,
         padding: 15,
@@ -227,14 +235,7 @@ const styles = StyleSheet.create({
     priceText: {
         fontSize: fontSizes.lg,
         fontFamily: fontFamily.GilroyBold,
-        color: colors.darkmarhoon,
-    },
-    flatListContent: {
-        paddingBottom: height * 0.02,
-    },
-    columnWrapper: {
-        justifyContent: 'space-between',
-        marginBottom: height * 0.015,
+        color: colors.marhoon,
     },
     bookCard: {
         width: width * 0.47,
@@ -320,47 +321,28 @@ const styles = StyleSheet.create({
         marginTop: height * 0.01,
         paddingHorizontal: width * 0.03
     },
-    orderMain: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: colors.lightGray,
-        padding: 15,
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
-        shadowColor: colors.black,
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 5,
-    },
-    totalContainer: {
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        alignItems: "center",
+    columnWrapper: {
+        justifyContent: 'space-between',
         marginBottom: height * 0.015,
     },
-    totalText: {
-        fontSize: fontSizes.md,
-        fontFamily: fontFamily.GilroySemiBold,
-        color: colors.black,
+    flatListContent: {
+        paddingBottom: height * 0.02,
     },
-    totalAmount: {
-        fontSize: fontSizes.lg,
-        fontFamily: fontFamily.GilroyBold,
-        color: colors.darkmarhoon,
-    },
-    orderButton: {
-        backgroundColor: colors.darkmarhoon,
-        borderRadius: 10,
-        paddingVertical: height * 0.018,
-        alignItems: "center",
-    },
-    orderButtonText: {
+    sectionTitle: {
         fontSize: fontSizes.md,
         fontFamily: fontFamily.GilroyBold,
-        color: colors.white,
+        marginBottom: height * 0.02,
     },
-    
+    bottomMain: {
+        backgroundColor: colors.white,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        width: width * 0.99,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        bottom: height * 0.02,
+        padding: 10
+    }
 })
 
-export default Cart;
+export default OrderConfirmed;

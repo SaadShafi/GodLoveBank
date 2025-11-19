@@ -129,9 +129,7 @@ const styles = StyleSheet.create({
   },
   socialMain: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    // width: width * 0.6,
-    alignItems: "center"
+    justifyContent: "center"
   },
   scialImg: {
     width: width * 0.25,
