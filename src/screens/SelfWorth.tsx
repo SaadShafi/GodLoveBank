@@ -90,7 +90,7 @@ const SelfWorth = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfRespect')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -104,7 +104,7 @@ const SelfWorth = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfRespect')}
             />
           </View>
         </View>

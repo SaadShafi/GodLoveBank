@@ -94,7 +94,7 @@ const SelfRespect = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfLove')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -108,7 +108,7 @@ const SelfRespect = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfLove')}
             />
           </View>
         </View>

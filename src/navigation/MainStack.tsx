@@ -89,6 +89,9 @@ import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
 import DrawerNavigator from './Drawer';
 import InterestRepsTimer from '../screens/InterestRepsTimer';
+import CoreValuesTimer from '../screens/CoreValuesTimer';
+import CoreValuesTimerTwo from '../screens/CoreValuesTImerTwo';
+import CoreValuesTimerThree from '../screens/CoreValuesTimerThree';
 
 export type StackParamList = {
   Register: undefined;
@@ -181,6 +184,9 @@ export type StackParamList = {
   DailyPurposeJournal: undefined;
   DailyJournalHistory: undefined;
   InterestRepsTimer: undefined;
+  CoreValuesTimer: undefined;
+  CoreValuesTimerTwo: undefined;
+  CoreValuesTimerThree: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -317,6 +323,19 @@ const MainStack: React.FC = () => {
         <Stack.Screen
         name="InterestRepsTimer"
         component={InterestRepsTimer}
+      />
+
+        <Stack.Screen
+        name="CoreValuesTimer"
+        component={CoreValuesTimer}
+      />
+      <Stack.Screen
+        name="CoreValuesTimerTwo"
+        component={CoreValuesTimerTwo}
+      />
+      <Stack.Screen
+        name="CoreValuesTimerThree"
+        component={CoreValuesTimerThree}
       />
     </Stack.Navigator>
   );

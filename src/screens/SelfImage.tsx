@@ -95,7 +95,7 @@ const SelfImage = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfDiscipline')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -109,7 +109,7 @@ const SelfImage = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfDiscipline')}
             />
           </View>
         </View>

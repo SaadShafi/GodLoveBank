@@ -98,7 +98,7 @@ const SelfLove = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfProsperity')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -112,7 +112,7 @@ const SelfLove = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfProsperity')}
             />
           </View>
         </View>

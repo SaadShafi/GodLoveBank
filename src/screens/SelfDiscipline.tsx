@@ -96,7 +96,7 @@ const SelfDiscipline = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfConfidence')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -110,7 +110,7 @@ const SelfDiscipline = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfConfidence')}
             />
           </View>
         </View>

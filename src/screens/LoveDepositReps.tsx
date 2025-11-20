@@ -256,7 +256,7 @@ const DATA = [
 const screenMap: any = {
   '1': 'SelfHonesty',
   '2': 'SelfCourage',
-  '3': 'SelfForgive',
+  '3': 'SelfForgiveness',
   '4': 'SelfPower',
   '5': 'SelfPurpose',
   '6': 'SelfExcellence',

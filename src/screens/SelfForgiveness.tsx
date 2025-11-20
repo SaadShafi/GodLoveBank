@@ -96,7 +96,7 @@ const SelfForgiveness = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfPower')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -110,7 +110,7 @@ const SelfForgiveness = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfPower')}
             />
           </View>
         </View>

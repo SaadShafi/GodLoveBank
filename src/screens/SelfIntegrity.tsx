@@ -95,7 +95,7 @@ const SelfIntegrity = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfHappiness')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -109,7 +109,7 @@ const SelfIntegrity = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfHappiness')}
             />
           </View>
         </View>

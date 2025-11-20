@@ -289,7 +289,7 @@ const SelfHonesty = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('CoreValuesTimer')}
             />
           </View>
 

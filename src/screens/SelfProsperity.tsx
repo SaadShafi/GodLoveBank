@@ -94,7 +94,7 @@ const SelfProsperity = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfIntegrity')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -108,7 +108,7 @@ const SelfProsperity = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfIntegrity')}
             />
           </View>
         </View>

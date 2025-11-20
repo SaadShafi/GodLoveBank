@@ -92,7 +92,7 @@ const SelfPurpose = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfExcellence')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -106,7 +106,7 @@ const SelfPurpose = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfExcellence')}
             />
           </View>
         </View>

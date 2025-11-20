@@ -92,7 +92,7 @@ const SelfExcellence = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('SelfImage')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
 
@@ -106,7 +106,7 @@ const SelfExcellence = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('SelfImage')}
             />
           </View>
         </View>
