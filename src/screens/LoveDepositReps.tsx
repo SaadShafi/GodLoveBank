@@ -71,6 +71,7 @@
 
 // export default LoveDepositReps;
 
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   FlatList,
@@ -91,6 +92,7 @@ const DATA = [
     title: 'New Self Honesty',
     bg: colors.yellow,
     textColor: colors.black,
+    navigation: 'SelfHonesty',
   },
   {
     id: '2',
@@ -159,6 +161,12 @@ const DATA = [
 ];
 
 const LoveDepositReps = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
+
+  const handleCardPress = (screenName: string, title: string) => {
+    // Navigate to the respective screen
+    navigation.navigate(screenName, { title });
+  };
   const renderItem = ({ item }: any) => (
     <TouchableOpacity activeOpacity={0.7}>
       <View style={[styles.buttonContainer, { backgroundColor: item.bg }]}>

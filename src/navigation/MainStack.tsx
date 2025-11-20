@@ -15,7 +15,10 @@ import Checkout from '../screens/Checkout';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
 import CreateProfile from '../screens/CreateProfile';
+import CustomerSupport from '../screens/CustomerSupport';
+import DailyJournalHistory from '../screens/DailyJournalHistory';
 import DailyPrayerMacro from '../screens/DailyPrayerMacro';
+import DailyPurposeJournal from '../screens/DailyPurposeJournal';
 import DepositInterestReps from '../screens/DepositInterestReps';
 import DepositsSteps from '../screens/DepositsSteps';
 import ECommerce from '../screens/ECommerce';
@@ -31,7 +34,6 @@ import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
 import HolySpirits from '../screens/HolySpirits';
 import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
-import InterestRepsTimer from '../screens/InterestRepsTimer';
 import LoveDepositReps from '../screens/LoveDepositReps';
 import LoveDeposits from '../screens/LoveDeposits';
 import MediaDetails from '../screens/MediaDetails';
@@ -41,6 +43,8 @@ import NotificationsScreen from '../screens/Notifications';
 import Onboarding from '../screens/Onboarding';
 import OrderConfirmed from '../screens/OrderConfirmed';
 import OtpVerification from '../screens/OtpVerification';
+import PaymentMethod from '../screens/PaymentMethod';
+import PlannedTimeGoals from '../screens/PlannedTimeGoals';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Profile from '../screens/Profile';
 import PurposeGoals from '../screens/PurposeGoals';
@@ -83,7 +87,7 @@ import ThirdBase from '../screens/ThirdBase';
 import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
-import BottomTabs from './BottomTabs';
+import DrawerNavigator from './Drawer';
 
 export type StackParamList = {
   Register: undefined;
@@ -168,8 +172,13 @@ export type StackParamList = {
   Reviews: undefined;
   AddBook: undefined;
   Favourites: undefined;
-  InterestRepsTimer: undefined;
+  Chat: undefined;
+  CustomerSupport: undefined;
+  PaymentMethod: undefined;
   PurposeGoals: undefined;
+  PlannedTimeGoals: undefined;
+  DailyPurposeJournal: undefined;
+  DailyJournalHistory: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -194,8 +203,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
-      {/* <Stack.Screen name="Home" component={DrawerNav} /> */}
-      <Stack.Screen name="Home" component={BottomTabs} />
+      <Stack.Screen name="Home" component={DrawerNavigator} />
+      {/* <Stack.Screen name="Home" component={BottomTabs} /> */}
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />
       <Stack.Screen name="SelfCourage" component={SelfCourage} />
@@ -291,8 +300,18 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="AddBook" component={AddBook} />
       <Stack.Screen name="Favourites" component={Favourites} />
       <Stack.Screen name="Chat" component={Chat} />
-      <Stack.Screen name="InterestRepsTimer" component={InterestRepsTimer} />
+      <Stack.Screen name="CustomerSupport" component={CustomerSupport} />
+      <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
       <Stack.Screen name="PurposeGoals" component={PurposeGoals} />
+      <Stack.Screen name="PlannedTimeGoals" component={PlannedTimeGoals} />
+      <Stack.Screen
+        name="DailyPurposeJournal"
+        component={DailyPurposeJournal}
+      />
+      <Stack.Screen
+        name="DailyJournalHistory"
+        component={DailyJournalHistory}
+      />
     </Stack.Navigator>
   );
 };

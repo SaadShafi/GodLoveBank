@@ -146,10 +146,9 @@ const images: { [key: string]: ImageSourcePropType } = {
   plusSign: require('../Images/plusSign.png'),
   minusSign: require('../Images/minusSign.png'),
   chatImg: require('../Images/chatImg.png'),
-  repstimer: require('../Images/repstimer.png'),
-  start: require('../Images/start.png'),
-  time: require('../Images/time.png'),
-  stop: require('../Images/stop.png'),
+  drawerProf: require('../Images/drawerProf.png'),
+  crossIcon: require('../Images/crossIcon.png'),
+  logoutIcon: require('../Images/logoutIcon.png'),
 };
 
 export default images;

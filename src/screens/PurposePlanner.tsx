@@ -50,7 +50,7 @@ const PurposePlanner = () => {
               borderColor={colors.marhoon}
               borderWidth={2}
               borderRadius={20}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('PlannedTimeGoals')}
             />
           </View>
 
@@ -64,7 +64,7 @@ const PurposePlanner = () => {
               borderColor={colors.marhoon}
               borderWidth={2}
               borderRadius={20}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('DailyPurposeJournal')}
             />
           </View>
 
@@ -78,7 +78,7 @@ const PurposePlanner = () => {
               borderColor={colors.marhoon}
               borderWidth={2}
               borderRadius={20}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('DailyJournalHistory')}
             />
           </View>
         </View>

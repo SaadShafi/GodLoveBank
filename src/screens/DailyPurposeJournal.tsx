@@ -1,7 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { fontFamily } from '../assets/Fonts';
 import CustomButton from '../components/CustomButton';
 import CustomTextInput from '../components/CustomTextInput';
@@ -10,16 +9,9 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const PurposeGoals = () => {
+const DailyPurposeJournal = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
-  const [checkedStates, setCheckedStates] = useState(Array(10).fill(false));
-
-  const handleCheckboxPress = (index: number) => {
-    const newCheckedStates = [...checkedStates];
-    newCheckedStates[index] = !newCheckedStates[index];
-    setCheckedStates(newCheckedStates);
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -36,61 +28,43 @@ const PurposeGoals = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.goals}>PURPOSE TIME GOALS</Text>
+        <View style={styles.headContainer}>
+          <Text style={styles.goals}>DAILY PURPOSE JOURNAL</Text>
+        </View>
 
-        <View style={{ gap: height * 0.02 }}>
+        <View style={styles.headrecordContainer}>
+          <Text style={styles.record}>Record your Thoughts & feelings</Text>
+        </View>
+
+        <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           {[0, 1, 2, 3, 4].map(index => (
-            <View key={index} style={styles.inputRow}>
-              <View style={{ left: width * 0.07, top: height * 0.02 }}>
-                <CustomTextInput
-                  placeholder="Time Goals"
-                  placeholderTextColor={colors.black}
-                  inputHeight={height * 0.06}
-                  inputWidth={width * 0.75}
-                  backgroundColor={colors.lightGray}
-                  borderRadius={15}
-                  onChangeText={setEmail}
-                />
-              </View>
-              <BouncyCheckbox
-                size={25}
-                fillColor={colors.marhoon}
-                unfillColor="#FFFFFF"
-                iconStyle={{ borderColor: colors.marhoon }}
-                innerIconStyle={{ borderWidth: 2 }}
-                isChecked={checkedStates[index]}
-                onPress={() => handleCheckboxPress(index)}
-                style={styles.checkbox}
+            <View key={index} style={styles.inputContainer}>
+              <CustomTextInput
+                placeholder="RENEWING YOUR SPIRIT"
+                placeholderTextColor={colors.black}
+                inputHeight={height * 0.06}
+                inputWidth={width * 0.85}
+                backgroundColor={colors.lightGray}
+                borderRadius={15}
+                onChangeText={setEmail}
               />
             </View>
           ))}
         </View>
 
-        <Text style={styles.present}>PRESENT TIME GOALS</Text>
+        {/* <Text style={styles.present}>PRESENT TIME GOALS</Text> */}
 
-        <View style={{ gap: height * 0.02, top: height * 0.055 }}>
-          {[5, 6, 7, 8, 9].map(index => (
-            <View key={index} style={styles.inputRow}>
-              <View style={{ left: width * 0.07, top: height * 0.02 }}>
-                <CustomTextInput
-                  placeholder="Time Goals"
-                  placeholderTextColor={colors.black}
-                  inputHeight={height * 0.06}
-                  inputWidth={width * 0.75}
-                  backgroundColor={colors.lightGray}
-                  borderRadius={15}
-                  onChangeText={setEmail}
-                />
-              </View>
-              <BouncyCheckbox
-                size={25}
-                fillColor={colors.marhoon}
-                unfillColor="#FFFFFF"
-                iconStyle={{ borderColor: colors.marhoon }}
-                innerIconStyle={{ borderWidth: 2 }}
-                isChecked={checkedStates[index]}
-                onPress={() => handleCheckboxPress(index)}
-                style={styles.checkbox}
+        <View style={{ gap: height * 0.02, top: height * 0.063 }}>
+          {[5, 6].map(index => (
+            <View key={index} style={styles.inputContainer}>
+              <CustomTextInput
+                placeholder="Time Goals"
+                placeholderTextColor={colors.black}
+                inputHeight={height * 0.06}
+                inputWidth={width * 0.85}
+                backgroundColor={colors.lightGray}
+                borderRadius={15}
+                onChangeText={setEmail}
               />
             </View>
           ))}
@@ -123,6 +97,23 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 34,
     borderBottomLeftRadius: 34,
   },
+  headContainer: {
+    backgroundColor: colors.yellow,
+    height: height * 0.05,
+    justifyContent: 'center',
+    width: width * 0.85,
+    alignSelf: 'center',
+    borderRadius: 15,
+  },
+  headrecordContainer: {
+    backgroundColor: colors.Gray,
+    height: height * 0.05,
+    justifyContent: 'center',
+    width: width * 0.8,
+    alignSelf: 'center',
+    borderRadius: 15,
+    top: height * 0.01,
+  },
   headerText: {
     color: colors.white,
     fontSize: fontSizes.sm2,
@@ -139,6 +130,12 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     alignSelf: 'center',
   },
+  record: {
+    color: colors.black,
+    fontSize: fontSizes.md,
+    fontFamily: fontFamily.GilroyBold,
+    alignSelf: 'center',
+  },
   present: {
     color: colors.black,
     fontSize: fontSizes.lg2,
@@ -146,14 +143,9 @@ const styles = StyleSheet.create({
     top: height * 0.05,
     alignSelf: 'center',
   },
-  inputRow: {
-    flexDirection: 'row',
+  inputContainer: {
     alignItems: 'center',
-  },
-  checkbox: {
-    left: width * 0.1,
-    top: height * 0.02,
   },
 });
 
-export default PurposeGoals;
+export default DailyPurposeJournal;

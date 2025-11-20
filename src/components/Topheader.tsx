@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { DrawerActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
@@ -123,7 +123,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   };
 
   const handleDrawer = () => {
-    // navigation.dispatch(DrawerActions.openDrawer());
+    navigation.dispatch(DrawerActions.openDrawer());
+    console.log("Drawer Icon Clicked!")
+    // navigation.openDrawer()
   };
 
   const handlePress = () => {

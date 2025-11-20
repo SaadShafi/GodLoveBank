@@ -10,7 +10,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const PurposeGoals = () => {
+const PlannedTimeGoals = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
   const [checkedStates, setCheckedStates] = useState(Array(10).fill(false));
@@ -36,20 +36,21 @@ const PurposeGoals = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.goals}>PURPOSE TIME GOALS</Text>
+        <Text style={styles.goals}>PLANNED TIME GOALS</Text>
 
         <View style={{ gap: height * 0.02 }}>
           {[0, 1, 2, 3, 4].map(index => (
             <View key={index} style={styles.inputRow}>
               <View style={{ left: width * 0.07, top: height * 0.02 }}>
                 <CustomTextInput
-                  placeholder="Time Goals"
+                  placeholder="RENEWING YOUR SPIRIT"
                   placeholderTextColor={colors.black}
                   inputHeight={height * 0.06}
                   inputWidth={width * 0.75}
                   backgroundColor={colors.lightGray}
                   borderRadius={15}
                   onChangeText={setEmail}
+                  editable={false}
                 />
               </View>
               <BouncyCheckbox
@@ -66,9 +67,9 @@ const PurposeGoals = () => {
           ))}
         </View>
 
-        <Text style={styles.present}>PRESENT TIME GOALS</Text>
+        {/* <Text style={styles.present}>PRESENT TIME GOALS</Text> */}
 
-        <View style={{ gap: height * 0.02, top: height * 0.055 }}>
+        <View style={{ gap: height * 0.02, top: height * 0.022 }}>
           {[5, 6, 7, 8, 9].map(index => (
             <View key={index} style={styles.inputRow}>
               <View style={{ left: width * 0.07, top: height * 0.02 }}>
@@ -80,6 +81,7 @@ const PurposeGoals = () => {
                   backgroundColor={colors.lightGray}
                   borderRadius={15}
                   onChangeText={setEmail}
+                  editable={false}
                 />
               </View>
               <BouncyCheckbox
@@ -156,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PurposeGoals;
+export default PlannedTimeGoals;
