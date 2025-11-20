@@ -246,8 +246,9 @@ const styles = StyleSheet.create({
   },
   bottomMain: {
     backgroundColor: colors.lightGray,
-    marginTop: height * 0.32,
+    top: height * 0.3,
     padding: 10,
+    height: height * 0.11,
     paddingHorizontal: width * 0.06,
     flexDirection: 'row',
     justifyContent: 'space-between',

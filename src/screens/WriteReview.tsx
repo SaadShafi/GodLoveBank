@@ -68,7 +68,7 @@ const WriteReview = () => {
                         text="Submit Review"
                         textColor={colors.white}
                         borderRadius={20}
-                        // onPress={() => navigation.navigate("Reviews")}
+                        onPress={() => navigation.navigate("ECommerce")}
                     />
                 </View>
             </View>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     btnMain: {
-        marginTop: height * 0.33
+        top: height * 0.28
     }
 })
 

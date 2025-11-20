@@ -262,12 +262,13 @@ const styles = StyleSheet.create({
     },
     paymentMethodMain: {
         position: "absolute",
-        marginTop: height * 0.79,
+        marginTop: height * 0.75,
         backgroundColor: colors.lightGray,
         padding: 10,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         width: width * 0.99,
+        height: height * 0.25,
         paddingHorizontal: width * 0.05
     },
     dropDownMain: {

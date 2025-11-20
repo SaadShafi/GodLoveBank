@@ -1,12 +1,15 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const CustomerSupport = () => {
+    const navigation = useNavigation<NavigationProp<any>>();
+  
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Customer Support" isBack={true} />
@@ -28,15 +31,16 @@ const CustomerSupport = () => {
       </View>
 
       <View style={{ flexDirection: 'row', gap: width * 0.06 }}>
-        <View style={styles.emailContainer}>
+        <TouchableOpacity style={styles.emailContainer} activeOpacity={0.7}>
           <Image source={images.email} style={styles.emailImg} />
           <Text style={styles.email}>Email Us</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.emailContainer}>
+           
+        <TouchableOpacity style={styles.emailContainer} activeOpacity={0.7}  onPress={() => navigation.navigate('Chat')}>
           <Image source={images.chat} style={styles.emailImg} />
           <Text style={styles.email}>Chat with Us</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

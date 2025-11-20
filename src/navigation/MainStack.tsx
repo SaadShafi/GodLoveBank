@@ -88,6 +88,7 @@ import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
 import DrawerNavigator from './Drawer';
+import InterestRepsTimer from '../screens/InterestRepsTimer';
 
 export type StackParamList = {
   Register: undefined;
@@ -179,6 +180,7 @@ export type StackParamList = {
   PlannedTimeGoals: undefined;
   DailyPurposeJournal: undefined;
   DailyJournalHistory: undefined;
+  InterestRepsTimer: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -311,6 +313,10 @@ const MainStack: React.FC = () => {
       <Stack.Screen
         name="DailyJournalHistory"
         component={DailyJournalHistory}
+      />
+        <Stack.Screen
+        name="InterestRepsTimer"
+        component={InterestRepsTimer}
       />
     </Stack.Navigator>
   );

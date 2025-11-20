@@ -149,6 +149,10 @@ const images: { [key: string]: ImageSourcePropType } = {
   drawerProf: require('../Images/drawerProf.png'),
   crossIcon: require('../Images/crossIcon.png'),
   logoutIcon: require('../Images/logoutIcon.png'),
+  repstimer: require('../Images/repstimer.png'),
+  time: require('../Images/time.png'),
+  start: require('../Images/start.png'),
+  stop: require('../Images/stop.png')
 };
 
 export default images;

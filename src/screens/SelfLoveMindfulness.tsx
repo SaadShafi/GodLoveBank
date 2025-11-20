@@ -50,9 +50,9 @@ const SelfLoveMindfulness = () => {
         </Text>
 
         <Text style={styles.prayer}>
-          WHEN AND HOW TO USE THE FIVE STAGES OF SPIRITUAL{' '}
+          WHEN AND HOW TO USE THE FIVE STAGES OF SPIRITUAL GROWTH!{' '}
         </Text>
-        <Text style={styles.prayer}>GROWTH!</Text>
+        {/* <Text style={styles.prayer}>GROWTH!</Text> */}
 
         <View style={{ gap: height * 0.02, top: height * 0.04 }}>
           <View style={styles.row}>
@@ -156,6 +156,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     paddingHorizontal: width * 0.04,
     top: height * 0.02,
+    color: colors.black
+
   },
   row: {
     flexDirection: 'row',
@@ -164,6 +166,8 @@ const styles = StyleSheet.create({
   },
   number: {
     fontFamily: fontFamily.GilroyRegular,
+    color: colors.black
+
   },
   text1: {
     fontFamily: fontFamily.GilroyRegular,

@@ -120,7 +120,7 @@ const Profile = () => {
           textColor={colors.white}
           onPress={() => setModalOpen(true)}
         /> */}
-        <View style={{}}>
+        <View style={{bottom: height * 0.02}}>
           <CustomButton
             btnHeight={height * 0.06}
             btnWidth={width * 0.9}
@@ -373,6 +373,7 @@ const styles = StyleSheet.create({
   settings: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
+    color: colors.black
   },
 });
 

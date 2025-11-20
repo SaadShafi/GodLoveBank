@@ -166,6 +166,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     paddingHorizontal: width * 0.04,
     top: height * 0.02,
+    color: colors.black
+
   },
   row: {
     flexDirection: 'row',
@@ -174,6 +176,8 @@ const styles = StyleSheet.create({
   },
   number: {
     fontFamily: fontFamily.GilroyRegular,
+    color: colors.black
+
   },
   text1: {
     fontFamily: fontFamily.GilroyRegular,

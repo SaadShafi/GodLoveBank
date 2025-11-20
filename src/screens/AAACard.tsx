@@ -311,23 +311,30 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.lg,
     alignSelf: 'center',
+    color: colors.black
+
   },
   ask: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.lg,
     alignSelf: 'center',
     top: height * 0.07,
+    color: colors.black
+
   },
   holy: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     paddingHorizontal: width * 0.09,
     top: height * 0.03,
+    color: colors.black
+
   },
   details: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.09,
+    color: colors.black,
     paddingHorizontal: width * 0.09,
   },
   abide: {
@@ -335,12 +342,16 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.lg,
     alignSelf: 'center',
     top: height * 0.13,
+    color: colors.black
+
   },
   long: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.15,
     paddingHorizontal: width * 0.09,
+    color: colors.black
+
   },
   spiritContainer: {
     alignSelf: 'center',

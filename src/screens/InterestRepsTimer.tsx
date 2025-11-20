@@ -490,7 +490,7 @@ const InterestRepsTimer = () => {
             borderColor={colors.marhoon}
             borderWidth={1}
             borderRadius={20}
-            onPress={() => navigation.navigate('RepsHistory')}
+            onPress={() => navigation.navigate('DepositInterestReps')}
           />
         </View>
       </ScrollView>
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.xl,
     position: 'absolute',
     alignSelf: 'center',
-    top: height * 0.13,
+    top: height * 0.12,
   },
   button: {
     alignSelf: 'center',
@@ -556,6 +556,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.md,
     top: height * 0.02,
+    color: colors.black
   },
   selected: {
     fontFamily: fontFamily.GilroyBold,
@@ -563,6 +564,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.05,
     top: height * 0.07,
     marginBottom: height * 0.02,
+    color: colors.black
+
   },
   // Carousel Styles
   carouselContainer: {

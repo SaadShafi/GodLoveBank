@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   relatedVideoDescription: {
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.xs,
-    color: colors.gray,
+    color: colors.Gray,
     top: height * 0.01,
   },
   playButton: {
@@ -385,8 +385,8 @@ const styles = StyleSheet.create({
   },
   favIcon: {
     position: 'absolute',
-    left: width * 0.03,
-    bottom: height * 0.07,
+    left: width * 0.33,
+    bottom: height * 0.06,
   },
 });
 

@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     bookContainer: {
         width: width * 0.93,
         height: height * 0.155,
+        alignSelf:'center',
         backgroundColor: colors.white,
         borderRadius: 8,
         padding: 15,

@@ -15,6 +15,8 @@ const TheAmenPrinciple = () => {
   const [firstName, setFirstName] = useState('');
   const [answer, setAnswer] = useState('');
   const [mate, setMate] = useState('');
+  const [example, setExample] = useState('');
+  const [invitation, setInvitation] = useState('');
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -115,8 +117,8 @@ const TheAmenPrinciple = () => {
                 inputHeight={height * 0.065}
                 inputWidth={width * 0.3}
                 borderRadius={20}
-                value={mate}
-                onChangeText={setMate}
+                value={example}
+                onChangeText={setExample}
                 keyboardType="default"
                 fontFamily={fontFamily.UrbanistMedium}
                 fontSize={fontSizes.sm2}
@@ -139,8 +141,8 @@ const TheAmenPrinciple = () => {
                 inputHeight={height * 0.065}
                 inputWidth={width * 0.3}
                 borderRadius={20}
-                value={mate}
-                onChangeText={setMate}
+                value={invitation}
+                onChangeText={setInvitation}
                 keyboardType="default"
                 fontFamily={fontFamily.UrbanistMedium}
                 fontSize={fontSizes.sm2}
@@ -273,6 +275,8 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     paddingHorizontal: width * 0.08,
+    color: colors.black
+
   },
   custom: {
     alignSelf: 'center',

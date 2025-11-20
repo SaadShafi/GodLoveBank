@@ -46,7 +46,7 @@ const SpiritualGrowth = () => {
             backgroundColor={colors.lightmarhoon}
             text="Continue"
             textColor={colors.white}
-            onPress={() => navigation.navigate('SelfHonesty')}
+            onPress={() => navigation.navigate('LoveDepositReps')}
           />
         </View>
       </View>
