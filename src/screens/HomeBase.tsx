@@ -33,7 +33,9 @@ const HomeBase = () => {
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               REJECTION:
             </Text>
             The Old Self–Love Story Of Rejection Has A Home Base And A Life
@@ -70,7 +72,9 @@ const HomeBase = () => {
           style={[styles.subContainer, { paddingVertical: height * 0.015 }]}
         >
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               CHOSENNESS:
             </Text>
             The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
@@ -143,6 +147,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     lineHeight: fontSizes.sm * 1.3,
     textAlign: 'justify',
+    color: colors.black,
   },
   btnMain: {
     top: height * 0.08,

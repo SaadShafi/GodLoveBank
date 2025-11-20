@@ -14,8 +14,8 @@ const Home = () => {
   const data = [
     {
       id: '1',
-      title1: 'Measure your',
-      title2: 'spiritual Growth',
+      title1: 'MEASURE YOUR',
+      title2: 'SPIRITUAL GROWTH',
       image: images.Heart,
       navigate: 'SpiritualGrowth',
     },
@@ -70,7 +70,7 @@ const Home = () => {
     },
     {
       id: '9',
-      title1: 'GOD’S PURPOSE ',
+      title1: "GOD'S PURPOSE ",
       title2: 'TOOLBOX',
       image: images.toolbox,
       navigate: 'PurposeToolbox',
@@ -155,8 +155,14 @@ const Home = () => {
     // add more items as needed
   ];
 
-  const renderItem = ({ item }: any) => (
-    <View style={{ gap: height * 0.03 }}>
+  const renderItem = ({ item, index }: any) => (
+    <View style={{ gap: height * 0.02 }}>
+      {/* Add Tools of Thinking after the first item */}
+      {index === 1 && (
+        <View style={styles.toolsContainer}>
+          <Text style={styles.toolsText}>Tools of Thinking</Text>
+        </View>
+      )}
       <View style={styles.container}>
         <Image source={item.image} style={styles.heart} />
         <View style={{ gap: height * 0.005 }}>
@@ -224,6 +230,17 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     position: 'absolute',
   },
+  // Added Tools of Thinking styles
+  toolsContainer: {
+    top: height * 0.03,
+    paddingHorizontal: width * 0.05,
+  },
+  toolsText: {
+    fontFamily: fontFamily.UrbanistExtraBold,
+    fontSize: fontSizes.lg2,
+    color: colors.black,
+    textAlign: 'left',
+  },
   container: {
     backgroundColor: colors.white,
     width: width * 0.9,
@@ -238,7 +255,7 @@ const styles = StyleSheet.create({
   },
   heart: {
     alignSelf: 'center',
-    left: width * 0.3,
+    left: width * 0.29,
     top: height * 0.05,
   },
   measure: {

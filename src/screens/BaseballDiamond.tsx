@@ -92,7 +92,7 @@ const BaseballDiamond = () => {
             </View>
 
             <View style={styles.subContainer}>
-              <Text style={styles.reject}>Chosen-Ness (1)</Text>
+              <Text style={styles.reject}>Abuse (1)</Text>
             </View>
           </View>
         </View>
@@ -118,7 +118,7 @@ const BaseballDiamond = () => {
           <Text style={styles.firstBase}>1ST BASE</Text>
         </View>
 
-        <Text style={styles.chose}>CHOSEN-NESS</Text>
+        <Text style={styles.chose}>ABUSE</Text>
         <View style={{ bottom: height * 0.15, left: width * 0.27 }}>
           <Image source={images.homeBase} style={styles.homeBaseImg} />
           <Text style={styles.One}>1</Text>
@@ -145,12 +145,14 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.md,
+    color: colors.black,
     left: width * 0.07,
     top: height * 0.02,
   },
   subText: {
     fontFamily: fontFamily.GilroyRegular,
     lineHeight: fontSizes.sm * 1.3,
+    color: colors.black,
     left: width * 0.07,
     top: height * 0.03,
     width: width * 0.87,
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    bottom: height * 0.085,
+    bottom: height * 0.09,
     left: width * 0.6,
   },
   chose: {
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     bottom: height * 0.06,
-    left: width * 0.37,
+    left: width * 0.45,
   },
   base: {
     color: colors.red,
@@ -267,20 +269,20 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.xl,
     alignSelf: 'center',
     color: colors.white,
-    top: height * 0.02,
+    top: height * 0.01,
   },
   num: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.02,
+    top: height * 0.01,
     left: width * 0.225,
   },
   One: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.02,
+    top: height * 0.01,
     left: width * 0.225,
   },
   btnMain: {

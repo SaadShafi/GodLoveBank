@@ -34,7 +34,9 @@ const ThirdBase = () => {
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               ABANDONMENT:
             </Text>
             The old self-love story of Abandonment has a home base and a life
@@ -71,7 +73,9 @@ const ThirdBase = () => {
           style={[styles.subContainer, { paddingVertical: height * 0.015 }]}
         >
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               ATONEMENT:
             </Text>
             The new self-love story of Atonement makes you feel absolutely and
@@ -145,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     lineHeight: fontSizes.sm * 1.3,
     textAlign: 'justify',
+    color: colors.black,
   },
   btnMain: {
     top: height * 0.08,

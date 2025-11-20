@@ -34,7 +34,9 @@ const FirstBase = () => {
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               WORTHLESSNESS:
             </Text>
             The old self-love story of Worthlessness has home base and a life
@@ -72,7 +74,9 @@ const FirstBase = () => {
           style={[styles.subContainer, { paddingVertical: height * 0.015 }]}
         >
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
               GREATNESS:
             </Text>
             The new self-love story of Greatness makes you feel worthy. Since
@@ -146,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     lineHeight: fontSizes.sm * 1.3,
     textAlign: 'justify',
+    color: colors.black,
   },
   btnMain: {
     top: height * 0.08,

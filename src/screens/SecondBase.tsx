@@ -34,7 +34,11 @@ const SecondBase = () => {
 
         <View style={[styles.container, { paddingVertical: height * 0.015 }]}>
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>ABUSE:</Text>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
+              ABUSE:
+            </Text>
             The old self-love story of Abuse has a home base and a life
             paradigm, mistreated, cheated, victimized, battered, robbed, and
             defenseless. You always feel like someone is going to hurt or harm
@@ -68,7 +72,11 @@ const SecondBase = () => {
           style={[styles.subContainer, { paddingVertical: height * 0.015 }]}
         >
           <Text style={styles.description}>
-            <Text style={{ fontFamily: fontFamily.GilroyBold }}>PURPOSE:</Text>
+            <Text
+              style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
+            >
+              PURPOSE:
+            </Text>
             The new self-love story of Purpose makes you feel a sense of calling
             on earth for a purpose. Your purpose gives you a sense of meaning,
             significance, and value in your life. In spite of what has happened
@@ -138,6 +146,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     lineHeight: fontSizes.sm * 1.3,
     textAlign: 'justify',
+    color: colors.black,
   },
   btnMain: {
     top: height * 0.08,
