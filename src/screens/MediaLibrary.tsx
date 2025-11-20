@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
   favIcon: {
     position: 'absolute',
     left: width * 0.03,
-    bottom: height * 0.07,
+    bottom: height * 0.06,
   },
   video: {
     position: 'absolute',
