@@ -36,7 +36,7 @@ const PurposePlanner = () => {
               borderColor={colors.marhoon}
               borderWidth={2}
               borderRadius={20}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('PurposeGoals')}
             />
           </View>
 

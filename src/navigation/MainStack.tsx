@@ -3,12 +3,14 @@ import React from 'react';
 import AAACard from '../screens/AAACard';
 import AAACardHistory from '../screens/AAACardHistory';
 import AAARequestCardHistory from '../screens/AAARequestCardHistory';
+import AddBook from '../screens/AddBook';
 import AddDeliveryddress from '../screens/AddDeliveryAddress';
 import AmenPrinciples from '../screens/AmenPrinciples';
 import BaseballDiamond from '../screens/BaseballDiamond';
 import CaringDeeds from '../screens/CaringDeeds';
 import Cart from '../screens/Cart';
 import ChangePassword from '../screens/ChangePassword';
+import Chat from '../screens/Chat';
 import Checkout from '../screens/Checkout';
 import ClosingPrinciples from '../screens/ClosingPrinciples';
 import ClosingSpirits from '../screens/ClosingSpirits';
@@ -19,6 +21,7 @@ import DepositsSteps from '../screens/DepositsSteps';
 import ECommerce from '../screens/ECommerce';
 import EditProfile from '../screens/EditProfile';
 import FAQs from '../screens/FAQs';
+import Favourites from '../screens/Favourites';
 import FirstBase from '../screens/FirstBase';
 import ForgotPassword from '../screens/ForgotPassword';
 import GiftJourney from '../screens/GiftJourney';
@@ -28,6 +31,7 @@ import GoldenRuleCommunication from '../screens/GoldenRuleCommunication';
 import HolySpirits from '../screens/HolySpirits';
 import HomeBase from '../screens/HomeBase';
 import InstrumentalGoals from '../screens/InstrumentalGoals';
+import InterestRepsTimer from '../screens/InterestRepsTimer';
 import LoveDepositReps from '../screens/LoveDepositReps';
 import LoveDeposits from '../screens/LoveDeposits';
 import MediaDetails from '../screens/MediaDetails';
@@ -39,6 +43,7 @@ import OrderConfirmed from '../screens/OrderConfirmed';
 import OtpVerification from '../screens/OtpVerification';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Profile from '../screens/Profile';
+import PurposeGoals from '../screens/PurposeGoals';
 import PurposeInstrumental from '../screens/PurposeInstrumental';
 import PurposePlanner from '../screens/PurposePlanner';
 import PurposeToolbox from '../screens/PurposeToolbox';
@@ -48,6 +53,7 @@ import Questionnaire from '../screens/Questionnaire';
 import Register from '../screens/Register';
 import Registeration from '../screens/Registeration';
 import RepsHistory from '../screens/RepsHistory';
+import Reviews from '../screens/Reviews';
 import SecondBase from '../screens/SecondBase';
 import SelfConfidence from '../screens/SelfConfidence';
 import SelfCourage from '../screens/SelfCourage';
@@ -78,10 +84,6 @@ import ThreeFoldSpirtual from '../screens/ThreeFoldSpirtual';
 import Toolbox from '../screens/Toolbox';
 import WriteReview from '../screens/WriteReview';
 import BottomTabs from './BottomTabs';
-import Reviews from '../screens/Reviews';
-import AddBook from '../screens/AddBook';
-import Favourites from '../screens/Favourites';
-import Chat from '../screens/Chat';
 
 export type StackParamList = {
   Register: undefined;
@@ -166,6 +168,8 @@ export type StackParamList = {
   Reviews: undefined;
   AddBook: undefined;
   Favourites: undefined;
+  InterestRepsTimer: undefined;
+  PurposeGoals: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -287,6 +291,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="AddBook" component={AddBook} />
       <Stack.Screen name="Favourites" component={Favourites} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="InterestRepsTimer" component={InterestRepsTimer} />
+      <Stack.Screen name="PurposeGoals" component={PurposeGoals} />
     </Stack.Navigator>
   );
 };

@@ -1,21 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
-import images from '../assets/Images';
-import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
-const DepositInterestReps = () => {
+const PurposeGoals = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -24,9 +15,7 @@ const DepositInterestReps = () => {
       <View style={styles.mainContainer}>
         <TopHeader
           isBack={true}
-          text={
-            <Text style={styles.headerText}>COMPOUNDING INTEREST REPS</Text>
-          }
+          text={<Text style={styles.headerText}>DAILY PURPOSE PLANNER</Text>}
         />
       </View>
 
@@ -34,66 +23,7 @@ const DepositInterestReps = () => {
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
-      >
-        <Image source={images.reps} style={styles.img} />
-        <Text style={styles.mathew}>
-          LOVE DEPOSIT COMPOUNDING INTEREST REPS
-        </Text>
-
-        <Text style={styles.description}>
-          You can measure, monitor, and score your Spiritual Growth by tracking
-          the number of Love Deposits Interest Reps you invest in the bank of
-          your soul on a daily basis. Every L/D Rep you make in your New
-          Self-Love Accounts strengthens your New Self-Love Mindfulness. You can
-          turn every withdrawal situation, challenge, problem, adversity or
-          defeating experience into a Love Deposit Rep in the bank accounts of
-          your soul. Much like lifting weights to build your physical strength,
-          L/D Reps builds your Spiritual Growth. They can be performed during
-          everyday activities—while walking, stretching, praying, breathing,
-          reading and studying your Bible—turning ordinary moments into Love
-          Deposit opportunities for your Spiritual Growth.
-        </Text>
-        <View style={styles.btn1}>
-          <CustomButton
-            text="Reps History"
-            textColor={colors.marhoon}
-            btnHeight={height * 0.06}
-            btnWidth={width * 0.85}
-            backgroundColor={colors.white}
-            borderColor={colors.marhoon}
-            borderWidth={1}
-            borderRadius={30}
-            onPress={() => navigation.navigate('RepsHistory')}
-          />
-        </View>
-      </ScrollView>
-      <View style={styles.audioContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            top: height * 0.03,
-            gap: width * 0.02,
-          }}
-        >
-          <TouchableOpacity>
-            <Image source={images.playbutton} />
-          </TouchableOpacity>
-          <Text style={styles.audio}>Audio Explanation</Text>
-        </View>
-
-        <View style={styles.btn}>
-          <CustomButton
-            text="Continue"
-            textColor={colors.white}
-            btnHeight={height * 0.065}
-            btnWidth={width * 0.85}
-            backgroundColor={colors.marhoon}
-            borderRadius={20}
-            onPress={() => navigation.navigate('InterestRepsTimer')}
-          />
-        </View>
-      </View>
+      ></ScrollView>
     </View>
   );
 };
@@ -201,10 +131,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: height * 0.05,
   },
-  btn1: {
-    alignSelf: 'center',
-    top: height * 0.03,
-  },
 });
 
-export default DepositInterestReps;
+export default PurposeGoals;

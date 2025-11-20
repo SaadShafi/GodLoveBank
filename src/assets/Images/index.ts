@@ -138,14 +138,18 @@ const images: { [key: string]: ImageSourcePropType } = {
   sendBtn: require('../Images/sendBtn.png'),
   cameraIcon: require('../Images/cameraIcon.png'),
   emojiIcon: require('../Images/emojiIcon.png'),
-  ratingListOne: require("../Images/ratingListOne.png"),
-  ratingListSec: require("../Images/ratingListSec.png"),
-  ratingListThird: require("../Images/ratingListThird.png"),
-  rating: require("../Images/rating.png"),
-  addBook: require("../Images/addBook.png"),
-  plusSign: require("../Images/plusSign.png"),
-  minusSign: require("../Images/minusSign.png"),
-  chatImg: require("../Images/chatImg.png")
+  ratingListOne: require('../Images/ratingListOne.png'),
+  ratingListSec: require('../Images/ratingListSec.png'),
+  ratingListThird: require('../Images/ratingListThird.png'),
+  rating: require('../Images/rating.png'),
+  addBook: require('../Images/addBook.png'),
+  plusSign: require('../Images/plusSign.png'),
+  minusSign: require('../Images/minusSign.png'),
+  chatImg: require('../Images/chatImg.png'),
+  repstimer: require('../Images/repstimer.png'),
+  start: require('../Images/start.png'),
+  time: require('../Images/time.png'),
+  stop: require('../Images/stop.png'),
 };
 
 export default images;

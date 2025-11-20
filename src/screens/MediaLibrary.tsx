@@ -31,21 +31,21 @@ const MediaLibrary = () => {
       title: 'Lorem Ipsum Dolor Sit Amet',
       description: 'Lorem ipsum dolor sit amet consectetur.',
       duration: '25 Min',
-      image: images.recent, 
+      image: images.recent,
     },
     {
       id: '2',
       title: 'Sapien Uma Lectus habitasse fermentum',
       description: 'Sapien uma lectus habitasse fermentum.',
       duration: '20 Min',
-      image: images.recent, 
+      image: images.recent,
     },
     {
       id: '3',
       title: 'Amet Consectetur habitasse fermentum',
       description: 'Amet consectetur fermentum.',
       duration: '30 Min',
-      image: images.recent, 
+      image: images.recent,
     },
   ];
 
@@ -54,19 +54,19 @@ const MediaLibrary = () => {
       id: '1',
       title: 'Lorem Ipsum Dolor Sit Amet',
       description: 'Lorem ipsum dolor sit amet consectetur.',
-      image: images.amet, 
+      image: images.amet,
     },
     {
       id: '2',
       title: 'Lorem Ipsum Dolor',
       description: 'Lorem ipsum dolor sit amet consectetur.',
-      image: images.dolor, 
+      image: images.dolor,
     },
     {
       id: '3',
       title: 'Fermentum Sapien',
       description: 'Lorem ipsum dolor sit amet consectetur. ',
-      image: images.recent, 
+      image: images.recent,
     },
   ];
 
@@ -92,7 +92,11 @@ const MediaLibrary = () => {
   );
 
   const renderRecentWatchItem = ({ item }) => (
-    <View style={styles.recentVideoItem}>
+    <TouchableOpacity
+      style={styles.recentVideoItem}
+      activeOpacity={0.7}
+      onPress={() => navigation.navigate('MediaDetails')}
+    >
       <View style={styles.recentVideoThumbnail}>
         <Image
           source={item.image}
@@ -110,7 +114,7 @@ const MediaLibrary = () => {
           <Image source={images.video} style={styles.video} />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderRelatedVideoItem = ({ item }) => (
@@ -143,7 +147,7 @@ const MediaLibrary = () => {
           backgroundColor={colors.darkmarhoon}
           borderRadius={12}
           fontSize={fontSizes.xsm}
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('MediaDetails')}
         />
       </View>
     </View>
@@ -277,7 +281,7 @@ const MediaLibrary = () => {
           {renderRelatedVideosSection()}
 
           {/* Watch Section */}
-          {renderSection('Watch', relatedVideos)}
+          {/* {renderSection('Watch', relatedVideos)} */}
         </ScrollView>
       )}
     </View>
