@@ -177,7 +177,7 @@ const EditProfile = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.goBack()}
           />
         </View>
       </View>

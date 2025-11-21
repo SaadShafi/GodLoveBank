@@ -27,6 +27,7 @@ interface TopHeaderProps {
   isMenu?: boolean;
   isMenuSec?: boolean;
   notification?: boolean;
+  notificationSec?: boolean;
   notificationImage?: 'notiSec' | string;
   menuSecond?: 'MenuColor' | string;
   backSec?: 'whiteArrow' | string;
@@ -51,6 +52,7 @@ interface TopHeaderProps {
   isBackWhite?: boolean;
   isProfile?: boolean;
   isCart?: boolean;
+  isBackHome?: boolean;
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({
@@ -65,6 +67,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isMenu = false,
   isMenuSec = false,
   notification = false,
+  notificationSec = false,
   notificationImage,
   menuSecond,
   backSec,
@@ -88,6 +91,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isBackWhite = false,
   isProfile = false,
   isCart = false,
+  isBackHome= false,
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [disputeOpen, setdisputeOpen] = useState(false);
@@ -125,7 +129,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const handleDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
     console.log("Drawer Icon Clicked!")
-    // navigation.openDrawer()
   };
 
   const handlePress = () => {
@@ -189,6 +192,20 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <Image source={images.isBack} style={styles.backArrowBlack} />
             </Pressable>
           )}
+          {isBackHome && (
+            <Pressable
+              style={styles.headerArrow}
+              onPress={() => {
+                if (navigation) {
+                  // navigation.canGoBack()
+                    // ? navigation.goBack()
+                   navigation.navigate('Home');
+                }
+              }}
+            >
+              <Image source={images.backIcon} style={styles.backArrow} />
+            </Pressable>
+          )}
           {isBackWhite && (
             <TouchableOpacity
               style={styles.headerArrow}
@@ -244,14 +261,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
                 <Image source={images.bell} style={styles.bellImg} />
-                <Image
-                  source={
-                    notificationImage === 'notiSec'
-                      ? images.notiMain
-                      : images.notiMain
-                  }
-                  style={styles.bellImg}
-                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {notificationSec && (
+            <View style={styles.headerBell}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('NotificationsScreen')}
+              >
+                <Image source={images.bell} style={styles.bellImgSec}/>
               </TouchableOpacity>
             </View>
           )}
@@ -265,7 +283,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               </TouchableOpacity>
             </View>
           )}
-          {list && (
+          {/* {list && (
             <View style={styles.headerBell}>
               <TouchableOpacity
                 activeOpacity={0.6}
@@ -274,7 +292,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 <Image source={images.listImg} style={styles.bellImgSec} />
               </TouchableOpacity>
             </View>
-          )}
+          )} */}
           {addCard && (
             <TouchableOpacity
               style={styles.headeraddCard}
@@ -440,9 +458,13 @@ const styles = StyleSheet.create({
   },
   bellImg: {
     width: width * 0.11,
-    // height: width * 0.11,
     right: width * 0.25,
     resizeMode: 'contain',
+  },
+  bellImgSec: {
+     width: width * 0.11,
+     resizeMode: 'contain',
+     right: width * 0.01
   },
   notiText: {
     fontSize: width * 0.02,
@@ -503,11 +525,11 @@ const styles = StyleSheet.create({
     top: height * 0.003,
     resizeMode: 'contain',
   },
-  bellImgSec: {
-    width: width * 0.06,
-    height: width * 0.06,
-    resizeMode: 'contain',
-  },
+  // bellImgSec: {
+  //   width: width * 0.06,
+  //   height: width * 0.06,
+  //   resizeMode: 'contain',
+  // },
   modalContainer: {
     flex: 1,
     backgroundColor: colors.white,
@@ -583,7 +605,7 @@ const styles = StyleSheet.create({
     width: width * 0.1,
     height: width * 0.1,
     resizeMode: 'contain',
-    right: width * 0.35
+    right: width * 0.38
   }
 });
 

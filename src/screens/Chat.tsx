@@ -17,6 +17,7 @@ import images from '../assets/Images';
 import CustomTextInput from '../components/CustomTextInput';
 import { fontFamily } from '../assets/Fonts';
 import { fontSizes } from '../utilities/fontsizes';
+import { Picker } from "emoji-mart-native"
 
 
 type Message = {
@@ -42,6 +43,7 @@ const Chat = () => {
     },
   ]);
   const [currentMessage, setCurrentMessage] = useState<string>('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const getChatData = (): ChatItem[] => {
     let chatData: ChatItem[] = [];
@@ -148,6 +150,17 @@ const Chat = () => {
           contentContainerStyle={styles.chatList}
           inverted={false}
         />
+        {/* Emoji Picker */}
+        {showEmojiPicker && (
+          <Picker
+            onEmojiSelect={emoji => {
+              setCurrentMessage((prev) => prev + emoji.native);
+            }}
+            showPreview={false}
+            showSkinTones={true}
+            style={{ height: height * 0.35 }}
+          />
+        )}
         <View style={styles.inputContainer}>
           <CustomTextInput
             inputHeight={height * 0.07}
@@ -156,8 +169,10 @@ const Chat = () => {
             placeholderTextColor={colors.darkGray}
             borderRadius={30}
             backgroundColor={colors.white}
-            onChangeText={text => setCurrentMessage(text)}
+            // onChangeText={text => setCurrentMessage(text)}
+            // value={currentMessage}
             value={currentMessage}
+            onChangeText={setCurrentMessage}
             multiline
            rightIcon={
             <TouchableOpacity>
@@ -165,7 +180,7 @@ const Chat = () => {
             </TouchableOpacity>
            }
            leftIcon={
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowEmojiPicker(prev => !prev)}>
                 <Image source={images.emojiIcon}/>
             </TouchableOpacity>
            }

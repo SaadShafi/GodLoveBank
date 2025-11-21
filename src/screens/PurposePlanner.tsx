@@ -15,7 +15,7 @@ const PurposePlanner = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackHome={true}
           text={<Text style={styles.headerText}>DAILY PURPOSE PLANNER</Text>}
         />
       </View>

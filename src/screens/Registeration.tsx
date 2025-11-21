@@ -243,7 +243,7 @@ const Registeration = () => {
               </Text>
               <TouchableOpacity
                 activeOpacity={0.7}
-                //   onPress={() => navigation.navigate('TermsCondition')}
+                  onPress={() => navigation.navigate('TermsConditions')}
               >
                 <Text style={styles.text}>Terms & Conditions &</Text>
               </TouchableOpacity>
@@ -251,7 +251,7 @@ const Registeration = () => {
             <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                //   onPress={() => navigation.navigate('PrivacyPolicy')}
+                  onPress={() => navigation.navigate('PrivacyPolicy')}
               >
                 <Text style={styles.text}>Privacy Policy</Text>
               </TouchableOpacity>

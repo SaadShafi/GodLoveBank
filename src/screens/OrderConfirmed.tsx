@@ -6,9 +6,10 @@ import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const OrderConfirmed = () => {
-    const navigation = useNavigation<NavigationProp<any>>()
+    const navigation = useNavigation<NativeStackNavigationProp<any>>()
     const bookData = [
         {
             headText: "Dummy Text",
@@ -93,9 +94,6 @@ const OrderConfirmed = () => {
                             <View style={styles.textContent}>
                                 <View style={styles.headTextMain}>
                                     <Text style={styles.bookText}>Mapo Tofu</Text>
-                                    <TouchableOpacity>
-                                        <Image source={images.trashIcon} style={styles.trashIcon} />
-                                    </TouchableOpacity>
                                 </View>
                                 <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
                             </View>
@@ -129,7 +127,9 @@ const OrderConfirmed = () => {
                     borderColor={colors.marhoon}
                     borderWidth={1}
                     borderRadius={20}
-                    onPress={() => navigation.navigate("ECommerce")}
+                    onPress={() => {
+                        navigation.popToTop();
+                    }}
                     />
                     <CustomButton
                     btnHeight={height * 0.06}
@@ -196,9 +196,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headTextMain: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        // alignItems: "center",
         width: width * 0.47,
         top: height * 0.01
     },

@@ -113,7 +113,7 @@ const SelfCourage = () => {
               borderWidth={1}
               text="Move To Next Core Values"
               textColor={colors.marhoon}
-              onPress={() => navigation.navigate('SelfForgiveness')}
+              onPress={() => navigation.navigate('LoveDepositReps')}
             />
           </View>
         </View>

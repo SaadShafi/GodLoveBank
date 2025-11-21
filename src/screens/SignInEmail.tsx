@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   forgotPassMain: {
     alignSelf: 'flex-end',
-    width: width * 0.28,
+    width: width * 0.29,
     cursor: 'pointer',
   },
   forgotPass: {

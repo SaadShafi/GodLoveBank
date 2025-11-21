@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import TopHeader from "../components/Topheader";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
@@ -21,81 +21,165 @@ const Checkout = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: colors.white }}>
             <TopHeader isCross={true} text="Checkout" />
-            <View style={styles.container}>
-                <View style={styles.deliveryMain}>
-                    <Text style={styles.headText}>Delivery Address</Text>
-                    <View style={styles.addMain}>
-                        <Text style={styles.deliveryText}>Add Delivery Address</Text>
-                        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("AddDeliveryddress")}>
-                            <Image source={images.addIcon} style={styles.addIcon} />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                {Data?.addressData && (
-                    <View style={styles.addressDataContainer}>
-                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                           <View style={{flexDirection: "row", alignItems: "center"}}>
-                                <Text style={styles.addressName}>{Data.addressData.name}</Text>
-                                <Text style={styles.addressLabel}>{Data.addressData.label}</Text>
-                           </View>
-                            <View>
-                                <Image source={images.editIcon} style={styles.editIcon} />
+            {Data?.addressData ? (
+                <ScrollView
+                    style={{ flex: 1 }}
+                    contentContainerStyle={{ paddingBottom: height * 0.30 }}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.container}>
+                        <View style={styles.deliveryMain}>
+                            <Text style={styles.headText}>Delivery Address</Text>
+                            <View style={styles.addMain}>
+                                <Text style={styles.deliveryText}>Add Delivery Address</Text>
+                                <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("AddDeliveryddress")}>
+                                    <Image source={images.addIcon} style={styles.addIcon} />
+                                </TouchableOpacity>
                             </View>
                         </View>
-                        <Text style={styles.addressText}>{Data.addressData.address}</Text>
-                        {Data.addressData.phone && (
-                            <Text style={styles.addressPhone}>{Data.addressData.phone}</Text>
-                        )}
-                        <View >
-                            <Text>{Data.addressData.city}</Text>
-                            <Text>{Data.addressData.region}</Text>
-                            <Text>{Data.addressData.code}</Text>
-                        </View>
-                    </View>
-                )}
-                <View style={styles.OrderMain}>
-                    <Text style={styles.headText}>OrderMain</Text>
-                    <View style={styles.bookContainer}>
-                        <View style={styles.selectedBookMain}>
-                            <Image source={images.recBookSec} style={styles.imgMain} />
-                            <View style={styles.textContent}>
-                                <View style={styles.headTextMain}>
-                                    <Text style={styles.bookText}>Mapo Tofu</Text>
-                                    <TouchableOpacity>
-                                        <Image source={images.trashIcon} style={styles.trashIcon} />
-                                    </TouchableOpacity>
+                        {Data?.addressData && (
+                            <View style={styles.addressDataContainer}>
+                                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                        <Text style={styles.addressName}>{Data.addressData.name}</Text>
+                                        <Text style={styles.addressLabel}>{Data.addressData.label}</Text>
+                                    </View>
+                                    <View>
+                                        <Image source={images.editIcon} style={styles.editIcon} />
+                                    </View>
                                 </View>
-                                <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
+                                <Text style={styles.addressText}>{Data.addressData.address}</Text>
+                                {Data.addressData.phone && (
+                                    <Text style={styles.addressPhone}>{Data.addressData.phone}</Text>
+                                )}
+                                <View >
+                                    <Text>{Data.addressData.city}</Text>
+                                    <Text>{Data.addressData.region}</Text>
+                                    <Text>{Data.addressData.code}</Text>
+                                </View>
+                            </View>
+                        )}
+                        <View style={styles.OrderMain}>
+                            <Text style={styles.headText}>OrderMain</Text>
+                            <View style={styles.bookContainer}>
+                                <View style={styles.selectedBookMain}>
+                                    <Image source={images.recBookSec} style={styles.imgMain} />
+                                    <View style={styles.textContent}>
+                                        <View style={styles.headTextMain}>
+                                            <Text style={styles.bookText}>Mapo Tofu</Text>
+                                            <TouchableOpacity>
+                                                <Image source={images.trashIcon} style={styles.trashIcon} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.stockInfo}>
+                                    <Text style={styles.stockText}>Only 5 items in stock</Text>
+                                    <Text style={styles.priceText}>$12.56</Text>
+                                </View>
                             </View>
                         </View>
-                        <View style={styles.stockInfo}>
-                            <Text style={styles.stockText}>Only 5 items in stock</Text>
-                            <Text style={styles.priceText}>$12.56</Text>
+                        <View style={styles.OrderMain}>
+                            <Text style={styles.headText}>Order Summary</Text>
+                            <View style={styles.summaryMain}>
+                                <View style={styles.listMain}>
+                                    <Text style={styles.listTextOne}>Items Total</Text>
+                                    <Text style={styles.listTextOne}>$12.56</Text>
+                                </View>
+                                <View style={styles.listMain}>
+                                    <Text style={styles.listTextOne}>Delivery Fee</Text>
+                                    <Text style={styles.listTextOne}>$2.50</Text>
+                                </View>
+                                <View style={styles.listMain}>
+                                    <Text style={styles.listTextOne}>Sales Tax</Text>
+                                    <Text style={styles.listTextOne}>$-1.55</Text>
+                                </View>
+                                <View style={styles.listMain}>
+                                    <Text style={styles.listTextTwo}>Total Payment</Text>
+                                    <Text style={styles.listTextTwo}>$13.36</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            ) : (
+                <View style={styles.container}>
+                    <View style={styles.deliveryMain}>
+                        <Text style={styles.headText}>Delivery Address</Text>
+                        <View style={styles.addMain}>
+                            <Text style={styles.deliveryText}>Add Delivery Address</Text>
+                            <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("AddDeliveryddress")}>
+                                <Image source={images.addIcon} style={styles.addIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    {Data?.addressData && (
+                        <View style={styles.addressDataContainer}>
+                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                    <Text style={styles.addressName}>{Data.addressData.name}</Text>
+                                    <Text style={styles.addressLabel}>{Data.addressData.label}</Text>
+                                </View>
+                                <View>
+                                    <Image source={images.editIcon} style={styles.editIcon} />
+                                </View>
+                            </View>
+                            <Text style={styles.addressText}>{Data.addressData.address}</Text>
+                            {Data.addressData.phone && (
+                                <Text style={styles.addressPhone}>{Data.addressData.phone}</Text>
+                            )}
+                            <View >
+                                <Text>{Data.addressData.city}</Text>
+                                <Text>{Data.addressData.region}</Text>
+                                <Text>{Data.addressData.code}</Text>
+                            </View>
+                        </View>
+                    )}
+                    <View style={styles.OrderMain}>
+                        <Text style={styles.headText}>OrderMain</Text>
+                        <View style={styles.bookContainer}>
+                            <View style={styles.selectedBookMain}>
+                                <Image source={images.recBookSec} style={styles.imgMain} />
+                                <View style={styles.textContent}>
+                                    <View style={styles.headTextMain}>
+                                        <Text style={styles.bookText}>Mapo Tofu</Text>
+                                        <TouchableOpacity>
+                                            <Image source={images.trashIcon} style={styles.trashIcon} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
+                                </View>
+                            </View>
+                            <View style={styles.stockInfo}>
+                                <Text style={styles.stockText}>Only 5 items in stock</Text>
+                                <Text style={styles.priceText}>$12.56</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.OrderMain}>
+                        <Text style={styles.headText}>Order Summary</Text>
+                        <View style={styles.summaryMain}>
+                            <View style={styles.listMain}>
+                                <Text style={styles.listTextOne}>Items Total</Text>
+                                <Text style={styles.listTextOne}>$12.56</Text>
+                            </View>
+                            <View style={styles.listMain}>
+                                <Text style={styles.listTextOne}>Delivery Fee</Text>
+                                <Text style={styles.listTextOne}>$2.50</Text>
+                            </View>
+                            <View style={styles.listMain}>
+                                <Text style={styles.listTextOne}>Sales Tax</Text>
+                                <Text style={styles.listTextOne}>$-1.55</Text>
+                            </View>
+                            <View style={styles.listMain}>
+                                <Text style={styles.listTextTwo}>Total Payment</Text>
+                                <Text style={styles.listTextTwo}>$13.36</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
-                <View style={styles.OrderMain}>
-                    <Text style={styles.headText}>Order Summary</Text>
-                    <View style={styles.summaryMain}>
-                        <View style={styles.listMain}>
-                            <Text style={styles.listTextOne}>Items Total</Text>
-                            <Text style={styles.listTextOne}>$12.56</Text>
-                        </View>
-                        <View style={styles.listMain}>
-                            <Text style={styles.listTextOne}>Delivery Fee</Text>
-                            <Text style={styles.listTextOne}>$2.50</Text>
-                        </View>
-                        <View style={styles.listMain}>
-                            <Text style={styles.listTextOne}>Sales Tax</Text>
-                            <Text style={styles.listTextOne}>$-1.55</Text>
-                        </View>
-                        <View style={styles.listMain}>
-                            <Text style={styles.listTextTwo}>Total Payment</Text>
-                            <Text style={styles.listTextTwo}>$13.36</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
+            )}
             <View style={styles.paymentMethodMain}>
                 <Text style={styles.headText}>Select Payment Method</Text>
                 <View style={styles.dropDownMain}>

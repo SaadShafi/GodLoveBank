@@ -41,7 +41,7 @@ const Profile = () => {
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <View style={styles.topHeader}>
-        <TopHeader text="Profile" isBack={true} />
+        <TopHeader text="Profile" isMenu={true} notificationSec={true}/>
       </View>
 
       <TouchableOpacity

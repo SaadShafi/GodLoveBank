@@ -290,7 +290,7 @@ const LoveDepositReps = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <TopHeader text="Love Deposit Reps" isBack={true} />
+      <TopHeader text="Love Deposit Reps" isBackHome={true} />
       <FlatList
         data={DATA}
         renderItem={renderItem}

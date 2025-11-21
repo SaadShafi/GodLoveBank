@@ -10,9 +10,10 @@ import { colors } from "../utilities/colors";
 import StarRating from "react-native-star-rating-widget";
 import { useState } from "react";
 import CustomMultiInput from "../components/CustomMultiInput";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const WriteReview = () => {
-    const navigation = useNavigation<NavigationProp<any>>()
+    const navigation = useNavigation<NativeStackNavigationProp<any>>()
     const [rating, setRating] = useState(0)
 
     return (
@@ -68,7 +69,7 @@ const WriteReview = () => {
                         text="Submit Review"
                         textColor={colors.white}
                         borderRadius={20}
-                        onPress={() => navigation.navigate("ECommerce")}
+                        onPress={() => navigation.popToTop()}
                     />
                 </View>
             </View>

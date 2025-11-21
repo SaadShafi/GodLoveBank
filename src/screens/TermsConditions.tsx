@@ -53,7 +53,7 @@ const TermsConditions = () => {
             backgroundColor={colors.marhoon}
             text="I Accept"
             textColor={colors.white}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.goBack()}
           />
         </View>
       </View>
