@@ -161,7 +161,8 @@ const ECommerce = () => {
 
   const renderRecommendedBooks = ({ item }: { item: Prop }) => {
     return (
-      <View style={styles.bookCard}>
+           
+      <TouchableOpacity style={styles.bookCard} activeOpacity={0.7}  onPress={() => navigation.navigate('AddBook')}>
         <Image source={item.headImg} style={styles.bookImage} />
         <TouchableOpacity activeOpacity={0.7} style={styles.heartIconMain}>
           <Image source={item.heartIcon} style={styles.heartIcon} />
@@ -184,18 +185,18 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('AddBook')}
+            onPress={() => navigation.navigate('Cart')}
           >
             <Text style={styles.addButtonText}>{item.btnText}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const renderTrendingBooks = ({ item }: { item: Prop }) => {
     return (
-      <View style={styles.bookCard}>
+       <TouchableOpacity style={styles.bookCard} activeOpacity={0.7}  onPress={() => navigation.navigate('AddBook')}>
         <Image source={item.headImg} style={styles.bookImage} />
         <TouchableOpacity activeOpacity={0.7} style={styles.heartIconMain}>
           <Image source={item.heartIcon} style={styles.heartIcon} />
@@ -215,17 +216,18 @@ const ECommerce = () => {
         </View>
         <View style={styles.amountMain}>
           <Text style={styles.amount}>{item.amount}</Text>
-          <TouchableOpacity style={styles.addButton} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.addButton} activeOpacity={0.7} onPress={() => navigation.navigate('Cart')}>
             <Text style={styles.addButtonText}>{item.btnText}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const renderCurriculum = ({ item }: { item: Prop }) => {
     return (
       <View style={styles.bookCard}>
+         <TouchableOpacity style={styles.bookCard} activeOpacity={0.7}  onPress={() => navigation.navigate('AddBook')}></TouchableOpacity>
         <Image source={item.headImg} style={styles.bookImage} />
         <TouchableOpacity activeOpacity={0.7} style={styles.heartIconMain}>
           <Image source={item.heartIcon} style={styles.heartIcon} />

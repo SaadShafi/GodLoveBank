@@ -20,7 +20,7 @@ const BaseballDiamond = () => {
       <TopHeader text="Self Love Home Base" isBack={true} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: height * 0.02 }}
+        contentContainerStyle={{ paddingBottom: height * 0.15 }}
       >
         <Text style={styles.text}>HOW TO GET YOUR OSL SCORE:</Text>
         <Text style={styles.subText}>
@@ -104,27 +104,29 @@ const BaseballDiamond = () => {
           <Text style={styles.base}>2ND BASE</Text>
         </View>
 
-        <Text style={styles.abandonment}>ABANDONMENT</Text>
-        <View style={{ top: height * 0.03 }}>
-          <Image source={images.abandonment} style={styles.abandonmentImg} />
-          <Text style={styles.num}>2</Text>
+        <View style={{flexDirection:'row',justifyContent:'space-between', width: width * 0.9, alignSelf:'center', left: width * 0.052, top: height * 0.02 }}>
+          <View>
+            <Text style={styles.abandonment}>ABANDONMENT</Text>
+            <Image source={images.abandonment} style={styles.abandonmentImg} />
+            <Text style={styles.num}>2</Text>
           <Text style={styles.thirdBase}>3RD BASE</Text>
-        </View>
+          </View>
 
-        <Text style={styles.worth}>WORTHLESSNESS</Text>
-        <View style={{ bottom: height * 0.17, left: width * 0.52 }}>
+          <View>
+          <Text style={styles.worth}>WORTHLESSNESS</Text>
           <Image source={images.worth} style={styles.abandonmentImg} />
           <Text style={styles.One}>1</Text>
           <Text style={styles.firstBase}>1ST BASE</Text>
+          </View>
         </View>
 
         <Text style={styles.chose}>ABUSE</Text>
-        <View style={{ bottom: height * 0.15, left: width * 0.27 }}>
+        <View style={{left: width * 0.27 }}>
           <Image source={images.homeBase} style={styles.homeBaseImg} />
-          <Text style={styles.One}>1</Text>
+          <Text style={styles.one}>1</Text>
           <Text style={styles.homeBase}>HOME BASE</Text>
         </View>
-
+      </ScrollView>
         <View style={styles.btnMain}>
           <CustomButton
             text="Next"
@@ -136,7 +138,6 @@ const BaseballDiamond = () => {
             onPress={() => navigation.navigate('HomeBase')}
           />
         </View>
-      </ScrollView>
     </View>
   );
 };
@@ -207,21 +208,20 @@ const styles = StyleSheet.create({
     color: colors.blue,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    top: height * 0.12,
-    left: width * 0.09,
+    top: height * 0.09,
   },
   worth: {
     color: colors.darkGray,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    bottom: height * 0.09,
-    left: width * 0.6,
+    top: height * 0.09,
+    right: width * 0.05
   },
   chose: {
     color: colors.green,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    bottom: height * 0.06,
+    top: height * 0.09,
     left: width * 0.45,
   },
   base: {
@@ -236,14 +236,14 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.07,
-    left: width * 0.16,
+    left: width * 0.04,
   },
   firstBase: {
     color: colors.darkGray,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.07,
-    left: width * 0.17,
+    left: width * 0.05,
   },
   homeBase: {
     color: colors.green,
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   abandonmentImg: {
     top: height * 0.1,
-    left: width * 0.12,
+    // left: width * 0.12,
   },
   homeBaseImg: {
     top: height * 0.1,
@@ -275,15 +275,25 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.01,
-    left: width * 0.225,
+    top: height * 0.02,
+    alignSelf:'center',
+    right: width * 0.03,
   },
   One: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.01,
-    left: width * 0.225,
+    top: height * 0.02,
+    alignSelf:'center',
+    right: width * 0.04,
+  },
+  one:{
+    fontFamily: fontFamily.GilroyBold,
+    fontSize: fontSizes.xl,
+    color: colors.white,
+     top: height * 0.02,
+    alignSelf:'center',
+    right: width * 0.26,
   },
   btnMain: {
     alignItems: 'center',

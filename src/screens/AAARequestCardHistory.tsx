@@ -163,36 +163,46 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.lg,
     alignSelf: 'center',
+    color: colors.black
   },
   ask: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.lg,
     alignSelf: 'center',
     top: height * 0.09,
+    color: colors.black
+
   },
   abide: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.lg,
     alignSelf: 'center',
     top: height * 0.18,
+    color: colors.black
+
   },
   details: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.11,
     paddingHorizontal: width * 0.09,
+    color: colors.black
+
   },
   long: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.19,
     paddingHorizontal: width * 0.09,
+    color: colors.black
+
   },
   holy: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     paddingHorizontal: width * 0.09,
     top: height * 0.03,
+    color: colors.black
   },
 });
 

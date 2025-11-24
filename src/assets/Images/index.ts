@@ -152,7 +152,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   repstimer: require('../Images/repstimer.png'),
   time: require('../Images/time.png'),
   start: require('../Images/start.png'),
-  stop: require('../Images/stop.png')
+  stop: require('../Images/stop.png'),
+  forward: require("../Images/forward.png")
 };
 
 export default images;

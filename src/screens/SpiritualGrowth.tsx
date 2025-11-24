@@ -72,15 +72,15 @@ const styles = StyleSheet.create({
   },
   img: {
     alignSelf: 'center',
-    top: height * 0.15,
+    top: height * 0.12,
     width: width * 0.89,
-    height: height * 0.82,
+    height: height * 0.86,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   btn: {
     alignSelf: 'center',
-    top: height * 0.08,
+    top: height * 0.03,
   },
 });
 

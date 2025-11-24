@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -152,33 +152,44 @@ const Home = () => {
       image: images.mindful,
       navigate: 'GodLoveBankCurriculum',
     },
-    // add more items as needed
   ];
 
   const renderItem = ({ item, index }: any) => (
     <View style={{ gap: height * 0.02 }}>
-      {/* Add Tools of Thinking after the first item */}
       {index === 1 && (
         <View style={styles.toolsContainer}>
           <Text style={styles.toolsText}>Tools of Thinking</Text>
         </View>
       )}
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Image source={item.image} style={styles.heart} />
-        <View style={{ gap: height * 0.005 }}>
-          <Text style={styles.measure}>{item.title1}</Text>
-          <Text style={styles.measure}>{item.title2}</Text>
-        </View>
+       <View style={styles.headTextMain}>
+          <View style={{ gap: height * 0.005 }}>
+            <Text style={styles.measure}>{item.title1}</Text>
+            <Text style={styles.measure}>{item.title2}</Text>
+          </View>
+       </View>
         <View style={styles.btn}>
-          <CustomButton
-            text="Start"
-            textColor={colors.white}
-            backgroundColor={colors.marhoon}
-            btnHeight={height * 0.05}
-            btnWidth={width * 0.35}
-            borderRadius={30}
-            onPress={() => navigation.navigate(item.navigate)}
-          />
+          <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
+            <Text style={styles.startBtnText}>Start</Text>
+            <Image source={images.forward} style={styles.forwardImg}/>
+          </TouchableOpacity>
+        </View>
+      </View> */}
+
+      <View style={{alignItems: "center"}}>
+        <View style={styles.containerSec}>
+          <View style={styles.headTextMain}>
+            <View style={styles.headText}>
+              <Text style={styles.title}>{item.title1}</Text>
+              <Text style={styles.title}>{item.title2}</Text>
+            </View>
+            <Image source={item.image} style={styles.itemImg}/>
+          </View>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
+            <Text style={styles.startBtnText}>Start</Text>
+            <Image source={images.forward} style={styles.forwardImg}/>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -244,7 +255,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     width: width * 0.9,
-    height: height * 0.18,
+    height: height * 0.2,
+    // paddingBottom: height * 0.025,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
     borderBottomLeftRadius: 18,
@@ -252,11 +264,53 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: height * 0.03,
     justifyContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  containerSec: {
+    paddingHorizontal: width * 0.04,
+    paddingVertical: height * 0.018,
+    marginTop: height * 0.03,
+    backgroundColor: colors.white,
+    borderRadius: 18,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 5,
+    width: width * 0.85,
+  },
+  headTextMain: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  headText: {
+    bottom: height * 0.015
+  },
+  title: {
+    fontFamily: fontFamily.UrbanistBold,
+    fontSize: fontSizes.lg,
+    color: colors.black,
   },
   heart: {
     alignSelf: 'center',
     left: width * 0.29,
     top: height * 0.05,
+  },
+  itemImg: {
+    height: height * 0.1,
+    width: width * 0.25,
+    resizeMode: "contain",
   },
   measure: {
     fontFamily: fontFamily.UrbanistBold,
@@ -266,9 +320,30 @@ const styles = StyleSheet.create({
     bottom: height * 0.05,
   },
   btn: {
-    bottom: height * 0.04,
+    bottom: height * 0.035,
     left: width * 0.05,
   },
+  startBtnMain: {
+    backgroundColor: colors.marhoon,
+    padding: 10,
+    flexDirection: "row",
+    gap: width * 0.07,
+    alignItems: "center",
+    width: width * 0.3,
+    borderRadius: 30,
+    bottom: height * 0.02
+  },
+  startBtnText: {
+    fontFamily: fontFamily.GilroyMedium,
+    fontSize: fontSizes.md,
+    color: colors.white,
+    left: width * 0.05
+  },
+  forwardImg: {
+    width: width * 0.06,
+    height: height * 0.018,
+    resizeMode: "contain"
+  }
 });
 
 export default Home;

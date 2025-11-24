@@ -490,7 +490,7 @@ const InterestRepsTimer = () => {
             borderColor={colors.marhoon}
             borderWidth={1}
             borderRadius={20}
-            onPress={() => navigation.navigate('DepositInterestReps')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </ScrollView>
@@ -547,6 +547,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     top: height * 0.12,
+    color: colors.black,
   },
   button: {
     alignSelf: 'center',

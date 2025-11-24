@@ -227,7 +227,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.xl,
     position: 'absolute',
     alignSelf: 'center',
-    top: height * 0.155,
+    top: height * 0.17,
+    color: colors.black,
   },
   button: {
     alignSelf: 'center',

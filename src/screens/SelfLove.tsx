@@ -149,6 +149,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 15,
+    top: height * 0.03
+
   },
   countButton: {
     width: 50,
