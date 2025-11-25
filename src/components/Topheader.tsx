@@ -53,6 +53,7 @@ interface TopHeaderProps {
   isProfile?: boolean;
   isCart?: boolean;
   isBackHome?: boolean;
+  isCross?: boolean;
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({
@@ -92,6 +93,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isProfile = false,
   isCart = false,
   isBackHome= false,
+  isCross = false,
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [disputeOpen, setdisputeOpen] = useState(false);
@@ -176,6 +178,20 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               }}
             >
               <Image source={images.backIcon} style={styles.backArrow} />
+            </Pressable>
+          )}
+          {isCross && (
+             <Pressable
+              style={styles.headerArrow}
+              onPress={() => {
+                if (navigation) {
+                  navigation.canGoBack()
+                    ? navigation.goBack()
+                    : navigation.navigate('Home' as never);
+                }
+              }}
+            >
+              <Image source={images.crossBlack} style={styles.crossImg} />
             </Pressable>
           )}
           {isBackBlack && (
@@ -431,6 +447,11 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     width: width * 0.09,
+    height: height * 0.09,
+    resizeMode: 'contain',
+  },
+  crossImg: {
+    width: width * 0.05,
     height: height * 0.09,
     resizeMode: 'contain',
   },

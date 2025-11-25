@@ -227,7 +227,6 @@ const ECommerce = () => {
   const renderCurriculum = ({ item }: { item: Prop }) => {
     return (
       <View style={styles.bookCard}>
-         <TouchableOpacity style={styles.bookCard} activeOpacity={0.7}  onPress={() => navigation.navigate('AddBook')}></TouchableOpacity>
         <Image source={item.headImg} style={styles.bookImage} />
         <TouchableOpacity activeOpacity={0.7} style={styles.heartIconMain}>
           <Image source={item.heartIcon} style={styles.heartIcon} />

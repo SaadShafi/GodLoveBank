@@ -53,9 +53,9 @@ const Checkout = ({ route }) => {
                                     <Text style={styles.addressPhone}>{Data.addressData.phone}</Text>
                                 )}
                                 <View >
-                                    <Text>{Data.addressData.city}</Text>
-                                    <Text>{Data.addressData.region}</Text>
-                                    <Text>{Data.addressData.code}</Text>
+                                    <Text style={{color: colors.black}}>{Data.addressData.city}</Text>
+                                    <Text style={{color: colors.black}}>{Data.addressData.region}</Text>
+                                    <Text style={{color: colors.black}}>{Data.addressData.code}</Text>
                                 </View>
                             </View>
                         )}
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     stockText: {
         fontSize: fontSizes.sm,
         fontFamily: fontFamily.GilroyMedium,
-        color: colors.gray,
+        color: colors.Gray,
     },
     priceText: {
         fontSize: fontSizes.lg,

@@ -129,7 +129,7 @@ const MyOrders = () => {
                         <Image source={item.bookImg} style={styles.bookImg} />
                         <View style={styles.bookInfoMain}>
                             <Text style={styles.bookHeadText}>{item.headText}</Text>
-                            <View style={{ marginTop: height * 0.01 }}>
+                            <View style={{}}>
                                 <Text style={styles.bookText}>{item.qty}</Text>
                             </View>
                         </View>
@@ -137,7 +137,7 @@ const MyOrders = () => {
                     </View>
                     <View style={styles.btnMain}>
                         <CustomButton
-                            btnHeight={height * 0.03}
+                            btnHeight={height * 0.038}
                             btnWidth={width * 0.8}
                             backgroundColor={colors.marhoon}
                             text={item.btnText}
@@ -159,7 +159,7 @@ const MyOrders = () => {
                         <Image source={item.bookImg} style={styles.bookImg} />
                         <View style={styles.bookInfoMain}>
                             <Text style={styles.bookHeadText}>{item.headText}</Text>
-                            <View style={{ marginTop: height * 0.01 }}>
+                            <View style={{ }}>
                                 <Text style={styles.bookText}>{item.qty}</Text>
                                 <Text style={styles.bookText}>{item.dev_date}</Text>
                             </View>
@@ -168,7 +168,7 @@ const MyOrders = () => {
                     </View>
                     <View style={styles.btnMain}>
                         <CustomButton
-                            btnHeight={height * 0.03}
+                            btnHeight={height * 0.038}
                             btnWidth={width * 0.8}
                             backgroundColor={colors.marhoon}
                             text={item.btnText}
@@ -305,7 +305,9 @@ const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     bookInfoMain: {
-        flexDirection: "column"
+        flexDirection: "column",
+        top: height * 0.03,
+        left: width * 0.01
     },
     bookHeadText: {
         fontFamily: fontFamily.GilroyBold,
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.GilroyBold,
         fontSize: fontSizes.sm2,
         color: colors.marhoon,
-        right: width * 0.05
+        right: width * 0.065
     },
     btnMain: {
         marginTop: height * 0.02

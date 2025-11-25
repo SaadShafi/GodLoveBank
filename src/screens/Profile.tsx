@@ -49,10 +49,8 @@ const Profile = () => {
         activeOpacity={0.7}
         onPress={() => navigation.navigate('EditProfile')}
       >
-        {/* <View style={styles.profileContainer}> */}
         <Image source={images.ProfilePic} style={styles.profileImage} />
         <Text style={styles.profileText}>Harden Scott</Text>
-        {/* </View> */}
       </TouchableOpacity>
 
       <View style={styles.optionsWrapper}>
@@ -111,16 +109,6 @@ const Profile = () => {
       </View>
 
       <View style={styles.btnMain}>
-        {/* <CustomButton
-          btnHeight={height * 0.06}
-          btnWidth={width * 0.9}
-          borderRadius={20}
-          backgroundColor={colors.marhoon}
-          text="Logout"
-          textColor={colors.white}
-          onPress={() => setModalOpen(true)}
-        /> */}
-        <View style={{bottom: height * 0.02}}>
           <CustomButton
             btnHeight={height * 0.06}
             btnWidth={width * 0.9}
@@ -130,7 +118,6 @@ const Profile = () => {
             textColor={colors.white}
             onPress={() => setModalVisible(true)}
           />
-        </View>
       </View>
 
       {/* Delete Account Modal */}
@@ -250,7 +237,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    // marginTop: height * 0.02,
+    bottom: height * 0.015
   },
   profileImage: {
     width: width * 0.45,
@@ -266,7 +253,7 @@ const styles = StyleSheet.create({
   },
   optionsWrapper: {
     paddingHorizontal: width * 0.05,
-    top: height * 0.03,
+    top: height * 0.017,
   },
   optionRow: {
     flexDirection: 'row',
@@ -288,7 +275,7 @@ const styles = StyleSheet.create({
     height: height * 0.1,
   },
   btnMain: {
-    top: height * 0.06,
+    top: height * 0.028,
     alignItems: 'center',
   },
 

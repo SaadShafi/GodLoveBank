@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         backgroundColor: colors.white,
         borderRadius: 8,
-        padding: 15,
+        padding: 10,
         marginVertical: 10,
         shadowColor: colors.black,
         shadowOffset: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     stockText: {
         fontSize: fontSizes.sm,
         fontFamily: fontFamily.GilroyMedium,
-        color: colors.gray,
+        color: colors.Gray,
     },
     priceText: {
         fontSize: fontSizes.lg,
@@ -238,12 +238,12 @@ const styles = StyleSheet.create({
         color: colors.marhoon,
     },
     bookCard: {
-        width: width * 0.47,
-        height: height * 0.33,
+        width: width * 0.45,
+        height: height * 0.34,
         marginRight: 15,
         backgroundColor: colors.white,
         borderRadius: 10,
-        padding: 10,
+        padding: 15,
         shadowColor: colors.black,
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.1,
@@ -297,7 +297,8 @@ const styles = StyleSheet.create({
     amountMain: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        // bottom: height * 0.01
     },
     amount: {
         fontFamily: fontFamily.GilroySemiBold,
@@ -310,7 +311,8 @@ const styles = StyleSheet.create({
         height: height * 0.033,
         borderRadius: 10,
         alignItems: "center",
-        paddingVertical: 5
+        paddingVertical: 5,
+        bottom: height * 0.005
     },
     addButtonText: {
         fontSize: fontSizes.sm2,
@@ -319,7 +321,7 @@ const styles = StyleSheet.create({
     },
     flatlistContainer: {
         marginTop: height * 0.01,
-        paddingHorizontal: width * 0.03
+        paddingHorizontal: width * 0.023
     },
     columnWrapper: {
         justifyContent: 'space-between',
@@ -332,6 +334,7 @@ const styles = StyleSheet.create({
         fontSize: fontSizes.md,
         fontFamily: fontFamily.GilroyBold,
         marginBottom: height * 0.02,
+        color: colors.black
     },
     bottomMain: {
         backgroundColor: colors.white,

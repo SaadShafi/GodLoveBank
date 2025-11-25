@@ -121,7 +121,7 @@ const BaseballDiamond = () => {
         </View>
 
         <Text style={styles.chose}>ABUSE</Text>
-        <View style={{left: width * 0.27 }}>
+        <View style={{left: width * 0.27, top: height * 0.01 }}>
           <Image source={images.homeBase} style={styles.homeBaseImg} />
           <Text style={styles.one}>1</Text>
           <Text style={styles.homeBase}>HOME BASE</Text>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     color: colors.green,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
-    top: height * 0.09,
+    top: height * 0.1,
     left: width * 0.45,
   },
   base: {
@@ -275,25 +275,25 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.02,
+    top: height * 0.013,
     alignSelf:'center',
-    right: width * 0.03,
+    right: width * 0.02,
   },
   One: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.02,
+    top: height * 0.013,
     alignSelf:'center',
-    right: width * 0.04,
+    right: width * 0.03,
   },
   one:{
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-     top: height * 0.02,
+    top: height * 0.013,
     alignSelf:'center',
-    right: width * 0.26,
+    right: width * 0.24,
   },
   btnMain: {
     alignItems: 'center',

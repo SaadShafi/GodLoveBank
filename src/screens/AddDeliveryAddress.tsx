@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         color: colors.black
     },
     btnMain: {
-        marginTop: height * 0.22
+        marginTop: height * 0.21
     }
 })
 

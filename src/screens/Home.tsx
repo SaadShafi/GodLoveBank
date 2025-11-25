@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fontFamily.UrbanistBold,
-    fontSize: fontSizes.lg,
+    fontSize: fontSizes.sm2,
     color: colors.black,
   },
   heart: {

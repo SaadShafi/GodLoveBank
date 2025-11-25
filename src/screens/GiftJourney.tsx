@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     paddingHorizontal: width * 0.04,
     top: height * 0.01,
+    color: colors.black
   },
   description: {
     fontFamily: fontFamily.GilroyRegular,
