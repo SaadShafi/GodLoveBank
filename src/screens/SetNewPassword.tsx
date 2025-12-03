@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
@@ -8,11 +8,53 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 const SetNewPassword = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false)
+  const route = useRoute();
+  console.log("Route in the Set New Passowrd Screen",route)
+  const userID = route.params?.userId
+  console.log("User Id from the Params", userID)
+  const OTP = route.params?.otp
+  console.log("Otp from the params", OTP)
+
+
+  const setPass = async () => {
+     setLoading(true);
+  
+      try {
+        const body = {
+          userId: userID,
+          otp: OTP,
+          newPassword: confirmPassword
+        }
+        const { response, error } = await apiHelper("POST", "auth/reset-password", {}, body);
+        console.log("Change Password Response:", response);
+        if (response) {
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: 'Password Changed Successfully',
+          });
+          navigation.navigate("SignInEmail");
+        }
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Failed to change password',
+        });
+      } finally {
+        setLoading(false);
+      }
+  }
+
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Set New Password" isBack={true} />
@@ -81,7 +123,8 @@ const SetNewPassword = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('SignInEmail')}
+            // onPress={() => navigation.navigate('SignInEmail')}
+            onPress={setPass}
           />
         </View>
       </View>

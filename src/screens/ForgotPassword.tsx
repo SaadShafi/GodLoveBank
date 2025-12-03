@@ -46,81 +46,46 @@ const ForgotPassword = () => {
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
   const [email, setEmail] = useState('');
-  const  [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
 
-//  const handleForgeotPass = async () => {
-//     setLoading(true);
+  const handleForgeotPass = async () => {
+    setLoading(true);
 
-//     try {
-//       const body = {
-//         email: email,
-//       };
-//       const { response, error } = await apiHelper(
-//         'POST',
-//         'auth/forgot-password',
-//         {},
-//         body,
-//       );
-//       console.log('Forgot Password Response:', response);
-//       console.log('Forgot Password body:', body);
+    const body = { email };
 
-//       if (response) {
-//         Toast.show({
-//           type: 'success',
-//           text1: 'Success',
-//           text2: 'Password Reset Successfully',
-//         });
-//         navigation.navigate('OtpVerification', { from: 'forget', email });
+    const { response, error } = await apiHelper(
+      'POST',
+      'auth/forgot-password',
+      {},
+      body,
+    );
 
-//       }
-//     } catch (error) {
-//       Toast.show({
-//         type: 'error',
-//         text1: 'Error',
-//         text2: 'Something went wrong. Please try again later.',
-//       });
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+    console.log('Forgot Password Response:', response);
+    console.log('Forgot Password body:', body);
+    console.log("Id from the Response", response?.data.data.userId)
+    const ID = response?.data.data.userId
 
+    if (response) {
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: response.data?.message || 'Password Reset Successfully',
+      });
 
-const handleForgeotPass = async () => {
-  setLoading(true);
+      navigation.navigate('OtpVerification', { from: 'forget', email, ID });
+    }
+    else {
 
-  const body = { email };
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error?.message || 'Something went wrong!',
+      });
+    }
 
-  const { response, error } = await apiHelper(
-    'POST',
-    'auth/forgot-password',
-    {},
-    body,
-  );
-
-  console.log('Forgot Password Response:', response);
-  console.log('Forgot Password body:', body);
-
-  if (response) {
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: response.data?.message || 'Password Reset Successfully',
-    });
-
-    navigation.navigate('OtpVerification', { from: 'forget', email });
-  } 
-  else {
-
-    Toast.show({
-      type: 'error',
-      text1: 'Error',
-      text2: error?.message || 'Something went wrong!',
-    });
-  }
-
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
 
 
@@ -136,30 +101,30 @@ const handleForgeotPass = async () => {
           <Text style={styles.text}>your registered email.</Text>
         </View>
 
-        <View style={{top: height * 0.09}}>
-           <CustomTextInput
-              placeholder="Enter Your Email Address"
-              placeholderTextColor={colors.black}
-              inputHeight={height * 0.065}
-              inputWidth={width * 0.89}
-              borderRadius={20}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="default"
-              fontFamily={fontFamily.UrbanistMedium}
-              fontSize={fontSizes.sm2}
-            />
+        <View style={{ top: height * 0.09 }}>
+          <CustomTextInput
+            placeholder="Enter Your Email Address"
+            placeholderTextColor={colors.black}
+            inputHeight={height * 0.065}
+            inputWidth={width * 0.89}
+            borderRadius={20}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="default"
+            fontFamily={fontFamily.UrbanistMedium}
+            fontSize={fontSizes.sm2}
+          />
         </View>
 
         <View style={styles.btnMain}>
-         <CustomButton
+          <CustomButton
             text="Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={handleForgeotPass}  
+            onPress={handleForgeotPass}
           />
 
         </View>
@@ -199,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: colors.gray,
     borderWidth: 1,
-    borderRadius: 20, 
+    borderRadius: 20,
     paddingHorizontal: 12,
     width: width * 0.85,
     height: height * 0.06,

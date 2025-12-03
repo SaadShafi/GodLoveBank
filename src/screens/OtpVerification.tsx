@@ -127,7 +127,10 @@ const OtpVerification = () => {
       if (route.params?.from === 'register') {
         navigation.navigate('Questionnaire');
       } else {
-        navigation.navigate('SetNewPassword');
+        navigation.navigate('SetNewPassword', {
+          userId: id,
+          otp: otp.join(''),
+        });
       }
 
       setOtp(Array(4).fill(''));
