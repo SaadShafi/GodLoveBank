@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   LayoutAnimation,
@@ -20,6 +20,8 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<StackParamList, 'Questionnaire'>;
 
@@ -101,6 +103,12 @@ const SUCCESS_GREEN =
 
 const Questionnaire: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(null);
+  const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState(false)
+  const [apiQuestions, setApiQuestions] = useState({
+    oldSelfStory: [],
+    newSelfStory: []
+  });
 
   const [selectedMap, setSelectedMap] = useState<
     Record<number, { optionIndex: number; optionText: string }>
@@ -123,7 +131,39 @@ const Questionnaire: React.FC = () => {
     }));
     setOpenId(null);
   };
-  const navigation = useNavigation<NavigationProp<any>>();
+
+  const fetchQuestions = async () => {
+    setLoading(true)
+
+    try {
+      const { response, error } = await apiHelper(
+        "GET",
+        "general/questions",
+        {},
+        null
+      )
+      console.log("Response from the Questions API", response)
+      setApiQuestions({
+        oldSelfStory: response?.data?.data?.oldSelfStory || [],
+        newSelfStory: response?.data?.data?.newSelfStory || [],
+      });
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: response?.data.data.message
+      })
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    }
+  }
+
+  useEffect(() => {
+    fetchQuestions()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -209,9 +249,23 @@ const Questionnaire: React.FC = () => {
                   </View>
                 </TouchableOpacity>
 
-                {isOpen && (
+                {/* {isOpen && (
                   <View style={styles.dropdown}>
                     {group.options.map((opt, idx) => (
+                      <TouchableOpacity
+                        key={idx}
+                        activeOpacity={0.7}
+                        onPress={() => onSelectOption(group.id, idx, opt)}
+                        style={styles.optionRow}
+                      >
+                        <Text style={styles.optionText}>{opt}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )} */}
+                {isOpen && (
+                  <View style={styles.dropdown}>
+                    {(apiQuestions.oldSelfStory || []).map((opt, idx) => (
                       <TouchableOpacity
                         key={idx}
                         activeOpacity={0.7}
@@ -243,8 +297,6 @@ const Questionnaire: React.FC = () => {
     </View>
   );
 };
-
-export default Questionnaire;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.white },
@@ -372,3 +424,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default Questionnaire;

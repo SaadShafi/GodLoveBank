@@ -9,18 +9,129 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { setToken } from '../redux/slice/roleSlice';
 
 const ChangePassword = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const [oldPass, setOldPass] = useState('');
+  const [loading, setLoading] = useState(false)
   const [confirmPassword, setconfirmPassword] = useState('');
   const [currentPassword, setcurrentPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const User = useSelector((state: RootState) => state.role.user)
+  // console.log("USer from redux in the Change Password Screen!",User)
 
   const toggleModal = () => {
     setModalVisible(false)
     navigation.goBack()
   }
+
+
+  const resetPassword = async () => {
+    setLoading(true);
+
+
+    try {
+      // Validate fields first
+      if (!oldPass || !password || !confirmPassword) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Please fill all fields',
+        });
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Passwords do not match',
+        });
+        return;
+      }
+
+      // API call
+      const body = {
+        oldPassword: oldPass,
+        newPassword: password,
+      };
+
+      const { response, error } = await apiHelper("POST", "auth/update-password", {}, body);
+      console.log("Change Password Response:", response);
+
+      if (response) {
+        // dispatch(setToken(response.data.accessToken));
+        // console.log("Change Password Response:", response);
+
+        // Open success modal instead of going back immediately
+        setModalVisible(true);
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: error?.message || 'Failed to change password',
+        });
+      }
+    } catch (err) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Failed to change password',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  // const resetPassword = async () => {
+  //   setLoading(true);
+
+  //     // console.log("Sending token:", token);
+
+  //   try {
+  //     if (!oldPass || !password || !confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Please fill all fields' });
+  //       return;
+  //     }
+  //     if (password !== confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Passwords do not match' });
+  //       return;
+  //     }
+
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`, // Must pass token here
+  //     };
+  //     console.log("Headers:", { Authorization: `Bearer ${token}` });
+
+  //     const { response, error } = await apiHelper(
+  //       'POST',
+  //       'auth/update-password',
+  //       headers,
+  //       { oldPassword: oldPass, newPassword: password }
+  //     );
+
+  //     if (response) {
+  //       setModalVisible(true); // Show success modal
+  //     } else {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: error });
+  //     }
+  //   } catch (err) {
+  //     Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to change password' });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -37,8 +148,8 @@ const ChangePassword = () => {
             inputWidth={width * 0.85}
             borderRadius={14}
             isPassword={true}
-            value={password}
-            onChangeText={setcurrentPassword}
+            value={oldPass}           // <-- use oldPass
+            onChangeText={setOldPass}
           />
         </View>
 
@@ -110,7 +221,7 @@ const ChangePassword = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => setModalVisible(true)}
+          onPress={resetPassword}
           />
         </View>
       </View>

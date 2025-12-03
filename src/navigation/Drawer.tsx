@@ -27,10 +27,12 @@ import { fontSizes } from '../utilities/fontsizes';
 import MainStack from './MainStack';
 import BottomTabs from './BottomTabs';
 import { hideLoader } from '../redux/slice/screenSlice';
+import Toast from 'react-native-toast-message';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
+
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}
@@ -66,10 +68,31 @@ const CustomDrawerContent = (props: any) => {
     setModalOpen(!modalOpen);
   };
 
+  // const handleLogout = () => {
+  //   dispatch(removeUser());
+  //   dispatch(logout());
+  //   setModalOpen(false);
+
+  //   navigation.dispatch(
+  //     CommonActions.reset({
+  //       index: 0,
+  //       routes: [{ name: 'SignInEmail' }],
+  //     }),
+  //   );
+  // };
+
+
   const handleLogout = () => {
     dispatch(removeUser());
     dispatch(logout());
+
     setModalOpen(false);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Profile Logged out Successfully',
+    });
 
     navigation.dispatch(
       CommonActions.reset({
@@ -77,7 +100,10 @@ const CustomDrawerContent = (props: any) => {
         routes: [{ name: 'SignInEmail' }],
       }),
     );
+
+    console.log('User logged out successfully');
   };
+
 
   const handleNavigation = (routeName: string) => {
     navigation.navigate(routeName);

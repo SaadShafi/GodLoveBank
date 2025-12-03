@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   Image,
@@ -17,10 +17,15 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
+import { useDispatch } from 'react-redux';
+import { removeUser } from '../redux/slice/roleSlice';
 
 const Profile = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [isEnabled, setIsEnabled] = useState(true);
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -30,9 +35,45 @@ const Profile = () => {
     setModalOpen(!modalOpen);
   };
 
+    const toggleModalSec = () => {
+    setModalOpen(false);
+    deleteAcc();
+  };
+
   const handleLogout = () => {
     setModalOpen(false);
     navigation.navigate('getStarted');
+  };
+
+  const deleteAcc = async () => {
+    const { response, error } = await apiHelper(
+      "DELETE",
+      "auth/delete-account",
+      {},
+      {}
+    );
+    if (response) {
+      console.log(response.data);
+      Toast.show({
+        text1: "Success",
+        text2: "User Deleted Successfully",
+        type: "success",
+      });
+      dispatch(removeUser());
+      navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Register' }],
+      }),
+    );
+    } else {
+      console.error("Error", error);
+      Toast.show({
+        text1: "Error",
+        text2: "Error Occured while Deleting User",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -116,7 +157,7 @@ const Profile = () => {
             backgroundColor={colors.marhoon}
             text="Delete Account"
             textColor={colors.white}
-            onPress={() => setModalVisible(true)}
+           onPress={() => setModalVisible(true)} 
           />
       </View>
 
@@ -143,6 +184,7 @@ const Profile = () => {
               <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={() => setModalVisible(false)}
+                
               >
                 <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
@@ -151,7 +193,7 @@ const Profile = () => {
                 style={styles.deleteButtonModal}
                 onPress={() => {
                   setModalVisible(false);
-                  navigation.navigate('Register');
+                  deleteAcc();   // <-- NOW CALL API CORRECTLY
                 }}
               >
                 <Text style={styles.deleteTextModal}>Delete Account</Text>

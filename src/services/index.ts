@@ -16,7 +16,7 @@ instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = store.getState()?.role?.userAuthToken;
     const lang = store.getState().role.languageSelect;
-    console.log(token);
+    console.log("Token in thw API helper",token);
     store.dispatch(showLoader('loading'));
 
     config.headers.set('x-app-language', lang);

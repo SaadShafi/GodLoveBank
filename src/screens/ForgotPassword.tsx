@@ -111,7 +111,7 @@ const handleForgeotPass = async () => {
     navigation.navigate('OtpVerification', { from: 'forget', email });
   } 
   else {
-    // ⭐⭐⭐ Show proper backend error ⭐⭐⭐
+
     Toast.show({
       type: 'error',
       text1: 'Error',
@@ -159,7 +159,7 @@ const handleForgeotPass = async () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={handleForgeotPass}   // <-- FIXED
+            onPress={handleForgeotPass}  
           />
 
         </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: colors.gray,
     borderWidth: 1,
-    borderRadius: 20, // ✅ Updated from 30 → 20
+    borderRadius: 20, 
     paddingHorizontal: 12,
     width: width * 0.85,
     height: height * 0.06,
