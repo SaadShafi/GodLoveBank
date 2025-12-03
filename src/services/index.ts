@@ -1,0 +1,86 @@
+import axios, {
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosResponse,
+  InternalAxiosRequestConfig
+} from 'axios';
+import { hideLoader, showLoader } from '../redux/slice/screenSlice';
+import { store } from '../redux/store';
+
+const instance = axios.create({
+  baseURL: 'http://18.204.175.233:3001/',
+  timeout: 10000,
+});
+
+instance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = store.getState()?.role?.userAuthToken;
+    const lang = store.getState().role.languageSelect;
+    console.log(token);
+    store.dispatch(showLoader('loading'));
+
+    config.headers.set('x-app-language', lang);
+    if (token) {
+      (config.headers as AxiosRequestHeaders).Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    store.dispatch(hideLoader('idle'));
+    return Promise.reject(error);
+  },
+);
+
+instance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    store.dispatch(hideLoader('idle'));
+    return response;
+  },
+  error => {
+    store.dispatch(hideLoader('idle'));
+    console.log('API Error:', error.response?.data || error.message);
+    return Promise.reject(
+      error.response?.data?.message ||
+        'Something went wrong. Please try again.',
+    );
+  },
+);
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+interface ApiResponse<T = any> {
+  // json(): unknown;
+  error: string | null;
+  response: AxiosResponse<T> | null;
+}
+
+export const apiHelper = async <T = any>(
+  method: HttpMethod,
+  endPoint: string,
+  customHeaders: Record<string, string> = {},
+  body: any = null,
+): Promise<ApiResponse<T>> => {
+  try {
+    const config: AxiosRequestConfig = {
+      method,
+      url: endPoint,
+      headers: {
+        'Content-Type': 'application/json',
+        ...customHeaders,
+      },
+      ...(method !== 'GET' && { data: body }),
+    };
+
+    const response = await instance.request<T>(config);
+
+    return {
+      error: null,
+      response,
+    };
+  } catch (error: any) {
+    return {
+      error: error,
+      response: null,
+    };
+  }
+};

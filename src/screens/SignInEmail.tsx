@@ -10,39 +10,86 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
-import { useDispatch } from 'react-redux';
-import { setFullName, setLogin, setUser, setUserEmail } from '../redux/slice/roleSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFullName, setLogin, setToken, setUser, setUserEmail } from '../redux/slice/roleSlice';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
+import { RootState } from '../redux/store';
 
 type Props = NativeStackScreenProps<StackParamList, 'Onboarding'>;
 
 const SignInEmail = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const selectedRole = useSelector(
+    (state: RootState) => state.role.selectedRole,
+  );
+  const User = useSelector((state: RootState) => state.role.user);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fcmToken, setFcmToken] = useState('');
   const dispatch = useDispatch();
 
   // const isFormValid = email.includes('@') && password.length > 5;
 
-  const handleLogin = () => {
-    const mockUser = {
-      email: email,
-      fullName: 'Test User',
-      role: 'user',
-    };
-    dispatch(setLogin());
-    dispatch(setUser(mockUser));
-    dispatch(setUserEmail(email));
-    dispatch(setFullName(mockUser.fullName));
 
-    console.log('Mock login successful');
-    // navigation.navigate("Home");
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Home' }],
-      }),
-    );
-  }
+    const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      const body = {
+        email: email,
+        password: password,
+        fcmToken: fcmToken,
+      };
+      const { response, error } = await apiHelper(
+        'POST',
+        'auth/login',
+        {},
+        body,
+      );
+      console.log('Response from SignIn Api: ', response?.data);
+      if (response?.data) {
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: response.data.message,
+        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          }),
+        );
+        dispatch(setLogin());
+        dispatch(setUserEmail(email));
+        dispatch(setUser(response?.data.user));
+        console.log(
+          'User Data from API Response:',
+          response?.data.user,
+        );
+        dispatch(setToken(response.data.access_token))
+        console.log("dispatching Token from the SIgnIn Screen", response.data.access_token)
+      }
+      else {
+        console.log("Error Message", error)
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error
+        })
+      }
+    } catch (error) {
+      console.log("Error", error)
+      Toast.show({
+        type: 'error',
+        text1: 'Success',
+        text2: error?.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -86,7 +133,7 @@ const SignInEmail = () => {
               textColor={colors.white}
               borderRadius={20}
               // onPress={() => navigation.navigate('Home')}
-              onPress={handleLogin}
+              onPress={handleSubmit}
             />
           </View>
         </View>

@@ -19,6 +19,9 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
+import CustomTextInput from '../components/CustomTextInput';
 
 type Props = NativeStackScreenProps<StackParamList, 'OtpVerification'>;
 
@@ -38,25 +41,89 @@ const countryData = [
 const ForgotPassword = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [phone, setPhone] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
+  const [email, setEmail] = useState('');
+  const  [loading, setLoading] = useState(false)
 
-  const handleCountrySelect = country => {
-    setSelectedCountry(country);
-    setShowCountryPicker(false);
-  };
 
-  const renderCountryItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.countryItem}
-      onPress={() => handleCountrySelect(item)}
-    >
-      <Text style={styles.countryFlag}>{item.flag}</Text>
-      <Text style={styles.countryName}>{item.name}</Text>
-      <Text style={styles.countryCode}>{item.code}</Text>
-    </TouchableOpacity>
+//  const handleForgeotPass = async () => {
+//     setLoading(true);
+
+//     try {
+//       const body = {
+//         email: email,
+//       };
+//       const { response, error } = await apiHelper(
+//         'POST',
+//         'auth/forgot-password',
+//         {},
+//         body,
+//       );
+//       console.log('Forgot Password Response:', response);
+//       console.log('Forgot Password body:', body);
+
+//       if (response) {
+//         Toast.show({
+//           type: 'success',
+//           text1: 'Success',
+//           text2: 'Password Reset Successfully',
+//         });
+//         navigation.navigate('OtpVerification', { from: 'forget', email });
+
+//       }
+//     } catch (error) {
+//       Toast.show({
+//         type: 'error',
+//         text1: 'Error',
+//         text2: 'Something went wrong. Please try again later.',
+//       });
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+
+const handleForgeotPass = async () => {
+  setLoading(true);
+
+  const body = { email };
+
+  const { response, error } = await apiHelper(
+    'POST',
+    'auth/forgot-password',
+    {},
+    body,
   );
+
+  console.log('Forgot Password Response:', response);
+  console.log('Forgot Password body:', body);
+
+  if (response) {
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: response.data?.message || 'Password Reset Successfully',
+    });
+
+    navigation.navigate('OtpVerification', { from: 'forget', email });
+  } 
+  else {
+    // ⭐⭐⭐ Show proper backend error ⭐⭐⭐
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: error?.message || 'Something went wrong!',
+    });
+  }
+
+  setLoading(false);
+};
+
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -66,119 +133,35 @@ const ForgotPassword = () => {
           <Text style={styles.text}>
             In order to reset your password you need to enter
           </Text>
-          <Text style={styles.text}>your registered phone number.</Text>
+          <Text style={styles.text}>your registered email.</Text>
         </View>
 
-        <View style={styles.inputMain}>
-          <View
-            style={[
-              styles.phoneRow,
-              {
-                borderColor:
-                  isPhoneFocused || phone
-                    ? colors.brownishRed
-                    : colors.lightGray,
-                backgroundColor:
-                  isPhoneFocused || phone ? colors.bgBlue : colors.lightGray,
-              },
-            ]}
-          >
-            {/* Country Flag and Dropdown */}
-            <TouchableOpacity
-              style={styles.countrySelector}
-              onPress={() => setShowCountryPicker(true)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.flagEmoji}>{selectedCountry.flag}</Text>
-              <Image
-                source={images.arrowdown}
-                style={{ marginLeft: width * 0.008, resizeMode: 'contain' }}
-              />
-            </TouchableOpacity>
-
-            {/* Country Code */}
-            <Text
-              style={[
-                styles.numberText,
-                {
-                  fontFamily: fontFamily.UrbanistMedium,
-                  fontSize: fontSizes.sm2,
-                },
-              ]}
-            >
-              {selectedCountry.code}
-            </Text>
-
-            {/* Divider Line */}
-            <View
-              style={{
-                height: height * 0.025,
-                width: 1,
-                backgroundColor: colors.gray,
-                marginHorizontal: width * 0.02,
-              }}
-            />
-
-            {/* Phone Input */}
-            <TextInput
-              style={[
-                styles.phoneInput,
-                {
-                  fontFamily: fontFamily.UrbanistMedium,
-                  fontSize: fontSizes.sm2,
-                },
-              ]}
-              placeholder="Phone Number"
+        <View style={{top: height * 0.09}}>
+           <CustomTextInput
+              placeholder="Enter Your Email Address"
               placeholderTextColor={colors.black}
-              keyboardType="phone-pad"
-              value={phone}
-              onChangeText={setPhone}
-              onFocus={() => setIsPhoneFocused(true)}
-              onBlur={() => setIsPhoneFocused(false)}
+              inputHeight={height * 0.065}
+              inputWidth={width * 0.89}
+              borderRadius={20}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
-          </View>
-
-          {/* Country Picker Modal */}
-          <Modal
-            visible={showCountryPicker}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={() => setShowCountryPicker(false)}
-          >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <View style={styles.modalHeader}>
-                  <Text style={styles.modalTitle}>Select Country</Text>
-                  <TouchableOpacity
-                    onPress={() => setShowCountryPicker(false)}
-                    style={styles.closeButton}
-                  >
-                    <Text style={styles.closeText}>✕</Text>
-                  </TouchableOpacity>
-                </View>
-                <FlatList
-                  data={countryData}
-                  renderItem={renderCountryItem}
-                  keyExtractor={item => item.code}
-                  showsVerticalScrollIndicator={false}
-                />
-              </View>
-            </View>
-          </Modal>
         </View>
 
         <View style={styles.btnMain}>
-          <CustomButton
+         <CustomButton
             text="Continue"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() =>
-              navigation.navigate('OtpVerification', { from: 'forget' })
-            }
+            onPress={handleForgeotPass}   // <-- FIXED
           />
+
         </View>
       </View>
     </View>
@@ -232,7 +215,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   btnMain: {
-    top: height * 0.58,
+    top: height * 0.65,
   },
   countryItem: {
     flexDirection: 'row',

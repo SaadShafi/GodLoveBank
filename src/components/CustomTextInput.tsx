@@ -37,7 +37,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   keyboardType = 'default',
   multiline = false,
   borderColor,
-  // borderWidth = 1,
+  borderWidth = 1,
   borderRadius = 8,
   backgroundColor = colors.lightGray,
   onChangeText,
@@ -65,12 +65,11 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         {
           height: inputHeight,
           width: inputWidth,
-          // borderWidth,
+          borderWidth,
           borderRadius,
-          borderColor,
-          // borderColor: isActive ? colors.brownishRed : colors.bordercolor,
+          // borderColor,
+          borderColor: isActive ? colors.brownishRed : colors.lightGray,
           backgroundColor: colors.lightGray,
-          // backgroundColor: isActive ? colors.lightBrown : colors.bordercolor,
         },
       ]}
     >

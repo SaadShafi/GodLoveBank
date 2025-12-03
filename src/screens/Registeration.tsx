@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Modal,
@@ -18,6 +19,11 @@ import CustomTextInput from '../components/CustomTextInput';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
+import { setUserEmail } from '../redux/slice/roleSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const countryData = [
   { code: '+1', flag: '🇺🇸', name: 'United States' },
@@ -34,7 +40,9 @@ const countryData = [
 
 const Registeration = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [countrycode, setCountryCode] = useState('');
   const [firstName, setFirstName] = useState('');
+  const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -44,11 +52,19 @@ const Registeration = () => {
   const [agree, setAgree] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
+    const selectedRole = useSelector(
+    (state: RootState) => state.role.selectedRole,
+  );
+  const User = useSelector((state: RootState) => state.role.user);
+  const [loading, setLoading] = useState(false);
+
 
   const handleCountrySelect = country => {
-    setSelectedCountry(country);
-    setShowCountryPicker(false);
-  };
+  setSelectedCountry(country);
+  setCountryCode(country.code); // <-- FIXED
+  setShowCountryPicker(false);
+};
+
 
   const renderCountryItem = ({ item }) => (
     <TouchableOpacity
@@ -60,6 +76,80 @@ const Registeration = () => {
       <Text style={styles.countryCode}>{item.code}</Text>
     </TouchableOpacity>
   );
+
+    const isConfirmPasswordValid = confirmPassword === password;
+    const isNameValid = name.trim().length >= 4;
+    const isPhoneValid = phone.trim().length > 7;
+    const isEmailValid = email.includes('@');
+    const isPasswordValid = password.trim().length >= 8;
+
+    const isFormValid =
+      isNameValid &&
+      isPhoneValid &&
+      isEmailValid &&
+      isPasswordValid &&
+      isConfirmPasswordValid &&
+      agree;
+
+    const uniqueId = Math.floor(Math.random() * 900) + 100;
+
+      const handleSubmit = async () => {
+      setLoading(true);
+
+      if (password !== confirmPassword) {
+        Toast.show({
+          type: 'error',
+          text1: 'Password Error',
+          text2: 'Passwords do not match',
+        });
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const body = {
+          firstName,
+          lastName,
+          email,
+          countryCode: selectedCountry.code,
+          phoneNumber: phone,
+          password,
+        };
+
+        const { response, error } = await apiHelper('POST', 'auth/signup', {}, body);
+
+        console.log('Body sent to signUp Api: ', body);
+        console.log('Response from signUp Api: ', response?.data);
+        console.log("ID from the SignUp response", response?.data?.data?.userId);
+        const Id = response?.data?.data?.userId
+
+        if (response) {
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: response.data.message,
+          });
+
+          navigation.navigate('OtpVerification',{ID: Id,from: 'register',});
+          setUserEmail(email);
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: 'Registration Failed',
+            text2: 'Something went wrong',
+          });
+        }
+      } catch (err) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'An unexpected error occurred',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -161,11 +251,12 @@ const Registeration = () => {
             inputHeight={height * 0.065}
             inputWidth={width * 0.85}
             borderRadius={20}
-            // isPassword={true}
+            isPassword={true}
             value={password}
             onChangeText={setPassword}
             fontFamily={fontFamily.UrbanistMedium}
             fontSize={fontSizes.sm2}
+
           />
           <CustomTextInput
             placeholder="Confirm Password"
@@ -173,7 +264,7 @@ const Registeration = () => {
             inputHeight={height * 0.065}
             inputWidth={width * 0.85}
             borderRadius={20}
-            // isPassword={true}
+            isPassword={true}
             value={confirmPassword}
             onChangeText={setconfirmPassword}
             fontFamily={fontFamily.UrbanistMedium}
@@ -266,9 +357,10 @@ const Registeration = () => {
             borderRadius={20}
             text="Register"
             textColor={colors.white}
-            onPress={() =>
-              navigation.navigate('OtpVerification', { from: 'register' })
-            }
+            // onPress={() =>
+            //   navigation.navigate('OtpVerification', { from: 'register' })
+            // }
+            onPress={handleSubmit}
           />
         </View>
         <View style={styles.bottomMain}>
@@ -289,6 +381,11 @@ const Registeration = () => {
           </TouchableOpacity>
         </View>
       </View>
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -455,6 +552,17 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.UrbanistBold,
     fontSize: fontSizes.sm2,
     color: colors.marhoon,
+  },
+    loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

@@ -17,14 +17,24 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import { setToken, setUser, setUserEmail } from '../redux/slice/roleSlice';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
 
 const OtpVerification = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute();
-  const [otp, setOtp] = useState(['', '', '', '']);
+  const OTP_LENGTH = 4;
+  const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(''));
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<TextInput[]>([]);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
+  const isOtpValid = otp.length === 4;
+  const email = route.params?.email;
+  const id = route.params?.ID;
 
   useEffect(() => {
     if (timer > 0) {
@@ -34,24 +44,15 @@ const OtpVerification = () => {
   }, [timer]);
 
   const handleChange = (text: string, index: number) => {
-    if (text === '') {
-      // allow clearing input
-      const newOtp = [...otp];
-      newOtp[index] = '';
-      setOtp(newOtp);
-      return;
-    }
+    const newOtp = [...otp];
+    newOtp[index] = text;
+    setOtp(newOtp);
 
-    if (/^\d$/.test(text)) {
-      const newOtp = [...otp];
-      newOtp[index] = text;
-      setOtp(newOtp);
-
-      if (index < 3) {
-        inputRefs.current[index + 1]?.focus();
-      }
+    if (text && index < otp.length - 1) {
+      inputRefs.current[index + 1]?.focus();
     }
   };
+
 
   const handleKeyPress = (e: any, index: number) => {
     if (e.nativeEvent.key === 'Backspace' && otp[index] === '' && index > 0) {
@@ -59,15 +60,85 @@ const OtpVerification = () => {
     }
   };
 
-  const handleResend = () => {
-    setTimer(60);
-    setOtp(['', '', '', '']);
-    inputRefs.current[0]?.focus();
+
+  const handelResendOtp = async () => {
+  const body = {
+    userId: id,   // 🔥 MUST BE integer
   };
 
-  useEffect(() => {
-    console.log('OTP Screen Params:', route.params);
-  }, [route.params]);
+  console.log('resend body:', body);
+
+  const { response, error } = await apiHelper(
+    'POST',
+    'auth/resend-otp',
+    {},
+    body
+  );
+
+  if (response) {
+    console.log('Response from the resend Otp Email', response.data);
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: response.data.message,
+    });
+  } else {
+    console.log('Error:', error);
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: error?.message || 'Something went wrong',
+    });
+  }
+};
+
+
+  const handleSubmitOtp = async () => {
+    setLoading(true);
+
+    const body = {
+      userId: id,
+      otp: otp.join(''),
+    };
+
+    const { response, error } = await apiHelper(
+      'POST',
+      'auth/verify-otp',
+      {},
+      body,
+    );
+
+    console.log('Body sent to OTP API: ', body);
+    console.log('Response from OTP API: ', response?.data);
+
+    setLoading(false);
+    
+     if (response?.data && response.data.status) {
+      dispatch(setToken(response.data.data.accessToken));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: response.data.message,
+      });
+
+      console.log('Route checking:', route.params?.from);
+
+      if (route.params?.from === 'register') {
+        navigation.navigate('Questionnaire');
+      } else {
+        navigation.navigate('SetNewPassword');
+      }
+
+      setOtp(Array(4).fill(''));
+    }else {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Invalid OTP',
+      });
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -81,22 +152,19 @@ const OtpVerification = () => {
         <Text style={styles.otp}>on your Phone Number</Text>
       </View>
 
-      {/* OTP input boxes */}
       <View style={styles.otpContainer}>
-        {otp.map((digit, index) => (
+        {Array.from({ length: OTP_LENGTH }).map((_, index) => (
           <TextInput
             key={index}
             ref={ref => (inputRefs.current[index] = ref!)}
             style={[
               styles.otpBox,
               {
-                borderColor:
-                  focusedIndex === index ? colors.marhoon : colors.lightGray,
-                backgroundColor:
-                  focusedIndex === index ? colors.lightGray : colors.lightGray,
+                borderColor: focusedIndex === index ? colors.marhoon : colors.lightGray,
+                backgroundColor: focusedIndex === index ? colors.lightGray : colors.lightGray,
               },
             ]}
-            value={digit}
+            value={otp[index] || ''} // access string by index
             onChangeText={text => handleChange(text, index)}
             keyboardType="numeric"
             maxLength={1}
@@ -107,9 +175,10 @@ const OtpVerification = () => {
         ))}
       </View>
 
+
       {/* Resend */}
       <TouchableOpacity
-        onPress={handleResend}
+        onPress={handelResendOtp}
         disabled={timer > 0}
         style={styles.resendButton}
       >
@@ -128,11 +197,7 @@ const OtpVerification = () => {
           backgroundColor={colors.marhoon}
           text="Continue"
           textColor={colors.white}
-          onPress={() =>
-            route.params?.from === 'register'
-              ? navigation.navigate('Questionnaire')
-              : navigation.navigate('SetNewPassword')
-          }
+          onPress={handleSubmitOtp}
         />
       </View>
     </View>
