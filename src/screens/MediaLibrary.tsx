@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -17,11 +17,14 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 const MediaLibrary = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [searchText, setSearchText] = useState('');
   const [activeTab, setActiveTab] = useState('ALL');
+  const [loading, setLoading] = useState(false);
 
   const tabs = ['ALL', 'Love', 'Compassion', 'Forgiveness'];
 
@@ -209,6 +212,35 @@ const MediaLibrary = () => {
       />
     </View>
   );
+
+  const fetchVideos = async () => {
+    setLoading(true)
+
+    try {
+      const {response,error} = await apiHelper(
+        "GET",
+        "/videos",
+        {},
+        null
+      )
+      console.log("Response of the Video Categoris API", response)
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Data fetched Successfully"
+      })
+    }catch(error){
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    }
+  }
+
+  useEffect(() => {
+    fetchVideos()
+  },[])
 
   return (
     <View style={styles.container}>
