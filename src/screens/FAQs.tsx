@@ -57,7 +57,7 @@ const FAQs = () => {
         <TopHeader text="FAQs" isBack={true} />
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+      <ScrollView contentContainerStyle={{ }}>
         {data.map((item, index) => (
           <View key={item.id} style={styles.card}>
             <TouchableOpacity
@@ -71,7 +71,6 @@ const FAQs = () => {
                   <Image source={images.cross} />
                 </TouchableOpacity>
               ) : (
-                // <Text style={styles.arrow}>⌄</Text>
                 <Image source={images.back} />
               )}
             </TouchableOpacity>

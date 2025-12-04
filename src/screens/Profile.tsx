@@ -19,7 +19,7 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import Toast from 'react-native-toast-message';
 import { apiHelper } from '../services';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from '../redux/slice/roleSlice';
 
 const Profile = () => {
@@ -28,6 +28,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const token = useSelector((state: any) => state.role.accessToken);
+  console.log("Topken from Redux to notification:", token);
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -75,6 +77,45 @@ const Profile = () => {
       });
     }
   };
+  
+
+  const toggleNotification = async (newValue) => {
+    if (!token) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Paese Autheticate The User first",
+      });
+      return;
+    }
+    try {
+      const { response, error } = await apiHelper(
+        "POST",
+        "user/profile-settings?option=toggleNotification",
+        {},
+        {}
+      );
+
+      if (response) {
+        setIsEnabled(newValue);
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: response.data.message,
+        });
+        console.log("Response from the Toogle Notification API:", response);
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Error Occured while toggling Notification",
+        });
+      }
+    } catch (err) {
+      console.log("Error occured", err);
+    }
+  };
+
 
   return (
     <ScrollView

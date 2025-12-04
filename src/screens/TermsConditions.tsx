@@ -6,44 +6,63 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const TermsConditions = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [termsCondition, setTermsCondition] = useState<string | null>(null);
+  const token = useSelector((state: any) => state.role.userAuthToken);
+
+
+
+  const privacyPolicy = async () => {
+      const { response, error } = await apiHelper(
+        "GET",
+        "content/terms-and-conditions",
+        {},
+        token
+      );
+  
+      if (response && response.status) {
+        const data = response.data;
+        setTermsCondition(data);
+        console.log("Response of the Terms and Condition API", data);
+  
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Terms and Condition Fetched sucessfully",
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: response?.message || "Failed to load Terms and Condition",
+        });
+      }
+    };
+  
+    useEffect(() => {
+      privacyPolicy();
+    }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Terms & Condition" isBack={true} />
-      <View style={styles.container}>
-        <View style={{ top: height * 0.02, gap: height * 0.01 }}>
-          <Text style={styles.paraText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Text>
-          <Text style={styles.paraText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Text>
-          <Text style={styles.paraText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
-          </Text>
-        </View>
+      <View style={{ top: height * 0.02 }}>
+              {termsCondition ? (
+                typeof termsCondition === 'string' ? (
+                  <Text style={styles.paraText}>{termsCondition}</Text>
+                ) : (
+                  <Text style={styles.paraText}>{JSON.stringify(termsCondition)}</Text>
+                )
+              ) : (
+                <Text style={styles.paraText}>Terms and Condition not available.</Text>
+              )}
+            </View>
 
         <View style={styles.btn}>
           <CustomButton
@@ -57,7 +76,6 @@ const TermsConditions = () => {
           />
         </View>
       </View>
-    </View>
   );
 };
 
@@ -78,7 +96,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignSelf: 'center',
-    top: height * 0.12,
+    top: height * 0.7,
   },
 });
 
