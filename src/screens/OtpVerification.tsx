@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
@@ -110,8 +111,6 @@ const OtpVerification = () => {
 
     console.log('Body sent to OTP API: ', body);
     console.log('Response from OTP API: ', response?.data);
-
-    setLoading(false);
     
      if (response?.data && response.data.status) {
       dispatch(setToken(response.data.data.accessToken));
@@ -121,6 +120,7 @@ const OtpVerification = () => {
         text1: 'Success',
         text2: response.data.message,
       });
+      setLoading(false);
 
       console.log('Route checking:', route.params?.from);
 
@@ -203,6 +203,11 @@ const OtpVerification = () => {
           onPress={handleSubmitOtp}
         />
       </View>
+      {loading && (
+              <View style={styles.loaderOverlay}>
+                <ActivityIndicator size="large" color={colors.brown} />
+              </View>
+            )}
     </View>
   );
 };
@@ -232,7 +237,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     top: height * 0.15,
   },
-
   resendButton: {
     top: height * 0.2,
     alignSelf: 'center',
@@ -250,6 +254,17 @@ const styles = StyleSheet.create({
   btnMain: {
     top: height * 0.55,
     alignItems: 'center',
+  },
+   loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

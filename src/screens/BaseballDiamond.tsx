@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
@@ -14,6 +14,52 @@ type Props = NativeStackScreenProps<StackParamList, 'BaseballDiamond'>;
 
 const BaseballDiamond = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const route = useRoute();
+  console.log("Route Check!", route)
+
+  const countMap = {
+    rejection: 0,
+    abandonment: 0,
+    worthlessness: 0,
+    abuse: 0
+  };
+
+  const selectionsObj = route.params?.selections || {};
+  const selections = Object.values(selectionsObj); // converts the object into an array
+
+  selections.forEach(item => {
+    const category = item.category.toLowerCase();
+    if (countMap[category] !== undefined) {
+      countMap[category] += 1;
+    }
+  });
+
+  const sortedCategories = Object.entries(countMap)
+    .sort((a, b) => b[1] - a[1])  
+    .map(([category, count]) => ({ category, count }));
+
+
+  const baseAssignments = {
+    homeBase: sortedCategories[0],   
+    firstBase: sortedCategories[1],
+    secondBase: sortedCategories[2],
+    thirdBase: sortedCategories[3]
+  };
+
+  const categoryImages: Record<string, any> = {
+    secondBase: images.secondBase,
+    thirdBase: images.thirdBase,
+    firstBase: images.firstBase,
+    homeBase: images.homeBase
+  };
+
+  const categoryColors: Record<string, string> = {
+    rejection: colors.red,
+    abandonment: colors.blue,
+    worthlessness: colors.darkGray,
+    abuse: colors.green,
+    '': colors.black
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -32,112 +78,92 @@ const BaseballDiamond = () => {
         </Text>
 
         <View style={{ gap: height * 0.015 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.87,
-            }}
-          >
-            <View style={styles.container}>
-              <Text style={styles.home}>Home Base</Text>
+          {Object.entries(baseAssignments).map(([baseName, data], index) => (
+            <View
+              key={baseName}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: width * 0.87,
+              }}
+            >
+              <View style={styles.container}>
+                <Text style={styles.home}>
+                  {baseName.replace(/([A-Z])/g, ' $1').toUpperCase()}
+                </Text>
+              </View>
+              <View style={styles.subContainer}>
+                <Text style={styles.reject}>
+                  {data.category.toUpperCase()} ({data.count})
+                </Text>
+              </View>
             </View>
-
-            <View style={styles.subContainer}>
-              <Text style={styles.reject}>Rejection (3)</Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.87,
-            }}
-          >
-            <View style={styles.container}>
-              <Text style={styles.home}>1st Base</Text>
-            </View>
-
-            <View style={styles.subContainer}>
-              <Text style={styles.reject}>Abandonment (2)</Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.87,
-            }}
-          >
-            <View style={styles.container}>
-              <Text style={styles.home}>2st Base</Text>
-            </View>
-
-            <View style={styles.subContainer}>
-              <Text style={styles.reject}>Worthlessness (1)</Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.87,
-            }}
-          >
-            <View style={styles.container}>
-              <Text style={styles.home}>3st Base</Text>
-            </View>
-
-            <View style={styles.subContainer}>
-              <Text style={styles.reject}>Abuse (1)</Text>
-            </View>
-          </View>
+          ))}
         </View>
 
-        <Text style={styles.rejection}>REJECTION</Text>
-        <View style={{ top: height * 0.01 }}>
-          <Image source={images.rejection} style={styles.rejImg} />
-          <Text style={styles.number}>3</Text>
-          <Text style={styles.base}>2ND BASE</Text>
-        </View>
-
-        <View style={{flexDirection:'row',justifyContent:'space-between', width: width * 0.9, alignSelf:'center', left: width * 0.052, top: height * 0.02 }}>
-          <View>
-            <Text style={styles.abandonment}>ABANDONMENT</Text>
-            <Image source={images.abandonment} style={styles.abandonmentImg} />
-            <Text style={styles.num}>2</Text>
-          <Text style={styles.thirdBase}>3RD BASE</Text>
+        <View style={{ marginTop: height * 0.05, alignItems: 'center' }}>
+          <View style={{ alignItems: 'center' }}>
+            <Text 
+            style={[styles.rejection, { 
+              color: colors.red 
+              }]}>
+              {baseAssignments.secondBase.category.toUpperCase()}
+            </Text>
+            <Image
+              source={categoryImages.secondBase}
+              style={styles.rejImg}
+            />
+            <Text style={styles.One}>{baseAssignments.secondBase.count}</Text>
+            <Text style={styles.base}>2ND BASE</Text>
           </View>
-
-          <View>
-          <Text style={styles.worth}>WORTHLESSNESS</Text>
-          <Image source={images.worth} style={styles.abandonmentImg} />
-          <Text style={styles.One}>1</Text>
-          <Text style={styles.firstBase}>1ST BASE</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.8 }}>
+            <View style={{ alignItems: 'center', marginBottom: height * 0.05 }}>
+              <Text style={[styles.rejection, { color: colors.blue }]}>
+                {baseAssignments.thirdBase.category.toUpperCase()}
+              </Text>
+              <Image
+                source={categoryImages.thirdBase}
+                style={styles.homeBaseImg}
+              />
+              <Text style={styles.one}>{baseAssignments.thirdBase.count}</Text>
+              <Text style={styles.thirdBase}>3RD BASE</Text>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={[styles.rejection, { color: colors.darkGray }]}>
+                {baseAssignments.firstBase.category.toUpperCase()}
+              </Text>
+              <Image
+                source={categoryImages.firstBase}
+                style={styles.abandonmentImg}
+              />
+              <Text style={styles.num}>{baseAssignments.firstBase.count}</Text>
+              <Text style={styles.firstBase}>1ST BASE</Text>
+            </View>
           </View>
-        </View>
-
-        <Text style={styles.chose}>ABUSE</Text>
-        <View style={{left: width * 0.27, top: height * 0.01 }}>
-          <Image source={images.homeBase} style={styles.homeBaseImg} />
-          <Text style={styles.one}>1</Text>
-          <Text style={styles.homeBase}>HOME BASE</Text>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={[styles.rejection, { color: colors.green }]}>
+              {baseAssignments.homeBase.category.toUpperCase()}
+            </Text>
+            <Image
+              source={categoryImages.homeBase}
+              style={styles.homeBaseImg}
+            />
+            <Text style={styles.number}>{baseAssignments.homeBase.count}</Text>
+            <Text style={styles.homeBase}>HOME BASE</Text>
+          </View>
         </View>
       </ScrollView>
-        <View style={styles.btnMain}>
-          <CustomButton
-            text="Next"
-            textColor={colors.white}
-            btnHeight={height * 0.065}
-            btnWidth={width * 0.85}
-            backgroundColor={colors.marhoon}
-            borderRadius={20}
-            onPress={() => navigation.navigate('HomeBase')}
-          />
-        </View>
+      <View style={styles.btnMain}>
+        <CustomButton
+          text="Next"
+          textColor={colors.white}
+          btnHeight={height * 0.065}
+          btnWidth={width * 0.85}
+          backgroundColor={colors.marhoon}
+          borderRadius={20}
+          onPress={() => navigation.navigate('HomeBase')}
+        />
+      </View>
     </View>
   );
 };
@@ -236,64 +262,64 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.07,
-    left: width * 0.04,
+    left: width * 0.02,
   },
   firstBase: {
     color: colors.darkGray,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.07,
-    left: width * 0.05,
   },
   homeBase: {
     color: colors.green,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm,
     top: height * 0.07,
-    left: width * 0.15,
   },
   rejImg: {
-    alignSelf: 'center',
+    alignItems: 'center',
     top: height * 0.1,
+    left: width * 0.005
   },
   abandonmentImg: {
     top: height * 0.1,
-    // left: width * 0.12,
+    right: width * 0.015
   },
   homeBaseImg: {
     top: height * 0.1,
-    left: width * 0.12,
+    left: width * 0.01,
   },
   number: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     alignSelf: 'center',
     color: colors.white,
-    top: height * 0.01,
+    top: height * 0.016,
+    left: width * 0.01
   },
   num: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
     top: height * 0.013,
-    alignSelf:'center',
+    alignSelf: 'center',
     right: width * 0.02,
   },
   One: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
-    top: height * 0.013,
-    alignSelf:'center',
-    right: width * 0.03,
+    top: height * 0.015,
+    alignSelf: 'center',
+    right: width * 0.006,
   },
-  one:{
+  one: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.xl,
     color: colors.white,
     top: height * 0.013,
-    alignSelf:'center',
-    right: width * 0.24,
+    alignSelf: 'center',
+    left: width * 0.01,
   },
   btnMain: {
     alignItems: 'center',

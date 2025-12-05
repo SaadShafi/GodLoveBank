@@ -2,6 +2,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   LayoutAnimation,
   Platform,
@@ -105,14 +106,19 @@ const Questionnaire: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(null);
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
-  const [apiQuestions, setApiQuestions] = useState({
-    oldSelfStory: [],
-    newSelfStory: []
-  });
-
+  const [apiQuestions, setApiQuestions] = useState({});
   const [selectedMap, setSelectedMap] = useState<
-    Record<number, { optionIndex: number; optionText: string }>
-  >({});
+  Record<
+    number,
+    {
+      optionIndex: number;
+      optionText: string;
+      category: string;
+      categoryId: number;
+      categoryTitle: string;
+    }
+  >
+>({});
 
   const toggleOpen = (id: number) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -123,11 +129,18 @@ const Questionnaire: React.FC = () => {
     groupId: number,
     optionIndex: number,
     optionText: string,
+    category: string,
   ) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setSelectedMap(prev => ({
       ...prev,
-      [groupId]: { optionIndex, optionText },
+      [groupId]: {
+        optionIndex,
+        optionText,
+        category,
+        categoryId: groupId,
+        categoryTitle: groupsData.find(g => g.id === groupId)?.title || "",
+      },
     }));
     setOpenId(null);
   };
@@ -143,14 +156,11 @@ const Questionnaire: React.FC = () => {
         null
       )
       console.log("Response from the Questions API", response)
-      setApiQuestions({
-        oldSelfStory: response?.data?.data?.oldSelfStory || [],
-        newSelfStory: response?.data?.data?.newSelfStory || [],
-      });
+      setApiQuestions(response?.data?.data?.questions || {});
       Toast.show({
         type: "success",
         text1: "Success",
-        text2: response?.data.data.message
+        text2: response?.data.message
       })
     } catch (error) {
       Toast.show({
@@ -158,12 +168,16 @@ const Questionnaire: React.FC = () => {
         text1: "Error",
         text2: error?.message
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     fetchQuestions()
   }, [])
+
+  const getGroupKey = (id) => `group_${id}`;
 
   return (
     <View style={styles.container}>
@@ -248,31 +262,16 @@ const Questionnaire: React.FC = () => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-
-                {/* {isOpen && (
-                  <View style={styles.dropdown}>
-                    {group.options.map((opt, idx) => (
-                      <TouchableOpacity
-                        key={idx}
-                        activeOpacity={0.7}
-                        onPress={() => onSelectOption(group.id, idx, opt)}
-                        style={styles.optionRow}
-                      >
-                        <Text style={styles.optionText}>{opt}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )} */}
                 {isOpen && (
                   <View style={styles.dropdown}>
-                    {(apiQuestions.oldSelfStory || []).map((opt, idx) => (
+                    {(apiQuestions[getGroupKey(group.id)] || []).map((q, idx) => (
                       <TouchableOpacity
-                        key={idx}
+                        key={q.id}
                         activeOpacity={0.7}
-                        onPress={() => onSelectOption(group.id, idx, opt)}
+                        onPress={() => onSelectOption(group.id, idx, q.question, q.category)}
                         style={styles.optionRow}
                       >
-                        <Text style={styles.optionText}>{opt}</Text>
+                        <Text style={styles.optionText}>{q.question}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -290,24 +289,34 @@ const Questionnaire: React.FC = () => {
             backgroundColor={colors.marhoon}
             text="Next"
             textColor={colors.white}
-            onPress={() => navigation.navigate('BaseballDiamond')}
+            onPress={() => {
+              navigation.navigate('BaseballDiamond', {
+                selections: selectedMap
+              });
+            }}
           />
         </View>
       </ScrollView>
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.white },
-
+  container: {
+    flex: 1,
+    backgroundColor: colors.white
+  },
   helperText: {
     alignSelf: 'center',
     color: colors.black,
     fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm,
   },
-
   topBadgesRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -315,7 +324,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: height * 0.03,
   },
-
   redBadge: {
     backgroundColor: colors.red,
     height: height * 0.07,
@@ -323,7 +331,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     justifyContent: 'center',
   },
-
   blueBadge: {
     backgroundColor: colors.blue,
     height: height * 0.07,
@@ -331,32 +338,26 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     justifyContent: 'center',
   },
-
   badgeText: {
     color: colors.white,
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     alignSelf: 'center',
   },
-
   bestText: {
     color: colors.black,
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
     left: width * 0.07,
   },
-
-  /* Row: left red button + right column (question box + dropdown) */
   rowContainer: {
     width: width * 0.95,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginTop: height * 0.015,
-    gap: width * 0.03, // Added gap between red and grey containers
+    gap: width * 0.03,
   },
-
-  /* left red button */
   groupButton: {
     width: width * 0.35,
     height: height * 0.08,
@@ -367,19 +368,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-
   groupTitle: {
     color: '#fff',
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
   },
-
-  /* right column */
   rightColumn: {
-    width: width * 0.57, // Slightly reduced to accommodate the gap
+    width: width * 0.57,
   },
-
-  /* grey question box - FIXED */
   questionBox: {
     width: '100%',
     height: height * 0.085,
@@ -401,8 +397,6 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     lineHeight: height * 0.022,
   },
-
-  /* dropdown plain text list */
   dropdown: {
     marginTop: height * 0.012,
     paddingHorizontal: width * 0.02,
@@ -422,6 +416,17 @@ const styles = StyleSheet.create({
   btnMain: {
     top: height * 0.07,
     alignItems: 'center',
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 
