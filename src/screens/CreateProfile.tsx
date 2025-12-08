@@ -11,19 +11,33 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import CustomTextInput from '../components/CustomTextInput';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '../redux/slice/roleSlice';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
 const CreateProfile = () => {
   const [city, setCity] = useState('');
   const navigation = useNavigation<NavigationProp<any>>();
+  const [image, setImage] = useState<string | null>(null);
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [country, setCountry] = useState('');
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [countryName, setCountryName] = useState('');
+  const [cityName, setCityName] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [gender, setGender] = useState('');
+  const [relationshipStatus, setRelationShipStatus] = useState('');
   const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
   const [tags, setTags] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   const countryOption = [
     { name: 'Country', id: '' },
@@ -69,6 +83,75 @@ const CreateProfile = () => {
     setTags(updated);
   };
 
+
+
+    const handleCreateProfile = async () => {
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+
+      // formData.append('firstName', firstname);
+      // formData.append('lastName', lastname);
+      formData.append('country', country);
+      formData.append('city', city);
+      formData.append('postalCode', postalCode);
+      formData.append('relationshipStatus', relationshipStatus);
+      formData.append('gender', gender);
+      if (image) {
+        const fileName = image.split('/').pop() || 'photo.jpg';
+        const fileType = fileName.split('.').pop();
+
+        formData.append('image', {
+          uri: image,
+          type: `image/${fileType}`,
+          name: fileName,
+        });
+      }
+
+      const { response, error } = await apiHelper(
+        'PATCH',
+        'users/update',
+        { 'Content-Type': 'multipart/form-data' },
+        formData,
+      );
+
+      console.log('FormData sent in Create Profile:', formData);
+      console.log('Response from Create Profile:', response?.data);
+
+     if (response?.data) {
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: 'Profile Created successfully!',
+        });
+        const user = response.data;
+
+        // Save user
+        dispatch(setUser(user));
+        console.log(
+          'User updated in Create Profile Screen!',
+          user,
+        );
+
+        setIsModalVisible(true);
+      }
+
+    } catch (err) {
+      console.log('Create profile error:', err);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Profile update failed',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Profile Setup" isBack={true} />
@@ -80,47 +163,44 @@ const CreateProfile = () => {
 
         <View style={styles.inputMain}>
           <View style={styles.row}>
-            <CustomSelect
-              inputWidth={width * 0.41}
+            <CustomTextInput
+              placeholder="Country"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={countryOption}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={country}
               onChangeText={setCountry}
-              setSelectedElement={setCountry}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
-            <CustomSelect
-              inputWidth={width * 0.41}
+           <CustomTextInput
+              placeholder="City"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={cityOptions}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={city}
               onChangeText={setCity}
-              setSelectedElement={setCity}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
           </View>
 
           <View style={styles.row}>
-            <CustomSelect
-              inputWidth={width * 0.41}
+           <CustomTextInput
+              placeholder="Postal Code"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={postalOptions}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={postalCode}
               onChangeText={setPostalCode}
-              setSelectedElement={setPostalCode}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
             <CustomSelect
               inputWidth={width * 0.41}
@@ -145,8 +225,8 @@ const CreateProfile = () => {
             borderWidth={1}
             inputColor={colors.lightGray}
             borderRadius={20}
-            onChangeText={setStatus}
-            setSelectedElement={setStatus}
+            onChangeText={setRelationShipStatus}
+            setSelectedElement={setRelationShipStatus}
             defaultValue=""
             rightIcon={images.arrowdown}
           />
@@ -171,14 +251,14 @@ const CreateProfile = () => {
 
         <View style={styles.btnMain}>
           <CustomButton
-            text="Continue"
-            textColor={colors.white}
-            btnHeight={height * 0.065}
-            btnWidth={width * 0.85}
-            backgroundColor={colors.marhoon}
-            borderRadius={20}
-            onPress={() => setIsModalVisible(true)} // 👈 Show modal
-          />
+              text="Continue"
+              textColor={colors.white}
+              btnHeight={height * 0.065}
+              btnWidth={width * 0.85}
+              backgroundColor={colors.marhoon}
+              borderRadius={20}
+              onPress={handleCreateProfile}
+            />
         </View>
       </View>
 
