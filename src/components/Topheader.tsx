@@ -15,6 +15,8 @@ import images from '../assets/Images';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 interface TopHeaderProps {
   text?: string;
@@ -42,9 +44,14 @@ interface TopHeaderProps {
   toggleSwitch?: (newState: any) => void;
   toggleValue?: boolean;
   addCard?: boolean;
-  onAddCardPress?: () => void; 
+  onAddCardPress?: () => void;
   msgIcon?: boolean;
+
   favIcon?: boolean;
+  videoId?: number;
+  onFavouritePress?: (videoId: number, isCurrentlyFavourite: boolean) => void;
+  isFavourite?: boolean; // Add this to control which icon to show
+
   skip?: boolean;
   list?: boolean;
   backIcon?: boolean;
@@ -83,16 +90,21 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   toggleSwitch,
   toggleValue = true,
   addCard = false,
-  onAddCardPress, 
+  onAddCardPress,
   msgIcon = false,
+
   favIcon = false,
+  videoId,
+  onFavouritePress,
+  isFavourite = false, // Default to false
+
   skip = false,
   list = false,
   isPhone = false,
   isBackWhite = false,
   isProfile = false,
   isCart = false,
-  isBackHome= false,
+  isBackHome = false,
   isCross = false,
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -110,6 +122,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const [value, setValue] = useState({
     reason: '',
   });
+  const User = useSelector((state: RootState) => state.role.user)
+  // console.log("User", User)
 
   const toggleDisputeModal = () => {
     setdisputeOpen(!disputeOpen);
@@ -157,6 +171,21 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     }
   }, [isQr, setIsCompleted]);
 
+
+  const handleFavouritePress = async () => {
+    if (!videoId || !onFavouritePress) {
+      console.log("No videoId or onFavouritePress provided");
+      return;
+    }
+
+    try {
+      // Pass the current favourite status to the parent
+      onFavouritePress(videoId, isFavourite);
+    } catch (error) {
+      console.error("Error handling favourite press:", error);
+    }
+  };
+
   return (
     <View
       style={{
@@ -181,7 +210,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </Pressable>
           )}
           {isCross && (
-             <Pressable
+            <Pressable
               style={styles.headerArrow}
               onPress={() => {
                 if (navigation) {
@@ -214,8 +243,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               onPress={() => {
                 if (navigation) {
                   // navigation.canGoBack()
-                    // ? navigation.goBack()
-                   navigation.navigate('Home');
+                  // ? navigation.goBack()
+                  navigation.navigate('Home');
                 }
               }}
             >
@@ -285,7 +314,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <TouchableOpacity
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
-                <Image source={images.bell} style={styles.bellImgSec}/>
+                <Image source={images.bell} style={styles.bellImgSec} />
               </TouchableOpacity>
             </View>
           )}
@@ -293,7 +322,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <View style={styles.headerBell}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                // onPress={() => navigation.navigate('CallMain')}
+              // onPress={() => navigation.navigate('CallMain')}
               >
                 <Image source={images.phoneBlack} style={styles.isChatImg} />
               </TouchableOpacity>
@@ -324,8 +353,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </TouchableOpacity>
           )}
           {favIcon && (
-            <TouchableOpacity style={styles.headerBell} activeOpacity={0.7} onPress={() => navigation.navigate("Favourites")}>
-              <Image source={images.favIcon} style={styles.favIcon} />
+            <TouchableOpacity
+              style={styles.headerBell}
+              activeOpacity={0.7}
+              // onPress={() => navigation.navigate("Favourites")}
+              onPress={handleFavouritePress}
+            >
+              <Image source={isFavourite ? images.filledFav : images.favIcon} style={styles.favIcon} />
             </TouchableOpacity>
           )}
           {skip && (
@@ -338,13 +372,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('CallMain')}
+                // onPress={() => navigation.navigate('CallMain')}
                 >
                   <Image source={images.phoneBlack} style={styles.isChatImg} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  // onPress={() => navigation.navigate('Chat')}
+                // onPress={() => navigation.navigate('Chat')}
                 >
                   <Image source={images.chat} style={styles.isChatImg} />
                 </TouchableOpacity>
@@ -374,7 +408,10 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                     }}
                   >
                     <Text style={styles.headerWelcome}>Welcome</Text>
-                    <Text style={styles.headerJaydon}>Jaydon</Text>
+                    <Text style={styles.headerJaydon}>
+                      {User?.firstName && User?.lastName
+                        ? `${User.firstName} ${User.lastName}`
+                        : "Name"}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -382,7 +419,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           )}
           {isCart && (
             <TouchableOpacity activeOpacity={0.7} style={styles.headerBell} onPress={() => navigation.navigate("Cart")}>
-              <Image source={images.cartIcon} style={styles.cartIconImg}/>
+              <Image source={images.cartIcon} style={styles.cartIconImg} />
             </TouchableOpacity>
           )}
         </View>
@@ -483,9 +520,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   bellImgSec: {
-     width: width * 0.11,
-     resizeMode: 'contain',
-     right: width * 0.01
+    width: width * 0.11,
+    resizeMode: 'contain',
+    right: width * 0.01
   },
   notiText: {
     fontSize: width * 0.02,
@@ -619,7 +656,7 @@ const styles = StyleSheet.create({
   },
   headerJaydon: {
     fontFamily: fontFamily.UrbanistBold,
-    fontSize: fontSizes.md,
+    fontSize: fontSizes.sm,
     color: colors.black,
   },
   cartIconImg: {

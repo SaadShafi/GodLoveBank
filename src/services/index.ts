@@ -57,6 +57,7 @@ interface ApiResponse<T = any> {
 export const apiHelper = async <T = any>(
   method: HttpMethod,
   endPoint: string,
+  params: Record<string, any> = {}, // Add this for query parameters
   customHeaders: Record<string, string> = {},
   body: any = null,
 ): Promise<ApiResponse<T>> => {
@@ -68,6 +69,7 @@ export const apiHelper = async <T = any>(
         'Content-Type': 'application/json',
         ...customHeaders,
       },
+       ...(params && Object.keys(params).length > 0 && { params }), // Add params for GET requests
       ...(method !== 'GET' && { data: body }),
     };
 

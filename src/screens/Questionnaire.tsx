@@ -153,6 +153,7 @@ const Questionnaire: React.FC = () => {
         "GET",
         "general/questions",
         {},
+        {},
         null
       )
       console.log("Response from the Questions API", response)

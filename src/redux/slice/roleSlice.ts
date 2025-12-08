@@ -46,6 +46,7 @@ interface RoleState {
   chatId: string;
   languageSelect: string;
   countrySelect: Country | null;
+  videoId: string;
 }
 
 const initialState: RoleState = {
@@ -73,6 +74,7 @@ const initialState: RoleState = {
   chatId: '',
   languageSelect: '',
   countrySelect: null,
+  videoId: "",
 } satisfies RoleState as RoleState;
 
 const roleSlice = createSlice({
@@ -153,6 +155,9 @@ const roleSlice = createSlice({
     setCountrySelect: (state, action: PayloadAction<Country>) => {
       state.countrySelect = action.payload;
     },
+    setVideoId: (state, action) => {
+      state.videoId = action.payload;
+    }
   },
 });
 
@@ -180,6 +185,7 @@ export const {
   setSpecialOfferName,
   setChatId,
   setLanguageSelect,
-  setCountrySelect
+  setCountrySelect,
+  setVideoId
 } = roleSlice.actions;
 export default roleSlice.reducer;

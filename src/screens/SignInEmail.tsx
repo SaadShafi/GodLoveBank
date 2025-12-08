@@ -1,7 +1,7 @@
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -45,6 +45,7 @@ const SignInEmail = () => {
       const { response, error } = await apiHelper(
         'POST',
         'auth/login',
+        {},
         {},
         body,
       );
@@ -153,6 +154,11 @@ const SignInEmail = () => {
           </View>
         </View>
       </View>
+            {loading && (
+              <View style={styles.loaderOverlay}>
+                <ActivityIndicator size="large" color={colors.brown} />
+              </View>
+            )}
     </View>
   );
 };
@@ -222,6 +228,17 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.UrbanistBold,
     fontSize: fontSizes.sm2,
     color: colors.marhoon,
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

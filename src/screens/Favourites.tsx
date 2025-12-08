@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -15,6 +16,9 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 interface bookProps {
   headText: string;
@@ -36,6 +40,9 @@ interface videoProp {
 
 const Favourites = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState(false)
+  const [favouriteVideos, setFavouriteVideos] = useState<any[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const booksData = [
     {
@@ -123,7 +130,13 @@ const Favourites = () => {
     },
   ];
 
-  const renderBooks = ({ item }: { item: bookProps }) => {
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchFavourite(); // fetch the latest favourites
+    setRefreshing(false);
+  };
+
+  const renderBooks = ({ item }: { item: any }) => {
     return (
       <View style={styles.bookCard}>
         <Image source={item.headImg} style={styles.bookImage} />
@@ -148,19 +161,49 @@ const Favourites = () => {
     );
   };
 
-  const renderRelatedVideoItem = ({ item }: { item: videoProp }) => (
+  // const renderRelatedVideoItem = ({ item }: { item: videoProp }) => (
+  //   <View style={styles.relatedVideoItem}>
+  //     {/* Video thumbnail */}
+  //     <View style={styles.relatedVideoThumbnail}>
+  //       <Image source={item.image} style={styles.relatedVideoImage} />
+  //       <Image source={images.favIcon} style={styles.favIcon} /> 
+  //     </View>
+  //     <View style={styles.relatedTextContent}>
+  //       <View style={styles.dummyContainer}>
+  //         <Text style={styles.relatedVideoSubtitle}>{ item.video.title || "Dummy Text"}</Text>
+  //       </View>
+  //       <Text style={styles.relatedVideoTitle}>{item.title}</Text>
+  //       <Text style={styles.relatedVideoDescription}>{item.description}</Text>
+  //     </View>
+  //     <View style={{ top: height * 0.02 }}>
+  //       <CustomButton
+  //         text="Watch"
+  //         textColor={colors.white}
+  //         btnHeight={height * 0.04}
+  //         btnWidth={width * 0.35}
+  //         backgroundColor={colors.darkmarhoon}
+  //         borderRadius={12}
+  //         fontSize={fontSizes.xsm}
+  //         onPress={() => navigation.navigate('MediaDetails')}
+  //       />
+  //     </View>
+  //   </View>
+  // );
+
+
+  const renderRelatedVideoItem = ({ item }: { item: any }) => (
     <View style={styles.relatedVideoItem}>
-      {/* Video thumbnail */}
       <View style={styles.relatedVideoThumbnail}>
-        <Image source={item.image} style={styles.relatedVideoImage} />
-        <Image source={images.favIcon} style={styles.favIcon} />
+        <Image source={{ uri: item.video.thumbnailUrl }} style={styles.relatedVideoImage} />
+        <Image source={images.filledFav} style={styles.favIcon} />
       </View>
       <View style={styles.relatedTextContent}>
         <View style={styles.dummyContainer}>
-          <Text style={styles.relatedVideoSubtitle}>Dummy Text</Text>
+          <Text style={styles.relatedVideoSubtitle} numberOfLines={1}
+            ellipsizeMode="tail">{item.video.tags}</Text>
         </View>
-        <Text style={styles.relatedVideoTitle}>{item.title}</Text>
-        <Text style={styles.relatedVideoDescription}>{item.description}</Text>
+        <Text style={styles.relatedVideoTitle}>{item.video.title}</Text>
+        <Text style={styles.relatedVideoDescription}>{item.video.shortDescription}</Text>
       </View>
       <View style={{ top: height * 0.02 }}>
         <CustomButton
@@ -171,7 +214,7 @@ const Favourites = () => {
           backgroundColor={colors.darkmarhoon}
           borderRadius={12}
           fontSize={fontSizes.xsm}
-          onPress={() => navigation.navigate('MediaDetails')}
+          onPress={() => navigation.navigate('MediaDetails', { VideoID: item.videoId })}
         />
       </View>
     </View>
@@ -192,6 +235,8 @@ const Favourites = () => {
             marginTop: height * 0.015,
             paddingBottom: height * 0.15,
           }}
+          refreshing={refreshing}       // <--- add this
+          onRefresh={handleRefresh}     // <--- add this
         />
       </View>
     );
@@ -201,7 +246,7 @@ const Favourites = () => {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
-          data={relatedVideos}
+          data={favouriteVideos}
           renderItem={renderRelatedVideoItem}
           keyExtractor={item => item.id}
           numColumns={2}
@@ -212,10 +257,46 @@ const Favourites = () => {
             marginTop: height * 0.015,
             paddingBottom: height * 0.15,
           }}
+          refreshing={refreshing}       // <--- add this
+          onRefresh={handleRefresh}     // <--- add this
         />
       </View>
     );
   };
+
+  const fetchFavourite = async () => {
+    setLoading(true)
+
+    try {
+      const params = {
+        type: "video"
+      };
+
+      const { response, error } = await apiHelper("GET", "/users/favourites", params, {}, {})
+      console.log("response from the favourites API!", response)
+
+      if (response) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Success"
+        })
+        setFavouriteVideos(response.data.data);
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchFavourite()
+  }, [])
 
   return (
     <View style={{ flex: 1 }}>
@@ -227,6 +308,11 @@ const Favourites = () => {
           activeTabLoad={0}
         />
       </View>
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -387,6 +473,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: width * 0.33,
     bottom: height * 0.06,
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

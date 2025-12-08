@@ -11,29 +11,29 @@ import { colors } from './src/utilities/colors';
 
 const App = () => {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-    <Provider store={store}>
-      <PersistGate  loading={<ActivityIndicator />} persistor={persistor}>
-      <NavigationContainer>
-        <MainStack />
-        <Toast
-            config={{
-              custom_otp: ({ text1, text2 }) => (
-                <View style={styles.toastContainer}>
-                  {/* <Text style={styles.text1}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+          <NavigationContainer>
+            <MainStack />
+            <Toast
+              config={{
+                custom_otp: ({ text1, text2 }) => (
+                  <View style={styles.toastContainer}>
+                    {/* <Text style={styles.text1}>
                     Hi <Text style={styles.bold}>Alex!</Text> Here is your
                     One-Time Password <Text style={styles.bold}>52610</Text>
                   </Text>
                   <Text style={styles.text2}>
                     <Text style={styles.bold}>Valid for 10 mins.</Text>
                   </Text> */}
-                </View>
-              ),
-            }}
-          />
-      </NavigationContainer>
-      </PersistGate>
-    </Provider>
+                  </View>
+                ),
+              }}
+            />
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     </GestureHandlerRootView>
   );
 };

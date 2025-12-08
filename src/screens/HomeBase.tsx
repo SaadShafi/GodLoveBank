@@ -8,11 +8,72 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<StackParamList, 'HomeBase'>;
 
 const HomeBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState(false)
+  const [story, setStory] = useState(null);
+  const [fullData, setFullData] = useState(null);
+
+  const fetchHomrBase = async () => {
+    setLoading(true)
+
+    try {
+
+      const body = {
+        "selectedGroups": {
+          "group_1": 2,
+          "group_2": 3,
+          "group_3": 4,
+          "group_4": 5,
+          "group_5": 6,
+          "group_6": 7,
+          "group_7": 8
+        }
+      }
+      const { response, error } = await apiHelper(
+        "PATCH",
+        "/users/update-questions-selection",
+        {},
+        {},
+        body
+      )
+      console.log("Response of the video Details API!", response)
+
+       const data = response?.data?.data;
+      const list = response?.data?.data?.selfStoryList || [];
+
+      // find rejection → chosenness pair
+      const rejectionStory = list.find(
+        item => item.oldSelfStory === "rejection"
+      );
+
+      setStory(rejectionStory);
+      setFullData(data)
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Success"
+      })
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchHomrBase();
+  }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -36,9 +97,11 @@ const HomeBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              REJECTION:
+              {/* REJECTION: */}
+              {story?.oldSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The Old Self–Love Story Of Rejection Has A Home Base And A Life
+            {/* The Old Self–Love Story Of Rejection Has A Home Base And A Life
             Paradigm Which Makes You Feel Unaccepted, Disowned, Denied, Refused,
             Disliked, And Not Good Enough, Like The Black Sheep In The Family.
             It Causes You To Have A Great Fear Of Failure Because Failure, To
@@ -49,7 +112,8 @@ const HomeBase = () => {
             Overtly Under–Compensate And Settle For Less In Your Life To Avoid
             Being Rejected. You Also Have A Very Hard Time Trusting Others In
             Your Life. Therefore, The Stress Drivers For Rejection Are Distrust,
-            Under–Compensation, And Rebellion.
+            Under–Compensation, And Rebellion. */}
+            {story?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -75,9 +139,11 @@ const HomeBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              CHOSENNESS:
+              {/* CHOSENNESS: */}
+              {story?.newSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
+            {/* The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
             Special, Appointed, Selected, Accepted, And Truly Loved. You Now
             Know You Are Chosen For A Unique Purpose In Life; Consequently, It
             Causes You To Feel A Sense Of Calling And Chosenness In Everything
@@ -88,19 +154,23 @@ const HomeBase = () => {
             God, Yourself, And Significant Others, Knowing That You Can't Fail
             In Anything As Long As You Trust And Obey The Logic And Reason Of
             The Holy Spirit. Therefore, The Spirit Drivers For Chosenness Are
-            Trust And Obey.
+            Trust And Obey. */}
+            {story?.newSelfStoryDescription}
           </Text>
         </View>
 
         <View style={styles.btnMain}>
           <CustomButton
-            text="Next"
+            text="Next" 
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('FirstBase')}
+            onPress={() => navigation.navigate('FirstBase', {
+  story,
+  fullData,
+})}
           />
         </View>
       </ScrollView>

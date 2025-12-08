@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -12,9 +12,13 @@ import images from '../assets/Images';
 import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const FAQs = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [faqs, setFaqsData] = useState<any>(null);
+
 
   const data = [
     {
@@ -51,21 +55,50 @@ const FAQs = () => {
     }
   };
 
+    const fetchfaqs = async () => {
+    const { response } = await apiHelper(
+      "GET",
+      "general/faqs",
+      {},
+    );
+  
+    if (response && response.status) {
+      setFaqsData(response.data.data);  // ✅ correct
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Faqs fetched successfully",
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: response?.message || "Failed to fetched faqs",
+      });
+    }
+  };
+  
+  
+    useEffect(() => {
+      fetchfaqs();
+    }, []);
+
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <View style={styles.topHeader}>
         <TopHeader text="FAQs" isBack={true} />
       </View>
 
-      <ScrollView contentContainerStyle={{ }}>
-        {data.map((item, index) => (
+      <ScrollView contentContainerStyle={{}}>
+        {(faqs || []).map((item, index) => (
           <View key={item.id} style={styles.card}>
             <TouchableOpacity
               onPress={() => toggleDropdown(index)}
               style={styles.row}
               activeOpacity={0.7}
             >
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title}>{item.question}</Text>
               {activeIndex === index ? (
                 <TouchableOpacity onPress={() => setActiveIndex(null)}>
                   <Image source={images.cross} />
@@ -77,7 +110,7 @@ const FAQs = () => {
 
             {activeIndex === index && (
               <View style={styles.dropdown}>
-                <Text style={styles.desc}>{item.desc}</Text>
+                <Text style={styles.desc}>{item.answer}</Text>
               </View>
             )}
           </View>

@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -16,6 +16,9 @@ import Toast from 'react-native-toast-message';
 import { apiHelper } from '../services';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../redux/slice/roleSlice';
+import CustomProfileImgModal from '../components/CustomProfilImage';
+import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
@@ -37,6 +40,10 @@ const CreateProfile = () => {
   const [bio, setBio] = useState('');
   const [tags, setTags] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+
 
 
   const countryOption = [
@@ -83,6 +90,31 @@ const CreateProfile = () => {
     setTags(updated);
   };
 
+    const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const uploadFromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      setProfileImage(image.path);
+      toggleModal();
+    });
+  };
+
+  const uploadFromCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      setProfileImage(image.path);
+      toggleModal();
+    });
+  };
 
 
     const handleCreateProfile = async () => {
@@ -91,8 +123,6 @@ const CreateProfile = () => {
     try {
       const formData = new FormData();
 
-      // formData.append('firstName', firstname);
-      // formData.append('lastName', lastname);
       formData.append('country', country);
       formData.append('city', city);
       formData.append('postalCode', postalCode);
@@ -125,14 +155,9 @@ const CreateProfile = () => {
           text1: 'Success',
           text2: 'Profile Created successfully!',
         });
-        const user = response.data;
-
-        // Save user
-        dispatch(setUser(user));
-        console.log(
-          'User updated in Create Profile Screen!',
-          user,
-        );
+        const user = response.data.data;
+        dispatch(setUser(response.data.data)); 
+        console.log('User dispatched from the Create Profile Screen!',user,);
 
         setIsModalVisible(true);
       }
@@ -150,14 +175,14 @@ const CreateProfile = () => {
   };
 
 
-
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Profile Setup" isBack={true} />
       <View style={styles.container}>
         <View style={styles.imgMain}>
-          <Image source={images.profile} style={styles.profileImg} />
+          <TouchableOpacity onPress={toggleModal} activeOpacity={0.7}>
+            <Image source={images.profile} style={styles.profileImg} />
+          </TouchableOpacity>
           <Text style={styles.profText}>Harden Scott</Text>
         </View>
 
@@ -260,6 +285,17 @@ const CreateProfile = () => {
               onPress={handleCreateProfile}
             />
         </View>
+         <CustomProfileImgModal
+          modalOpen={modalOpen}
+          toggleModal={toggleModal}
+          camera={uploadFromCamera}
+          gallery={uploadFromGallery}
+        />
+        {loading && (
+          <View style={styles.loaderOverlay}>
+            <ActivityIndicator size="large" color={colors.brown} />
+          </View>
+        )}
       </View>
 
       {/* ✅ Success Modal - placed outside container */}
@@ -406,6 +442,17 @@ const styles = StyleSheet.create({
     color: colors.Gray,
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
+  },
+    loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

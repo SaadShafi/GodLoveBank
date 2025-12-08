@@ -32,9 +32,13 @@ import Toast from 'react-native-toast-message';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
+  const User = useSelector((state: RootState) => state.role.user);
+  console.log("User ID from redux in the Drawer!", User);
+
 
   return (
     <Drawer.Navigator
+      key={User?.id}  // forces re-render when user changes
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
@@ -61,7 +65,6 @@ const CustomDrawerContent = (props: any) => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const User = useSelector((state: RootState) => state.role.user);
-
   console.log("User from redux in the Drawer!", User);
 
   const toggleModal = () => {
@@ -83,7 +86,7 @@ const CustomDrawerContent = (props: any) => {
 
 
   const handleLogout = () => {
-    dispatch(removeUser());
+    // dispatch(removeUser());
     dispatch(logout());
 
     setModalOpen(false);
@@ -103,7 +106,6 @@ const CustomDrawerContent = (props: any) => {
 
     console.log('User logged out successfully');
   };
-
 
   const handleNavigation = (routeName: string) => {
     navigation.navigate(routeName);
@@ -133,6 +135,13 @@ const CustomDrawerContent = (props: any) => {
     },
   ];
 
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (!text) return '';
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  };
+
+
   return (
     <View style={styles.gradientContainer}>
       <View style={styles.gradientTop} />
@@ -153,8 +162,16 @@ const CustomDrawerContent = (props: any) => {
           </TouchableOpacity>
 
           <View style={styles.profileTextContainer}>
-            <Text style={styles.profileName}>Harden Scott</Text>
-            <Text style={styles.profileEmail}>hardenScott@example.com</Text>
+            {/* <Text style={styles.profileName}>{User?.full_name || "Name"}</Text>
+            <Text style={styles.profileEmail}>{truncateText(User?.email || "info@yourmail.com", 15)}</Text> */}
+            <Text style={styles.profileName}>
+              {User?.firstName && User?.lastName
+                ? `${User.firstName} ${User.lastName}`
+                : "Name"}
+            </Text>
+            <Text style={styles.profileEmail}>
+              {truncateText(User?.email || "info@yourmail.com", 25)}
+            </Text>
           </View>
         </View>
         <TouchableOpacity onPress={() => {

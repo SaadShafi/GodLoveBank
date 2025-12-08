@@ -116,7 +116,7 @@ const Registeration = () => {
           password,
         };
 
-        const { response, error } = await apiHelper('POST', 'auth/signup', {}, body);
+        const { response, error } = await apiHelper('POST', 'auth/signup', {}, {}, body);
 
         console.log('Body sent to signUp Api: ', body);
         console.log('Response from signUp Api: ', response?.data);

@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -11,19 +11,37 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import CustomTextInput from '../components/CustomTextInput';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
+import { setUser } from '../redux/slice/roleSlice';
+import CustomProfileImgModal from '../components/CustomProfilImage';
+import ImagePicker from 'react-native-image-crop-picker';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
 const EditProfile = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [city, setCity] = useState('');
   const navigation = useNavigation<NavigationProp<any>>();
+  const [image, setImage] = useState<string | null>(null);
   const [country, setCountry] = useState('');
   const [postalCode, setPostalCode] = useState('');
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState('');
+  const [relationshipStatus, setRelationShipStatus] = useState('');
   const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
   const [tags, setTags] = useState([]);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const User = useSelector((state: RootState) => state.role.user);
+  console.log('User from Redux in EditProfile Screen:', User);
+  console.log('User First Name from Redux in EditProfile Screen:', User.firstName);
+  const [values, setValues] = useState();
 
   const countryOption = [
     { name: 'Country', id: '' },
@@ -69,58 +87,165 @@ const EditProfile = () => {
     setTags(updated);
   };
 
+  const handleChange = (key: string, value: string) => {
+    setValues((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleUpdateProfile = async () => {
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('country', country);
+      formData.append('city', city);
+      formData.append('postalCode', postalCode);
+      formData.append('relationshipStatus', relationshipStatus);
+      formData.append('gender', gender);
+      if (image && !image.startsWith('http')) {
+        const fileName = image.split('/').pop() || 'photo.jpg';
+        const fileType = fileName.split('.').pop();
+        formData.append('profile_picture', {
+          uri: image,
+          type: `image/${fileType}`,
+          name: fileName,
+        } as any);
+      }
+
+      console.log('Updating profile with formData:', {
+        country,
+        city,
+        postalCode,
+        relationshipStatus,
+        gender,
+        profileImageChanged: !!(
+          image && !image.startsWith('http')
+        ),
+      });
+
+      const { response, error } = await apiHelper(
+        'PATCH',
+        'users/update',
+        { 'Content-Type': 'multipart/form-data' },
+        formData,
+      );
+
+      console.log('Response from Update Profile:', response?.data);
+
+      if (response?.data) {
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: 'Profile updated successfully!',
+        });
+        dispatch(setUser(response.data.data)); // ✅ stores only the user object
+        console.log('Updated User dispatched:', response.data.data);
+        navigation.goBack();
+
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Failed to Update Profile',
+        });
+      }
+    } catch (err) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: err?.message || 'Profile update failed. Please try again.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+
+  const uploadFromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      setProfileImage(image.path);
+      toggleModal();
+    });
+  };
+
+  const uploadFromCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      setProfileImage(image.path);
+      toggleModal();
+    });
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Edit Profile" isBack={true} />
       <View style={styles.container}>
         <View style={styles.imgMain}>
-          <Image source={images.profile} style={styles.profileImg} />
-          <Text style={styles.profText}>Harden Scott</Text>
+          <TouchableOpacity onPress={toggleModal}>
+            <Image
+              source={
+                profileImage
+                  ? { uri: profileImage }                 // newly selected image
+                  : User?.profile_picture
+                  ? { uri: User.profile_picture }         // image from API / Redux
+                  : images.profile                        // fallback placeholder
+              }
+              style={styles.profileImg}
+            />
+          </TouchableOpacity>
+          <Text style={styles.profText}> {`${User?.firstName || ""} ${User?.lastName || ""}`.trim()}</Text>
         </View>
 
         <View style={styles.inputMain}>
           <View style={styles.row}>
-            <CustomSelect
-              inputWidth={width * 0.41}
+            <CustomTextInput
+              placeholder="Country"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={countryOption}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={country || User.country}
               onChangeText={setCountry}
-              setSelectedElement={setCountry}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
-            <CustomSelect
-              inputWidth={width * 0.41}
+            <CustomTextInput
+              placeholder="City"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={cityOptions}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={city || User.city}
               onChangeText={setCity}
-              setSelectedElement={setCity}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
           </View>
 
           <View style={styles.row}>
-            <CustomSelect
-              inputWidth={width * 0.41}
+            <CustomTextInput
+              placeholder="Postal Code"
+              placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
-              selectElements={postalOptions}
-              borderColor={colors.lightGray}
-              borderWidth={1}
-              inputColor={colors.lightGray}
+              inputWidth={width * 0.41}
               borderRadius={20}
+              value={postalCode || User.postalCode}
               onChangeText={setPostalCode}
-              setSelectedElement={setPostalCode}
-              defaultValue=""
-              rightIcon={images.arrowdown}
+              keyboardType="default"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
             <CustomSelect
               inputWidth={width * 0.41}
@@ -134,6 +259,7 @@ const EditProfile = () => {
               setSelectedElement={setGender}
               defaultValue=""
               rightIcon={images.arrowdown}
+              preselectedValue={User.gender}
             />
           </View>
 
@@ -149,9 +275,8 @@ const EditProfile = () => {
             setSelectedElement={setStatus}
             defaultValue=""
             rightIcon={images.arrowdown}
+            preselectedValue={User.relationshipStatus}
           />
-
-          {/* ✨ Updated Field Section */}
           <View style={styles.newHomeBaseWrapper}>
             <View style={styles.newHomeBaseCard}>
               <Text style={styles.newHomeBaseLabel}>
@@ -167,6 +292,12 @@ const EditProfile = () => {
               />
             </View>
           </View>
+          <CustomProfileImgModal
+            modalOpen={modalOpen}
+            toggleModal={toggleModal}
+            camera={uploadFromCamera}
+            gallery={uploadFromGallery}
+          />
         </View>
 
         <View style={styles.btnMain}>
@@ -177,7 +308,7 @@ const EditProfile = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.goBack()}
+            onPress={handleUpdateProfile}
           />
         </View>
       </View>
@@ -197,11 +328,27 @@ const styles = StyleSheet.create({
     top: height * 0.03,
     alignItems: 'center',
   },
-  profileImg: {
-    width: width * 0.7,
-    height: height * 0.15,
-    resizeMode: 'contain',
-  },
+  // profileImg: {
+  //   width: width * 0.35,
+  //   height: height * 0.15,
+  //   resizeMode: 'contain',
+  //   borderRadius: 30,
+  // },
+//   profileImg: {
+//   width: width * 0.4, // Use same value for width and height
+//   height: width * 0.4, // Use width here too to maintain aspect ratio
+//   resizeMode: 'cover',
+//   borderRadius: (width * 0.8) / 4, // Half the width/height for perfect circle
+//   overflow: 'hidden',
+// },
+profileImg: {
+  width: width * 0.33,
+  height: height * 0.15,
+  resizeMode: 'cover',
+  borderRadius: 50, // Large number to ensure fully rounded
+  // borderWidth: 1,
+  overflow: 'hidden',
+},
   profText: {
     fontFamily: fontFamily.UrbanistBold,
     fontSize: fontSizes.md,

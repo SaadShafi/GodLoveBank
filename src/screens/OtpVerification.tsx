@@ -63,35 +63,36 @@ const OtpVerification = () => {
 
 
   const handelResendOtp = async () => {
-  const body = {
-    userId: id,   // 🔥 MUST BE integer
+    const body = {
+      userId: id,   // 🔥 MUST BE integer
+    };
+
+    console.log('resend body:', body);
+
+    const { response, error } = await apiHelper(
+      'POST',
+      'auth/resend-otp',
+      {},
+      {},
+      body
+    );
+
+    if (response) {
+      console.log('Response from the resend Otp Email', response.data);
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: response.data.message,
+      });
+    } else {
+      console.log('Error:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error?.message || 'Something went wrong',
+      });
+    }
   };
-
-  console.log('resend body:', body);
-
-  const { response, error } = await apiHelper(
-    'POST',
-    'auth/resend-otp',
-    {},
-    body
-  );
-
-  if (response) {
-    console.log('Response from the resend Otp Email', response.data);
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: response.data.message,
-    });
-  } else {
-    console.log('Error:', error);
-    Toast.show({
-      type: 'error',
-      text1: 'Error',
-      text2: error?.message || 'Something went wrong',
-    });
-  }
-};
 
 
   const handleSubmitOtp = async () => {
@@ -106,13 +107,14 @@ const OtpVerification = () => {
       'POST',
       'auth/verify-otp',
       {},
+      {},
       body,
     );
 
     console.log('Body sent to OTP API: ', body);
     console.log('Response from OTP API: ', response?.data);
-    
-     if (response?.data && response.data.status) {
+
+    if (response?.data && response.data.status) {
       dispatch(setToken(response.data.data.accessToken));
 
       Toast.show({
@@ -134,7 +136,7 @@ const OtpVerification = () => {
       }
 
       setOtp(Array(4).fill(''));
-    }else {
+    } else {
       Toast.show({
         type: 'error',
         text1: 'Error',
@@ -204,10 +206,10 @@ const OtpVerification = () => {
         />
       </View>
       {loading && (
-              <View style={styles.loaderOverlay}>
-                <ActivityIndicator size="large" color={colors.brown} />
-              </View>
-            )}
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -255,13 +257,13 @@ const styles = StyleSheet.create({
     top: height * 0.55,
     alignItems: 'center',
   },
-   loaderOverlay: {
+  loaderOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)', 
+    backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 9999,

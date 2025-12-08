@@ -6,9 +6,43 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
+import { useEffect, useState } from 'react';
 
 const CustomerSupport = () => {
     const navigation = useNavigation<NavigationProp<any>>();
+    const [email, setEmail] = useState<any>(null);
+    
+
+     const fetchCustomerSupport = async () => {
+        const { response } = await apiHelper(
+          "GET",
+          "/general/metadata",
+          {},
+        );
+      
+        if (response && response.status) {
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Customer Support fetched successfully",
+          });
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: response?.message || "Failed to fetched faqs",
+          });
+        }
+      };
+      
+      
+        useEffect(() => {
+          fetchCustomerSupport();
+        }, []);
+
+
   
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -90,5 +124,3 @@ const styles = StyleSheet.create({
 });
 
 export default CustomerSupport;
-
-

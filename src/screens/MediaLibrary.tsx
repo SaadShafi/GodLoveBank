@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ScrollView,
@@ -19,14 +20,17 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
+import { setVideoId } from '../redux/slice/roleSlice';
 
 const MediaLibrary = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [searchText, setSearchText] = useState('');
   const [activeTab, setActiveTab] = useState('ALL');
   const [loading, setLoading] = useState(false);
-
-  const tabs = ['ALL', 'Love', 'Compassion', 'Forgiveness'];
+  const [tabs, setTabs] = useState(["ALL"]);
+  const [videos, setVideos] = useState([]);
+  const dispatch = useDispatch()
 
   const recentVideos = [
     {
@@ -75,7 +79,6 @@ const MediaLibrary = () => {
 
   const allVideos = [...recentVideos, ...relatedVideos];
 
-  // Filter videos based on search text
   const filteredVideos = allVideos.filter(
     video =>
       video.title.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -125,21 +128,35 @@ const MediaLibrary = () => {
       {/* Video thumbnail */}
       <View style={styles.relatedVideoThumbnail}>
         <Image
-          source={item.image}
+          // source={item.image}
+          source={{ uri: item.thumbnailUrl }}
           style={styles.relatedVideoImage}
           resizeMode="cover"
         />
-
         <Image source={images.favIcon} style={styles.favIcon} />
       </View>
 
       {/* Text content below the video */}
       <View style={styles.relatedTextContent}>
         <View style={styles.dummyContainer}>
-          <Text style={styles.relatedVideoSubtitle}>Dummy Text</Text>
+          {/* <Text style={styles.relatedVideoSubtitle}>{ item.tags || "Dummy Text"}</Text> */}
+          <Text
+            style={styles.relatedVideoSubtitle}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {item.tags || "Dummy Text"}
+          </Text>
         </View>
         <Text style={styles.relatedVideoTitle}>{item.title}</Text>
-        <Text style={styles.relatedVideoDescription}>{item.description}</Text>
+        {/* <Text style={styles.relatedVideoDescription}>{item.description}</Text> */}
+        <Text
+          style={styles.relatedVideoDescription}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {item.description}
+        </Text>
       </View>
       <View style={{ top: height * 0.02 }}>
         <CustomButton
@@ -150,7 +167,7 @@ const MediaLibrary = () => {
           backgroundColor={colors.darkmarhoon}
           borderRadius={12}
           fontSize={fontSizes.xsm}
-          onPress={() => navigation.navigate('MediaDetails')}
+          onPress={() => navigation.navigate('MediaDetails', { VideoID: item.id })}
         />
       </View>
     </View>
@@ -160,9 +177,9 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
@@ -179,9 +196,9 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Recent Watch</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
@@ -198,13 +215,14 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Related Videos</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
-        data={relatedVideos}
+        // data={relatedVideos}
+        data={videos}
         renderItem={renderRelatedVideoItem}
         keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
@@ -213,34 +231,73 @@ const MediaLibrary = () => {
     </View>
   );
 
-  const fetchVideos = async () => {
+  const fetchVideosCategory = async () => {
     setLoading(true)
 
     try {
-      const {response,error} = await apiHelper(
+      const { response, error } = await apiHelper(
         "GET",
-        "/videos",
+        "/videos/categories",
         {},
         null
       )
       console.log("Response of the Video Categoris API", response)
+      const apiCategories = response?.data?.data?.map(item => item.name) || [];
+      setTabs(["ALL", ...apiCategories]);
+
       Toast.show({
         type: "success",
         text1: "Success",
         text2: "Data fetched Successfully"
       })
-    }catch(error){
+    } catch (error) {
       Toast.show({
         type: "error",
         text1: "Error",
         text2: error?.message
       })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchVideos = async () => {
+    setLoading(true)
+
+    try {
+      const { response, error } = await apiHelper(
+        "GET",
+        "/videos",
+        {},
+        null
+      )
+      console.log("Response of the Video API", response)
+      const apiVideos = response?.data?.data || [];
+      setVideos(apiVideos);
+      const videoIds = apiVideos.map(video => video.id);
+      dispatch(setVideoId(videoIds));
+      console.log("Dispatching Video Ids!", videoIds);
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Videos fetched Successfully"
+      })
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
+    fetchVideosCategory()
     fetchVideos()
-  },[])
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -305,6 +362,7 @@ const MediaLibrary = () => {
         <ScrollView
           style={styles.contentContainer}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: height * 0.12 }}
         >
           {/* Recent Watch Section */}
           {renderRecentWatchSection()}
@@ -315,6 +373,11 @@ const MediaLibrary = () => {
           {/* Watch Section */}
           {/* {renderSection('Watch', relatedVideos)} */}
         </ScrollView>
+      )}
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
       )}
     </View>
   );
@@ -385,9 +448,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingHorizontal: width * 0.04,
+    paddingBottom: height * 0.04
   },
   section: {
-    marginBottom: height * 0.03,
+    marginBottom: height * 0.01,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -511,7 +575,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  // Original video styles (for other sections)
   videoItem: {
     width: width * 0.4,
     marginRight: width * 0.04,
@@ -562,6 +625,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: width * 0.15,
     bottom: height * 0.01,
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 
