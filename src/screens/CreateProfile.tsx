@@ -143,13 +143,15 @@ const CreateProfile = () => {
         'PATCH',
         'users/update',
         { 'Content-Type': 'multipart/form-data' },
+        {},
+        {},
         formData,
       );
 
       console.log('FormData sent in Create Profile:', formData);
-      console.log('Response from Create Profile:', response?.data);
+      console.log('Response from Create Profile:', response?.data.data);
 
-     if (response?.data) {
+     if (response?.data.data) {
         Toast.show({
           type: 'success',
           text1: 'Success',

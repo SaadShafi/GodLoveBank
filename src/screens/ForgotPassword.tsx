@@ -57,7 +57,8 @@ const ForgotPassword = () => {
     const { response, error } = await apiHelper(
       'POST',
       'auth/forgot-password',
-      {},
+       {},
+       {},
       body,
     );
 

@@ -33,7 +33,7 @@ const SetNewPassword = () => {
           otp: OTP,
           newPassword: confirmPassword
         }
-        const { response, error } = await apiHelper("POST", "auth/reset-password", {}, body);
+        const { response, error } = await apiHelper("POST", "auth/reset-password", {},{}, body);
         console.log("Change Password Response:", response);
         if (response) {
           Toast.show({

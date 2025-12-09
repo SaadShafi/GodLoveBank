@@ -8,11 +8,54 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
+import { apiHelper } from '../services';
 
 type Props = NativeStackScreenProps<StackParamList, 'ThirdBase'>;
 
 const ThirdBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+    const [loading, setLoading] = useState(false)
+    const [story, setStory] = useState(null);
+    const [fullData, setFullData] = useState(null);
+
+    const fetchThirdBase = async () => {
+        setLoading(true)
+        try {
+          const body = {
+            "selectedGroups": {
+              "group_1": 2,
+              "group_2": 3,
+              "group_3": 4,
+              "group_4": 5,
+              "group_5": 6,
+              "group_6": 7,
+              "group_7": 8
+            }
+          }
+          const { response, error } = await apiHelper(
+            "PATCH",
+            "/users/update-questions-selection",
+            {},
+            {},
+            body
+          )
+          const data = response?.data?.data;
+          const list = response?.data?.data?.selfStoryList || [];
+          const abandonmentStory = list.find(
+            item => item.oldSelfStory === "abandonment"
+          );
+    
+          setStory(abandonmentStory);
+          setFullData(data)
+        } finally {
+          setLoading(false)
+        }
+      }
+  
+        useEffect(() => {
+          fetchThirdBase();
+        }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -37,19 +80,11 @@ const ThirdBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              ABANDONMENT:
+              {/* ABANDONMENT: */}
+               {story?.oldSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The old self-love story of Abandonment has a home base and a life
-            paradigm which makes you feel a constant fear of being left,
-            deserted, forsaken, neglected, and like you are alone; and this
-            makes you feel misunderstood, and like you don't belong. Often,
-            Abandonment causes you to not detach it. You often disengage from
-            others emotionally, mentally, physically, and socially, and then you
-            deny it when asked why you are actually doing it. Sometimes you may
-            even become despondent to avoid being abandoned, even to the point
-            of being dishonest with your own feelings. Therefore, the Stress
-            Drivers for Abandonment are Disengagement, and Denial, and when you
-            get desperate you may be Dishonest.
+              {story?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -76,20 +111,11 @@ const ThirdBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              ATONEMENT:
+              {/* ATONEMENT: */}
+              {story?.newSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The new self-love story of Atonement makes you feel absolutely and
-            totally connected to God, yourself, significant others, and your
-            purpose in life. You don't allow yourself to be driven by separation
-            pain anymore. You receive your atonement in every significant
-            relationship in your life, especially in your relationship with the
-            Holy Spirit. Atonement gives you a sense of congruency and
-            connectedness in your spirit, soul, and body. As a result, you are
-            able to stay engaged, focused, and connected in all of your key
-            relationships. In fact, you refuse to disengage from any
-            relationships in your life anymore—emotionally, mentally,
-            physically, or socially. Therefore, the Spirit Drivers for the story
-            of Atonement are Focus and Engagement with the Holy Spirit.
+              {story?.newSelfStoryDescription}
           </Text>
         </View>
 

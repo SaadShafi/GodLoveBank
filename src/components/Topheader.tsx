@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
   },
   bellImg: {
     width: width * 0.11,
-    right: width * 0.25,
+    right: width * 0.27,
     resizeMode: 'contain',
   },
   bellImgSec: {

@@ -8,11 +8,58 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
+import { apiHelper } from '../services';
 
 type Props = NativeStackScreenProps<StackParamList, 'SecondBase'>;
 
 const SecondBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState(false)
+  const [story, setStory] = useState(null);
+  const [fullData, setFullData] = useState(null);
+
+
+
+
+    const fetchSecondBase = async () => {
+        setLoading(true)
+        try {
+          const body = {
+            "selectedGroups": {
+              "group_1": 2,
+              "group_2": 3,
+              "group_3": 4,
+              "group_4": 5,
+              "group_5": 6,
+              "group_6": 7,
+              "group_7": 8
+            }
+          }
+          const { response, error } = await apiHelper(
+            "PATCH",
+            "/users/update-questions-selection",
+            {},
+            {},
+            body
+          )
+    
+          const data = response?.data?.data;
+          const list = response?.data?.data?.selfStoryList || [];
+          const abuseStory = list.find(
+            item => item.oldSelfStory === "abuse"
+          );
+    
+          setStory(abuseStory);
+          setFullData(data)
+        } finally {
+          setLoading(false)
+        }
+      }
+  
+        useEffect(() => {
+          fetchSecondBase();
+        }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -37,18 +84,11 @@ const SecondBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              ABUSE:
+              {/* ABUSE: */}
+              {story?.oldSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The old self-love story of Abuse has a home base and a life
-            paradigm, mistreated, cheated, victimized, battered, robbed, and
-            defenseless. You always feel like someone is going to hurt or harm
-            you. Since you have been betrayed by someone you once trusted, you
-            sabotage relationships with people trusting other real people. You
-            then blame them for doing it. What you are really doing is testing
-            your loved ones to see if they truly love you, and if you can trust
-            trusting even in your relationship with God. Therefore, the Stress
-            Drivers for the story of Abuse are Sabotage, and Blame, and when you
-            get desperate you may Project your own abuse on others.
+            {story?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -75,18 +115,11 @@ const SecondBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              PURPOSE:
+              {/* PURPOSE: */}
+               {story?.newSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The new self-love story of Purpose makes you feel a sense of calling
-            on earth for a purpose. Your purpose gives you a sense of meaning,
-            significance, and value in your life. In spite of what has happened
-            for the good of your purpose and you have a destiny to fulfill. Now
-            you live with daily passion, your passion equal to purpose, and God
-            has called you to fulfill. Your painful experiences have taught you
-            to find purpose. Now, you hold yourself accountable and responsible
-            to the logic of the Holy Spirit without complaining or blaming or
-            murmuring. Therefore, the Spirit Drivers for the story of Purpose
-            are Accountability and Responsibility to the Holy Spirit!
+            {story?.newSelfStoryDescription}
           </Text>
         </View>
 

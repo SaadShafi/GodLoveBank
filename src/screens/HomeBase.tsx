@@ -168,8 +168,8 @@ const HomeBase = () => {
             backgroundColor={colors.marhoon}
             borderRadius={20}
             onPress={() => navigation.navigate('FirstBase', {
-  story,
-  fullData,
+            story,
+            fullData,
 })}
           />
         </View>

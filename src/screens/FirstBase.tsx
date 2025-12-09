@@ -8,11 +8,59 @@ import { StackParamList } from '../navigation/MainStack';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 type Props = NativeStackScreenProps<StackParamList, 'FirstBase'>;
 
 const FirstBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState(false)
+  const [story, setStory] = useState(null);
+  const [fullData, setFullData] = useState(null);
+
+
+  const fetchFirstBase = async () => {
+      setLoading(true)
+  
+      try {
+  
+        const body = {
+          "selectedGroups": {
+            "group_1": 2,
+            "group_2": 3,
+            "group_3": 4,
+            "group_4": 5,
+            "group_5": 6,
+            "group_6": 7,
+            "group_7": 8
+          }
+        }
+        const { response, error } = await apiHelper(
+          "PATCH",
+          "/users/update-questions-selection",
+          {},
+          {},
+          body
+        )
+  
+        const data = response?.data?.data;
+        const list = response?.data?.data?.selfStoryList || [];
+        const worthlessnessStory = list.find(
+          item => item.oldSelfStory === "worthlessness"
+        );
+  
+        setStory(worthlessnessStory);
+        setFullData(data)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+      useEffect(() => {
+        fetchFirstBase();
+      }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -37,20 +85,11 @@ const FirstBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              WORTHLESSNESS:
+              {/* WORTHLESSNESS: */}
+              {story?.oldSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The old self-love story of Worthlessness has home base and a life
-            paradigm which makes you feel unworthy, undeserving, insignificant,
-            inadequate, unimportant, and useless—like something valuable is
-            missing in your soul. It makes you feel like you are never good
-            enough. And this, in turn, causes you to underestimate your true
-            worth. Worthlessness compels you to have a tendency to
-            over-compensate and control everyone around you so you and don't
-            feel the pain of worthlessness. Often, in your attempt to avoid
-            feeling worthless you may begin to become manipulative in your
-            words, thoughts, actions, and deeds. Therefore, the Stress Drivers
-            for the story of Worthlessness are Overcompensation,you may result
-            to Manipulation.
+            {story?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -77,20 +116,11 @@ const FirstBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              GREATNESS:
+              {/* GREATNESS: */}
+              {story?.newSelfStory?.toUpperCase() || ""}
+              {": "}
             </Text>
-            The new self-love story of Greatness makes you feel worthy. Since
-            the Holy Spirit is great and He lives in you, now you feel great
-            because you know Greater is He who is in you, than he who is in the
-            world. This makes you feel worthy, deserving, significant,
-            sufficient, important, and very valuable. You accept your greatness
-            as a part of your spiritual inheritance and you believe that you are
-            destined for greatness, for greatness underestimates your true
-            worth. You avoid over-compensation and you refuse to control anyone
-            or anything to get what you want. Instead, you learn to surrender
-            and depend on the Holy Spirit to get what you want in life.
-            Therefore, the Spirit Drivers for Greatness are Surrender and Depend
-            on the power of the Holy Spirit.
+            {story?.newSelfStoryDescription}
           </Text>
         </View>
 

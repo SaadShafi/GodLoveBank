@@ -63,7 +63,7 @@ const ChangePassword = () => {
         newPassword: password,
       };
 
-      const { response, error } = await apiHelper("POST", "auth/update-password", {}, body);
+      const { response, error } = await apiHelper("POST", "auth/update-password",{},{}, body);
       console.log("Change Password Response:", response);
 
       if (response) {
