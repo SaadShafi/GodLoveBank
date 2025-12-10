@@ -19,6 +19,8 @@ import { fontSizes } from '../utilities/fontsizes';
 import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
+import { setVideoId } from '../redux/slice/roleSlice';
 
 interface bookProps {
   headText: string;
@@ -43,6 +45,8 @@ const Favourites = () => {
   const [loading, setLoading] = useState(false)
   const [favouriteVideos, setFavouriteVideos] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch()
+  const [details, setDetails] = useState(null)
 
   const booksData = [
     {
@@ -195,7 +199,13 @@ const Favourites = () => {
     <View style={styles.relatedVideoItem}>
       <View style={styles.relatedVideoThumbnail}>
         <Image source={{ uri: item.video.thumbnailUrl }} style={styles.relatedVideoImage} />
-        <Image source={images.filledFav} style={styles.favIcon} />
+
+        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
+          <Image 
+          source={item.is_fav ? images.filledFav : images.favIcon}
+          style={styles.favIcon} />
+        </TouchableOpacity>
+
       </View>
       <View style={styles.relatedTextContent}>
         <View style={styles.dummyContainer}>
@@ -264,6 +274,55 @@ const Favourites = () => {
     );
   };
 
+  const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
+    try {
+      setLoading(true);
+
+      const body = {
+        action: isCurrentlyFavourite ? "unfavourite" : "favourite",
+        type: "video",
+        videoId: Number(videoId),
+        product: 1
+      };
+
+      const { response, error } = await apiHelper("POST", "/users/favourites", {}, {}, body);
+
+      if (response) {
+        setDetails(prev => ({
+          ...prev,
+          is_fav: !isCurrentlyFavourite
+        }));
+
+        const apiData = response?.data?.data;
+
+        const apiVideos = Array.isArray(response?.data?.data)
+          ? response.data.data
+          : [];
+        const videoIds = apiVideos.length > 0
+          ? apiVideos.map(v => v.id)
+          : [];
+        dispatch(setVideoId(videoIds));
+
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+        });
+      }
+
+      if (error) throw error;
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message ?? "Failed to update favourite"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
   const fetchFavourite = async () => {
     setLoading(true)
 

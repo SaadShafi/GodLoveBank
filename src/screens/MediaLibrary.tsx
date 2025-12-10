@@ -118,7 +118,12 @@ const MediaLibrary = () => {
           <Text style={styles.durationText}>{item.video.duration || "00:00"}</Text>
         </View>
 
-        <Image source={images.favIcon} style={styles.favicon} />
+        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
+          <Image 
+          // source={images.favIcon}
+          source={item.is_fav ? images.filledFav : images.favIcon}
+          style={styles.faviconWatch} />
+        </TouchableOpacity>
 
         <Text style={styles.recentVideoTitle}>{item.video.title}</Text>
         <TouchableOpacity>
@@ -217,8 +222,6 @@ const MediaLibrary = () => {
         keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.sliderContent}
-        // refreshing={refreshing}       // <--- add this
-        // onRefresh={handleRefresh}     // <--- add this
       />
     </View>
   );
@@ -748,6 +751,11 @@ const styles = StyleSheet.create({
   favicon: {
     position: 'absolute',
     left: width * 0.03,
+    bottom: height * 0.075,
+  },
+   faviconWatch: {
+    position: 'absolute',
+    right: width * 0.15,    
     bottom: height * 0.075,
   },
   favIcon: {
