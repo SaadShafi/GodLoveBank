@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -14,37 +14,43 @@ import { fontSizes } from '../utilities/fontsizes';
 import CustomTextInput from '../components/CustomTextInput';
 import Toast from 'react-native-toast-message';
 import { apiHelper } from '../services';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setToken, setUser } from '../redux/slice/roleSlice';
 import CustomProfileImgModal from '../components/CustomProfilImage';
 import ImagePicker from 'react-native-image-crop-picker';
+import { RootState } from '../redux/store';
 // import ImagePicker from 'react-native-image-crop-picker';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
 const CreateProfile = () => {
-  const [city, setCity] = useState('');
   const navigation = useNavigation<NavigationProp<any>>();
-  const [image, setImage] = useState<string | null>(null);
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [country, setCountry] = useState('');
+  // const [image, setImage] = useState<string | null>(null);
+  // const [firstname, setFirstName] = useState('');
+  // const [lastname, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [countryName, setCountryName] = useState('');
-  const [cityName, setCityName] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [gender, setGender] = useState('');
-  const [relationshipStatus, setRelationShipStatus] = useState('');
-  const [status, setStatus] = useState('');
+  // const [countryName, setCountryName] = useState('');
+  // const [cityName, setCityName] = useState('');
+  // const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-
-
-
+  const User = useSelector((state: RootState) => state.role.user)
+  console.log("User in the create profile!", User)
+  console.log("FirstName",User?.firstName)
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [gender, setGender] = useState('');
+  const [relationshipStatus, setRelationshipStatus] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const route = useRoute()
+  console.log("Params in the create Profile!", route?.params)
+  const homeBase = route.params?.baseAssignments?.homeBase?.category
+  const capitalizedHomeBase = homeBase.charAt(0).toUpperCase() + homeBase.slice(1);
+  console.log("homeBase!", homeBase)
 
   const countryOption = [
     { name: 'Country', id: '' },
@@ -77,20 +83,7 @@ const CreateProfile = () => {
     { name: 'Married', id: 'married' },
   ];
 
-  const handleAddTag = () => {
-    if (bio.trim() !== '') {
-      setTags([...tags, bio.trim()]);
-      setBio('');
-    }
-  };
-
-  const handleRemoveTag = index => {
-    const updated = [...tags];
-    updated.splice(index, 1);
-    setTags(updated);
-  };
-
-    const toggleModal = () => {
+  const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
 
@@ -116,8 +109,7 @@ const CreateProfile = () => {
     });
   };
 
-
-    const handleCreateProfile = async () => {
+  const handleCreateProfile = async () => {
     setLoading(true);
 
     try {
@@ -128,42 +120,40 @@ const CreateProfile = () => {
       formData.append('postalCode', postalCode);
       formData.append('relationshipStatus', relationshipStatus);
       formData.append('gender', gender);
-      if (image) {
-        const fileName = image.split('/').pop() || 'photo.jpg';
+      if (profileImage) {
+        const fileName = profileImage.split('/').pop() || 'photo.jpg';
         const fileType = fileName.split('.').pop();
 
         formData.append('image', {
-          uri: image,
+          uri: profileImage,
           type: `image/${fileType}`,
           name: fileName,
         });
       }
 
+      console.log("FormData sent in the API body!", formData.getParts?.() || formData);
+
       const { response, error } = await apiHelper(
         'PATCH',
         'users/update',
-        { 'Content-Type': 'multipart/form-data' },
-        {},
-        {},
-        formData,
+        undefined,                         
+        { 'Content-Type': 'multipart/form-data' }, 
+        formData  
       );
+      console.log('Response from Create Profile:', response?.data);
 
-      console.log('FormData sent in Create Profile:', formData);
-      console.log('Response from Create Profile:', response?.data.data);
-
-     if (response?.data.data) {
+      if (response) {
         Toast.show({
           type: 'success',
           text1: 'Success',
-          text2: 'Profile Created successfully!',
+          text2: response.data.message,
         });
         const user = response.data.data;
-        dispatch(setUser(response.data.data)); 
-        console.log('User dispatched from the Create Profile Screen!',user,);
-
+        console.log("Fallback User response in the Create Profile screen!",user)
+        dispatch(setUser(user));
+        console.log('User dispatched from the Create Profile Screen!', response.data);
         setIsModalVisible(true);
       }
-
     } catch (err) {
       console.log('Create profile error:', err);
       Toast.show({
@@ -176,16 +166,24 @@ const CreateProfile = () => {
     }
   };
 
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <TopHeader text="Profile Setup" isBack={true} />
       <View style={styles.container}>
         <View style={styles.imgMain}>
           <TouchableOpacity onPress={toggleModal} activeOpacity={0.7}>
-            <Image source={images.profile} style={styles.profileImg} />
+            <Image 
+              // source={images.profile} 
+              source={profileImage ? { uri: profileImage } : images.profile} 
+              style={styles.profileImg} 
+            />
           </TouchableOpacity>
-          <Text style={styles.profText}>Harden Scott</Text>
+          <Text style={styles.profText}>
+            {User?.firstName && User?.lastName
+            ? `${User.firstName} ${User.lastName}`
+            : "Nameii"}
+            {/* Name */}
+            </Text>
         </View>
 
         <View style={styles.inputMain}>
@@ -202,7 +200,7 @@ const CreateProfile = () => {
               fontFamily={fontFamily.UrbanistMedium}
               fontSize={fontSizes.sm2}
             />
-           <CustomTextInput
+            <CustomTextInput
               placeholder="City"
               placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
@@ -217,7 +215,7 @@ const CreateProfile = () => {
           </View>
 
           <View style={styles.row}>
-           <CustomTextInput
+            <CustomTextInput
               placeholder="Postal Code"
               placeholderTextColor={colors.black}
               inputHeight={height * 0.06}
@@ -252,13 +250,12 @@ const CreateProfile = () => {
             borderWidth={1}
             inputColor={colors.lightGray}
             borderRadius={20}
-            onChangeText={setRelationShipStatus}
-            setSelectedElement={setRelationShipStatus}
+            onChangeText={setRelationshipStatus}
+            setSelectedElement={setRelationshipStatus}
             defaultValue=""
             rightIcon={images.arrowdown}
           />
 
-          {/* ✨ Updated Field Section */}
           <View style={styles.newHomeBaseWrapper}>
             <View style={styles.newHomeBaseCard}>
               <Text style={styles.newHomeBaseLabel}>
@@ -268,7 +265,7 @@ const CreateProfile = () => {
                 style={styles.newHomeBaseInput}
                 placeholder="Rejection"
                 placeholderTextColor={colors.black}
-                value={bio}
+                value={capitalizedHomeBase}
                 onChangeText={setBio}
                 editable={false}
               />
@@ -278,16 +275,16 @@ const CreateProfile = () => {
 
         <View style={styles.btnMain}>
           <CustomButton
-              text="Continue"
-              textColor={colors.white}
-              btnHeight={height * 0.065}
-              btnWidth={width * 0.85}
-              backgroundColor={colors.marhoon}
-              borderRadius={20}
-              onPress={handleCreateProfile}
-            />
+            text="Continue"
+            textColor={colors.white}
+            btnHeight={height * 0.065}
+            btnWidth={width * 0.85}
+            backgroundColor={colors.marhoon}
+            borderRadius={20}
+            onPress={handleCreateProfile}
+          />
         </View>
-         <CustomProfileImgModal
+        <CustomProfileImgModal
           modalOpen={modalOpen}
           toggleModal={toggleModal}
           camera={uploadFromCamera}
@@ -331,6 +328,11 @@ const CreateProfile = () => {
           </View>
         </View>
       )}
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -348,9 +350,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileImg: {
-    width: width * 0.7,
-    height: height * 0.15,
-    resizeMode: 'contain',
+    width: width * 0.35,
+    height: height * 0.16,
+    resizeMode: 'cover',
+    borderRadius: 1000
   },
   profText: {
     fontFamily: fontFamily.UrbanistBold,
@@ -445,7 +448,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
   },
-    loaderOverlay: {
+  loaderOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,

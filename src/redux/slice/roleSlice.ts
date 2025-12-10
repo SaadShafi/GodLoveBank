@@ -47,6 +47,8 @@ interface RoleState {
   languageSelect: string;
   countrySelect: Country | null;
   videoId: string;
+  userData: any;
+  questionnaireSelections: Record<number, number>;
 }
 
 const initialState: RoleState = {
@@ -75,6 +77,8 @@ const initialState: RoleState = {
   languageSelect: '',
   countrySelect: null,
   videoId: "",
+  userData:"",
+  questionnaireSelections: {},
 } satisfies RoleState as RoleState;
 
 const roleSlice = createSlice({
@@ -89,6 +93,9 @@ const roleSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+     setUserData: (state, action) => {
+      state.userData = action.payload;
     },
     setToken: (state, action) => {
       state.userAuthToken = action.payload;
@@ -157,7 +164,24 @@ const roleSlice = createSlice({
     },
     setVideoId: (state, action) => {
       state.videoId = action.payload;
-    }
+    },
+     // Set selection for a group
+    setQuestionnaireSelection: (
+      state,
+      action: PayloadAction<{ groupId: number; optionIndex: number }>
+    ) => {
+      const { groupId, optionIndex } = action.payload;
+
+      if (!state.questionnaireSelections) {
+        state.questionnaireSelections = {};
+      }
+
+      state.questionnaireSelections[groupId] = optionIndex;
+    },
+    // Optionally reset all selections
+    resetQuestionnaireSelections: (state) => {
+      state.questionnaireSelections = {};
+    },
   },
 });
 
@@ -186,6 +210,9 @@ export const {
   setChatId,
   setLanguageSelect,
   setCountrySelect,
-  setVideoId
+  setVideoId,
+  setUserData,
+  setQuestionnaireSelection,
+  resetQuestionnaireSelections,
 } = roleSlice.actions;
 export default roleSlice.reducer;

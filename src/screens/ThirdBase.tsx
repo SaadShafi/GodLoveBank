@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
@@ -15,47 +15,21 @@ type Props = NativeStackScreenProps<StackParamList, 'ThirdBase'>;
 
 const ThirdBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-    const [loading, setLoading] = useState(false)
-    const [story, setStory] = useState(null);
-    const [fullData, setFullData] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [story, setStory] = useState(null);
+  // const [fullData, setFullData] = useState(null);
+  const route = useRoute();
+  const { baseAssignments, fullData } = route.params || {};
 
-    const fetchThirdBase = async () => {
-        setLoading(true)
-        try {
-          const body = {
-            "selectedGroups": {
-              "group_1": 2,
-              "group_2": 3,
-              "group_3": 4,
-              "group_4": 5,
-              "group_5": 6,
-              "group_6": 7,
-              "group_7": 8
-            }
-          }
-          const { response, error } = await apiHelper(
-            "PATCH",
-            "/users/update-questions-selection",
-            {},
-            {},
-            body
-          )
-          const data = response?.data?.data;
-          const list = response?.data?.data?.selfStoryList || [];
-          const abandonmentStory = list.find(
-            item => item.oldSelfStory === "abandonment"
-          );
-    
-          setStory(abandonmentStory);
-          setFullData(data)
-        } finally {
-          setLoading(false)
-        }
-      }
-  
-        useEffect(() => {
-          fetchThirdBase();
-        }, [])
+  useEffect(() => {
+    if (baseAssignments && fullData?.selfStoryList) {
+      const thirdBaseCategory = baseAssignments.thirdBase.category; // "rejection"
+      const story = fullData.selfStoryList.find(
+        item => item.oldSelfStory === thirdBaseCategory
+      );
+      setStory(story);
+    }
+  }, [baseAssignments, fullData]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -71,7 +45,9 @@ const ThirdBase = () => {
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>ABANDONMENT!!</Text>
+            Story was <Text style={{ color: colors.red }}>
+              {story?.oldSelfStory?.toUpperCase()}!
+            </Text>
           </Text>
         </View>
 
@@ -80,11 +56,9 @@ const ThirdBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              {/* ABANDONMENT: */}
-               {story?.oldSelfStory?.toUpperCase() || ""}
-              {": "}
+              {story?.oldSelfStory?.toUpperCase()}!
             </Text>
-              {story?.oldSelfStoryDescription}
+            {story?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -100,7 +74,7 @@ const ThirdBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            ATONEMENT!
+            {story?.newSelfStory?.toUpperCase()}!
           </Text>
         </View>
 
@@ -111,11 +85,9 @@ const ThirdBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              {/* ATONEMENT: */}
-              {story?.newSelfStory?.toUpperCase() || ""}
-              {": "}
+              {story?.newSelfStory?.toUpperCase()}!
             </Text>
-              {story?.newSelfStoryDescription}
+            {story?.newSelfStoryDescription}
           </Text>
         </View>
 
@@ -128,7 +100,9 @@ const ThirdBase = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('CreateProfile')}
+            onPress={() => navigation.navigate('CreateProfile',{
+              baseAssignments
+            })}
           />
         </View>
       </ScrollView>

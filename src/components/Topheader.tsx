@@ -186,6 +186,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     }
   };
 
+  const BASE_URL = 'http://18.204.175.233:3001/';
+
+  const getFullImageUrl = (path: string) => {
+    if (!path) return null;
+    return `${BASE_URL}${path}`;
+  };
+
   return (
     <View
       style={{
@@ -301,7 +308,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </View>
           )}
           {notification && (
-            <View style={styles.headerBell}>
+            <View style={[styles.headerBell, { right: -width * 0.07 }]}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
@@ -328,16 +335,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               </TouchableOpacity>
             </View>
           )}
-          {/* {list && (
-            <View style={styles.headerBell}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={toggleDisputeModal}
-              >
-                <Image source={images.listImg} style={styles.bellImgSec} />
-              </TouchableOpacity>
-            </View>
-          )} */}
           {addCard && (
             <TouchableOpacity
               style={styles.headeraddCard}
@@ -393,7 +390,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   onPress={() => navigation.navigate('Profile')}
                 >
                   <Image
-                    source={images.headerprofile}
+                    // source={images.headerprofile}
+                    source={
+                      User?.image
+                        ? { uri: getFullImageUrl(User.image) }
+                        : images.drawerProf
+                    }
                     style={styles.isChatImg}
                   />
                 </TouchableOpacity>
@@ -409,9 +411,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   >
                     <Text style={styles.headerWelcome}>Welcome</Text>
                     <Text style={styles.headerJaydon}>
-                      {User?.firstName && User?.lastName
+                      {/* {User?.firstName && User?.lastName
                         ? `${User.firstName} ${User.lastName}`
-                        : "Name"}</Text>
+                        : "Name"} */}
+                        {User?.firstName && User?.lastName ? 
+                          `${User.firstName} ${User.lastName}`.slice(0, 12) 
+                          : "Name"
+                        }
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -432,7 +439,8 @@ const styles = StyleSheet.create({
   isChatImg: {
     width: width * 0.1,
     height: width * 0.1,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    borderRadius: width * 0.1
   },
   MainHeader: {
     display: 'flex',
@@ -516,7 +524,7 @@ const styles = StyleSheet.create({
   },
   bellImg: {
     width: width * 0.11,
-    right: width * 0.27,
+    right: width * 0.32,
     resizeMode: 'contain',
   },
   bellImgSec: {

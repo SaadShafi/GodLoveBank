@@ -4,11 +4,15 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -21,7 +25,7 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
-import { setUserEmail } from '../redux/slice/roleSlice';
+import { setUser, setUserEmail } from '../redux/slice/roleSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
@@ -152,7 +156,11 @@ const Registeration = () => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAvoidingView 
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <View style={styles.container}>
         <Image source={images.Logo} style={styles.logo} />
         <Text style={styles.welcomeText}>Register</Text>
@@ -386,7 +394,8 @@ const Registeration = () => {
           <ActivityIndicator size="large" color={colors.brown} />
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

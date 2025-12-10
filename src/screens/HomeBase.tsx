@@ -1,6 +1,6 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import CustomButton from '../components/CustomButton';
 import TopHeader from '../components/Topheader';
@@ -11,6 +11,8 @@ import { fontSizes } from '../utilities/fontsizes';
 import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 type Props = NativeStackScreenProps<StackParamList, 'HomeBase'>;
 
@@ -19,22 +21,27 @@ const HomeBase = () => {
   const [loading, setLoading] = useState(false)
   const [story, setStory] = useState(null);
   const [fullData, setFullData] = useState(null);
+  const selections = useSelector((state: RootState) => state.role.questionnaireSelections);
+  // console.log("Selected group from redux!", selections)
+  const selectedGroupsBody = Object.fromEntries(
+    Object.entries(selections).map(([groupId, optionIndex]) => [`group_${groupId}`, optionIndex])
+  );
+  const route = useRoute();
+  const params = route.params || {};
+  const baseAssignments = params?.baseAssignments;
+  const selectionsObj = params?.selectionsObj;
+  const [homeBaseStory, setHomeBaseStory] = useState<any>(null);
+  const [firstBaseStory, setFirstBaseStory] = useState<any>(null);
+  const [secondBaseStory, setSecondBaseStory] = useState<any>(null);
+  const [thirdBaseStory, setThirdBaseStory] = useState<any>(null);
 
-  const fetchHomrBase = async () => {
+  const fetchHomeBase = async () => {
     setLoading(true)
 
     try {
 
       const body = {
-        "selectedGroups": {
-          "group_1": 2,
-          "group_2": 3,
-          "group_3": 4,
-          "group_4": 5,
-          "group_5": 6,
-          "group_6": 7,
-          "group_7": 8
-        }
+        selectedGroups: selectedGroupsBody
       }
       const { response, error } = await apiHelper(
         "PATCH",
@@ -43,24 +50,27 @@ const HomeBase = () => {
         {},
         body
       )
-      console.log("Response of the video Details API!", response)
+      console.log("Response of the Questions Selections API!", response)
 
-       const data = response?.data?.data;
+      const data = response?.data?.data;
       const list = response?.data?.data?.selfStoryList || [];
 
-      // find rejection → chosenness pair
-      const rejectionStory = list.find(
-        item => item.oldSelfStory === "rejection"
-      );
+      if (baseAssignments) {
+        setHomeBaseStory(list.find(item => item.oldSelfStory === baseAssignments.homeBase.category));
+        setFirstBaseStory(list.find(item => item.oldSelfStory === baseAssignments.firstBase.category));
+        setSecondBaseStory(list.find(item => item.oldSelfStory === baseAssignments.secondBase.category));
+        setThirdBaseStory(list.find(item => item.oldSelfStory === baseAssignments.thirdBase.category));
+      }
 
-      setStory(rejectionStory);
+      // setStory(rejectionStory);
       setFullData(data)
       Toast.show({
         type: "success",
         text1: "Success",
-        text2: "Success"
+        text2: response?.data.message
       })
     } catch (error) {
+
       Toast.show({
         type: "error",
         text1: "Error",
@@ -72,7 +82,7 @@ const HomeBase = () => {
   }
 
   useEffect(() => {
-    fetchHomrBase();
+    fetchHomeBase();
   }, [])
 
   return (
@@ -88,7 +98,10 @@ const HomeBase = () => {
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>REJECTION!</Text>
+            Story was <Text style={{ color: colors.red }}>
+              {/* REJECTION! */}
+              {homeBaseStory?.oldSelfStory.toUpperCase()}:
+            </Text>
           </Text>
         </View>
 
@@ -97,23 +110,9 @@ const HomeBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              {/* REJECTION: */}
-              {story?.oldSelfStory?.toUpperCase() || ""}
-              {": "}
+              {homeBaseStory?.oldSelfStory.toUpperCase()}:
             </Text>
-            {/* The Old Self–Love Story Of Rejection Has A Home Base And A Life
-            Paradigm Which Makes You Feel Unaccepted, Disowned, Denied, Refused,
-            Disliked, And Not Good Enough, Like The Black Sheep In The Family.
-            It Causes You To Have A Great Fear Of Failure Because Failure, To
-            You, Equals Rejection, And You Avoid Feeling Rejected At Any Cost.
-            Thus, You Feel You Always Have To Get Everything Right So You Won't
-            Be Rejected. Often, When You Feel Threatened By Failure, You
-            Covertly Close Your Spirit In Rebellion To Gain Control, Or You
-            Overtly Under–Compensate And Settle For Less In Your Life To Avoid
-            Being Rejected. You Also Have A Very Hard Time Trusting Others In
-            Your Life. Therefore, The Stress Drivers For Rejection Are Distrust,
-            Under–Compensation, And Rebellion. */}
-            {story?.oldSelfStoryDescription}
+            {homeBaseStory?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -128,7 +127,8 @@ const HomeBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            CHOSEN–NESS!
+            {/* CHOSEN–NESS! */}
+            {homeBaseStory?.newSelfStory.toUpperCase()}:
           </Text>
         </View>
 
@@ -139,41 +139,33 @@ const HomeBase = () => {
             <Text
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
-              {/* CHOSENNESS: */}
-              {story?.newSelfStory?.toUpperCase() || ""}
-              {": "}
+              {homeBaseStory?.newSelfStory.toUpperCase()}:
             </Text>
-            {/* The New Self–Love Story Of Chosenness Makes You Feel Chosen, Unique,
-            Special, Appointed, Selected, Accepted, And Truly Loved. You Now
-            Know You Are Chosen For A Unique Purpose In Life; Consequently, It
-            Causes You To Feel A Sense Of Calling And Chosenness In Everything
-            You Are Appointed And Chosen To Do. Since You Know And Own That You
-            Are Chosen, You Do Not Settle For Less. You No Longer Allow Yourself
-            To Associate Fear And Failure With Rejection. You Know Rejection Is
-            "Because Of," But Your Chosenness Is "In Spite Of." Now You Trust
-            God, Yourself, And Significant Others, Knowing That You Can't Fail
-            In Anything As Long As You Trust And Obey The Logic And Reason Of
-            The Holy Spirit. Therefore, The Spirit Drivers For Chosenness Are
-            Trust And Obey. */}
-            {story?.newSelfStoryDescription}
+            {homeBaseStory?.newSelfStoryDescription}
           </Text>
         </View>
 
         <View style={styles.btnMain}>
           <CustomButton
-            text="Next" 
+            text="Next"
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
             onPress={() => navigation.navigate('FirstBase', {
-            story,
-            fullData,
-})}
+              baseAssignments, 
+              fullData,       
+              selectionsObj   
+            })}
           />
         </View>
       </ScrollView>
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -222,6 +214,17 @@ const styles = StyleSheet.create({
   btnMain: {
     top: height * 0.08,
     alignItems: 'center',
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

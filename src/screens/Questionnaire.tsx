@@ -23,6 +23,8 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
+import { setQuestionnaireSelection } from '../redux/slice/roleSlice';
 
 type Props = NativeStackScreenProps<StackParamList, 'Questionnaire'>;
 
@@ -103,6 +105,7 @@ const SUCCESS_GREEN =
   (colors as any).success || (colors as any).green || '#27ae60';
 
 const Questionnaire: React.FC = () => {
+  const dispatch = useDispatch();
   const [openId, setOpenId] = useState<number | null>(null);
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
@@ -125,25 +128,25 @@ const Questionnaire: React.FC = () => {
     setOpenId(prev => (prev === id ? null : id));
   };
 
-  const onSelectOption = (
-    groupId: number,
-    optionIndex: number,
-    optionText: string,
-    category: string,
-  ) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setSelectedMap(prev => ({
-      ...prev,
-      [groupId]: {
-        optionIndex,
-        optionText,
-        category,
-        categoryId: groupId,
-        categoryTitle: groupsData.find(g => g.id === groupId)?.title || "",
-      },
-    }));
-    setOpenId(null);
-  };
+  // const onSelectOption = (
+  //   groupId: number,
+  //   optionIndex: number,
+  //   optionText: string,
+  //   category: string,
+  // ) => {
+  //   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  //   setSelectedMap(prev => ({
+  //     ...prev,
+  //     [groupId]: {
+  //       optionIndex,
+  //       optionText,
+  //       category,
+  //       categoryId: groupId,
+  //       categoryTitle: groupsData.find(g => g.id === groupId)?.title || "",
+  //     },
+  //   }));
+  //   setOpenId(null);
+  // };
 
   const fetchQuestions = async () => {
     setLoading(true)
@@ -179,6 +182,32 @@ const Questionnaire: React.FC = () => {
   }, [])
 
   const getGroupKey = (id) => `group_${id}`;
+
+  const onSelectOption = (
+  groupId: number,
+  optionIndex: number,
+  optionText: string,
+  category: string
+) => {
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+  setSelectedMap(prev => ({
+    ...prev,
+    [groupId]: {
+      optionIndex,
+      optionText,
+      category,
+      categoryId: groupId,
+      categoryTitle: groupsData.find(g => g.id === groupId)?.title || "",
+    },
+  }));
+
+  // Store selection in Redux
+  dispatch(setQuestionnaireSelection({ groupId, optionIndex }));
+  // dispatch(setQuestionnaireSelection({ groupId: group.id, optionIndex: idx }));
+
+  setOpenId(null);
+};
 
   return (
     <View style={styles.container}>

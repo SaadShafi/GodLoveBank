@@ -41,6 +41,7 @@ const EditProfile = () => {
   const User = useSelector((state: RootState) => state.role.user);
   console.log('User from Redux in EditProfile Screen:', User);
   console.log('User First Name from Redux in EditProfile Screen:', User.firstName);
+  console.log("Country from redux", User.country)
   const [values, setValues] = useState();
 
   const countryOption = [
@@ -74,23 +75,6 @@ const EditProfile = () => {
     { name: 'Married', id: 'married' },
   ];
 
-  const handleAddTag = () => {
-    if (bio.trim() !== '') {
-      setTags([...tags, bio.trim()]);
-      setBio('');
-    }
-  };
-
-  const handleRemoveTag = index => {
-    const updated = [...tags];
-    updated.splice(index, 1);
-    setTags(updated);
-  };
-
-  const handleChange = (key: string, value: string) => {
-    setValues((prev) => ({ ...prev, [key]: value }));
-  };
-
   const handleUpdateProfile = async () => {
     setLoading(true);
 
@@ -101,14 +85,24 @@ const EditProfile = () => {
       formData.append('postalCode', postalCode);
       formData.append('relationshipStatus', relationshipStatus);
       formData.append('gender', gender);
-      if (image && !image.startsWith('http')) {
-        const fileName = image.split('/').pop() || 'photo.jpg';
+      // if (image && !image.startsWith('http')) {
+      //   const fileName = image.split('/').pop() || 'photo.jpg';
+      //   const fileType = fileName.split('.').pop();
+      //   formData.append('profile_picture', {
+      //     uri: image,
+      //     type: `image/${fileType}`,
+      //     name: fileName,
+      //   } as any);
+      // }
+      if (profileImage) {
+        const fileName = profileImage.split('/').pop() || 'photo.jpg';
         const fileType = fileName.split('.').pop();
-        formData.append('profile_picture', {
-          uri: image,
+
+        formData.append('image', {
+          uri: profileImage,
           type: `image/${fileType}`,
           name: fileName,
-        } as any);
+        });
       }
 
       console.log('Updating profile with formData:', {
@@ -125,7 +119,8 @@ const EditProfile = () => {
       const { response, error } = await apiHelper(
         'PATCH',
         'users/update',
-        { 'Content-Type': 'multipart/form-data' },
+         undefined,                         
+        { 'Content-Type': 'multipart/form-data' }, 
         formData,
       );
 
@@ -137,7 +132,7 @@ const EditProfile = () => {
           text1: 'Success',
           text2: 'Profile updated successfully!',
         });
-        dispatch(setUser(response.data.data)); // ✅ stores only the user object
+        dispatch(setUser(response.data.data)); 
         console.log('Updated User dispatched:', response.data.data);
         navigation.goBack();
 
@@ -193,13 +188,15 @@ const EditProfile = () => {
         <View style={styles.imgMain}>
           <TouchableOpacity onPress={toggleModal}>
             <Image
-              source={
-                profileImage
-                  ? { uri: profileImage }                 // newly selected image
-                  : User?.profile_picture
-                  ? { uri: User.profile_picture }         // image from API / Redux
-                  : images.profile                        // fallback placeholder
-              }
+              // source={
+              //   profileImage
+              //     ? { uri: profileImage }                 // newly selected image
+              //     : User?.profile_picture
+              //     ? { uri: User.profile_picture }         // image from API / Redux
+              //     : images.profile                        // fallback placeholder
+              // }
+              source={profileImage ? { uri: profileImage } : images.profile} 
+              // source={images.profile}
               style={styles.profileImg}
             />
           </TouchableOpacity>

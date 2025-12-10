@@ -31,6 +31,8 @@ const MediaLibrary = () => {
   const [tabs, setTabs] = useState(["ALL"]);
   const [videos, setVideos] = useState([]);
   const dispatch = useDispatch()
+  const [details, setDetails] = useState(null)
+
 
   const recentVideos = [
     {
@@ -105,7 +107,8 @@ const MediaLibrary = () => {
     >
       <View style={styles.recentVideoThumbnail}>
         <Image
-          source={item.image}
+          // source={item.image}
+          source={{ uri: item.thumbnailUrl }}
           style={styles.videoImage}
           resizeMode="cover"
         />
@@ -133,13 +136,16 @@ const MediaLibrary = () => {
           style={styles.relatedVideoImage}
           resizeMode="cover"
         />
-        <Image source={images.favIcon} style={styles.favIcon} />
+        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
+          <Image 
+          source={item.is_fav ? images.filledFav : images.favIcon}
+          style={styles.favIcon}/>
+        </TouchableOpacity>
       </View>
 
       {/* Text content below the video */}
       <View style={styles.relatedTextContent}>
         <View style={styles.dummyContainer}>
-          {/* <Text style={styles.relatedVideoSubtitle}>{ item.tags || "Dummy Text"}</Text> */}
           <Text
             style={styles.relatedVideoSubtitle}
             numberOfLines={1}
@@ -149,7 +155,6 @@ const MediaLibrary = () => {
           </Text>
         </View>
         <Text style={styles.relatedVideoTitle}>{item.title}</Text>
-        {/* <Text style={styles.relatedVideoDescription}>{item.description}</Text> */}
         <Text
           style={styles.relatedVideoDescription}
           numberOfLines={2}
@@ -177,9 +182,6 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
@@ -196,9 +198,6 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Recent Watch</Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
@@ -215,9 +214,6 @@ const MediaLibrary = () => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Related Videos</Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal
@@ -230,6 +226,55 @@ const MediaLibrary = () => {
       />
     </View>
   );
+
+ const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
+  try {
+    setLoading(true);
+
+    const body = {
+      action: isCurrentlyFavourite ? "unfavourite" : "favourite",
+      type: "video",
+      videoId: Number(videoId),
+      product: 1
+    };
+
+    const { response, error } = await apiHelper("POST", "/users/favourites", {}, {}, body);
+
+    if (response) {
+      setDetails(prev => ({
+        ...prev,
+        is_fav: !isCurrentlyFavourite
+      }));
+
+      const apiData = response?.data?.data;
+
+      const apiVideos = Array.isArray(response?.data?.data)
+      ? response.data.data
+      : [];
+      const videoIds = apiVideos.length > 0
+      ? apiVideos.map(v => v.id)
+      : [];
+      dispatch(setVideoId(videoIds));
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+      });
+    }
+
+    if (error) throw error;
+  } catch (error) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: error?.message ?? "Failed to update favourite"
+    });
+  } finally {
+    setLoading(false);
+  }
+ };
+
 
   const fetchVideosCategory = async () => {
     setLoading(true)

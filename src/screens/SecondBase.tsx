@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
@@ -17,49 +17,19 @@ const SecondBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [story, setStory] = useState(null);
-  const [fullData, setFullData] = useState(null);
+  const route = useRoute();
+  const { baseAssignments, fullData } = route.params || {};
 
+  useEffect(() => {
+    if (baseAssignments && fullData?.selfStoryList) {
+      const secondBaseCategory = baseAssignments.secondBase.category;
+      const story = fullData.selfStoryList.find(
+        item => item.oldSelfStory === secondBaseCategory
+      );
+      setStory(story);
+    }
+  }, [baseAssignments, fullData]);
 
-
-
-    const fetchSecondBase = async () => {
-        setLoading(true)
-        try {
-          const body = {
-            "selectedGroups": {
-              "group_1": 2,
-              "group_2": 3,
-              "group_3": 4,
-              "group_4": 5,
-              "group_5": 6,
-              "group_6": 7,
-              "group_7": 8
-            }
-          }
-          const { response, error } = await apiHelper(
-            "PATCH",
-            "/users/update-questions-selection",
-            {},
-            {},
-            body
-          )
-    
-          const data = response?.data?.data;
-          const list = response?.data?.data?.selfStoryList || [];
-          const abuseStory = list.find(
-            item => item.oldSelfStory === "abuse"
-          );
-    
-          setStory(abuseStory);
-          setFullData(data)
-        } finally {
-          setLoading(false)
-        }
-      }
-  
-        useEffect(() => {
-          fetchSecondBase();
-        }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -75,7 +45,10 @@ const SecondBase = () => {
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>ABUSE!</Text>
+            Story was <Text style={{ color: colors.red }}>
+              {/* ABUSE! */}
+              {story?.oldSelfStory?.toUpperCase()}!
+            </Text>
           </Text>
         </View>
 
@@ -85,8 +58,7 @@ const SecondBase = () => {
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
               {/* ABUSE: */}
-              {story?.oldSelfStory?.toUpperCase() || ""}
-              {": "}
+              {story?.oldSelfStory?.toUpperCase()}!
             </Text>
             {story?.oldSelfStoryDescription}
           </Text>
@@ -104,7 +76,8 @@ const SecondBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            PURPOSE!
+            {/* PURPOSE! */}
+            {story?.newSelfStory?.toUpperCase()}!
           </Text>
         </View>
 
@@ -116,8 +89,7 @@ const SecondBase = () => {
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
               {/* PURPOSE: */}
-               {story?.newSelfStory?.toUpperCase() || ""}
-              {": "}
+              {story?.newSelfStory?.toUpperCase()}!
             </Text>
             {story?.newSelfStoryDescription}
           </Text>
@@ -132,7 +104,10 @@ const SecondBase = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('ThirdBase')}
+            onPress={() => navigation.navigate('ThirdBase', {
+              baseAssignments,
+              fullData
+            })}
           />
         </View>
       </ScrollView>

@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import { apiHelper } from '../services';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from '../redux/slice/roleSlice';
+import { RootState } from '../redux/store';
 
 const Profile = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -28,8 +29,16 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const User = useSelector((state: RootState) => state.role.user)
   const token = useSelector((state: any) => state.role.accessToken);
   console.log("Topken from Redux to notification:", token);
+
+    const BASE_URL = 'http://18.204.175.233:3001/';
+
+  const getFullImageUrl = (path: string) => {
+    if (!path) return null;
+    return `${BASE_URL}${path}`;
+  };
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -131,8 +140,18 @@ const Profile = () => {
         activeOpacity={0.7}
         onPress={() => navigation.navigate('EditProfile')}
       >
-        <Image source={images.ProfilePic} style={styles.profileImage} />
-        <Text style={styles.profileText}>Harden Scott</Text>
+        <Image 
+        // source={images.ProfilePic} 
+        source={
+                      User?.image
+                        ? { uri: getFullImageUrl(User.image) }
+                        : images.ProfilePic
+                    }
+        style={styles.profileImage} 
+        />
+        <Text style={styles.profileText}>{User?.firstName && User?.lastName
+                        ? `${User.firstName} ${User.lastName}`
+                        : "Name"}</Text>
       </TouchableOpacity>
 
       <View style={styles.optionsWrapper}>
@@ -323,11 +342,11 @@ const styles = StyleSheet.create({
     bottom: height * 0.015
   },
   profileImage: {
-    width: width * 0.45,
+    width: width * 0.4,
     height: height * 0.18,
-    borderRadius: 45,
+    borderRadius: width * 0.2,
     marginBottom: 6,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   profileText: {
     fontFamily: fontFamily.GilroyBold,

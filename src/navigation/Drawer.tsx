@@ -71,22 +71,8 @@ const CustomDrawerContent = (props: any) => {
     setModalOpen(!modalOpen);
   };
 
-  // const handleLogout = () => {
-  //   dispatch(removeUser());
-  //   dispatch(logout());
-  //   setModalOpen(false);
-
-  //   navigation.dispatch(
-  //     CommonActions.reset({
-  //       index: 0,
-  //       routes: [{ name: 'SignInEmail' }],
-  //     }),
-  //   );
-  // };
-
-
   const handleLogout = () => {
-    // dispatch(removeUser());
+    dispatch(removeUser());
     dispatch(logout());
 
     setModalOpen(false);
@@ -135,12 +121,17 @@ const CustomDrawerContent = (props: any) => {
     },
   ];
 
-
   const truncateText = (text: string, maxLength: number) => {
     if (!text) return '';
     return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
   };
 
+  const BASE_URL = 'http://18.204.175.233:3001/';
+
+  const getFullImageUrl = (path: string) => {
+    if (!path) return null;
+    return `${BASE_URL}${path}`;
+  };
 
   return (
     <View style={styles.gradientContainer}>
@@ -156,7 +147,12 @@ const CustomDrawerContent = (props: any) => {
             activeOpacity={0.7}
           >
             <Image
-              source={images.drawerProf}
+              // source={images.drawerProf}
+               source={
+                  User?.image
+                    ? { uri: getFullImageUrl(User.image) }
+                    : images.drawerProf
+                }
               style={styles.profileImage}
             />
           </TouchableOpacity>
@@ -302,9 +298,11 @@ const styles = StyleSheet.create({
     top: height * 0.08
   },
   profileImage: {
-    width: width * 0.25,
+    width: width * 0.2,
     height: height * 0.085,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    borderRadius: width * 0.09,
+    marginRight: width * 0.03
   },
   profileTextContainer: {
     right: width * 0.03,

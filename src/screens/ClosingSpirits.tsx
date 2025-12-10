@@ -106,6 +106,13 @@ const ClosingSpirits = () => {
               significant others!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>7. </Text>
+            <Text style={styles.text5}>
+              When you've done something very wrong, and you want God's Forgiveness!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

@@ -49,7 +49,6 @@ instance.interceptors.response.use(
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface ApiResponse<T = any> {
-  // json(): unknown;
   error: string | null;
   response: AxiosResponse<T> | null;
 }
@@ -57,7 +56,7 @@ interface ApiResponse<T = any> {
 export const apiHelper = async <T = any>(
   method: HttpMethod,
   endPoint: string,
-  params: Record<string, any> = {}, // Add this for query parameters
+  params: Record<string, any> = {}, 
   customHeaders: Record<string, string> = {},
   body: any = null,
 ): Promise<ApiResponse<T>> => {
@@ -69,7 +68,7 @@ export const apiHelper = async <T = any>(
         'Content-Type': 'application/json',
         ...customHeaders,
       },
-       ...(params && Object.keys(params).length > 0 && { params }), // Add params for GET requests
+       ...(params && Object.keys(params).length > 0 && { params }), 
       ...(method !== 'GET' && { data: body }),
     };
 

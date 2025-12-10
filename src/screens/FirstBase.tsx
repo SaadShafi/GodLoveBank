@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
@@ -18,49 +18,64 @@ const FirstBase = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [story, setStory] = useState(null);
-  const [fullData, setFullData] = useState(null);
+  const [firstBaseStory, setFirstBaseStory] = useState<any>(null);
+  // const [fullData, setFullData] = useState(null);
+  const route = useRoute()
+  const params = route?.params
+  console.log("Params in the firstBase Screen!", params)
+  const { baseAssignments, fullData } = route.params || {};
 
-
-  const fetchFirstBase = async () => {
-      setLoading(true)
-  
-      try {
-  
-        const body = {
-          "selectedGroups": {
-            "group_1": 2,
-            "group_2": 3,
-            "group_3": 4,
-            "group_4": 5,
-            "group_5": 6,
-            "group_6": 7,
-            "group_7": 8
-          }
-        }
-        const { response, error } = await apiHelper(
-          "PATCH",
-          "/users/update-questions-selection",
-          {},
-          {},
-          body
-        )
-  
-        const data = response?.data?.data;
-        const list = response?.data?.data?.selfStoryList || [];
-        const worthlessnessStory = list.find(
-          item => item.oldSelfStory === "worthlessness"
-        );
-  
-        setStory(worthlessnessStory);
-        setFullData(data)
-      } finally {
-        setLoading(false)
-      }
+  useEffect(() => {
+    if (baseAssignments && fullData?.selfStoryList) {
+      const firstBaseCategory = baseAssignments.firstBase.category; // e.g., "abandonment"
+      const story = fullData.selfStoryList.find(
+        item => item.oldSelfStory === firstBaseCategory
+      );
+      setFirstBaseStory(story);
     }
+  }, [baseAssignments, fullData]);
 
-      useEffect(() => {
-        fetchFirstBase();
-      }, [])
+
+  // const fetchFirstBase = async () => {
+  //     setLoading(true)
+
+  //     try {
+
+  //       const body = {
+  //         "selectedGroups": {
+  //           "group_1": 2,
+  //           "group_2": 3,
+  //           "group_3": 4,
+  //           "group_4": 5,
+  //           "group_5": 6,
+  //           "group_6": 7,
+  //           "group_7": 8
+  //         }
+  //       }
+  //       const { response, error } = await apiHelper(
+  //         "PATCH",
+  //         "/users/update-questions-selection",
+  //         {},
+  //         {},
+  //         body
+  //       )
+
+  //       const data = response?.data?.data;
+  //       const list = response?.data?.data?.selfStoryList || [];
+  //       const worthlessnessStory = list.find(
+  //         item => item.oldSelfStory === "worthlessness"
+  //       );
+
+  //       setStory(worthlessnessStory);
+  //       setFullData(data)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  // useEffect(() => {
+  //   fetchFirstBase();
+  // }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -76,7 +91,10 @@ const FirstBase = () => {
             Since Your <Text style={{ color: colors.red }}>Old Self-Love</Text>
           </Text>
           <Text style={[styles.textTwo, { textAlign: 'center' }]}>
-            Story was <Text style={{ color: colors.red }}>WORTHLESSNESS!</Text>
+            Story was <Text style={{ color: colors.red }}>
+              {/* WORTHLESSNESS! */}
+              {firstBaseStory?.oldSelfStory.toUpperCase()}!
+            </Text>
           </Text>
         </View>
 
@@ -86,10 +104,9 @@ const FirstBase = () => {
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
               {/* WORTHLESSNESS: */}
-              {story?.oldSelfStory?.toUpperCase() || ""}
-              {": "}
+              {firstBaseStory?.oldSelfStory.toUpperCase()}:
             </Text>
-            {story?.oldSelfStoryDescription}
+            {firstBaseStory?.oldSelfStoryDescription}
           </Text>
         </View>
 
@@ -105,7 +122,8 @@ const FirstBase = () => {
               { color: colors.blue, textAlign: 'center' },
             ]}
           >
-            GREATNESS!
+            {/* GREATNESS! */}
+            {firstBaseStory?.newSelfStory.toUpperCase()}!
           </Text>
         </View>
 
@@ -117,10 +135,9 @@ const FirstBase = () => {
               style={{ fontFamily: fontFamily.GilroyBold, color: colors.black }}
             >
               {/* GREATNESS: */}
-              {story?.newSelfStory?.toUpperCase() || ""}
-              {": "}
+              {firstBaseStory?.newSelfStory.toUpperCase()}:
             </Text>
-            {story?.newSelfStoryDescription}
+            {firstBaseStory?.newSelfStoryDescription}
           </Text>
         </View>
 
@@ -133,7 +150,10 @@ const FirstBase = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('SecondBase')}
+            onPress={() => navigation.navigate('SecondBase',{
+              baseAssignments,
+              fullData
+            })}
           />
         </View>
       </ScrollView>

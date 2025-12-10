@@ -24,6 +24,8 @@ const SignInEmail = () => {
     (state: RootState) => state.role.selectedRole,
   );
   const User = useSelector((state: RootState) => state.role.user);
+  console.log("User in SignIn Email screen", User)
+  console.log("Image from redux!", User?.image)
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

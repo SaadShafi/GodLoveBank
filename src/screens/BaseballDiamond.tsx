@@ -161,7 +161,10 @@ const BaseballDiamond = () => {
           btnWidth={width * 0.85}
           backgroundColor={colors.marhoon}
           borderRadius={20}
-          onPress={() => navigation.navigate('HomeBase')}
+          onPress={() => navigation.navigate('HomeBase', {
+             baseAssignments: baseAssignments, // pass the data
+              selectionsObj: selectionsObj,
+          })}
         />
       </View>
     </View>
