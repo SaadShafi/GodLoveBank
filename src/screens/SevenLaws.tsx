@@ -95,6 +95,20 @@ const SevenLaws = () => {
               successful!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text4}>
+              When you want to invest your faith to hep reach your fullest potential!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>7. </Text>
+            <Text style={styles.text4}>
+              When you want to use the laws to invest Love Deposit Rep's in your soul!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

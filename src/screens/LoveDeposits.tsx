@@ -94,6 +94,13 @@ const LoveDeposits = () => {
               When you want to turn whatever happens to you into a D/P!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text4}>
+              When you want to be proactive rather than reactive in choices!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

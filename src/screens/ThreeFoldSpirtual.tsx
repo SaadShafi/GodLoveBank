@@ -97,6 +97,27 @@ const ThreeFoldSpirtual = () => {
               in your own soul!
             </Text>
           </View>
+
+           <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text4}>
+              When you want to understand yourself as a Spiritual being having a Human experience!
+            </Text>
+          </View>
+
+           <View style={styles.row}>
+            <Text style={styles.number}>7. </Text>
+            <Text style={styles.text4}>
+             When you want to think with a God's Love Bank Rationale about everything in your life!
+            </Text>
+          </View>
+
+           <View style={styles.row}>
+            <Text style={styles.number}>8. </Text>
+            <Text style={styles.text4}>
+              When you want to preserve your spirit, soul, and body for the coming of the Lord Jesus!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

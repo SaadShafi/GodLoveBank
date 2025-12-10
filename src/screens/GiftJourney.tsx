@@ -87,7 +87,7 @@ const GiftJourney = () => {
           </Text>
 
           <View style={styles.row}>
-            <Text style={styles.number}>4. </Text>
+            <Text style={styles.number}>1. </Text>
             <Text style={styles.text4}>
               Is the dominate SKILL you are best at in life COGNITIVE---THINKING
               SKILLS?
@@ -95,10 +95,18 @@ const GiftJourney = () => {
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.number}>5. </Text>
+            <Text style={styles.number}>2. </Text>
             <Text style={styles.text4}>
               Is the dominate SKILL you are best at in life
               COMMUNICATIVE---TALKING SKILLS?
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>3. </Text>
+            <Text style={styles.text4}>
+             Is the dominate SKILL you are best at in life 
+             COORDINATIVE---TOUCHING SKILLS?
             </Text>
           </View>
         </View>

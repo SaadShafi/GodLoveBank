@@ -89,6 +89,13 @@ const CaringDeeds = () => {
               It.
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text4}>
+              Daily Worship God The Father, Son, & Holy Spirit as a Spiritual sacrifice
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

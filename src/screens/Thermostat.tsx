@@ -102,6 +102,13 @@ const Thermostat = () => {
               CAREERS!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>7. </Text>
+            <Text style={styles.text5}>
+              You can use the Thermostat to increase your SPIRITUAL GROWTH!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

@@ -95,6 +95,20 @@ const PurposeToolbox = () => {
               are in!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text4}>
+             When you need to exercise patience until God fulfill His purpose in your life!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>7. </Text>
+            <Text style={styles.text4}>
+             When you need clarity to count the cost of a choice you are about to make!
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>

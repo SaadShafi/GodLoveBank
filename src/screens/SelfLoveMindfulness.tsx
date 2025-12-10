@@ -78,6 +78,27 @@ const SelfLoveMindfulness = () => {
               step!
             </Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>4. </Text>
+            <Text style={styles.text3}>
+              Pause for 10 seconds and observe your breathing, as you inhale and exhale!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>5. </Text>
+            <Text style={styles.text3}>
+              Focus on and be aware of silence is a powerful way of being in the moment!
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.number}>6. </Text>
+            <Text style={styles.text3}>
+              Whatever you are doing NOW, you are either doing it mindfully or mindlessly
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
