@@ -1,5 +1,5 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -30,8 +30,10 @@ const MediaLibrary = () => {
   const [loading, setLoading] = useState(false);
   const [tabs, setTabs] = useState(["ALL"]);
   const [videos, setVideos] = useState([]);
+  const [recentVideo, setRecentVideos] = useState([]);
   const dispatch = useDispatch()
   const [details, setDetails] = useState(null)
+  const [refreshing, setRefreshing] = useState(false);
 
 
   const recentVideos = [
@@ -103,22 +105,22 @@ const MediaLibrary = () => {
     <TouchableOpacity
       style={styles.recentVideoItem}
       activeOpacity={0.7}
-      onPress={() => navigation.navigate('MediaDetails')}
+      onPress={() => navigation.navigate('MediaDetails', { VideoID: item.video.id })}
     >
       <View style={styles.recentVideoThumbnail}>
         <Image
           // source={item.image}
-          source={{ uri: item.thumbnailUrl }}
+          source={{ uri: item.video.thumbnailUrl }}
           style={styles.videoImage}
           resizeMode="cover"
         />
         <View style={styles.durationBadge}>
-          <Text style={styles.durationText}>{item.duration}</Text>
+          <Text style={styles.durationText}>{item.video.duration || "00:00"}</Text>
         </View>
 
         <Image source={images.favIcon} style={styles.favicon} />
 
-        <Text style={styles.recentVideoTitle}>{item.title}</Text>
+        <Text style={styles.recentVideoTitle}>{item.video.title}</Text>
         <TouchableOpacity>
           <Image source={images.video} style={styles.video} />
         </TouchableOpacity>
@@ -137,9 +139,9 @@ const MediaLibrary = () => {
           resizeMode="cover"
         />
         <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
-          <Image 
-          source={item.is_fav ? images.filledFav : images.favIcon}
-          style={styles.favIcon}/>
+          <Image
+            source={item.is_fav ? images.filledFav : images.favIcon}
+            style={styles.favIcon} />
         </TouchableOpacity>
       </View>
 
@@ -172,7 +174,10 @@ const MediaLibrary = () => {
           backgroundColor={colors.darkmarhoon}
           borderRadius={12}
           fontSize={fontSizes.xsm}
-          onPress={() => navigation.navigate('MediaDetails', { VideoID: item.id })}
+          onPress={() => {
+            handlePostVideo(item.id); // <-- Send the unique video ID
+            navigation.navigate('MediaDetails', { VideoID: item.id });
+          }}
         />
       </View>
     </View>
@@ -194,6 +199,12 @@ const MediaLibrary = () => {
     </View>
   );
 
+  // const handleRefresh = async (videoId: number) => {
+  //   setRefreshing(true);
+  //   await handlePostVideo(videoId); // fetch the latest favourites
+  //   setRefreshing(false);
+  // };
+
   const renderRecentWatchSection = () => (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
@@ -201,11 +212,13 @@ const MediaLibrary = () => {
       </View>
       <FlatList
         horizontal
-        data={recentVideos}
+        data={recentVideo}
         renderItem={renderRecentWatchItem}
         keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.sliderContent}
+        // refreshing={refreshing}       // <--- add this
+        // onRefresh={handleRefresh}     // <--- add this
       />
     </View>
   );
@@ -217,7 +230,6 @@ const MediaLibrary = () => {
       </View>
       <FlatList
         horizontal
-        // data={relatedVideos}
         data={videos}
         renderItem={renderRelatedVideoItem}
         keyExtractor={item => item.id}
@@ -227,54 +239,53 @@ const MediaLibrary = () => {
     </View>
   );
 
- const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
-  try {
-    setLoading(true);
+  const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
+    try {
+      setLoading(true);
 
-    const body = {
-      action: isCurrentlyFavourite ? "unfavourite" : "favourite",
-      type: "video",
-      videoId: Number(videoId),
-      product: 1
-    };
+      const body = {
+        action: isCurrentlyFavourite ? "unfavourite" : "favourite",
+        type: "video",
+        videoId: Number(videoId),
+        product: 1
+      };
 
-    const { response, error } = await apiHelper("POST", "/users/favourites", {}, {}, body);
+      const { response, error } = await apiHelper("POST", "/users/favourites", {}, {}, body);
 
-    if (response) {
-      setDetails(prev => ({
-        ...prev,
-        is_fav: !isCurrentlyFavourite
-      }));
+      if (response) {
+        setDetails(prev => ({
+          ...prev,
+          is_fav: !isCurrentlyFavourite
+        }));
 
-      const apiData = response?.data?.data;
+        const apiData = response?.data?.data;
 
-      const apiVideos = Array.isArray(response?.data?.data)
-      ? response.data.data
-      : [];
-      const videoIds = apiVideos.length > 0
-      ? apiVideos.map(v => v.id)
-      : [];
-      dispatch(setVideoId(videoIds));
+        const apiVideos = Array.isArray(response?.data?.data)
+          ? response.data.data
+          : [];
+        const videoIds = apiVideos.length > 0
+          ? apiVideos.map(v => v.id)
+          : [];
+        dispatch(setVideoId(videoIds));
 
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+        });
+      }
+
+      if (error) throw error;
+    } catch (error) {
       Toast.show({
-        type: "success",
-        text1: "Success",
-        text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+        type: "error",
+        text1: "Error",
+        text2: error?.message ?? "Failed to update favourite"
       });
+    } finally {
+      setLoading(false);
     }
-
-    if (error) throw error;
-  } catch (error) {
-    Toast.show({
-      type: "error",
-      text1: "Error",
-      text2: error?.message ?? "Failed to update favourite"
-    });
-  } finally {
-    setLoading(false);
-  }
- };
-
+  };
 
   const fetchVideosCategory = async () => {
     setLoading(true)
@@ -304,7 +315,76 @@ const MediaLibrary = () => {
     } finally {
       setLoading(false)
     }
-  }
+  };
+
+  const handlePostVideo = async (videoId: number) => {
+    try {
+      setLoading(true);
+
+      const body = {
+        videoId: videoId,
+      };
+
+      const { response, error } = await apiHelper(
+        "POST",
+        "/videos/history",
+        {},
+        {},
+        body
+      );
+
+      if (response) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Video added to recent watch"
+        });
+      }
+
+      if (error) throw error;
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message ?? "Failed to update recent watch"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchRecentWatch = async () => {
+    setLoading(true)
+
+    try {
+      const { response, error } = await apiHelper(
+        "GET",
+        "/videos/history",
+        {},
+        null
+      )
+      console.log("Response of the Recent Watch API", response)
+      const apiVideos = response?.data?.data || [];
+      setRecentVideos(apiVideos);
+      const videoIds = apiVideos.map(video => video.id);
+      dispatch(setVideoId(videoIds));
+      console.log("Dispatching Recent Watch Video Ids!", videoIds);
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Videos fetched Successfully"
+      })
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  };
 
   const fetchVideos = async () => {
     setLoading(true)
@@ -314,6 +394,7 @@ const MediaLibrary = () => {
         "GET",
         "/videos",
         {},
+        // {},
         null
       )
       console.log("Response of the Video API", response)
@@ -342,7 +423,15 @@ const MediaLibrary = () => {
   useEffect(() => {
     fetchVideosCategory()
     fetchVideos()
+    fetchRecentWatch()
   }, [])
+
+  useFocusEffect(
+  React.useCallback(() => {
+    fetchVideos();
+    fetchRecentWatch();
+  }, [])
+);
 
   return (
     <View style={styles.container}>
@@ -581,7 +670,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  relatedTextContent: {
+  relatedTextContent: {  
     // Text content styles
   },
   dummyContainer: {
