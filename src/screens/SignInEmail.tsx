@@ -1,6 +1,6 @@
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
@@ -24,18 +24,13 @@ const SignInEmail = () => {
     (state: RootState) => state.role.selectedRole,
   );
   const User = useSelector((state: RootState) => state.role.user);
-  console.log("User in SignIn Email screen", User)
-  console.log("Image from redux!", User?.image)
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fcmToken, setFcmToken] = useState('');
   const dispatch = useDispatch();
 
-  // const isFormValid = email.includes('@') && password.length > 5;
-
-
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
     setLoading(true);
 
     try {
@@ -60,7 +55,7 @@ const SignInEmail = () => {
           text2: response.data.message,
         });
 
-        const token = response.data.data.accessToken; 
+        const token = response.data.data.accessToken;
         console.log("AccessToken CHECK!!", token);
         navigation.dispatch(
           CommonActions.reset({
@@ -77,7 +72,7 @@ const SignInEmail = () => {
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: error
+          text2: error?.message
         })
       }
     } catch (error) {
@@ -91,6 +86,34 @@ const SignInEmail = () => {
       setLoading(false);
     }
   };
+
+  // const getUser = async () => {
+  //   try {
+  //     setLoading(true)
+
+  //     const {response, error} = await apiHelper(
+  //       "GET",
+  //       '/me',
+  //       {},
+  //       {},
+  //       null
+  //     )
+
+  //     console.log("Response from the User get API", response)
+  //   } catch (error) {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Error",
+  //       text2: error?.message
+  //     })
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }  
+
+  // useEffect(() => {
+  //   getUser()
+  // },[])
 
   return (
     <View style={{ flex: 1 }}>
@@ -156,11 +179,11 @@ const SignInEmail = () => {
           </View>
         </View>
       </View>
-            {loading && (
-              <View style={styles.loaderOverlay}>
-                <ActivityIndicator size="large" color={colors.brown} />
-              </View>
-            )}
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };

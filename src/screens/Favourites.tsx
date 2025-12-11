@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
   ActivityIndicator,
   FlatList,
@@ -16,7 +16,7 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
@@ -200,10 +200,14 @@ const Favourites = () => {
       <View style={styles.relatedVideoThumbnail}>
         <Image source={{ uri: item.video.thumbnailUrl }} style={styles.relatedVideoImage} />
 
-        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
-          <Image 
-          source={item.is_fav ? images.filledFav : images.favIcon}
-          style={styles.favIcon} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => handleFavouritePress(item.videoId, item.is_fav)}
+        >
+          <Image
+            source={item.is_fav ? images.filledFav : images.favIcon}
+            style={styles.favIcon}
+          />
         </TouchableOpacity>
 
       </View>
@@ -255,21 +259,27 @@ const Favourites = () => {
   const VideoScreen: React.FC = () => {
     return (
       <View style={{ flex: 1 }}>
-        <FlatList
-          data={favouriteVideos}
-          renderItem={renderRelatedVideoItem}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          columnWrapperStyle={styles.columnWrapper}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: 10,
-            marginTop: height * 0.015,
-            paddingBottom: height * 0.15,
-          }}
-          refreshing={refreshing}       // <--- add this
-          onRefresh={handleRefresh}     // <--- add this
-        />
+        {favouriteVideos.length === 0 ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No favourite videos found.</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={favouriteVideos}
+            renderItem={renderRelatedVideoItem}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 10,
+              marginTop: height * 0.015,
+              paddingBottom: height * 0.15,
+            }}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        )}
       </View>
     );
   };
@@ -322,7 +332,6 @@ const Favourites = () => {
     }
   };
 
-  
   const fetchFavourite = async () => {
     setLoading(true)
 
@@ -357,6 +366,12 @@ const Favourites = () => {
     fetchFavourite()
   }, [])
 
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourite()
+    }, [])
+  );
+
   return (
     <View style={{ flex: 1 }}>
       <TopHeader text="Favourites" isBack={true} />
@@ -377,6 +392,17 @@ const Favourites = () => {
 };
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: fontFamily.GilroyMedium,
+    fontSize: fontSizes.sm2,
+    color: colors.marhoon,
+    textAlign: 'center',
+  },
   tabsContainer: {
     marginTop: height * 0.02,
   },

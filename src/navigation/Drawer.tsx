@@ -148,11 +148,11 @@ const CustomDrawerContent = (props: any) => {
           >
             <Image
               // source={images.drawerProf}
-               source={
-                  User?.image
-                    ? { uri: getFullImageUrl(User.image) }
-                    : images.drawerProf
-                }
+              source={
+                User?.image
+                  ? { uri: getFullImageUrl(User.image) }
+                  : images.drawerProf
+              }
               style={styles.profileImage}
             />
           </TouchableOpacity>

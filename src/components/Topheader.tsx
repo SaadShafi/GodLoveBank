@@ -123,6 +123,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     reason: '',
   });
   const User = useSelector((state: RootState) => state.role.user)
+  const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
+  const displayName = fullName.length > 10 ? `${fullName.slice(0, 10)}...` : fullName;
   // console.log("User", User)
 
   const toggleDisputeModal = () => {
@@ -308,7 +310,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </View>
           )}
           {notification && (
-            <View style={[styles.headerBell, { right: -width * 0.07 }]}>
+            <View style={[styles.headerBell, { right: -width * 0.02 }]}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
@@ -411,13 +413,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   >
                     <Text style={styles.headerWelcome}>Welcome</Text>
                     <Text style={styles.headerJaydon}>
-                      {/* {User?.firstName && User?.lastName
-                        ? `${User.firstName} ${User.lastName}`
-                        : "Name"} */}
-                        {User?.firstName && User?.lastName ? 
-                          `${User.firstName} ${User.lastName}`.slice(0, 12) 
-                          : "Name"
-                        }
+                      {displayName}
                     </Text>
                   </View>
                 </TouchableOpacity>

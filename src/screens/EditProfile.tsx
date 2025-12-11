@@ -23,26 +23,27 @@ import ImagePicker from 'react-native-image-crop-picker';
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
 const EditProfile = () => {
+  const User = useSelector((state: RootState) => state.role.user);
   const [modalOpen, setModalOpen] = useState(false);
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState(User.city || "");
   const navigation = useNavigation<NavigationProp<any>>();
   const [image, setImage] = useState<string | null>(null);
-  const [country, setCountry] = useState('');
-  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState(User?.country || "");
+  const [postalCode, setPostalCode] = useState(User.postalCode || "");
+  const [relationshipStatus, setRelationShipStatus] = useState(User.relationshipStatus || '');
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState('');
-  const [relationshipStatus, setRelationShipStatus] = useState('');
+  // const [relationshipStatus, setRelationShipStatus] = useState('');
   const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
   const [tags, setTags] = useState([]);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  // const [profileImage, setProfileImage] = useState<string | null>(null);
+  const BASE_URL = 'http://18.204.175.233:3001/';
+  const [profileImage, setProfileImage] = useState<string | null>(
+    User?.image ? `${BASE_URL}${User.image}` : null
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const User = useSelector((state: RootState) => state.role.user);
-  console.log('User from Redux in EditProfile Screen:', User);
-  console.log('User First Name from Redux in EditProfile Screen:', User.firstName);
-  console.log("Country from redux", User.country)
-  const [values, setValues] = useState();
 
   const countryOption = [
     { name: 'Country', id: '' },
@@ -85,16 +86,17 @@ const EditProfile = () => {
       formData.append('postalCode', postalCode);
       formData.append('relationshipStatus', relationshipStatus);
       formData.append('gender', gender);
-      // if (image && !image.startsWith('http')) {
-      //   const fileName = image.split('/').pop() || 'photo.jpg';
+      // if (profileImage) {
+      //   const fileName = profileImage.split('/').pop() || 'photo.jpg';
       //   const fileType = fileName.split('.').pop();
-      //   formData.append('profile_picture', {
-      //     uri: image,
+
+      //   formData.append('image', {
+      //     uri: profileImage,
       //     type: `image/${fileType}`,
       //     name: fileName,
-      //   } as any);
+      //   });
       // }
-      if (profileImage) {
+      if (profileImage && !profileImage.startsWith('http')) {
         const fileName = profileImage.split('/').pop() || 'photo.jpg';
         const fileType = fileName.split('.').pop();
 
@@ -119,8 +121,8 @@ const EditProfile = () => {
       const { response, error } = await apiHelper(
         'PATCH',
         'users/update',
-         undefined,                         
-        { 'Content-Type': 'multipart/form-data' }, 
+        undefined,
+        { 'Content-Type': 'multipart/form-data' },
         formData,
       );
 
@@ -132,7 +134,7 @@ const EditProfile = () => {
           text1: 'Success',
           text2: 'Profile updated successfully!',
         });
-        dispatch(setUser(response.data.data)); 
+        dispatch(setUser(response.data.data));
         console.log('Updated User dispatched:', response.data.data);
         navigation.goBack();
 
@@ -157,7 +159,6 @@ const EditProfile = () => {
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
-
 
   const uploadFromGallery = () => {
     ImagePicker.openPicker({
@@ -188,15 +189,7 @@ const EditProfile = () => {
         <View style={styles.imgMain}>
           <TouchableOpacity onPress={toggleModal}>
             <Image
-              // source={
-              //   profileImage
-              //     ? { uri: profileImage }                 // newly selected image
-              //     : User?.profile_picture
-              //     ? { uri: User.profile_picture }         // image from API / Redux
-              //     : images.profile                        // fallback placeholder
-              // }
-              source={profileImage ? { uri: profileImage } : images.profile} 
-              // source={images.profile}
+              source={profileImage ? { uri: profileImage } : images.profile}
               style={styles.profileImg}
             />
           </TouchableOpacity>
@@ -211,7 +204,7 @@ const EditProfile = () => {
               inputHeight={height * 0.06}
               inputWidth={width * 0.41}
               borderRadius={20}
-              value={country || User.country}
+              value={country}
               onChangeText={setCountry}
               keyboardType="default"
               fontFamily={fontFamily.UrbanistMedium}
@@ -223,7 +216,7 @@ const EditProfile = () => {
               inputHeight={height * 0.06}
               inputWidth={width * 0.41}
               borderRadius={20}
-              value={city || User.city}
+              value={city}
               onChangeText={setCity}
               keyboardType="default"
               fontFamily={fontFamily.UrbanistMedium}
@@ -238,7 +231,7 @@ const EditProfile = () => {
               inputHeight={height * 0.06}
               inputWidth={width * 0.41}
               borderRadius={20}
-              value={postalCode || User.postalCode}
+              value={postalCode}
               onChangeText={setPostalCode}
               keyboardType="default"
               fontFamily={fontFamily.UrbanistMedium}
@@ -268,8 +261,8 @@ const EditProfile = () => {
             borderWidth={1}
             inputColor={colors.lightGray}
             borderRadius={20}
-            onChangeText={setStatus}
-            setSelectedElement={setStatus}
+            onChangeText={setRelationShipStatus}
+            setSelectedElement={setRelationShipStatus}
             defaultValue=""
             rightIcon={images.arrowdown}
             preselectedValue={User.relationshipStatus}
@@ -325,27 +318,13 @@ const styles = StyleSheet.create({
     top: height * 0.03,
     alignItems: 'center',
   },
-  // profileImg: {
-  //   width: width * 0.35,
-  //   height: height * 0.15,
-  //   resizeMode: 'contain',
-  //   borderRadius: 30,
-  // },
-//   profileImg: {
-//   width: width * 0.4, // Use same value for width and height
-//   height: width * 0.4, // Use width here too to maintain aspect ratio
-//   resizeMode: 'cover',
-//   borderRadius: (width * 0.8) / 4, // Half the width/height for perfect circle
-//   overflow: 'hidden',
-// },
-profileImg: {
-  width: width * 0.33,
-  height: height * 0.15,
-  resizeMode: 'cover',
-  borderRadius: 50, // Large number to ensure fully rounded
-  // borderWidth: 1,
-  overflow: 'hidden',
-},
+  profileImg: {
+    width: width * 0.33,
+    height: height * 0.15,
+    resizeMode: 'cover',
+    borderRadius: 65,
+    overflow: 'hidden',
+  },
   profText: {
     fontFamily: fontFamily.UrbanistBold,
     fontSize: fontSizes.md,

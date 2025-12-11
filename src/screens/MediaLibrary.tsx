@@ -35,7 +35,6 @@ const MediaLibrary = () => {
   const [details, setDetails] = useState(null)
   const [refreshing, setRefreshing] = useState(false);
 
-
   const recentVideos = [
     {
       id: '1',
@@ -118,11 +117,10 @@ const MediaLibrary = () => {
           <Text style={styles.durationText}>{item.video.duration || "00:00"}</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.id, item.is_fav)}>
-          <Image 
-          // source={images.favIcon}
-          source={item.is_fav ? images.filledFav : images.favIcon}
-          style={styles.faviconWatch} />
+        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.video.id, item.is_fav)}>
+          <Image
+            source={item.is_fav ? images.filledFav : images.favIcon}
+            style={styles.faviconWatch} />
         </TouchableOpacity>
 
         <Text style={styles.recentVideoTitle}>{item.video.title}</Text>
@@ -135,10 +133,8 @@ const MediaLibrary = () => {
 
   const renderRelatedVideoItem = ({ item }) => (
     <View style={styles.relatedVideoItem}>
-      {/* Video thumbnail */}
       <View style={styles.relatedVideoThumbnail}>
         <Image
-          // source={item.image}
           source={{ uri: item.thumbnailUrl }}
           style={styles.relatedVideoImage}
           resizeMode="cover"
@@ -204,25 +200,40 @@ const MediaLibrary = () => {
     </View>
   );
 
-  // const handleRefresh = async (videoId: number) => {
-  //   setRefreshing(true);
-  //   await handlePostVideo(videoId); // fetch the latest favourites
-  //   setRefreshing(false);
-  // };
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchVideos(); 
+    setRefreshing(false);
+  };
 
   const renderRecentWatchSection = () => (
     <View style={styles.section}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Recent Watch</Text>
+      {recentVideo.length === 0 ? (
+        <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent Watch</Text>
+            <View style={{}}>
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No videos watched recently.</Text>
+              </View>
+            </View>
+          </View>
+      ) : (
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent Watch</Text>
+          </View>
+          <FlatList
+            horizontal
+            data={recentVideo}
+            renderItem={renderRecentWatchItem}
+            keyExtractor={item => item.id}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.sliderContent}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
       </View>
-      <FlatList
-        horizontal
-        data={recentVideo}
-        renderItem={renderRecentWatchItem}
-        keyExtractor={item => item.id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.sliderContent}
-      />
+      )}
     </View>
   );
 
@@ -364,6 +375,7 @@ const MediaLibrary = () => {
         "GET",
         "/videos/history",
         {},
+        {},
         null
       )
       console.log("Response of the Recent Watch API", response)
@@ -397,7 +409,7 @@ const MediaLibrary = () => {
         "GET",
         "/videos",
         {},
-        // {},
+        {},
         null
       )
       console.log("Response of the Video API", response)
@@ -430,11 +442,11 @@ const MediaLibrary = () => {
   }, [])
 
   useFocusEffect(
-  React.useCallback(() => {
-    fetchVideos();
-    fetchRecentWatch();
-  }, [])
-);
+    React.useCallback(() => {
+      // fetchVideos();
+      fetchRecentWatch();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
@@ -521,6 +533,19 @@ const MediaLibrary = () => {
 };
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: height * 0.05
+  },
+  emptyText: {
+    fontFamily: fontFamily.GilroyMedium,
+    fontSize: fontSizes.sm2,
+    color: colors.marhoon,
+    textAlign: 'center',
+    top: height * 0.03
+  },
   container: {
     flex: 1,
     backgroundColor: colors.white,
@@ -673,7 +698,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  relatedTextContent: {  
+  relatedTextContent: {
     // Text content styles
   },
   dummyContainer: {
@@ -753,9 +778,9 @@ const styles = StyleSheet.create({
     left: width * 0.03,
     bottom: height * 0.075,
   },
-   faviconWatch: {
+  faviconWatch: {
     position: 'absolute',
-    right: width * 0.15,    
+    right: width * 0.15,
     bottom: height * 0.075,
   },
   favIcon: {

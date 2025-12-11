@@ -10,6 +10,16 @@ import { store } from '../redux/store';
 const instance = axios.create({
   baseURL: 'http://18.204.175.233:3001/',
   timeout: 10000,
+   transformResponse: [
+    (data) => {
+      if (!data || data === 'null') return null;
+      try {
+        return JSON.parse(data);
+      } catch {
+        return data; // return raw if invalid JSON
+      }
+    },
+  ],
 });
 
 instance.interceptors.request.use(
@@ -49,6 +59,7 @@ instance.interceptors.response.use(
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface ApiResponse<T = any> {
+  // json(): unknown;
   error: string | null;
   response: AxiosResponse<T> | null;
 }

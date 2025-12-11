@@ -33,7 +33,7 @@ const Profile = () => {
   const token = useSelector((state: any) => state.role.accessToken);
   console.log("Topken from Redux to notification:", token);
 
-    const BASE_URL = 'http://18.204.175.233:3001/';
+  const BASE_URL = 'http://18.204.175.233:3001/';
 
   const getFullImageUrl = (path: string) => {
     if (!path) return null;
@@ -46,7 +46,7 @@ const Profile = () => {
     setModalOpen(!modalOpen);
   };
 
-    const toggleModalSec = () => {
+  const toggleModalSec = () => {
     setModalOpen(false);
     deleteAcc();
   };
@@ -61,6 +61,7 @@ const Profile = () => {
       "DELETE",
       "auth/delete-account",
       {},
+      {},
       {}
     );
     if (response) {
@@ -72,11 +73,11 @@ const Profile = () => {
       });
       dispatch(removeUser());
       navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Register' }],
-      }),
-    );
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Register' }],
+        }),
+      );
     } else {
       console.error("Error", error);
       Toast.show({
@@ -86,7 +87,7 @@ const Profile = () => {
       });
     }
   };
-  
+
 
   const toggleNotification = async (newValue) => {
     if (!token) {
@@ -132,7 +133,7 @@ const Profile = () => {
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <View style={styles.topHeader}>
-        <TopHeader text="Profile" isMenu={true} notificationSec={true}/>
+        <TopHeader text="Profile" isMenu={true} notificationSec={true} />
       </View>
 
       <TouchableOpacity
@@ -140,18 +141,18 @@ const Profile = () => {
         activeOpacity={0.7}
         onPress={() => navigation.navigate('EditProfile')}
       >
-        <Image 
-        // source={images.ProfilePic} 
-        source={
-                      User?.image
-                        ? { uri: getFullImageUrl(User.image) }
-                        : images.ProfilePic
-                    }
-        style={styles.profileImage} 
+        <Image
+          // source={images.ProfilePic} 
+          source={
+            User?.image
+              ? { uri: getFullImageUrl(User.image) }
+              : images.ProfilePic
+          }
+          style={styles.profileImage}
         />
         <Text style={styles.profileText}>{User?.firstName && User?.lastName
-                        ? `${User.firstName} ${User.lastName}`
-                        : "Name"}</Text>
+          ? `${User.firstName} ${User.lastName}`
+          : "Name"}</Text>
       </TouchableOpacity>
 
       <View style={styles.optionsWrapper}>
@@ -210,15 +211,15 @@ const Profile = () => {
       </View>
 
       <View style={styles.btnMain}>
-          <CustomButton
-            btnHeight={height * 0.06}
-            btnWidth={width * 0.9}
-            borderRadius={20}
-            backgroundColor={colors.marhoon}
-            text="Delete Account"
-            textColor={colors.white}
-           onPress={() => setModalVisible(true)} 
-          />
+        <CustomButton
+          btnHeight={height * 0.06}
+          btnWidth={width * 0.9}
+          borderRadius={20}
+          backgroundColor={colors.marhoon}
+          text="Delete Account"
+          textColor={colors.white}
+          onPress={() => setModalVisible(true)}
+        />
       </View>
 
       {/* Delete Account Modal */}
@@ -244,7 +245,7 @@ const Profile = () => {
               <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={() => setModalVisible(false)}
-                
+
               >
                 <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
