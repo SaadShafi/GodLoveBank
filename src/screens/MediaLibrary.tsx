@@ -544,6 +544,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm2,
     color: colors.marhoon,
     textAlign: 'center',
+    alignSelf:'center',
     top: height * 0.03
   },
   container: {

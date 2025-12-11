@@ -28,6 +28,8 @@ import Toast from 'react-native-toast-message';
 import { setUser, setUserEmail } from '../redux/slice/roleSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 const countryData = [
   { code: '+1', flag: '🇺🇸', name: 'United States' },
@@ -98,6 +100,61 @@ const Registeration = () => {
     const uniqueId = Math.floor(Math.random() * 900) + 100;
 
       const handleSubmit = async () => {
+        // --- FORM VALIDATION BEFORE API CALL ---
+  if (!firstName.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'First name is required' });
+    return;
+  }
+
+  if (!lastName.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'Last name is required' });
+    return;
+  }
+
+  if (!email.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'Email is required' });
+    return;
+  }
+
+  if (!email.includes('@')) {
+    Toast.show({ type: 'error', text1: 'Invalid Email', text2: 'Enter a valid email address' });
+    return;
+  }
+
+  if (!phone.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'Phone number is required' });
+    return;
+  }
+
+  if (phone.length < 7) {
+    Toast.show({ type: 'error', text1: 'Invalid Phone', text2: 'Enter a valid phone number' });
+    return;
+  }
+
+  if (!password.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'Password is required' });
+    return;
+  }
+
+  if (password.length < 8) {
+    Toast.show({ type: 'error', text1: 'Weak Password', text2: 'Password must be at least 8 characters' });
+    return;
+  }
+
+  if (!confirmPassword.trim()) {
+    Toast.show({ type: 'error', text1: 'Error', text2: 'Confirm password is required' });
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    Toast.show({ type: 'error', text1: 'Password Error', text2: 'Passwords do not match' });
+    return;
+  }
+
+  if (!agree) {
+    Toast.show({ type: 'error', text1: 'Terms Required', text2: 'You must agree to continue' });
+    return;
+  }
       setLoading(true);
 
       if (password !== confirmPassword) {
@@ -157,10 +214,14 @@ const Registeration = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <KeyboardAvoidingView 
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+      <KeyboardAwareScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      extraScrollHeight={80}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      
+      >
       <View style={styles.container}>
         <Image source={images.Logo} style={styles.logo} />
         <Text style={styles.welcomeText}>Register</Text>
@@ -394,7 +455,7 @@ const Registeration = () => {
           <ActivityIndicator size="large" color={colors.brown} />
         </View>
       )}
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
 };
