@@ -461,7 +461,7 @@ const htmlStyles = StyleSheet.create({
   p: {
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
-    color: colors.darkGray,
+    color: colors.black,
     lineHeight:20,
     textAlign: 'justify',
   },
@@ -484,7 +484,7 @@ const htmlStyles = StyleSheet.create({
   h3: {
     fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.sm,
-    color: colors.darkGray,
+    color: colors.black,
     lineHeight:24,
   },
   
@@ -500,7 +500,7 @@ const htmlStyles = StyleSheet.create({
   li: {
     fontFamily: fontFamily.GilroyRegular,
     fontSize: fontSizes.sm,
-    color: colors.darkGray,
+    color: colors.black,
     lineHeight: 21,
   },
   

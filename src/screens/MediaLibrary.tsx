@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     // marginTop: height * 0.05
   },
   emptyText: {
@@ -544,8 +544,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm2,
     color: colors.marhoon,
     textAlign: 'center',
-    alignSelf:'center',
-    top: height * 0.03
+    top: height * 0.03,
+    right: width * 0.2
   },
   container: {
     flex: 1,

@@ -78,7 +78,7 @@ const Profile = () => {
           routes: [{ name: 'Register' }],
         }),
       );
-    } else {
+    } else {  
       console.error("Error", error);
       Toast.show({
         text1: "Error",

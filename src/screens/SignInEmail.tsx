@@ -87,33 +87,33 @@ const SignInEmail = () => {
     }
   };
 
-  // const getUser = async () => {
-  //   try {
-  //     setLoading(true)
+  const getUser = async () => {
+    try {
+      setLoading(true)
 
-  //     const {response, error} = await apiHelper(
-  //       "GET",
-  //       '/me',
-  //       {},
-  //       {},
-  //       null
-  //     )
+      const {response, error} = await apiHelper(
+        "GET",
+        '/me',
+        {},
+        {},
+        null
+      )
 
-  //     console.log("Response from the User get API", response)
-  //   } catch (error) {
-  //     Toast.show({
-  //       type: "error",
-  //       text1: "Error",
-  //       text2: error?.message
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }  
+      console.log("Response from the User get API", response)
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }  
 
-  // useEffect(() => {
-  //   getUser()
-  // },[])
+  useEffect(() => {
+    getUser()
+  },[])
 
   return (
     <View style={{ flex: 1 }}>
