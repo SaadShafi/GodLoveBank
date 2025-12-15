@@ -44,9 +44,10 @@ const Favourites = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [favouriteVideos, setFavouriteVideos] = useState<any[]>([]);
+  const [favouriteProducts, setFavouriteProducts] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch()
-  const [details, setDetails] = useState(null)
+  const [details, setDetails] = useState(null);
 
   const booksData = [
     {
@@ -141,59 +142,54 @@ const Favourites = () => {
   };
 
   const renderBooks = ({ item }: { item: any }) => {
+    const product = item.product;
+
     return (
-      <View style={styles.bookCard}>
-        <Image source={item.headImg} style={styles.bookImage} />
-        <TouchableOpacity activeOpacity={0.7} style={styles.heartIconMain}>
-          <Image source={item.heartIcon} style={styles.heartIcon} />
+      <TouchableOpacity
+        style={styles.bookCard}
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate('AddBook', { productId: product.id })}
+      >
+        <Image
+          source={{ uri: `http://18.204.175.233:3001/${product.image}` }}
+          style={styles.bookImage}
+        />
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.heartIconMain}
+          onPress={() => handleFavouritePress(product.id, true)}
+        >
+          <Image source={images.filledFav} style={styles.heartIcon} />
         </TouchableOpacity>
+
         <View style={styles.ratingRow}>
-          <Image source={item.ratingIcon} style={styles.ratingIcon} />
-          <Text style={styles.ratingText}>{item.rating}</Text>
+          <Image source={images.ratingIcon} style={styles.ratingIcon} />
+          <Text style={styles.ratingText}>
+            {product.averageRating || "0.0"} Rating
+          </Text>
         </View>
+
         <View style={{ gap: height * 0.01 }}>
-          <Text style={styles.bookTitle}>{item.headText}</Text>
-          <Text style={styles.authorName}>{item.authorName}</Text>
+          <Text
+            style={styles.bookTitle}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {product.name}
+          </Text>
+          <Text style={styles.authorName}>By {product.author}</Text>
         </View>
+
         <View style={styles.amountMain}>
-          <Text style={styles.amount}>{item.amount}</Text>
+          <Text style={styles.amount}>${product.price}</Text>
           <TouchableOpacity style={styles.addButton} activeOpacity={0.7}>
-            <Text style={styles.addButtonText}>{item.btnText}</Text>
+            <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
-
-  // const renderRelatedVideoItem = ({ item }: { item: videoProp }) => (
-  //   <View style={styles.relatedVideoItem}>
-  //     {/* Video thumbnail */}
-  //     <View style={styles.relatedVideoThumbnail}>
-  //       <Image source={item.image} style={styles.relatedVideoImage} />
-  //       <Image source={images.favIcon} style={styles.favIcon} /> 
-  //     </View>
-  //     <View style={styles.relatedTextContent}>
-  //       <View style={styles.dummyContainer}>
-  //         <Text style={styles.relatedVideoSubtitle}>{ item.video.title || "Dummy Text"}</Text>
-  //       </View>
-  //       <Text style={styles.relatedVideoTitle}>{item.title}</Text>
-  //       <Text style={styles.relatedVideoDescription}>{item.description}</Text>
-  //     </View>
-  //     <View style={{ top: height * 0.02 }}>
-  //       <CustomButton
-  //         text="Watch"
-  //         textColor={colors.white}
-  //         btnHeight={height * 0.04}
-  //         btnWidth={width * 0.35}
-  //         backgroundColor={colors.darkmarhoon}
-  //         borderRadius={12}
-  //         fontSize={fontSizes.xsm}
-  //         onPress={() => navigation.navigate('MediaDetails')}
-  //       />
-  //     </View>
-  //   </View>
-  // );
-
 
   const renderRelatedVideoItem = ({ item }: { item: any }) => (
     <View style={styles.relatedVideoItem}>
@@ -237,8 +233,13 @@ const Favourites = () => {
   const BookScreen: React.FC = () => {
     return (
       <View style={{ flex: 1 }}>
+        {favouriteProducts.length === 0 ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No favourite Products found.</Text>
+          </View>
+        ) : (
         <FlatList
-          data={booksData}
+          data={favouriteProducts}
           renderItem={renderBooks}
           keyExtractor={item => item.id}
           numColumns={2}
@@ -249,9 +250,10 @@ const Favourites = () => {
             marginTop: height * 0.015,
             paddingBottom: height * 0.15,
           }}
-          refreshing={refreshing}       // <--- add this
-          onRefresh={handleRefresh}     // <--- add this
+          refreshing={refreshing}      
+          onRefresh={handleRefresh}   
         />
+        )}
       </View>
     );
   };
@@ -261,7 +263,7 @@ const Favourites = () => {
       <View style={{ flex: 1 }}>
         {favouriteVideos.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No favourite videos found.</Text>
+            <Text style={styles.emptyText}>No favourite Videos found.</Text>
           </View>
         ) : (
           <FlatList
@@ -362,13 +364,45 @@ const Favourites = () => {
     }
   }
 
+  const favouriteProduct = async () => {
+    setLoading(true)
+
+    try {
+      const params = {
+        type: "product"
+      };
+
+      const { response, error } = await apiHelper("GET", "/users/favourites", params, {}, {})
+      console.log("response from the favourites Products!", response)
+
+      if (response) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Success"
+        })
+        setFavouriteProducts(response.data.data);
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    fetchFavourite()
+    fetchFavourite();
+    favouriteProduct();
   }, [])
 
   useFocusEffect(
     React.useCallback(() => {
-      fetchFavourite()
+      fetchFavourite();
+      favouriteProduct();
     }, [])
   );
 

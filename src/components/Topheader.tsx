@@ -124,7 +124,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   });
   const User = useSelector((state: RootState) => state.role.user)
   const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
-  const displayName = fullName.length > 10 ? `${fullName.slice(0, 10)}...` : fullName;
+  const displayName = fullName.length > 10 ? `${fullName.slice(0, 8)}...` : fullName;
   // console.log("User", User)
 
   const toggleDisputeModal = () => {

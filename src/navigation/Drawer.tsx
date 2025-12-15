@@ -66,6 +66,7 @@ const CustomDrawerContent = (props: any) => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const User = useSelector((state: RootState) => state.role.user);
+  const [imgError, setImgError] = useState(false);
   console.log("User from redux in the Drawer!", User);
 
   const toggleModal = () => {
@@ -149,12 +150,18 @@ const CustomDrawerContent = (props: any) => {
           >
             <Image
               // source={images.drawerProf}
-              source={
-                User?.image
-                  ? { uri: getFullImageUrl(User.image) }
-                  : images.drawerProf
-              }
+              // source={
+              //   User?.image
+              //     ? { uri: getFullImageUrl(User.image) }
+              //     : images.drawerProf
+              // }
+               source={
+    !imgError && User?.image
+      ? { uri: getFullImageUrl(User.image) }
+      : images.drawerProf
+  }
               style={styles.profileImage}
+               onError={() => setImgError(true)}
             />
           </TouchableOpacity>
 

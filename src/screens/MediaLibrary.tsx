@@ -202,37 +202,37 @@ const MediaLibrary = () => {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchVideos(); 
+    await fetchVideos();
     setRefreshing(false);
   };
 
   const renderRecentWatchSection = () => (
     <View style={styles.section}>
-      {recentVideo.length === 0 ? (
+      {filteredRecentVideos.length === 0 ? (
         <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Recent Watch</Text>
-            <View style={{}}>
-              <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>No videos watched recently.</Text>
-              </View>
-            </View>
+          <Text style={styles.sectionTitle}>Recent Watch</Text>
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>
+              No videos found for {activeTab}
+            </Text>
           </View>
+        </View>
       ) : (
-        <View>
+        <>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Recent Watch</Text>
           </View>
           <FlatList
             horizontal
-            data={recentVideo}
+            data={filteredRecentVideos}
             renderItem={renderRecentWatchItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => String(item.id)}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.sliderContent}
             refreshing={refreshing}
             onRefresh={handleRefresh}
           />
-      </View>
+        </>
       )}
     </View>
   );
@@ -242,14 +242,23 @@ const MediaLibrary = () => {
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Related Videos</Text>
       </View>
-      <FlatList
-        horizontal
-        data={videos}
-        renderItem={renderRelatedVideoItem}
-        keyExtractor={item => item.id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.sliderContent}
-      />
+
+      {filteredRelatedVideos.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            No videos found for {activeTab}
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          horizontal
+          data={filteredRelatedVideos}
+          renderItem={renderRelatedVideoItem}
+          keyExtractor={item => String(item.id)}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.sliderContent}
+        />
+      )}
     </View>
   );
 
@@ -299,7 +308,7 @@ const MediaLibrary = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
   const fetchVideosCategory = async () => {
     setLoading(true)
@@ -435,6 +444,22 @@ const MediaLibrary = () => {
     }
   }
 
+  const filteredRecentVideos = React.useMemo(() => {
+    if (activeTab === 'ALL') return recentVideo;
+
+    return recentVideo.filter(item =>
+      item?.video?.category?.name === activeTab
+    );
+  }, [activeTab, recentVideo]);
+
+  const filteredRelatedVideos = React.useMemo(() => {
+    if (activeTab === 'ALL') return videos;
+
+    return videos.filter(video =>
+      video?.category?.name === activeTab
+    );
+  }, [activeTab, videos]);
+
   useEffect(() => {
     fetchVideosCategory()
     fetchVideos()
@@ -443,7 +468,7 @@ const MediaLibrary = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      // fetchVideos();
+      fetchVideos();
       fetchRecentWatch();
     }, [])
   );

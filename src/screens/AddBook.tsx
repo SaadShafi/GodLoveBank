@@ -1,5 +1,5 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -16,6 +16,8 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 interface ratingProp {
   image: any;
@@ -29,6 +31,11 @@ interface ratingProp {
 const AddBook = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [count, setCount] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
+  const route = useRoute();
+  const id = route?.params?.productId;
+  console.log("Route in the AddBook Screen!", route)
 
   const ratingData = [
     {
@@ -85,10 +92,11 @@ const AddBook = () => {
       <View style={{ flex: 1 }}>
         <View style={styles.bookContainer}>
           <Text style={styles.bookHeadText}>
-            Lorem Ipsum is simply Dummy text of the printing
+            {/* Lorem Ipsum is simply Dummy text of the printing */}
+            Description:
           </Text>
           <Text style={styles.bookParaText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
+            {/* Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took...Lorem Ipsum is
             simply dummy text of the printing and typesetting industry. Lorem
@@ -96,7 +104,8 @@ const AddBook = () => {
             1500s, when an unknown printer took...Lorem Ipsum is simply dummy
             text of the printing and typesetting industry. Lorem Ipsum has been
             the industry's standard dummy text ever since the 1500s, when an
-            unknown printer took...
+            unknown printer took... */}
+            {products.description}
           </Text>
         </View>
       </View>
@@ -119,6 +128,77 @@ const AddBook = () => {
       </View>
     );
   };
+
+
+  const fetchProductDetail = async (id: string) => {
+    try {
+      setLoading(true)
+
+      const { response, error } = await apiHelper(
+        "GET",
+        `/products/${id}`,
+        {},
+        {},
+        null
+      )
+      console.log("Response of the product details", response)
+
+      if (response?.data) {
+        setProducts(response.data.data)
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: response.data.message
+        })
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchProductsReviews = async (id: string) => {
+    try {
+      setLoading(true)
+
+      const {response, error} = await apiHelper(
+        "GET",
+        `/products/${id}/reviews`,
+        {},
+        {},
+        null
+      )
+
+      console.log("Response from the reviews fetched API!",response)
+
+      if(response?.data) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: response.data.message
+        })
+      }
+    }catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProductDetail(id);
+    fetchProductsReviews(id);
+  }, [])
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <View style={styles.container}>
@@ -127,16 +207,20 @@ const AddBook = () => {
             <View style={styles.header}>
               <TopHeader isBack={true} favIcon={true} />
             </View>
-            <Image source={images.addBook} style={styles.addBook} />
+            <Image
+              // source={images.addBook}
+              source={{ uri: `http://18.204.175.233:3001/${products?.image}` }}
+              style={styles.addBook}
+            />
           </View>
           <View style={styles.HeadTextContainer}>
-            <Text style={styles.dateText}>18 Feb, 2023</Text>
+            <Text style={styles.dateText}>{products?.publishedDate || "18 Feb, 2023"}</Text>
             <View style={styles.headBottomContainer}>
               <View>
-                <Text style={styles.headText}>Different Winter</Text>
-                <Text style={styles.authorText}>By Mia Jackson</Text>
+                <Text style={styles.headText}>{products.name || "Different Winter"}</Text>
+                <Text style={styles.authorText}>{products?.author || "By Mia Jackson"}</Text>
               </View>
-              <Text style={styles.headPriceText}>$400</Text>
+              <Text style={styles.headPriceText}>${products.price || "$400"}</Text>
             </View>
           </View>
         </View>
@@ -184,6 +268,8 @@ const styles = StyleSheet.create({
     width: width * 0.999,
     height: height * 0.43,
     resizeMode: 'cover',
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
   },
   header: {
     position: 'absolute',

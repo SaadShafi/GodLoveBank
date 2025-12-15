@@ -25,8 +25,8 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
-import { setUser, setUserEmail } from '../redux/slice/roleSlice';
-import { useSelector } from 'react-redux';
+import { setFullName, setUser, setUserEmail } from '../redux/slice/roleSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -58,18 +58,19 @@ const Registeration = () => {
   const [agree, setAgree] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
-    const selectedRole = useSelector(
+  const selectedRole = useSelector(
     (state: RootState) => state.role.selectedRole,
   );
   const User = useSelector((state: RootState) => state.role.user);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
 
 
   const handleCountrySelect = country => {
-  setSelectedCountry(country);
-  setCountryCode(country.code); // <-- FIXED
-  setShowCountryPicker(false);
-};
+    setSelectedCountry(country);
+    setCountryCode(country.code); // <-- FIXED
+    setShowCountryPicker(false);
+  };
 
 
   const renderCountryItem = ({ item }) => (
@@ -83,379 +84,381 @@ const Registeration = () => {
     </TouchableOpacity>
   );
 
-    const isConfirmPasswordValid = confirmPassword === password;
-    const isNameValid = name.trim().length >= 4;
-    const isPhoneValid = phone.trim().length > 7;
-    const isEmailValid = email.includes('@');
-    const isPasswordValid = password.trim().length >= 8;
+  const isConfirmPasswordValid = confirmPassword === password;
+  const isNameValid = name.trim().length >= 4;
+  const isPhoneValid = phone.trim().length > 7;
+  const isEmailValid = email.includes('@');
+  const isPasswordValid = password.trim().length >= 8;
 
-    const isFormValid =
-      isNameValid &&
-      isPhoneValid &&
-      isEmailValid &&
-      isPasswordValid &&
-      isConfirmPasswordValid &&
-      agree;
+  const isFormValid =
+    isNameValid &&
+    isPhoneValid &&
+    isEmailValid &&
+    isPasswordValid &&
+    isConfirmPasswordValid &&
+    agree;
 
-    const uniqueId = Math.floor(Math.random() * 900) + 100;
+  const uniqueId = Math.floor(Math.random() * 900) + 100;
 
-      const handleSubmit = async () => {
-        // --- FORM VALIDATION BEFORE API CALL ---
-  if (!firstName.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'First name is required' });
-    return;
-  }
+  const handleSubmit = async () => {
+    // --- FORM VALIDATION BEFORE API CALL ---
+    if (!firstName.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'First name is required' });
+      return;
+    }
 
-  if (!lastName.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'Last name is required' });
-    return;
-  }
+    if (!lastName.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Last name is required' });
+      return;
+    }
 
-  if (!email.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'Email is required' });
-    return;
-  }
+    if (!email.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Email is required' });
+      return;
+    }
 
-  if (!email.includes('@')) {
-    Toast.show({ type: 'error', text1: 'Invalid Email', text2: 'Enter a valid email address' });
-    return;
-  }
+    if (!email.includes('@')) {
+      Toast.show({ type: 'error', text1: 'Invalid Email', text2: 'Enter a valid email address' });
+      return;
+    }
 
-  if (!phone.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'Phone number is required' });
-    return;
-  }
+    if (!phone.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Phone number is required' });
+      return;
+    }
 
-  if (phone.length < 7) {
-    Toast.show({ type: 'error', text1: 'Invalid Phone', text2: 'Enter a valid phone number' });
-    return;
-  }
+    if (phone.length < 7) {
+      Toast.show({ type: 'error', text1: 'Invalid Phone', text2: 'Enter a valid phone number' });
+      return;
+    }
 
-  if (!password.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'Password is required' });
-    return;
-  }
+    if (!password.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Password is required' });
+      return;
+    }
 
-  if (password.length < 8) {
-    Toast.show({ type: 'error', text1: 'Weak Password', text2: 'Password must be at least 8 characters' });
-    return;
-  }
+    if (password.length < 8) {
+      Toast.show({ type: 'error', text1: 'Weak Password', text2: 'Password must be at least 8 characters' });
+      return;
+    }
 
-  if (!confirmPassword.trim()) {
-    Toast.show({ type: 'error', text1: 'Error', text2: 'Confirm password is required' });
-    return;
-  }
+    if (!confirmPassword.trim()) {
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Confirm password is required' });
+      return;
+    }
 
-  if (password !== confirmPassword) {
-    Toast.show({ type: 'error', text1: 'Password Error', text2: 'Passwords do not match' });
-    return;
-  }
+    if (password !== confirmPassword) {
+      Toast.show({ type: 'error', text1: 'Password Error', text2: 'Passwords do not match' });
+      return;
+    }
 
-  if (!agree) {
-    Toast.show({ type: 'error', text1: 'Terms Required', text2: 'You must agree to continue' });
-    return;
-  }
-      setLoading(true);
+    if (!agree) {
+      Toast.show({ type: 'error', text1: 'Terms Required', text2: 'You must agree to continue' });
+      return;
+    }
+    setLoading(true);
 
-      if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Password Error',
+        text2: 'Passwords do not match',
+      });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const body = {
+        firstName,
+        lastName,
+        email,
+        countryCode: selectedCountry.code,
+        phoneNumber: phone,
+        password,
+      };
+
+      const { response, error } = await apiHelper('POST', 'auth/signup', {}, {}, body);
+
+      console.log('Body sent to signUp Api: ', body);
+      console.log('Response from signUp Api: ', response?.data);
+      console.log("ID from the SignUp response", response?.data?.data?.userId);
+      const Id = response?.data?.data?.userId
+
+      if (response) {
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: response.data.message,
+        });
+
+        navigation.navigate('OtpVerification', { ID: Id, from: 'register', });
+        setUserEmail(email);
+        dispatch(setFullName(`${firstName} ${lastName}`))
+        console.log("FulName",`${firstName} ${lastName}` )
+      } else {
         Toast.show({
           type: 'error',
-          text1: 'Password Error',
-          text2: 'Passwords do not match',
+          text1: 'Registration Failed',
+          text2: 'Something went wrong',
         });
-        setLoading(false);
-        return;
       }
-
-      try {
-        const body = {
-          firstName,
-          lastName,
-          email,
-          countryCode: selectedCountry.code,
-          phoneNumber: phone,
-          password,
-        };
-
-        const { response, error } = await apiHelper('POST', 'auth/signup', {}, {}, body);
-
-        console.log('Body sent to signUp Api: ', body);
-        console.log('Response from signUp Api: ', response?.data);
-        console.log("ID from the SignUp response", response?.data?.data?.userId);
-        const Id = response?.data?.data?.userId
-
-        if (response) {
-          Toast.show({
-            type: 'success',
-            text1: 'Success',
-            text2: response.data.message,
-          });
-
-          navigation.navigate('OtpVerification',{ID: Id,from: 'register',});
-          setUserEmail(email);
-        } else {
-          Toast.show({
-            type: 'error',
-            text1: 'Registration Failed',
-            text2: 'Something went wrong',
-          });
-        }
-      } catch (err) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'An unexpected error occurred',
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
+    } catch (err) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'An unexpected error occurred',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAwareScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      enableOnAndroid={true}
-      extraScrollHeight={80}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      
+        contentContainerStyle={{ flexGrow: 1 }}
+        enableOnAndroid={true}
+        extraScrollHeight={80}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+
       >
-      <View style={styles.container}>
-        <Image source={images.Logo} style={styles.logo} />
-        <Text style={styles.welcomeText}>Register</Text>
-        <View style={styles.inputMain}>
-          <View style={styles.row}>
-            <CustomTextInput
-              placeholder="First Name"
-              placeholderTextColor={colors.black}
-              inputHeight={height * 0.065}
-              inputWidth={width * 0.4}
-              borderRadius={20}
-              value={firstName}
-              onChangeText={setFirstName}
-              keyboardType="default"
-              fontFamily={fontFamily.UrbanistMedium}
-              fontSize={fontSizes.sm2}
-            />
-            <CustomTextInput
-              placeholder="Last Name"
-              placeholderTextColor={colors.black}
-              inputHeight={height * 0.065}
-              inputWidth={width * 0.4}
-              borderRadius={20}
-              value={lastName}
-              onChangeText={setLastName}
-              keyboardType="default"
-              fontFamily={fontFamily.UrbanistMedium}
-              fontSize={fontSizes.sm2}
-            />
-          </View>
-          <CustomTextInput
-            placeholder="Email Address"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.065}
-            inputWidth={width * 0.85}
-            borderRadius={20}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            fontFamily={fontFamily.UrbanistMedium}
-            fontSize={fontSizes.sm2}
-          />
-          <View
-            style={[
-              styles.phoneRow,
-              {
-                borderColor:
-                  isPhoneFocused || phone
-                    ? colors.brownishRed
-                    : colors.lightGray,
-                backgroundColor:
-                  isPhoneFocused || phone ? colors.lightGray : colors.lightGray,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.countrySelector}
-              onPress={() => setShowCountryPicker(true)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.flagEmoji}>{selectedCountry.flag}</Text>
-              <Image source={images.arrowdown} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                styles.numberText,
-                {
-                  fontFamily: fontFamily.UrbanistMedium,
-                  fontSize: fontSizes.sm2,
-                },
-              ]}
-            >
-              {selectedCountry.code}
-            </Text>
-            <Image source={images.line} style={styles.lineImg} />
-            <TextInput
-              style={[
-                styles.phoneInput,
-                {
-                  fontFamily: fontFamily.UrbanistMedium,
-                  fontSize: fontSizes.sm2,
-                },
-              ]}
-              placeholder="Phone Number"
-              placeholderTextColor={colors.black}
-              keyboardType="phone-pad"
-              value={phone}
-              onChangeText={setPhone}
-              onFocus={() => setIsPhoneFocused(true)}
-              onBlur={() => setIsPhoneFocused(false)}
-            />
-          </View>
-          <CustomTextInput
-            placeholder="Password"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.065}
-            inputWidth={width * 0.85}
-            borderRadius={20}
-            isPassword={true}
-            value={password}
-            onChangeText={setPassword}
-            fontFamily={fontFamily.UrbanistMedium}
-            fontSize={fontSizes.sm2}
-
-          />
-          <CustomTextInput
-            placeholder="Confirm Password"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.065}
-            inputWidth={width * 0.85}
-            borderRadius={20}
-            isPassword={true}
-            value={confirmPassword}
-            onChangeText={setconfirmPassword}
-            fontFamily={fontFamily.UrbanistMedium}
-            fontSize={fontSizes.sm2}
-          />
-        </View>
-
-        {/* Country Picker Modal */}
-        <Modal
-          visible={showCountryPicker}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setShowCountryPicker(false)}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Select Country</Text>
-                <TouchableOpacity
-                  onPress={() => setShowCountryPicker(false)}
-                  style={styles.closeButton}
-                >
-                  <Text style={styles.closeText}>✕</Text>
-                </TouchableOpacity>
-              </View>
-              <FlatList
-                data={countryData}
-                renderItem={renderCountryItem}
-                keyExtractor={item => item.code}
-                showsVerticalScrollIndicator={false}
+        <View style={styles.container}>
+          <Image source={images.Logo} style={styles.logo} />
+          <Text style={styles.welcomeText}>Register</Text>
+          <View style={styles.inputMain}>
+            <View style={styles.row}>
+              <CustomTextInput
+                placeholder="First Name"
+                placeholderTextColor={colors.black}
+                inputHeight={height * 0.065}
+                inputWidth={width * 0.4}
+                borderRadius={20}
+                value={firstName}
+                onChangeText={setFirstName}
+                keyboardType="default"
+                fontFamily={fontFamily.UrbanistMedium}
+                fontSize={fontSizes.sm2}
+              />
+              <CustomTextInput
+                placeholder="Last Name"
+                placeholderTextColor={colors.black}
+                inputHeight={height * 0.065}
+                inputWidth={width * 0.4}
+                borderRadius={20}
+                value={lastName}
+                onChangeText={setLastName}
+                keyboardType="default"
+                fontFamily={fontFamily.UrbanistMedium}
+                fontSize={fontSizes.sm2}
               />
             </View>
-          </View>
-        </Modal>
-
-        <View style={styles.checkBoxMain}>
-          <View style={styles.checkboxContainer}>
-            <BouncyCheckbox
-              size={24}
-              fillColor={colors.marhoon}
-              unfillColor={colors.white}
-              isChecked={agree}
-              disableBuiltInState
-              iconStyle={{
-                borderColor: colors.bgBlue,
-                borderWidth: 2,
-                borderRadius: 8,
-              }}
-              innerIconStyle={{
-                borderRadius: 8,
-              }}
-              onPress={() => setAgree(!agree)}
+            <CustomTextInput
+              placeholder="Email Address"
+              placeholderTextColor={colors.black}
+              inputHeight={height * 0.065}
+              inputWidth={width * 0.85}
+              borderRadius={20}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
             />
-          </View>
-          <View style={styles.checkBoxTextMain}>
-            <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
+            <View
+              style={[
+                styles.phoneRow,
+                {
+                  borderColor:
+                    isPhoneFocused || phone
+                      ? colors.brownishRed
+                      : colors.lightGray,
+                  backgroundColor:
+                    isPhoneFocused || phone ? colors.lightGray : colors.lightGray,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={styles.countrySelector}
+                onPress={() => setShowCountryPicker(true)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.flagEmoji}>{selectedCountry.flag}</Text>
+                <Image source={images.arrowdown} />
+              </TouchableOpacity>
               <Text
                 style={[
-                  styles.signIn,
+                  styles.numberText,
                   {
                     fontFamily: fontFamily.UrbanistMedium,
-                    fontSize: fontSizes.sm,
+                    fontSize: fontSizes.sm2,
                   },
                 ]}
               >
-                Agree to God Love Bank
+                {selectedCountry.code}
               </Text>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                  onPress={() => navigation.navigate('TermsConditions')}
-              >
-                <Text style={styles.text}>Terms & Conditions &</Text>
-              </TouchableOpacity>
+              <Image source={images.line} style={styles.lineImg} />
+              <TextInput
+                style={[
+                  styles.phoneInput,
+                  {
+                    fontFamily: fontFamily.UrbanistMedium,
+                    fontSize: fontSizes.sm2,
+                  },
+                ]}
+                placeholder="Phone Number"
+                placeholderTextColor={colors.black}
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+                onFocus={() => setIsPhoneFocused(true)}
+                onBlur={() => setIsPhoneFocused(false)}
+              />
             </View>
-            <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
-              <TouchableOpacity
-                activeOpacity={0.7}
+            <CustomTextInput
+              placeholder="Password"
+              placeholderTextColor={colors.black}
+              inputHeight={height * 0.065}
+              inputWidth={width * 0.85}
+              borderRadius={20}
+              isPassword={true}
+              value={password}
+              onChangeText={setPassword}
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
+
+            />
+            <CustomTextInput
+              placeholder="Confirm Password"
+              placeholderTextColor={colors.black}
+              inputHeight={height * 0.065}
+              inputWidth={width * 0.85}
+              borderRadius={20}
+              isPassword={true}
+              value={confirmPassword}
+              onChangeText={setconfirmPassword}
+              fontFamily={fontFamily.UrbanistMedium}
+              fontSize={fontSizes.sm2}
+            />
+          </View>
+
+          {/* Country Picker Modal */}
+          <Modal
+            visible={showCountryPicker}
+            animationType="slide"
+            transparent={true}
+            onRequestClose={() => setShowCountryPicker(false)}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>Select Country</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowCountryPicker(false)}
+                    style={styles.closeButton}
+                  >
+                    <Text style={styles.closeText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  data={countryData}
+                  renderItem={renderCountryItem}
+                  keyExtractor={item => item.code}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            </View>
+          </Modal>
+
+          <View style={styles.checkBoxMain}>
+            <View style={styles.checkboxContainer}>
+              <BouncyCheckbox
+                size={24}
+                fillColor={colors.marhoon}
+                unfillColor={colors.white}
+                isChecked={agree}
+                disableBuiltInState
+                iconStyle={{
+                  borderColor: colors.bgBlue,
+                  borderWidth: 2,
+                  borderRadius: 8,
+                }}
+                innerIconStyle={{
+                  borderRadius: 8,
+                }}
+                onPress={() => setAgree(!agree)}
+              />
+            </View>
+            <View style={styles.checkBoxTextMain}>
+              <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
+                <Text
+                  style={[
+                    styles.signIn,
+                    {
+                      fontFamily: fontFamily.UrbanistMedium,
+                      fontSize: fontSizes.sm,
+                    },
+                  ]}
+                >
+                  Agree to God Love Bank
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => navigation.navigate('TermsConditions')}
+                >
+                  <Text style={styles.text}>Terms & Conditions &</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ flexDirection: 'row', gap: height * 0.01 }}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
                   onPress={() => navigation.navigate('PrivacyPolicy')}
-              >
-                <Text style={styles.text}>Privacy Policy</Text>
-              </TouchableOpacity>
+                >
+                  <Text style={styles.text}>Privacy Policy</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.btnMain}>
-          <CustomButton
-            btnHeight={height * 0.06}
-            btnWidth={width * 0.85}
-            backgroundColor={colors.marhoon}
-            borderRadius={20}
-            text="Register"
-            textColor={colors.white}
-            // onPress={() =>
-            //   navigation.navigate('OtpVerification', { from: 'register' })
-            // }
-            onPress={handleSubmit}
-          />
-        </View>
-        <View style={styles.bottomMain}>
-          <Text
-            style={[
-              styles.memberText,
-              { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm },
-            ]}
-          >
-            Already a member?
-          </Text>
+          <View style={styles.btnMain}>
+            <CustomButton
+              btnHeight={height * 0.06}
+              btnWidth={width * 0.85}
+              backgroundColor={colors.marhoon}
+              borderRadius={20}
+              text="Register"
+              textColor={colors.white}
+              // onPress={() =>
+              //   navigation.navigate('OtpVerification', { from: 'register' })
+              // }
+              onPress={handleSubmit}
+            />
+          </View>
+          <View style={styles.bottomMain}>
+            <Text
+              style={[
+                styles.memberText,
+                { fontFamily: fontFamily.UrbanistMedium, fontSize: fontSizes.sm },
+              ]}
+            >
+              Already a member?
+            </Text>
 
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => navigation.navigate('SignInEmail')}
-          >
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => navigation.navigate('SignInEmail')}
+            >
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      {loading && (
-        <View style={styles.loaderOverlay}>
-          <ActivityIndicator size="large" color={colors.brown} />
-        </View>
-      )}
-    </KeyboardAwareScrollView>
+        {loading && (
+          <View style={styles.loaderOverlay}>
+            <ActivityIndicator size="large" color={colors.brown} />
+          </View>
+        )}
+      </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -623,7 +626,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm2,
     color: colors.marhoon,
   },
-    loaderOverlay: {
+  loaderOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
