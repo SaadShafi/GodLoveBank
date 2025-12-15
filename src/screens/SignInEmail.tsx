@@ -65,6 +65,8 @@ const SignInEmail = () => {
         );
         dispatch(setLogin());
         dispatch(setToken(token))
+        dispatch(setUser(response.data.data.user))
+        console.log("User response in EMail SignIN!",response.data.data.user)
         console.log("Accesstoken dispatching", token)
       }
       else {
@@ -86,34 +88,6 @@ const SignInEmail = () => {
       setLoading(false);
     }
   };
-
-  const getUser = async () => {
-    try {
-      setLoading(true)
-
-      const {response, error} = await apiHelper(
-        "GET",
-        '/me',
-        {},
-        {},
-        null
-      )
-
-      console.log("Response from the User get API", response)
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: error?.message
-      })
-    } finally {
-      setLoading(false)
-    }
-  }  
-
-  useEffect(() => {
-    getUser()
-  },[])
 
   return (
     <View style={{ flex: 1 }}>

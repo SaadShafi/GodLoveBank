@@ -19,6 +19,7 @@ import { setToken, setUser } from '../redux/slice/roleSlice';
 import CustomProfileImgModal from '../components/CustomProfilImage';
 import ImagePicker from 'react-native-image-crop-picker';
 import { RootState } from '../redux/store';
+import { State } from 'react-native-gesture-handler';
 // import ImagePicker from 'react-native-image-crop-picker';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
@@ -39,18 +40,20 @@ const CreateProfile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const User = useSelector((state: RootState) => state.role.user)
-  console.log("User in the create profile!", User)
-  console.log("FirstName",User?.firstName)
+  // console.log("User in the create profile!", User)
+  // console.log("FirstName",User?.firstName)
   const [country, setCountry] = useState('');
   const [city, setCity] = useState('');
   const [gender, setGender] = useState('');
   const [relationshipStatus, setRelationshipStatus] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const route = useRoute()
-  console.log("Params in the create Profile!", route?.params)
+  // console.log("Params in the create Profile!", route?.params)
   const homeBase = route.params?.baseAssignments?.homeBase?.category
   const capitalizedHomeBase = homeBase.charAt(0).toUpperCase() + homeBase.slice(1);
-  console.log("homeBase!", homeBase)
+  // console.log("homeBase!", homeBase)
+  const fullName = useSelector((state: RootState) => state.role.fullName)
+  console.log("FullName in create Profile", fullName)
 
   const countryOption = [
     { name: 'Country', id: '' },
@@ -131,7 +134,7 @@ const CreateProfile = () => {
         });
       }
 
-      console.log("FormData sent in the API body!", formData.getParts?.() || formData);
+      // console.log("FormData sent in the API body!", formData.getParts?.() || formData);
 
       const { response, error } = await apiHelper(
         'PATCH',
@@ -179,9 +182,7 @@ const CreateProfile = () => {
             />
           </TouchableOpacity>
           <Text style={styles.profText}>
-            {User?.firstName && User?.lastName
-            ? `${User.firstName} ${User.lastName}`
-            : "Nameii"}
+            {fullName || "Name"}
             {/* Name */}
             </Text>
         </View>
