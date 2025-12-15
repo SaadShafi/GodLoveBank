@@ -8,6 +8,7 @@ import { useState } from 'react';
 import {
   Image,
   Modal,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -287,22 +288,23 @@ const styles = StyleSheet.create({
   closeButton: {
     width: width * 0.045,
     resizeMode: "contain",
-    left: width * 0.55,
-    bottom: height * 0.025
+    left: width * 0.6,
+    bottom: height * 0.12
   },
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
-    backgroundColor: colors.darkmarhoon,
-    top: height * 0.08
+    // backgroundColor: colors.darkmarhoon,
+    top: height * 0.02,
+    left: Platform.OS === 'ios' ? width * 0.08 : width, 
   },
   profileImage: {
     width: width * 0.2,
     height: height * 0.085,
     resizeMode: 'cover',
     borderRadius: width * 0.09,
-    marginRight: width * 0.03
+    marginRight: Platform.OS === 'ios' ? width * 0.01 : width * 0.03
   },
   profileTextContainer: {
     right: width * 0.03,
