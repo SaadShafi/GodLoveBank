@@ -169,8 +169,6 @@ const Chat = () => {
             placeholderTextColor={colors.darkGray}
             borderRadius={30}
             backgroundColor={colors.white}
-            // onChangeText={text => setCurrentMessage(text)}
-            // value={currentMessage}
             value={currentMessage}
             onChangeText={setCurrentMessage}
             multiline

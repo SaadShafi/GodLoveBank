@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: height * 0.125,
+    borderTopRightRadius: 30,
     backgroundColor: colors.darkmarhoon,
   },
   gradientMiddle: {
@@ -274,7 +275,8 @@ const styles = StyleSheet.create({
     top: height * 0.12,
     height: height * 0.09,
     right: -width * 0.001,
-    backgroundColor: colors.darkmarhoon
+    borderBottomRightRadius: 30,
+    backgroundColor: colors.darkmarhoon,
   },
   drawerBgImg: {
     width: width * 0.9,
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
     width: width * 0.045,
     resizeMode: "contain",
     left: width * 0.6,
-    bottom: height * 0.12
+    bottom: height * 0.1
   },
   profileSection: {
     flexDirection: 'row',
@@ -341,10 +343,11 @@ const styles = StyleSheet.create({
   },
   menuItemMain: {
     height: height * 0.075,
-    width: width * 0.69,
+    width: width * 0.75,
     justifyContent: 'center',
     alignItems: "center",
     right: width * 0.06,
+    bottom: Platform.OS === 'ios' ? height * 0.09 : height
   },
   menuText: {
     fontSize: fontSizes.sm2,
@@ -355,17 +358,20 @@ const styles = StyleSheet.create({
 
   logoutMain: {
     backgroundColor: colors.logoutColor,
+    width: width * 0.6,
     bottom: height * 0.06,
     padding: 19,
     borderRadius: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: width * 0.04
+    paddingHorizontal: width * 0.06,
+    left: width * 0.03
   },
   logoutText: {
     fontFamily: fontFamily.GilroySemiBold,
     fontSize: fontSizes.lg,
-    color: colors.white
+    color: colors.white,
+    top: height * 0.01
   },
 
 
