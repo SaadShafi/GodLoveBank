@@ -110,9 +110,12 @@ const MediaDetails = () => {
       <View
         style={{ position: 'absolute', left: width * 0.03, top: height * 0.03 }}
       >
-        <TopHeader isBack={true} favIcon={true}  videoId={videoId}
+        <TopHeader 
+          isBack={true} 
+          favIcon={true}  
+          videoId={videoId}
           onFavouritePress={handleFavouritePress}
-          isFavourite={details?.is_fav || false} // Pass the current favourite status
+          isFavourite={details?.is_fav || false}
         />
       </View>
 

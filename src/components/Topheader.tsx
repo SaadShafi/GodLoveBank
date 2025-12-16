@@ -49,7 +49,8 @@ interface TopHeaderProps {
 
   favIcon?: boolean;
   videoId?: number;
-  onFavouritePress?: (videoId: number, isCurrentlyFavourite: boolean) => void;
+  productId?: number;
+  onFavouritePress?: (videoId: number, productId: number, isCurrentlyFavourite: boolean) => void;
   isFavourite?: boolean; // Add this to control which icon to show
 
   skip?: boolean;
@@ -65,41 +66,29 @@ interface TopHeaderProps {
 
 const TopHeader: React.FC<TopHeaderProps> = ({
   text,
-  title,
-  backIcon,
   textIcon = false,
   transparent = false,
   isBack = false,
   isBackBlack = false,
-  steps,
   isMenu = false,
-  isMenuSec = false,
   notification = false,
   notificationSec = false,
-  notificationImage,
-  menuSecond,
-  backSec,
-  add = false,
   isChat = false,
-  isWhite = false,
   isClose = false,
   setIsCompleted,
   isQr = false,
   isBlueBg = false,
-  statusToggle = false,
-  toggleSwitch,
-  toggleValue = true,
   addCard = false,
   onAddCardPress,
   msgIcon = false,
 
   favIcon = false,
   videoId,
+  productId,
   onFavouritePress,
   isFavourite = false, // Default to false
 
   skip = false,
-  list = false,
   isPhone = false,
   isBackWhite = false,
   isProfile = false,
@@ -108,81 +97,23 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isCross = false,
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const [disputeOpen, setdisputeOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [reportModal, setReportModal] = useState(false);
-  const [blockModal, setBlockModal] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const [isChecked4, setIsChecked4] = useState(false);
-  const [isChecked5, setIsChecked5] = useState(false);
-  const [isChecked6, setIsChecked6] = useState(false);
-  const [isChecked7, setIsChecked7] = useState(false);
-  const [value, setValue] = useState({
-    reason: '',
-  });
   const User = useSelector((state: RootState) => state.role.user)
   const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
   const displayName = fullName.length > 10 ? `${fullName.slice(0, 8)}...` : fullName;
-  // console.log("User", User)
-
-  const toggleDisputeModal = () => {
-    setdisputeOpen(!disputeOpen);
-  };
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const toggleReportModal = () => {
-    setdisputeOpen(false);
-    setReportModal(true);
-  };
-
-  const toggleBlockModal = () => {
-    setdisputeOpen(false);
-    setBlockModal(true);
-  };
 
   const handleDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
     console.log("Drawer Icon Clicked!")
   };
 
-  const handlePress = () => {
-    setReportModal(false);
-    setdisputeOpen(true);
-  };
-
-  const handleBlockPress = () => {
-    setBlockModal(false);
-    // setdisputeOpen(true);
-  };
-
-  const handleOtherReasonChange = (text: string) => {
-    setValue(prev => ({ ...prev, reason: text }));
-  };
-
-  const handkeIconPressed = () => {
-    // navigation.navigate('editProfile')
-  };
-
-  useEffect(() => {
-    if (isQr && setIsCompleted) {
-      setIsCompleted();
-    }
-  }, [isQr, setIsCompleted]);
-
-
   const handleFavouritePress = async () => {
-    if (!videoId || !onFavouritePress) {
-      console.log("No videoId or onFavouritePress provided");
+    if (!onFavouritePress || (!videoId && !productId)) {
+      console.log("No videoId or productId or onFavouritePress provided");
       return;
     }
 
     try {
-      // Pass the current favourite status to the parent
-      onFavouritePress(videoId, isFavourite);
+      onFavouritePress(videoId ?? 0, productId ?? 0, isFavourite);
     } catch (error) {
       console.error("Error handling favourite press:", error);
     }

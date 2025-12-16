@@ -49,6 +49,7 @@ interface RoleState {
   videoId: string;
   userData: any;
   questionnaireSelections: Record<number, number>;
+  addressData: any;
 }
 
 const initialState: RoleState = {
@@ -79,6 +80,7 @@ const initialState: RoleState = {
   videoId: "",
   userData:"",
   questionnaireSelections: {},
+  addressData: {},
 } satisfies RoleState as RoleState;
 
 const roleSlice = createSlice({
@@ -113,6 +115,10 @@ const roleSlice = createSlice({
       state.user = {};
       state.userAuthToken = null;
       state.isLogin = false;
+      state.addressData = null;
+    },
+    removeAddressData: state => {
+      state.addressData = null;
     },
     setUserProfiles: (state, action: PayloadAction<UserProfile>) => {
       state.profileUser = action.payload;
@@ -182,6 +188,9 @@ const roleSlice = createSlice({
     resetQuestionnaireSelections: (state) => {
       state.questionnaireSelections = {};
     },
+    setAddressData: (state, action) => {
+      state.addressData = action.payload;
+    }
   },
 });
 
@@ -193,6 +202,7 @@ export const {
   setLogin,
   setUserEmail,
   removeUser,
+  removeAddressData,
   setFullName,
   setUserProfiles,
   setUserId,
@@ -214,5 +224,6 @@ export const {
   setUserData,
   setQuestionnaireSelection,
   resetQuestionnaireSelections,
+  setAddressData,
 } = roleSlice.actions;
 export default roleSlice.reducer;

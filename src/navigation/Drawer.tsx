@@ -20,7 +20,7 @@ import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
 import { logout } from '../redux/slice/authSlice';
-import { removeUser } from '../redux/slice/roleSlice';
+import { removeAddressData, removeUser } from '../redux/slice/roleSlice';
 import { RootState } from '../redux/store';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
@@ -76,6 +76,7 @@ const CustomDrawerContent = (props: any) => {
   const handleLogout = () => {
     dispatch(removeUser());
     dispatch(logout());
+    dispatch(removeAddressData())
 
     setModalOpen(false);
 

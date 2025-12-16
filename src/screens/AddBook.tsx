@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -36,6 +37,7 @@ const AddBook = () => {
   const route = useRoute();
   const id = route?.params?.productId;
   console.log("Route in the AddBook Screen!", route)
+  const [details, setDetails] = useState<any[]>([])
 
   const ratingData = [
     {
@@ -129,7 +131,6 @@ const AddBook = () => {
     );
   };
 
-
   const fetchProductDetail = async (id: string) => {
     try {
       setLoading(true)
@@ -166,7 +167,7 @@ const AddBook = () => {
     try {
       setLoading(true)
 
-      const {response, error} = await apiHelper(
+      const { response, error } = await apiHelper(
         "GET",
         `/products/${id}/reviews`,
         {},
@@ -174,16 +175,16 @@ const AddBook = () => {
         null
       )
 
-      console.log("Response from the reviews fetched API!",response)
+      console.log("Response from the reviews fetched API!", response)
 
-      if(response?.data) {
+      if (response?.data) {
         Toast.show({
           type: "success",
           text1: "Success",
           text2: response.data.message
         })
       }
-    }catch (error) {
+    } catch (error) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -193,6 +194,42 @@ const AddBook = () => {
       setLoading(false)
     }
   }
+
+  const postFavourite = async (videoId: number, productId: number, isFav: boolean) => {
+    try {
+      setLoading(true);
+
+      const body = {
+        action: isFav ? "unfavourite" : "favourite",
+        type: productId ? "product" : "video",
+        videoId: videoId || 0, 
+        productId: productId || 0, 
+      };
+
+      const { response } = await apiHelper("POST", "/users/favourites", {}, {}, body);
+
+      if (response?.data?.status) {
+        // Update local state for product favourites
+        if (productId) {
+          setDetails(prev =>
+            prev.map(p =>
+              p.id === productId
+                ? { ...p, is_fav: !isFav }
+                : p
+            )
+          );
+        }
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchProductDetail(id);
@@ -205,10 +242,15 @@ const AddBook = () => {
         <View style={styles.imageBelowContainer}>
           <View style={styles.topContainer}>
             <View style={styles.header}>
-              <TopHeader isBack={true} favIcon={true} />
+              <TopHeader
+                isBack={true}
+                favIcon={true}
+                onFavouritePress={postFavourite}
+                isFavourite={details?.is_fav || products?.is_fav || false}
+                productId={products?.id}
+              />
             </View>
             <Image
-              // source={images.addBook}
               source={{ uri: `http://18.204.175.233:3001/${products?.image}` }}
               style={styles.addBook}
             />
@@ -234,11 +276,11 @@ const AddBook = () => {
         </View>
         <View style={styles.bottomMain}>
           <View style={styles.incrementMain}>
-            <TouchableOpacity onPress={() => setCount(count - 1)}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => setCount(prev => Math.max(prev - 1, 1))}>
               <Image source={images.minusSign} style={styles.signImg} />
             </TouchableOpacity>
             <Text style={styles.counter}>{count}</Text>
-            <TouchableOpacity onPress={() => setCount(count + 1)}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => setCount(prev => prev + 1)}>
               <Image source={images.plusSign} style={styles.signImg} />
             </TouchableOpacity>
           </View>
@@ -249,10 +291,18 @@ const AddBook = () => {
             textColor={colors.white}
             backgroundColor={colors.marhoon}
             borderRadius={10}
-            onPress={() => navigation.navigate('Cart')}
+            onPress={() => navigation.navigate('Cart', {
+              product: products,
+              totalOrderNumber: count,
+            })}
           />
         </View>
       </View>
+      {loading && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator size="large" color={colors.brown} />
+        </View>
+      )}
     </View>
   );
 };
@@ -414,6 +464,17 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyMedium,
     fontSize: fontSizes.xsm,
     color: colors.black,
+  },
+  loaderOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });
 

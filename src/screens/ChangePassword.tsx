@@ -32,7 +32,6 @@ const ChangePassword = () => {
     navigation.goBack()
   }
 
-
   const resetPassword = async () => {
     setLoading(true);
 
@@ -67,10 +66,6 @@ const ChangePassword = () => {
       console.log("Change Password Response:", response);
 
       if (response) {
-        // dispatch(setToken(response.data.accessToken));
-        // console.log("Change Password Response:", response);
-
-        // Open success modal instead of going back immediately
         setModalVisible(true);
       } else {
         Toast.show({
@@ -92,6 +87,46 @@ const ChangePassword = () => {
 
 
 
+  // const resetPassword = async () => {
+  //   setLoading(true);
+
+  //     // console.log("Sending token:", token);
+
+  //   try {
+  //     if (!oldPass || !password || !confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Please fill all fields' });
+  //       return;
+  //     }
+  //     if (password !== confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Passwords do not match' });
+  //       return;
+  //     }
+
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`, // Must pass token here
+  //     };
+  //     console.log("Headers:", { Authorization: `Bearer ${token}` });
+
+  //     const { response, error } = await apiHelper(
+  //       'POST',
+  //       'auth/update-password',
+  //       headers,
+  //       { oldPassword: oldPass, newPassword: password }
+  //     );
+
+  //     if (response) {
+  //       setModalVisible(true); // Show success modal
+  //     } else {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: error });
+  //     }
+  //   } catch (err) {
+  //     Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to change password' });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -108,7 +143,7 @@ const ChangePassword = () => {
             inputWidth={width * 0.85}
             borderRadius={14}
             isPassword={true}
-            value={oldPass}           // <-- use oldPass
+            value={oldPass}         
             onChangeText={setOldPass}
           />
         </View>
