@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     right: width * 0.06,
-    bottom: Platform.OS === 'ios' ? height * 0.05 : height
+    // bottom: Platform.OS === 'ios' ? height * 0.05 : height
   },
   menuText: {
     fontSize: fontSizes.sm2,
