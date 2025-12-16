@@ -156,13 +156,13 @@ const CustomDrawerContent = (props: any) => {
               //     ? { uri: getFullImageUrl(User.image) }
               //     : images.drawerProf
               // }
-               source={
-    !imgError && User?.image
-      ? { uri: getFullImageUrl(User.image) }
-      : images.drawerProf
-  }
+              source={
+                !imgError && User?.image
+                  ? { uri: getFullImageUrl(User.image) }
+                  : images.drawerProf
+              }
               style={styles.profileImage}
-               onError={() => setImgError(true)}
+              onError={() => setImgError(true)}
             />
           </TouchableOpacity>
 
@@ -179,9 +179,13 @@ const CustomDrawerContent = (props: any) => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() => {
-          props.navigation.closeDrawer();
-        }}>
+        <TouchableOpacity 
+          style={styles.closeMain}
+          activeOpacity={0.7}
+          onPress={() => {
+            props.navigation.closeDrawer();
+          }}
+        >
           <Image source={images.crossIcon} style={styles.closeButton} />
         </TouchableOpacity>
 
@@ -297,21 +301,21 @@ const styles = StyleSheet.create({
     width: width * 0.045,
     resizeMode: "contain",
     left: width * 0.6,
-    bottom: height * 0.04
+    bottom: Platform.OS === "ios" ? height * 0.13 : height * 0.04
   },
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
     backgroundColor: colors.darkmarhoon,
-    // top: height * 0.02,
+    top: height * 0.02,
   },
   profileImage: {
     width: width * 0.2,
     height: height * 0.085,
     resizeMode: 'cover',
     borderRadius: width * 0.09,
-    marginRight:width * 0.03
+    marginRight: width * 0.03
   },
   profileTextContainer: {
     right: width * 0.03,
@@ -328,7 +332,7 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     flex: 1,
-    paddingTop: height * 0.1,
+    paddingTop: Platform.OS === "ios" ? height * 0.009 : height * 0.1,
   },
   menuItem: {
     flexDirection: 'row',
@@ -345,7 +349,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     right: width * 0.06,
-    // bottom: Platform.OS === 'ios' ? height * 0.05 : height
   },
   menuText: {
     fontSize: fontSizes.sm2,
