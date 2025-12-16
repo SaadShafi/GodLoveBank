@@ -169,7 +169,7 @@ export type StackParamList = {
   MediaDetails: undefined;
   MediaLibrary: undefined;
   Checkout: undefined;
-  AddDeliveryddress: undefined;
+  AddDeliveryAddress: undefined;
   OrderConfirmed: undefined;
   MyOrders: undefined;
   WriteReview: undefined;
@@ -300,7 +300,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="MediaLibrary" component={MediaLibrary} />
       <Stack.Screen name="MediaDetails" component={MediaDetails} />
       <Stack.Screen name="Checkout" component={Checkout} />
-      <Stack.Screen name="AddDeliveryddress" component={AddDeliveryddress} />
+      <Stack.Screen name="AddDeliveryAddress" component={AddDeliveryddress} />
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
       <Stack.Screen name="MyOrders" component={MyOrders} />
       <Stack.Screen name="WriteReview" component={WriteReview} />

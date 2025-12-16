@@ -4,12 +4,20 @@ import { height, width } from "../utilities";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
+import { removeAddressData } from "../redux/slice/roleSlice";
 
 const OrderConfirmed = () => {
-    const navigation = useNavigation<NativeStackNavigationProp<any>>()
+    const dispatch = useDispatch();
+    const route = useRoute();
+    console.log("Params in the Order COnfirmed Screen!", route?.params)
+    const productsData = route?.params?.ItemsData;
+    const remainingItems = route?.params?.remainingItems;
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
     const bookData = [
         {
             headText: "Dummy Text",
@@ -90,17 +98,29 @@ const OrderConfirmed = () => {
                 >
                     <View style={styles.bookContainer}>
                         <View style={styles.selectedBookMain}>
-                            <Image source={images.recBookSec} style={styles.imgMain} />
+                            <Image 
+                                // source={images.recBookSec} 
+                                 source={{ uri: `http://18.204.175.233:3001/${productsData?.image}` }}
+                                style={styles.imgMain} 
+                            />
                             <View style={styles.textContent}>
                                 <View style={styles.headTextMain}>
-                                    <Text style={styles.bookText}>Mapo Tofu</Text>
+                                    <Text style={styles.bookText}>
+                                        {productsData?.name
+                                                ? `${productsData.name.substring(0, 20)}...`
+                                                : "Mapo Tofu"}
+                                    </Text>
                                 </View>
-                                <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
+                                <Text style={styles.bookDescription}>
+                                    {productsData?.description 
+                                    ? `${productsData.description.substring(0, 25)}...` 
+                                    : "Lorem Ipsum is Dummy text..."}
+                                </Text>
                             </View>
                         </View>
                         <View style={styles.stockInfo}>
-                            <Text style={styles.stockText}>Only 5 items in stock</Text>
-                            <Text style={styles.priceText}>$12.56</Text>
+                            <Text style={styles.stockText}>Only {remainingItems || "5"} items in stock</Text>
+                            <Text style={styles.priceText}>${productsData?.price || "12.56"}</Text>
                         </View>
                     </View>
 
@@ -120,26 +140,27 @@ const OrderConfirmed = () => {
 
                 <View style={styles.bottomMain}>
                     <CustomButton
-                    btnHeight={height * 0.06}
-                    btnWidth={width * 0.45}
-                    text="Cont. Shopping"
-                    textColor={colors.marhoon}
-                    borderColor={colors.marhoon}
-                    borderWidth={1}
-                    borderRadius={20}
-                    onPress={() => {
-                        navigation.popToTop();
-                    }}
+                        btnHeight={height * 0.06}
+                        btnWidth={width * 0.45}
+                        text="Cont. Shopping"
+                        textColor={colors.marhoon}
+                        borderColor={colors.marhoon}
+                        borderWidth={1}
+                        borderRadius={20}
+                        onPress={() => {
+                            dispatch(removeAddressData())
+                            navigation.popToTop();
+                        }}
                     />
                     <CustomButton
-                    btnHeight={height * 0.06}
-                    btnWidth={width * 0.4}
-                    text="View Order"
-                    textColor={colors.white}
-                    backgroundColor={colors.marhoon}
-                    borderWidth={1}
-                    borderRadius={20}
-                    onPress={() => navigation.navigate("MyOrders")}
+                        btnHeight={height * 0.06}
+                        btnWidth={width * 0.4}
+                        text="View Order"
+                        textColor={colors.white}
+                        backgroundColor={colors.marhoon}
+                        borderWidth={1}
+                        borderRadius={20}
+                        onPress={() => navigation.navigate("MyOrders")}
                     />
                 </View>
             </View>

@@ -191,7 +191,7 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Cart')}
+            // onPress={() => navigation.navigate('Cart')}
           >
             <Text style={styles.addButtonText}>{item.btnText}</Text>
           </TouchableOpacity>
@@ -299,7 +299,7 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Cart')}
+            onPress={() => navigation.navigate('Cart', { product: item })}
           >
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>

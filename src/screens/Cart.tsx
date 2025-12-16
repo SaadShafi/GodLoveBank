@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, ScrollView, Modal } from "react-native";
 import TopHeader from "../components/Topheader";
 import images from "../assets/Images";
 import { height, width } from "../utilities";
@@ -6,12 +6,34 @@ import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
 import CustomButton from "../components/CustomButton";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 
 const Cart = () => {
     const navigation = useNavigation<NavigationProp<any>>()
+    const route = useRoute();
+    const productData = route?.params?.product
+    console.log("Products Data from the params!", productData)
+    const [modalVisible, setModalVisible] = useState(false);
+    const totalOrderNumber = route?.params?.totalOrderNumber || 1;
+    const unitPrice = parseFloat(productData?.price || "0");
+    const totalPrice = (unitPrice * totalOrderNumber).toFixed(2);
+    const remainingInventory = productData?.inventory
+        ? totalOrderNumber
+            ? productData.inventory - totalOrderNumber
+            : productData.inventory - 1
+        : 0;
+
+    console.log("Remaining Inventory:", remainingInventory);
+
+    const toggleModal = () => {
+        setModalVisible(false)
+        navigation.navigate("ECommerce")
+    }
+
     const bookData = [
         {
+            id: "1",
             headText: "Dummy Text",
             headImg: images.recBookOne,
             authorName: "By Devon Lane",
@@ -22,6 +44,7 @@ const Cart = () => {
             heartIcon: images.heartIcon
         },
         {
+            id: "2",
             headText: "Dummy Text",
             headImg: images.recBookSec,
             authorName: "By Eleanor Penna",
@@ -32,6 +55,7 @@ const Cart = () => {
             heartIcon: images.heartIcon
         },
         {
+            id: "3",
             headText: "Dummy Text",
             headImg: images.recBookOne,
             authorName: "By Devon Lane",
@@ -42,6 +66,7 @@ const Cart = () => {
             heartIcon: images.heartIcon
         },
         {
+            id: "4",
             headText: "Dummy Text",
             headImg: images.recBookSec,
             authorName: "By Eleanor Penna",
@@ -82,30 +107,43 @@ const Cart = () => {
         <View style={{ flex: 1 }}>
             <TopHeader text="Cart" isCross={true} />
             <View style={styles.container}>
-                <ScrollView 
+                <ScrollView
                     style={styles.scrollView}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContent}
                 >
-                    <View style={{paddingHorizontal: width * 0.03}}>
-                    <View style={styles.bookContainer}>
-                        <View style={styles.selectedBookMain}>
-                            <Image source={images.recBookSec} style={styles.imgMain} />
-                            <View style={styles.textContent}>
-                                <View style={styles.headTextMain}>
-                                    <Text style={styles.bookText}>Dummy Text</Text>
-                                    <TouchableOpacity>
-                                        <Image source={images.trashIcon} style={styles.trashIcon} />
-                                    </TouchableOpacity>
+                    <View style={{ paddingHorizontal: width * 0.03 }}>
+                        <View style={styles.bookContainer}>
+                            <View style={styles.selectedBookMain}>
+                                <Image
+                                    source={{ uri: `http://18.204.175.233:3001/${productData?.image}` }}
+                                    style={styles.imgMain}
+                                />
+                                <View style={styles.textContent}>
+                                    <View style={styles.headTextMain}>
+                                        <Text
+                                            style={styles.bookText}
+                                            numberOfLines={1}
+                                            ellipsizeMode="tail"
+                                        >
+                                            {productData?.name || "Dummy Text"}
+                                        </Text>
+                                        <TouchableOpacity activeOpacity={0.7} onPress={() => setModalVisible(true)}>
+                                            <Image source={images.trashIcon} style={styles.trashIcon} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.bookDescription}>
+                                        {productData?.description
+                                            ? `${productData.description.substring(0, 25)}...`
+                                            : "Lorem Ipsum is Dummy text..."}
+                                    </Text>
                                 </View>
-                                <Text style={styles.bookDescription}>Lorem Ipsum is Dummy text...</Text>
+                            </View>
+                            <View style={styles.stockInfo}>
+                                <Text style={styles.stockText}>Only {remainingInventory || "5"} items in stock</Text>
+                                <Text style={styles.priceText}>${productData?.price || "12.56"}</Text>
                             </View>
                         </View>
-                        <View style={styles.stockInfo}>
-                            <Text style={styles.stockText}>Only 5 items in stock</Text>
-                            <Text style={styles.priceText}>$12.56</Text>
-                        </View>
-                    </View>
                     </View>
 
                     <View style={styles.flatlistContainer}>
@@ -113,7 +151,7 @@ const Cart = () => {
                         <FlatList
                             data={bookData}
                             renderItem={renderBookItem}
-                            keyExtractor={item => item.id}
+                            keyExtractor={(item, index) => index.toString()}
                             numColumns={2}
                             columnWrapperStyle={styles.columnWrapper}
                             showsVerticalScrollIndicator={false}
@@ -123,20 +161,81 @@ const Cart = () => {
                 </ScrollView>
                 <View style={styles.orderMain}>
                     <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total 3 Items</Text>
-                        <Text style={styles.totalAmount}>$25.56</Text>
+                        <Text style={styles.totalText}>Total {totalOrderNumber} Item{totalOrderNumber > 1 ? "s" : ""}</Text>
+                        <Text style={styles.totalAmount}>${totalPrice || "25.56"}</Text>
                     </View>
                     <CustomButton
-                    btnHeight={height * 0.07}
-                    btnWidth={width * 0.4}
-                    text="Order Now"
-                    textColor={colors.white}
-                    backgroundColor={colors.darkmarhoon}
-                    borderRadius={20}
-                    onPress={() => navigation.navigate("Checkout")}
+                        btnHeight={height * 0.07}
+                        btnWidth={width * 0.4}
+                        text="Order Now"
+                        textColor={colors.white}
+                        backgroundColor={colors.darkmarhoon}
+                        borderRadius={20}
+                        onPress={() => navigation.navigate("Checkout", {
+                            products: productData,
+                            totalPayment: totalPrice,
+                            remainingItems: remainingInventory,
+                            totalItems: totalOrderNumber
+                        })}
                     />
                 </View>
             </View>
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="fade"
+            >
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <View
+                        style={{
+                            backgroundColor: colors.white,
+                            width: width * 0.8,
+                            paddingVertical: height * 0.04,
+                            borderRadius: 40,
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontFamily: fontFamily.GilroyBold,
+                                fontSize: fontSizes.md,
+                                color: colors.black,
+                                textAlign: 'center',
+                            }}
+                        >
+                            Are you sure you want to{'\n'}Delete this item from Cart
+                        </Text>
+
+                        <View style={{ top: height * 0.02, flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: width * 0.7 }}>
+                            <CustomButton
+                                text="No"
+                                textColor={colors.white}
+                                btnHeight={height * 0.06}
+                                btnWidth={width * 0.33}
+                                backgroundColor={colors.marhoon}
+                                borderRadius={20}
+                                onPress={() => setModalVisible(false)}
+                            />
+                            <CustomButton
+                                text="Yes"
+                                textColor={colors.white}
+                                btnHeight={height * 0.06}
+                                btnWidth={width * 0.33}
+                                backgroundColor={colors.marhoon}
+                                borderRadius={20}
+                                onPress={toggleModal}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -149,7 +248,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContent: {
-        paddingBottom: height * 0.02, 
+        paddingBottom: height * 0.02,
     },
     sectionTitle: {
         fontSize: fontSizes.md,
@@ -359,7 +458,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.GilroyBold,
         color: colors.white,
     },
-    
+
 })
 
 export default Cart;
