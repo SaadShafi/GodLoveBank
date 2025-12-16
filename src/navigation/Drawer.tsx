@@ -268,7 +268,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: height * 0.125,
-    borderTopRightRadius: 30,
     backgroundColor: colors.darkmarhoon,
   },
   gradientMiddle: {
@@ -276,7 +275,6 @@ const styles = StyleSheet.create({
     top: height * 0.12,
     height: height * 0.09,
     right: -width * 0.001,
-    borderBottomRightRadius: 30,
     backgroundColor: colors.darkmarhoon,
   },
   drawerBgImg: {
@@ -299,22 +297,21 @@ const styles = StyleSheet.create({
     width: width * 0.045,
     resizeMode: "contain",
     left: width * 0.6,
-    bottom: height * 0.1
+    bottom: height * 0.04
   },
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
-    // backgroundColor: colors.darkmarhoon,
-    top: height * 0.02,
-    left: Platform.OS === 'ios' ? width * 0.08 : width, 
+    backgroundColor: colors.darkmarhoon,
+    // top: height * 0.02,
   },
   profileImage: {
     width: width * 0.2,
     height: height * 0.085,
     resizeMode: 'cover',
     borderRadius: width * 0.09,
-    marginRight: Platform.OS === 'ios' ? width * 0.01 : width * 0.03
+    marginRight:width * 0.03
   },
   profileTextContainer: {
     right: width * 0.03,
@@ -348,7 +345,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     right: width * 0.06,
-    bottom: Platform.OS === 'ios' ? height * 0.09 : height
+    bottom: Platform.OS === 'ios' ? height * 0.05 : height
   },
   menuText: {
     fontSize: fontSizes.sm2,

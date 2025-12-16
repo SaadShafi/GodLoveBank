@@ -25,12 +25,11 @@ const SpiritualGrowth = () => {
                     color: colors.white,
                     fontSize: fontSizes.sm2,
                     fontFamily: fontFamily.UrbanistBold,
-                    left: width * 0.18,
-                    top: height * 0.01,
+                    left: width * 0.19,
                     justifyContent: 'center',
                   }}
                 >
-                  Measure your spiritual Growth
+                  Measure Your Spiritual Growth
                 </Text>
               </View>
             }
@@ -57,7 +56,7 @@ const SpiritualGrowth = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: colors.purple,
-    height: height * 0.1,
+    height: height * 0.14,
     width: width * 0.9999,
     alignSelf: 'center',
     borderBottomRightRadius: 34,
@@ -72,9 +71,9 @@ const styles = StyleSheet.create({
   },
   img: {
     alignSelf: 'center',
-    top: height * 0.12,
+    top: height * 0.16,
     width: width * 0.89,
-    height: height * 0.86,
+    height: height * 0.82,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
