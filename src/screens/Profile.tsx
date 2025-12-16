@@ -142,7 +142,6 @@ const Profile = () => {
         onPress={() => navigation.navigate('EditProfile')}
       >
         <Image
-          // source={images.ProfilePic} 
           source={
             User?.image
               ? { uri: getFullImageUrl(User.image) }

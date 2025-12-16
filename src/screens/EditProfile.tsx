@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     width: width * 0.85,
   },
   btnMain: {
-    top: height * 0.28,
+    top: Platform.OS === 'ios' ? height * 0.2 : height * 0.28,
   },
   newHomeBaseWrapper: {
     width: width * 0.85,

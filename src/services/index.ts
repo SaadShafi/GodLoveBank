@@ -10,6 +10,7 @@ import { store } from '../redux/store';
 const instance = axios.create({
   baseURL: 'http://18.204.175.233:3001/',
   timeout: 10000,
+  
    transformResponse: [
     (data) => {
       if (!data || data === 'null') return null;

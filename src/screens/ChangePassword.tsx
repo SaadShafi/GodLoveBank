@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Image, Modal, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Platform, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -84,6 +84,49 @@ const ChangePassword = () => {
       setLoading(false);
     }
   };
+
+
+
+  // const resetPassword = async () => {
+  //   setLoading(true);
+
+  //     // console.log("Sending token:", token);
+
+  //   try {
+  //     if (!oldPass || !password || !confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Please fill all fields' });
+  //       return;
+  //     }
+  //     if (password !== confirmPassword) {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: 'Passwords do not match' });
+  //       return;
+  //     }
+
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`, // Must pass token here
+  //     };
+  //     console.log("Headers:", { Authorization: `Bearer ${token}` });
+
+  //     const { response, error } = await apiHelper(
+  //       'POST',
+  //       'auth/update-password',
+  //       headers,
+  //       { oldPassword: oldPass, newPassword: password }
+  //     );
+
+  //     if (response) {
+  //       setModalVisible(true); // Show success modal
+  //     } else {
+  //       Toast.show({ type: 'error', text1: 'Error', text2: error });
+  //     }
+  //   } catch (err) {
+  //     Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to change password' });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -231,6 +274,7 @@ const ChangePassword = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    top: Platform.OS === 'ios' ? height * 0.05 : height 
   },
   textMain: {
     alignItems: 'center',
@@ -270,7 +314,7 @@ const styles = StyleSheet.create({
     top: height * 0.05,
   },
   btnMain: {
-    top: height * 0.5,
+    top: Platform.OS === 'ios' ? height * 0.45 : height * 0.5,
   },
   topHeader: {
     backgroundColor: colors.white,

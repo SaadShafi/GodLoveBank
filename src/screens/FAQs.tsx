@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: width * 0.9,
     alignSelf: 'center',
+    top: Platform.OS === 'ios' ? height * 0.06 : height,
     marginBottom: height * 0.02,
     paddingHorizontal: width * 0.07,
     paddingVertical: height * 0.02,
