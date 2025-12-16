@@ -261,7 +261,7 @@ const CustomDrawerContent = (props: any) => {
 const styles = StyleSheet.create({
   gradientContainer: {
     flex: 1,
-    borderTopRightRadius: 40,
+    borderTopRightRadius: 50,
     borderBottomRightRadius: 40,
     position: 'relative',
     backgroundColor: colors.white,
@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: height * 0.125,
     backgroundColor: colors.darkmarhoon,
+    borderTopRightRadius: 30
   },
   gradientMiddle: {
     position: 'absolute',
@@ -280,6 +281,7 @@ const styles = StyleSheet.create({
     height: height * 0.09,
     right: -width * 0.001,
     backgroundColor: colors.darkmarhoon,
+    borderBottomRightRadius: 40
   },
   drawerBgImg: {
     width: width * 0.9,
@@ -300,22 +302,23 @@ const styles = StyleSheet.create({
   closeButton: {
     width: width * 0.045,
     resizeMode: "contain",
-    left: width * 0.6,
+    left: Platform.OS === "ios" ? width * 0.6 : width * 0.55,
     bottom: Platform.OS === "ios" ? height * 0.13 : height * 0.04
   },
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
-    backgroundColor: colors.darkmarhoon,
-    top: height * 0.02,
+    // backgroundColor: colors.darkmarhoon,
+    top: Platform.OS === "ios" ? height * 0.02 : height * 0.075,
   },
   profileImage: {
     width: width * 0.2,
     height: height * 0.085,
     resizeMode: 'cover',
     borderRadius: width * 0.09,
-    marginRight: width * 0.03
+    marginRight: width * 0.05,
+    left: height * 0.02
   },
   profileTextContainer: {
     right: width * 0.03,
