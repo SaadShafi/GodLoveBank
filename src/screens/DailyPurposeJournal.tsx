@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import CustomButton from '../components/CustomButton';
 import CustomTextInput from '../components/CustomTextInput';
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: colors.purple,
     width: width,
-    height: height * 0.1,
+    // height: height * 0.1,
+    height:  Platform.OS === 'ios' ? height * 0.15 : height * 0.1,
     justifyContent: 'center',
     paddingHorizontal: width * 0.04,
     borderBottomRightRadius: 34,
