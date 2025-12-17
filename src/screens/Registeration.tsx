@@ -328,7 +328,7 @@ const Registeration = () => {
               onChangeText={setPassword}
               fontFamily={fontFamily.UrbanistMedium}
               fontSize={fontSizes.sm2}
-
+              keyboardType='default'
             />
             <CustomTextInput
               placeholder="Confirm Password"
@@ -341,6 +341,7 @@ const Registeration = () => {
               onChangeText={setconfirmPassword}
               fontFamily={fontFamily.UrbanistMedium}
               fontSize={fontSizes.sm2}
+              keyboardType='default'
             />
           </View>
 

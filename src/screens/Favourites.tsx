@@ -137,28 +137,27 @@ const Favourites = () => {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchFavourite(); // fetch the latest favourites
+    await fetchFavourite();
+    await favouriteProduct();
     setRefreshing(false);
   };
 
   const renderBooks = ({ item }: { item: any }) => {
-    const product = item.product;
-
     return (
       <TouchableOpacity
         style={styles.bookCard}
         activeOpacity={0.7}
-        onPress={() => navigation.navigate('AddBook', { productId: product.id })}
+        onPress={() => navigation.navigate('AddBook', { productId: item.id})}
       >
         <Image
-          source={{ uri: `http://18.204.175.233:3001/${product.image}` }}
+          source={{ uri: `http://18.204.175.233:3001/${item.product.image}` }}
           style={styles.bookImage}
         />
 
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.heartIconMain}
-          onPress={() => handleFavouritePress(product.id, true)}
+          onPress={() => handleFavouritePress(item.productId, item.is_fav, "product")}
         >
           <Image source={images.filledFav} style={styles.heartIcon} />
         </TouchableOpacity>
@@ -166,7 +165,7 @@ const Favourites = () => {
         <View style={styles.ratingRow}>
           <Image source={images.ratingIcon} style={styles.ratingIcon} />
           <Text style={styles.ratingText}>
-            {product.averageRating || "0.0"} Rating
+            {item.product.averageRating || "0.0"} Rating
           </Text>
         </View>
 
@@ -176,13 +175,13 @@ const Favourites = () => {
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            {product.name}
+            {item.product.name}
           </Text>
-          <Text style={styles.authorName}>By {product.author}</Text>
+          <Text style={styles.authorName}>By {item.product.author}</Text>
         </View>
 
         <View style={styles.amountMain}>
-          <Text style={styles.amount}>${product.price}</Text>
+          <Text style={styles.amount}>${item.product.price}</Text>
           <TouchableOpacity style={styles.addButton} activeOpacity={0.7}>
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
@@ -191,44 +190,46 @@ const Favourites = () => {
     );
   };
 
-  const renderRelatedVideoItem = ({ item }: { item: any }) => (
-    <View style={styles.relatedVideoItem}>
-      <View style={styles.relatedVideoThumbnail}>
-        <Image source={{ uri: item.video.thumbnailUrl }} style={styles.relatedVideoImage} />
+  const renderRelatedVideoItem = ({ item }: { item: any }) => {
+    return (
+      <View style={styles.relatedVideoItem}>
+        <View style={styles.relatedVideoThumbnail}>
+          <Image source={{ uri: item.video.thumbnailUrl }} style={styles.relatedVideoImage} />
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => handleFavouritePress(item.videoId, item.is_fav)}
-        >
-          <Image
-            source={item.is_fav ? images.filledFav : images.favIcon}
-            style={styles.favIcon}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handleFavouritePress(item.videoId, item.is_fav, "video")}
+          >
+            <Image
+              source={item.is_fav ? images.filledFav : images.favIcon}
+              style={styles.favIcon}
+            />
+          </TouchableOpacity>
 
-      </View>
-      <View style={styles.relatedTextContent}>
-        <View style={styles.dummyContainer}>
-          <Text style={styles.relatedVideoSubtitle} numberOfLines={1}
-            ellipsizeMode="tail">{item.video.tags}</Text>
         </View>
-        <Text style={styles.relatedVideoTitle}>{item.video.title}</Text>
-        <Text style={styles.relatedVideoDescription}>{item.video.shortDescription}</Text>
+        <View style={styles.relatedTextContent}>
+          <View style={styles.dummyContainer}>
+            <Text style={styles.relatedVideoSubtitle} numberOfLines={1}
+              ellipsizeMode="tail">{item.video.tags}</Text>
+          </View>
+          <Text style={styles.relatedVideoTitle}>{item.video.title}</Text>
+          <Text style={styles.relatedVideoDescription}>{item.video.shortDescription}</Text>
+        </View>
+        <View style={{ top: height * 0.02 }}>
+          <CustomButton
+            text="Watch"
+            textColor={colors.white}
+            btnHeight={height * 0.04}
+            btnWidth={width * 0.35}
+            backgroundColor={colors.darkmarhoon}
+            borderRadius={12}
+            fontSize={fontSizes.xsm}
+            onPress={() => navigation.navigate('MediaDetails', { VideoID: item.videoId })}
+          />
+        </View>
       </View>
-      <View style={{ top: height * 0.02 }}>
-        <CustomButton
-          text="Watch"
-          textColor={colors.white}
-          btnHeight={height * 0.04}
-          btnWidth={width * 0.35}
-          backgroundColor={colors.darkmarhoon}
-          borderRadius={12}
-          fontSize={fontSizes.xsm}
-          onPress={() => navigation.navigate('MediaDetails', { VideoID: item.videoId })}
-        />
-      </View>
-    </View>
-  );
+    );
+  };
 
   const BookScreen: React.FC = () => {
     return (
@@ -238,21 +239,21 @@ const Favourites = () => {
             <Text style={styles.emptyText}>No favourite Products found.</Text>
           </View>
         ) : (
-        <FlatList
-          data={favouriteProducts}
-          renderItem={renderBooks}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          columnWrapperStyle={styles.columnWrapper}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: 10,
-            marginTop: height * 0.015,
-            paddingBottom: height * 0.15,
-          }}
-          refreshing={refreshing}      
-          onRefresh={handleRefresh}   
-        />
+          <FlatList
+            data={favouriteProducts}
+            renderItem={renderBooks}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 10,
+              marginTop: height * 0.015,
+              paddingBottom: height * 0.15,
+            }}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
         )}
       </View>
     );
@@ -286,48 +287,44 @@ const Favourites = () => {
     );
   };
 
-  const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
+  const handleFavouritePress = async (itemId: number, isCurrentlyFavourite: boolean, type: "video" | "product") => {
     try {
       setLoading(true);
 
       const body = {
         action: isCurrentlyFavourite ? "unfavourite" : "favourite",
-        type: "video",
-        videoId: Number(videoId),
-        product: 1
+        type: type,
+        videoId: type === "video" ? itemId : undefined,
+        productId: type === "product" ? itemId : undefined,
       };
 
       const { response, error } = await apiHelper("POST", "/users/favourites", {}, {}, body);
 
       if (response) {
-        setDetails(prev => ({
-          ...prev,
-          is_fav: !isCurrentlyFavourite
-        }));
-
-        const apiData = response?.data?.data;
-
-        const apiVideos = Array.isArray(response?.data?.data)
-          ? response.data.data
-          : [];
-        const videoIds = apiVideos.length > 0
-          ? apiVideos.map(v => v.id)
-          : [];
-        dispatch(setVideoId(videoIds));
-
         Toast.show({
           type: "success",
           text1: "Success",
-          text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+          text2: `${type === "video" ? "Video" : "Product"} ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`,
         });
+
+        // Update local state to reflect unfavourite action
+        if (type === "video") {
+          setFavouriteVideos(prev =>
+            prev.map(v => (v.id === itemId ? { ...v, is_fav: !isCurrentlyFavourite } : v))
+          );
+        } else if (type === "product") {
+          setFavouriteProducts(prev =>
+            prev.map(p => (p.id === itemId ? { ...p, is_fav: !isCurrentlyFavourite } : p))
+          );
+        }
       }
 
       if (error) throw error;
-    } catch (error) {
+    } catch (error: any) {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: error?.message ?? "Failed to update favourite"
+        text2: error?.message ?? "Failed to update favourite",
       });
     } finally {
       setLoading(false);

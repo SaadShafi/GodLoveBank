@@ -5,7 +5,7 @@ import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
 import { height, width } from "../utilities";
 import CustomTextInput from "../components/CustomTextInput";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import images from "../assets/Images";
 import {
     countries,
@@ -18,7 +18,8 @@ import CustomButton from "../components/CustomButton";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native"; import { apiHelper } from "../services";
 import Toast from "react-native-toast-message";
 import { setAddressData } from "../redux/slice/roleSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const countryData = [
     { code: '+1', flag: '🇺🇸', name: 'United States' },
@@ -34,6 +35,8 @@ const countryData = [
 ];
 
 const AddDeliveryddress = () => {
+    const addressData = useSelector((state: RootState) => state.role.addressData)
+    console.log("Address Data from the redux!", addressData)
     const dispatch = useDispatch();
     const route = useRoute();
     const navigation = useNavigation<NavigationProp<any>>()
@@ -51,31 +54,22 @@ const AddDeliveryddress = () => {
     const [showCountryPicker, setShowCountryPicker] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(countryData[0]);
 
-    const regionOption = [
-        { name: 'Province/Region' },
-        { name: 'Region 01' },
-        { name: 'Region 02' },
-        { name: 'Region 03' },
-        { name: 'Region 04' },
-    ];
-
-    const cityOption = [
-        {
-            name: "Select City"
-        },
-        {
-            name: "City 01"
-        },
-        {
-            name: "City 02"
-        },
-        {
-            name: "City 03"
-        },
-        {
-            name: "City 04"
-        },
-    ]
+    useEffect(() => {
+        if (addressData?.id) {
+            setName(addressData.name || "");
+            setPhone(addressData.phoneNumber || "");
+            setCountryCode(addressData.countryCode || "+1");
+            setSelectedCountry(
+                countryData.find(c => c.code === addressData.countryCode) || countryData[0]
+            );
+            setRegion(addressData.region || "");
+            setCity(addressData.city || "");
+            setCode(addressData.postalCode || "");
+            setAddress(addressData.address || "");
+            setSelectedLabel(addressData.label || "");
+            setAgree(addressData.isDefault || false);
+        }
+    }, [addressData]);
 
     const handleLabelPress = (label) => {
         setSelectedLabel(label);
@@ -102,7 +96,7 @@ const AddDeliveryddress = () => {
         </TouchableOpacity>
     );
 
-    const postAddress = async() => {
+    const postAddress = async () => {
         try {
             setLoading(true)
 
@@ -116,9 +110,9 @@ const AddDeliveryddress = () => {
                 postalCode: code,
                 address: address,
                 isDefault: agree
-            }  
+            }
 
-            const {response, error} = await apiHelper(
+            const { response, error } = await apiHelper(
                 "POST",
                 "/orders/addresses",
                 {},
@@ -126,9 +120,9 @@ const AddDeliveryddress = () => {
                 body
             )
 
-            console.log("Response from the Address API!",response)
+            console.log("Response from the Address API!", response)
 
-            if(response?.data) {
+            if (response?.data) {
                 Toast.show({
                     type: "success",
                     text1: "Success",
@@ -149,18 +143,70 @@ const AddDeliveryddress = () => {
         }
     }
 
+    const updateAddress = async () => {
+        if (!addressData?.id) return;
+
+        try {
+            setLoading(true);
+
+            const body = {
+                label: selectedLabel,
+                name: name,
+                phoneNumber: phone,
+                countryCode: selectedCountry.code,
+                region: region,
+                city: city,
+                postalCode: code,
+                address: address,
+                isDefault: agree
+            };
+
+            const { response, error } = await apiHelper(
+                "PUT",
+                `/orders/addresses/${addressData.id}`,
+                {},
+                {},
+                body
+            );
+
+            if (response?.data) {
+                Toast.show({
+                    type: "success",
+                    text1: "Success",
+                    text2: response.data.message
+                });
+
+                dispatch(setAddressData(response.data.data));
+            }
+
+            navigation.goBack();
+        } catch (error) {
+            Toast.show({
+                type: "error",
+                text1: "Error",
+                text2: error?.message
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleSave = () => {
         if (!name || !region || !city || !code || !address || !selectedLabel || !agree) {
             Alert.alert("Error", "Please fill all fields and select a label.");
             return;
         }
-        postAddress();
+        if (addressData?.id) {
+            updateAddress(); 
+        } else {
+            postAddress(); 
+        }
     };
 
     return (
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
             <View style={{ flex: 1, backgroundColor: colors.white }}>
-                <TopHeader text="Add Delivery Address" isBackBlack={true} />
+                <TopHeader text="Add Delivhhy Address" isBackBlack={true} />
                 <View style={styles.container}>
                     <Text style={styles.headText}>Add Delivery Address</Text>
                     <View style={styles.inputMain}>
@@ -250,7 +296,7 @@ const AddDeliveryddress = () => {
                                 </View>
                             </View>
                         </Modal>
-                        <CustomSelect
+                        {/* <CustomSelect
                             inputWidth={width * 0.85}
                             inputHeight={height * 0.07}
                             selectElements={regionOption}
@@ -260,8 +306,8 @@ const AddDeliveryddress = () => {
                             borderRadius={20}
                             onChangeText={value => setRegion(value)}
                             setSelectedElement={setRegion}
-                        />
-                        <CustomSelect
+                        /> */}
+                        {/* <CustomSelect
                             inputWidth={width * 0.85}
                             inputHeight={height * 0.07}
                             selectElements={cityOption}
@@ -271,6 +317,26 @@ const AddDeliveryddress = () => {
                             borderRadius={20}
                             onChangeText={value => setCity(value)}
                             setSelectedElement={setCity}
+                        /> */}
+                        <CustomTextInput
+                            placeholder="Enter your Region"
+                            placeholderTextColor={colors.black}
+                            inputHeight={height * 0.07}
+                            inputWidth={width * 0.85}
+                            borderRadius={20}
+                            backgroundColor={colors.lightGray}
+                            value={region}
+                            onChangeText={(value) => setRegion(value)}
+                        />
+                        <CustomTextInput
+                            placeholder="Enter your City"
+                            placeholderTextColor={colors.black}
+                            inputHeight={height * 0.07}
+                            inputWidth={width * 0.85}
+                            borderRadius={20}
+                            backgroundColor={colors.lightGray}
+                            value={city}
+                            onChangeText={(value) => setCity(value)}
                         />
                         <CustomTextInput
                             placeholder="Area Code"

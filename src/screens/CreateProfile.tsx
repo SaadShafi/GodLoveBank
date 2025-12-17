@@ -19,39 +19,26 @@ import { setToken, setUser } from '../redux/slice/roleSlice';
 import CustomProfileImgModal from '../components/CustomProfilImage';
 import ImagePicker from 'react-native-image-crop-picker';
 import { RootState } from '../redux/store';
-import { State } from 'react-native-gesture-handler';
-// import ImagePicker from 'react-native-image-crop-picker';
 
 type Props = NativeStackScreenProps<StackParamList, 'CreateProfile'>;
 
 const CreateProfile = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-  // const [image, setImage] = useState<string | null>(null);
-  // const [firstname, setFirstName] = useState('');
-  // const [lastname, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  // const [countryName, setCountryName] = useState('');
-  // const [cityName, setCityName] = useState('');
-  // const [status, setStatus] = useState('');
   const [bio, setBio] = useState('');
-  // const [tags, setTags] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const User = useSelector((state: RootState) => state.role.user)
-  // console.log("User in the create profile!", User)
-  // console.log("FirstName",User?.firstName)
   const [country, setCountry] = useState('');
   const [city, setCity] = useState('');
   const [gender, setGender] = useState('');
   const [relationshipStatus, setRelationshipStatus] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const route = useRoute()
-  // console.log("Params in the create Profile!", route?.params)
-  const homeBase = route.params?.baseAssignments?.homeBase?.category
+  const route = useRoute();
+  const homeBase = route.params?.baseAssignments?.homeBase?.category;
   const capitalizedHomeBase = homeBase.charAt(0).toUpperCase() + homeBase.slice(1);
-  // console.log("homeBase!", homeBase)
   const fullName = useSelector((state: RootState) => state.role.fullName)
   console.log("FullName in create Profile", fullName)
 
@@ -113,6 +100,15 @@ const CreateProfile = () => {
   };
 
   const handleCreateProfile = async () => {
+    if (!profileImage) {
+      Toast.show({
+        type: 'error',
+        text1: 'Profile Image Required',
+        text2: 'Please upload a profile picture to continue',
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -133,8 +129,6 @@ const CreateProfile = () => {
           name: fileName,
         });
       }
-
-      // console.log("FormData sent in the API body!", formData.getParts?.() || formData);
 
       const { response, error } = await apiHelper(
         'PATCH',
@@ -280,9 +274,10 @@ const CreateProfile = () => {
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
-            backgroundColor={colors.marhoon}
+            backgroundColor={profileImage ? colors.marhoon : colors.lightGray}
             borderRadius={20}
             onPress={handleCreateProfile}
+            disabled={!profileImage}
           />
         </View>
         <CustomProfileImgModal
@@ -295,6 +290,11 @@ const CreateProfile = () => {
           <View style={styles.loaderOverlay}>
             <ActivityIndicator size="large" color={colors.brown} />
           </View>
+        )}
+        {!profileImage && (
+          <Text style={{ color: 'red', marginTop: 8, fontSize: 12 }}>
+            Profile picture is required
+          </Text>
         )}
       </View>
 

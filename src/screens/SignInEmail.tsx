@@ -1,7 +1,7 @@
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Keyboard, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -11,7 +11,7 @@ import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFullName, setLogin, setToken, setUser, setUserEmail } from '../redux/slice/roleSlice';
+import { removeAddressData, setFullName, setLogin, setToken, setUser, setUserEmail } from '../redux/slice/roleSlice';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { RootState } from '../redux/store';
@@ -66,7 +66,8 @@ const SignInEmail = () => {
         dispatch(setLogin());
         dispatch(setToken(token))
         dispatch(setUser(response.data.data.user))
-        console.log("User response in EMail SignIN!",response.data.data.user)
+        dispatch(removeAddressData())
+        console.log("User response in EMail SignIN!", response.data.data.user)
         console.log("Accesstoken dispatching", token)
       }
       else {
@@ -89,76 +90,84 @@ const SignInEmail = () => {
     }
   };
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  }
+
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Image source={images.Logo} style={styles.logo} />
-        <Text style={styles.welcomeText}>Welcome back</Text>
-        <View style={styles.inputMain}>
-          <CustomTextInput
-            placeholder="Email Address"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.06}
-            inputWidth={width * 0.85}
-            backgroundColor={colors.lightGray}
-            borderRadius={20}
-            onChangeText={setEmail}
-          />
-          <CustomTextInput
-            placeholder="Password"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.06}
-            inputWidth={width * 0.85}
-            backgroundColor={colors.lightGray}
-            borderRadius={20}
-            isPassword={true}
-            value={password}
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.forgotPassMain}
-            onPress={() => navigation.navigate('ForgotPassword')}
-          >
-            <Text style={styles.forgotPass}>Forgot Password?</Text>
-          </TouchableOpacity>
-          <View style={{ alignItems: 'center', top: height * 0.04 }}>
-            <CustomButton
-              btnHeight={height * 0.06}
-              btnWidth={width * 0.85}
-              text="Login"
-              backgroundColor={colors.marhoon}
-              textColor={colors.white}
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Image source={images.Logo} style={styles.logo} />
+          <Text style={styles.welcomeText}>Welcome back</Text>
+          <View style={styles.inputMain}>
+            <CustomTextInput
+              placeholder="Email Address"
+              placeholderTextColor={colors.black}
+              inputHeight={height * 0.06}
+              inputWidth={width * 0.85}
+              backgroundColor={colors.lightGray}
               borderRadius={20}
-              // onPress={() => navigation.navigate('Home')}
-              onPress={handleSubmit}
+              onChangeText={setEmail}
+              keyboardType='email-address'
             />
-          </View>
-        </View>
-        <View style={styles.belowMain}>
-          <Image source={images.continue} style={styles.continueImg} />
-          <View style={styles.socialMain}>
-            <Image source={images.googleIcon} style={styles.scialImg} />
-            <Image source={images.appleIcon} style={styles.scialImg} />
-            {/* <Image source={images.facebookIcon} style={styles.scialImg} /> */}
-          </View>
-          <View style={styles.memberMain}>
-            <Text style={styles.memberText}>Not a member?</Text>
+            <CustomTextInput
+              placeholder="Password"
+              placeholderTextColor={colors.black}
+              inputHeight={height * 0.06}
+              inputWidth={width * 0.85}
+              backgroundColor={colors.lightGray}
+              borderRadius={20}
+              isPassword={true}
+              value={password}
+              onChangeText={setPassword}
+              keyboardType='default'
+            />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Registeration')}
+              style={styles.forgotPassMain}
+              onPress={() => navigation.navigate('ForgotPassword')}
             >
-              <Text style={styles.signUpText}>Sign up now</Text>
+              <Text style={styles.forgotPass}>Forgot Password?</Text>
             </TouchableOpacity>
+            <View style={{ alignItems: 'center', top: height * 0.04 }}>
+              <CustomButton
+                btnHeight={height * 0.06}
+                btnWidth={width * 0.85}
+                text="Login"
+                backgroundColor={colors.marhoon}
+                textColor={colors.white}
+                borderRadius={20}
+                // onPress={() => navigation.navigate('Home')}
+                onPress={handleSubmit}
+              />
+            </View>
+          </View>
+          <View style={styles.belowMain}>
+            <Image source={images.continue} style={styles.continueImg} />
+            <View style={styles.socialMain}>
+              <Image source={images.googleIcon} style={styles.scialImg} />
+              <Image source={images.appleIcon} style={styles.scialImg} />
+              {/* <Image source={images.facebookIcon} style={styles.scialImg} /> */}
+            </View>
+            <View style={styles.memberMain}>
+              <Text style={styles.memberText}>Not a member?</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Registeration')}
+              >
+                <Text style={styles.signUpText}>Sign up now</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
+        {loading && (
+          <View style={styles.loaderOverlay}>
+            <ActivityIndicator size="large" color={colors.brown} />
+          </View>
+        )}
       </View>
-      {loading && (
-        <View style={styles.loaderOverlay}>
-          <ActivityIndicator size="large" color={colors.brown} />
-        </View>
-      )}
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
