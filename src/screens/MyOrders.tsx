@@ -7,8 +7,10 @@ import { colors } from "../utilities/colors";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
 import CustomButton from "../components/CustomButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { apiHelper } from "../services";
+import Toast from "react-native-toast-message";
 
 
 interface tabProp {
@@ -21,9 +23,10 @@ interface tabProp {
 }
 
 const MyOrders = () => {
-    const navigation = useNavigation<NavigationProp<any>>()
+    const navigation = useNavigation<NavigationProp<any>>();
     const [isActionSheetVisible, setIsActionSheetVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<tabProp | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const tabsData = [
         {
@@ -68,7 +71,7 @@ const MyOrders = () => {
         }
     ]
 
-       const tabsDataSec = [
+    const tabsDataSec = [
         {
             bookImg: images.recBookOne,
             headText: "Dummy Text",
@@ -276,6 +279,40 @@ const MyOrders = () => {
             </View>
         )
     }
+
+    const fetchMyOrders = async() => {
+        try {
+            setLoading(true)
+
+            const {response, error} = await apiHelper(
+                "GET",
+                "/orders/history",
+                {},
+                {},
+                null
+            )
+
+            console.log("Reponse from the Fetched Orders API!", response)
+
+            if(response?.data) {
+                Toast.show({
+                    type: "success",
+                    text1: "Success",
+                    text2: response.data.message
+                })
+            }
+        } catch (error) {
+            Toast.show({
+                type: "error",
+                text1: "Error",
+                text2: error?.message
+            })
+        }
+    }
+
+    useEffect(() => {
+        fetchMyOrders();
+    },[])
 
     return (
         <View style={{ flex: 1 }}>

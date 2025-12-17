@@ -13,14 +13,14 @@ import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { removeAddressData } from "../redux/slice/roleSlice";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Checkout = () => {
     const addressData = useSelector((state: RootState) => state.role.addressData)
     console.log("AddressData form the redux", addressData);
-    // const [addressData, setAddressData] = useState(null);
     const [loading, setLoading] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
-    const navigation = useNavigation<NavigationProp<any>>()
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const route = useRoute();
     const Data = route.params;
     console.log("Params in the Checkout Screen!", Data);
@@ -36,9 +36,9 @@ const Checkout = () => {
     const dispatch = useDispatch();
 
     const toggleModal = () => {
-        setModalVisible(false)
-        dispatch(removeAddressData())
-        navigation.navigate("ECommerce")
+        setModalVisible(false);
+        dispatch(removeAddressData());
+        navigation.popToTop();
     }
 
     const postOrder = async () => {
@@ -101,9 +101,13 @@ const Checkout = () => {
                         <Text style={styles.headText}>Delivery Address</Text>
                         <View style={styles.addMain}>
                             <Text style={styles.deliveryText}>Add Delivery Address</Text>
-                            <TouchableOpacity activeOpacity={0.6} onPress={() =>
-                                navigation.navigate("AddDeliveryAddress")
-                            }>
+                            <TouchableOpacity 
+                                activeOpacity={0.6} 
+                                onPress={() =>
+                                navigation.navigate("AddDeliveryAddress")}
+                                disabled={!!addressData} 
+                                style={{ opacity: addressData ? 0.5 : 1 }} 
+                            >
                                 <Image source={images.addIcon} style={styles.addIcon} />
                             </TouchableOpacity>
                         </View>
@@ -123,12 +127,12 @@ const Checkout = () => {
                                 <Text style={styles.addressPhone}>{addressData?.countryCode}</Text>
                                 <Text style={styles.addressPhone}>{addressData?.phoneNumber}</Text>
                             </View>
-                            <Text style={styles.addressText}>{addressData.address}</Text>
-                            <View >
-                                <Text style={{ color: colors.black }}>{addressData.city}</Text>
-                                <Text style={{ color: colors.black }}>{addressData.region}</Text>
-                                <Text style={{ color: colors.black }}>{addressData.postalCode}</Text>
-                            </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", gap: width * 0.01 }}>
+                                    <Text style={styles.addressText}>{addressData.city},</Text>
+                                    <Text style={styles.addressText}>{addressData.region}</Text>
+                                </View>
+                                <Text style={styles.addressText}>{addressData.postalCode}</Text>
+                                <Text style={styles.addressText}>{addressData.address}</Text>
                         </View>
                     )}
                     <View style={styles.OrderMain}>
@@ -316,7 +320,7 @@ const styles = StyleSheet.create({
     },
     bookContainer: {
         width: width * 0.93,
-        height: height * 0.155,
+        height: height * 0.16,
         backgroundColor: colors.white,
         borderRadius: 8,
         padding: 15,
@@ -490,7 +494,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.GilroyMedium,
         fontSize: fontSizes.sm,
         color: colors.black,
-        marginBottom: 2
+        // marginBottom: 2
     },
     addressDetails: {
         fontFamily: fontFamily.GilroyMedium,

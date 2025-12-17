@@ -8,12 +8,16 @@ import { colors } from "../utilities/colors";
 import CustomButton from "../components/CustomButton";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Cart = () => {
-    const navigation = useNavigation<NavigationProp<any>>()
+    const ordersData = useSelector((state: RootState) => state.role.ordersData);
+    console.log("Orders Data in the cart screen!", ordersData)
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const route = useRoute();
-    const productData = route?.params?.product
-    console.log("Products Data from the params!", productData)
+    const productData = route?.params?.product;
     const [modalVisible, setModalVisible] = useState(false);
     const totalOrderNumber = route?.params?.totalOrderNumber || 1;
     const unitPrice = parseFloat(productData?.price || "0");
@@ -24,11 +28,9 @@ const Cart = () => {
             : productData.inventory - 1
         : 0;
 
-    console.log("Remaining Inventory:", remainingInventory);
-
     const toggleModal = () => {
-        setModalVisible(false)
-        navigation.navigate("ECommerce")
+        setModalVisible(false);
+        navigation.popToTop();
     }
 
     const bookData = [
@@ -254,6 +256,7 @@ const styles = StyleSheet.create({
         fontSize: fontSizes.md,
         fontFamily: fontFamily.GilroyBold,
         marginBottom: height * 0.02,
+        color: colors.black
     },
     bookContainer: {
         width: width * 0.93,
@@ -320,7 +323,7 @@ const styles = StyleSheet.create({
     stockText: {
         fontSize: fontSizes.sm,
         fontFamily: fontFamily.GilroyMedium,
-        color: colors.gray,
+        color: colors.Gray,
     },
     priceText: {
         fontSize: fontSizes.lg,

@@ -261,7 +261,7 @@ const CustomDrawerContent = (props: any) => {
 const styles = StyleSheet.create({
   gradientContainer: {
     flex: 1,
-    borderTopRightRadius: 50,
+    borderTopRightRadius: 40,
     borderBottomRightRadius: 40,
     position: 'relative',
     backgroundColor: colors.white,
@@ -377,45 +377,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     top: height * 0.01
   },
-
-
-  // modalOverlay: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: 0,
-  //   right: 0,
-  //   bottom: 0,
-  //   backgroundColor: 'rgba(0, 0, 0, 0.61)',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // modalContainer: {
-  //   backgroundColor: colors.white,
-  //   padding: 20,
-  //   borderRadius: 15,
-  //   width: width * 0.8,
-  //   alignItems: 'center',
-  // },
-  // modalTitle: {
-  //   fontSize: fontSizes.lg2,
-  //   fontFamily: fontFamily.ClashDisplayMedium,
-  //   color: colors.black,
-  //   marginBottom: 10,
-  // },
-  // modalMessage: {
-  //   fontSize: fontSizes.md,
-  //   fontFamily: fontFamily.ClashDisplayRegular,
-  //   color: colors.darkGray,
-  //   textAlign: 'center',
-  //   marginBottom: 20,
-  // },
-  // modalButtons: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   width: '100%',
-  //   gap: height * 0.02,
-  // },
-
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',

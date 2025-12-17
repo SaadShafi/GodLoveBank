@@ -19,6 +19,8 @@ import { fontSizes } from '../utilities/fontsizes';
 import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
+import { setOrdersData } from '../redux/slice/roleSlice';
 
 interface Prop {
   headText?: string;
@@ -32,6 +34,7 @@ interface Prop {
 }
 
 const ECommerce = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<any[]>([]);
@@ -348,6 +351,7 @@ const ECommerce = () => {
 
       if (response?.data.data.products) {
         setProducts(response.data.data.products);
+        dispatch(setOrdersData(response.data.data.products))
 
         Toast.show({
           type: "success",
@@ -412,7 +416,7 @@ const ECommerce = () => {
 
   useEffect(() => {
     fetchCategories()
-    fetchProducts();
+    fetchProducts(); 
   }, [])
 
   return (
@@ -462,6 +466,7 @@ const ECommerce = () => {
               }}
             />
           </View>
+
           {/* <View style={styles.trendingBooksMain}>
             <View style={styles.recommendedHeadText}>
               <Text style={styles.recommendedTextOne}>Trending Books</Text>

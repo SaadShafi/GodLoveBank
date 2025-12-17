@@ -50,6 +50,7 @@ interface RoleState {
   userData: any;
   questionnaireSelections: Record<number, number>;
   addressData: any;
+  ordersData: any;
 }
 
 const initialState: RoleState = {
@@ -81,6 +82,7 @@ const initialState: RoleState = {
   userData:"",
   questionnaireSelections: {},
   addressData: {},
+  ordersData: {},
 } satisfies RoleState as RoleState;
 
 const roleSlice = createSlice({
@@ -190,7 +192,10 @@ const roleSlice = createSlice({
     },
     setAddressData: (state, action) => {
       state.addressData = action.payload;
-    }
+    },
+    setOrdersData: (state, action) => {
+      state.ordersData = action.payload;
+    },
   },
 });
 
@@ -225,5 +230,6 @@ export const {
   setQuestionnaireSelection,
   resetQuestionnaireSelections,
   setAddressData,
+  setOrdersData,
 } = roleSlice.actions;
 export default roleSlice.reducer;
