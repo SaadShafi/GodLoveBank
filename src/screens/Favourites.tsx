@@ -346,7 +346,7 @@ const Favourites = () => {
         Toast.show({
           type: "success",
           text1: "Success",
-          text2: "Success"
+          text2: response?.data?.message
         })
         setFavouriteVideos(response.data.data);
       }
@@ -376,7 +376,7 @@ const Favourites = () => {
         Toast.show({
           type: "success",
           text1: "Success",
-          text2: "Success"
+          text2: response.data.message
         })
         setFavouriteProducts(response.data.data);
       }

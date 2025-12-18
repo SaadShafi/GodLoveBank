@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
-import { setOrdersData } from '../redux/slice/roleSlice';
+import { addToCart, setOrdersData } from '../redux/slice/roleSlice';
 
 interface Prop {
   headText?: string;
@@ -194,7 +194,7 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            // onPress={() => navigation.navigate('Cart')}
+          // onPress={() => navigation.navigate('Cart')}
           >
             <Text style={styles.addButtonText}>{item.btnText}</Text>
           </TouchableOpacity>
@@ -302,7 +302,18 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Cart', { product: item })}
+            onPress={() => {
+              dispatch(
+                addToCart({
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  image: item.image,
+                })
+              );
+
+              navigation.navigate('Cart', { product: item })
+            }}
           >
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
@@ -351,7 +362,6 @@ const ECommerce = () => {
 
       if (response?.data.data.products) {
         setProducts(response.data.data.products);
-        dispatch(setOrdersData(response.data.data.products))
 
         Toast.show({
           type: "success",
@@ -416,7 +426,7 @@ const ECommerce = () => {
 
   useEffect(() => {
     fetchCategories()
-    fetchProducts(); 
+    fetchProducts();
   }, [])
 
   return (

@@ -88,7 +88,7 @@ const MediaDetails = () => {
       Toast.show({
         type: "success",
         text1: "Success",
-        text2: "Success"
+        text2: response?.data.message
       }) 
     } catch (error) {
        Toast.show({

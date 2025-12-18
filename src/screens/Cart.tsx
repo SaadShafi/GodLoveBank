@@ -13,8 +13,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const Cart = () => {
-    const ordersData = useSelector((state: RootState) => state.role.ordersData);
-    console.log("Orders Data in the cart screen!", ordersData)
+    const cartItems  = useSelector((state: RootState) => state.role.ordersData);
+    console.log("Orders Data in the cart screen!", cartItems )
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const route = useRoute();
     const productData = route?.params?.product;
