@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, ActivityIndicator } from "react-native";
 import TopHeader from "../components/Topheader";
 import { fontFamily } from "../assets/Fonts";
 import { fontSizes } from "../utilities/fontsizes";
@@ -50,12 +50,16 @@ const Checkout = () => {
                 subTotal: finalTotal,
                 deliveryCharges: deliveryFee,
                 deliveryType: "delivery",
-                orderItems: [
-                    {
-                        productId: productsData.id,
-                        qty: totalItems
-                    }
-                ]
+                // orderItems: [
+                //     {
+                //         productId: productsData.id,
+                //         qty: totalItems
+                //     }
+                // ]
+                orderItems: productsData.map((item: any) => ({
+                    productId: Number(item.id),
+                    qty: item.quantity
+                }))
             }
 
             const { response, error } = await apiHelper(
@@ -75,7 +79,7 @@ const Checkout = () => {
                     text2: response?.data?.message
                 })
 
-                navigation.navigate("OrderConfirmed",{ItemsData: productsData, remainingItems: remainingItems})
+                navigation.navigate("OrderConfirmed", { ItemsData: productsData, remainingItems: remainingItems })
             }
         } catch (error) {
             Toast.show({
@@ -101,12 +105,12 @@ const Checkout = () => {
                         <Text style={styles.headText}>Delivery Address</Text>
                         <View style={styles.addMain}>
                             <Text style={styles.deliveryText}>Add Delivery Address</Text>
-                            <TouchableOpacity 
-                                activeOpacity={0.6} 
+                            <TouchableOpacity
+                                activeOpacity={0.6}
                                 onPress={() =>
-                                navigation.navigate("AddDeliveryAddress")}
-                                disabled={!!addressData} 
-                                style={{ opacity: addressData ? 0.5 : 1 }} 
+                                    navigation.navigate("AddDeliveryAddress")}
+                                disabled={!!addressData}
+                                style={{ opacity: addressData ? 0.5 : 1 }}
                             >
                                 <Image source={images.addIcon} style={styles.addIcon} />
                             </TouchableOpacity>
@@ -127,15 +131,15 @@ const Checkout = () => {
                                 <Text style={styles.addressPhone}>{addressData?.countryCode}</Text>
                                 <Text style={styles.addressPhone}>{addressData?.phoneNumber}</Text>
                             </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", gap: width * 0.01 }}>
-                                    <Text style={styles.addressText}>{addressData.city},</Text>
-                                    <Text style={styles.addressText}>{addressData.region}</Text>
-                                </View>
-                                <Text style={styles.addressText}>{addressData.postalCode}</Text>
-                                <Text style={styles.addressText}>{addressData.address}</Text>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: width * 0.01 }}>
+                                <Text style={styles.addressText}>{addressData.city},</Text>
+                                <Text style={styles.addressText}>{addressData.region}</Text>
+                            </View>
+                            <Text style={styles.addressText}>{addressData.postalCode}</Text>
+                            <Text style={styles.addressText}>{addressData.address}</Text>
                         </View>
                     )}
-                    <View style={styles.OrderMain}>
+                    {/* <View style={styles.OrderMain}>
                         <Text style={styles.headText}>Order Details</Text>
                         <View style={styles.bookContainer}>
                             <View style={styles.selectedBookMain}>
@@ -163,10 +167,48 @@ const Checkout = () => {
                                 </View>
                             </View>
                             <View style={styles.stockInfo}>
-                                <Text style={styles.stockText}>Only {remainingItems || "5"} items in stock</Text>
+                                <Text style={styles.stockText}>Only {remainingItems.map(item => `Product ${item.productId}: ${item.remaining}`).join(', ')} items in stock</Text>
                                 <Text style={styles.priceText}>${productsData?.price || "12.56"}</Text>
                             </View>
                         </View>
+                    </View> */}
+
+
+                    <View style={styles.OrderMain}>
+                        <Text style={styles.headText}>Order Details</Text>
+                        {productsData && productsData.length > 0 ? (
+                            productsData.map((item, index) => {
+                                const remainingItem = remainingItems.find(
+                                    (ri: any) => ri.productId === item.id
+                                );
+                                const remainingQty = remainingItem ? remainingItem.remaining : 0;
+                                const itemTotal = ((item.price) * item.quantity);
+
+                                return (
+                                    <View key={item.id} style={styles.bookContainer}>
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                            <View style={{ flex: 1 }}>
+                                                <Text style={styles.bookText}>
+                                                    {item.name.length > 25
+                                                        ? `${item.name.substring(0, 25)}...`
+                                                        : item.name}
+                                                </Text>
+                                                <Text style={styles.stockText}>
+                                                    Only {remainingQty} items in stock
+                                                </Text>
+                                            </View>
+
+                                            <View style={{ alignItems: "flex-end" }}>
+                                                <Text style={styles.priceText}>${itemTotal.toFixed(2)}</Text>
+                                                <Text style={styles.stockText}>Qty: {item.quantity}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                );
+                            })
+                        ) : (
+                            <Text style={{ textAlign: "center", marginTop: 20 }}>No products in the cart</Text>
+                        )}
                     </View>
                     <View style={styles.OrderMain}>
                         <Text style={styles.headText}>Order Summary</Text>
@@ -280,11 +322,27 @@ const Checkout = () => {
                     </View>
                 </View>
             </Modal>
+            {loading && (
+                <View style={styles.loaderOverlay}>
+                    <ActivityIndicator size="large" color={colors.brown} />
+                </View>
+            )}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+    },
     container: {
         paddingHorizontal: width * 0.04,
         marginTop: height * 0.01
@@ -320,7 +378,7 @@ const styles = StyleSheet.create({
     },
     bookContainer: {
         width: width * 0.93,
-        height: height * 0.16,
+        height: height * 0.08,
         backgroundColor: colors.white,
         borderRadius: 8,
         padding: 15,

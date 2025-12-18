@@ -85,7 +85,7 @@ const OrderConfirmed = () => {
             </View>
         )
     }
-    
+
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -96,7 +96,7 @@ const OrderConfirmed = () => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContent}
                 >
-                    <View style={styles.bookContainer}>
+                    {/* <View style={styles.bookContainer}>
                         <View style={styles.selectedBookMain}>
                             <Image 
                                 // source={images.recBookSec} 
@@ -122,9 +122,42 @@ const OrderConfirmed = () => {
                             <Text style={styles.stockText}>Only {remainingItems || "5"} items in stock</Text>
                             <Text style={styles.priceText}>${productsData?.price || "12.56"}</Text>
                         </View>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.flatlistContainer}>
+                    {productsData && productsData.length > 0 ? (
+                        productsData.map((item, index) => {
+                            const remainingItem = remainingItems.find(ri => ri.productId === item.id);
+                            const remainingQty = remainingItem ? Number(remainingItem.remaining) : 0;
+                            const itemPrice = Number(item.price || 0);
+
+                            return (
+                                <View key={item.id || index} style={styles.bookContainer}>
+                                    <View style={styles.selectedBookMain}>
+                                        <Image
+                                            source={{ uri: `http://18.204.175.233:3001/${item.image}` }}
+                                            style={styles.imgMain}
+                                        />
+                                        <View style={styles.textContent}>
+                                            <Text style={styles.bookText}>
+                                                {item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}
+                                            </Text>
+                                            <Text style={styles.bookDescription}>
+                                                {item.description ? `${item.description.substring(0, 25)}...` : "Lorem Ipsum is Dummy text..."}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.stockInfo}>
+                                        <Text style={styles.stockText}>Only {remainingQty} items in stock</Text>
+                                        <Text style={styles.priceText}>${itemPrice.toFixed(2)}</Text>
+                                    </View>
+                                </View>
+                            );
+                        })
+                    ) : (
+                        <Text>No products found</Text>
+                    )}
+
+                    {/* <View style={styles.flatlistContainer}>
                         <Text style={styles.sectionTitle}>Popular Selling Books</Text>
                         <FlatList
                             data={bookData}
@@ -135,7 +168,7 @@ const OrderConfirmed = () => {
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.flatListContent}
                         />
-                    </View>
+                    </View> */}
                 </ScrollView>
 
                 <View style={styles.bottomMain}>
@@ -188,7 +221,7 @@ const styles = StyleSheet.create({
     bookContainer: {
         width: width * 0.93,
         height: height * 0.155,
-        alignSelf:'center',
+        alignSelf: 'center',
         backgroundColor: colors.white,
         borderRadius: 8,
         padding: 10,

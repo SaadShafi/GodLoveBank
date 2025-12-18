@@ -197,25 +197,41 @@ const roleSlice = createSlice({
     setOrdersData: (state, action) => {
       state.ordersData = action.payload;
     },
-    addToCart: (state, action: PayloadAction<any>) => {
+    addToCart: (
+      state,
+      action: PayloadAction<{
+        id: string | number;
+        quantity?: number;
+        [key: string]: any;
+      }>
+    ) => {
       if (!Array.isArray(state.ordersData)) {
         state.ordersData = [];
       }
 
       const item = action.payload;
+      const qty = item.quantity ?? 1;
 
       const existingItem = state.ordersData.find(
         (i: any) => i.id === item.id
       );
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += qty; // ✅ add count
       } else {
         state.ordersData.push({
           ...item,
-          quantity: 1,
+          quantity: qty, // ✅ use count
         });
       }
+    },
+    removeCartItem: (
+      state,
+      action: PayloadAction<string | number>
+    ) => {
+      state.ordersData = state.ordersData.filter(
+        (item: any) => item.id !== action.payload
+      );
     },
   },
 });
@@ -253,5 +269,6 @@ export const {
   setAddressData,
   setOrdersData,
   addToCart,
+  removeCartItem,
 } = roleSlice.actions;
 export default roleSlice.reducer;

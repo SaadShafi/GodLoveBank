@@ -38,6 +38,7 @@ const ECommerce = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<any[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const recommendedData = [
     {
@@ -309,6 +310,10 @@ const ECommerce = () => {
                   name: item.name,
                   price: item.price,
                   image: item.image,
+                  description: item.description,
+                  inventory: item.inventory,
+                  authorName: item.author,
+                  quantity: 1,
                 })
               );
 
@@ -427,7 +432,14 @@ const ECommerce = () => {
   useEffect(() => {
     fetchCategories()
     fetchProducts();
-  }, [])
+  }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -474,6 +486,8 @@ const ECommerce = () => {
                 marginTop: height * 0.01,
                 left: width * 0.03,
               }}
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
             />
           </View>
 
@@ -536,7 +550,7 @@ const ECommerce = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                   paddingHorizontal: 10,
-                  marginTop: height * 0.01,
+                  marginTop: height * 0.01, 
                   left: width * 0.03,
                 }}
               />

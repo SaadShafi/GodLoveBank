@@ -7,14 +7,17 @@ import { fontSizes } from "../utilities/fontsizes";
 import { colors } from "../utilities/colors";
 import CustomButton from "../components/CustomButton";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { removeCartItem } from "../redux/slice/roleSlice";
 
 const Cart = () => {
-    const cartItems  = useSelector((state: RootState) => state.role.ordersData);
-    console.log("Orders Data in the cart screen!", cartItems )
+    const dispatch = useDispatch();
+    const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+    const cartItems = useSelector((state: RootState) => state.role.ordersData);
+    console.log("Orders Data in the cart screen!", cartItems)
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const route = useRoute();
     const productData = route?.params?.product;
@@ -28,10 +31,90 @@ const Cart = () => {
             : productData.inventory - 1
         : 0;
 
+    const getRemainingInventory = (item: any) => {
+        return item.inventory
+            ? item.inventory - item.quantity
+            : 0;
+    };
+
+
+    const paramCartItem = productData
+        ? {
+            id: productData.id,
+            name: productData.name,
+            price: productData.price,
+            image: productData.image,
+            description: productData.description,
+            inventory: productData.inventory,
+            authorName: productData.author,
+            quantity: totalOrderNumber,
+        }
+        : null;
+
+    // const mergedCartItems = React.useMemo(() => {
+    //     const map = new Map<number, any>();
+
+    //     cartItems?.forEach(item => {
+    //         map.set(item.id, item);
+    //     });
+
+    //     if (paramCartItem) {
+    //         const existing = map.get(paramCartItem.id);
+
+    //         map.set(paramCartItem.id, {
+    //             ...paramCartItem,
+    //             quantity: existing
+    //                 ? existing.quantity + paramCartItem.quantity
+    //                 : paramCartItem.quantity,
+    //         });
+    //     }
+
+    //     return Array.from(map.values());
+    // }, [cartItems, paramCartItem]);
+
+    const mergedCartItems = React.useMemo(() => {
+        const map = new Map<number, any>();
+
+        // Add all items from Redux first
+        cartItems?.forEach(item => {
+            map.set(item.id, item);
+        });
+
+        // Only add paramCartItem if it's not already in Redux
+        if (paramCartItem && !map.has(paramCartItem.id)) {
+            map.set(paramCartItem.id, paramCartItem);
+        }
+
+        return Array.from(map.values());
+    }, [cartItems, paramCartItem]);
+
+    const cartSummary = React.useMemo(() => {
+        return mergedCartItems.reduce(
+            (acc, item) => {
+                acc.totalItems += item.quantity;
+                acc.totalPrice += Number(item.price) * item.quantity;
+                return acc;
+            },
+            { totalItems: 0, totalPrice: 0 }
+        );
+    }, [mergedCartItems]);
+
+    const remainingItems = React.useMemo(() => {
+        return mergedCartItems.map(item => ({
+            productId: item.id,
+            remaining: item.inventory
+                ? item.inventory - item.quantity
+                : 0,
+        }));
+    }, [mergedCartItems]);
+
     const toggleModal = () => {
+        if (selectedItemId !== null) {
+            dispatch(removeCartItem(selectedItemId));
+        }
         setModalVisible(false);
         navigation.popToTop();
-    }
+    };
 
     const bookData = [
         {
@@ -105,16 +188,87 @@ const Cart = () => {
         )
     }
 
+    const renderCartItem = ({ item }: { item: any }) => {
+        const remainingInventory = getRemainingInventory(item);
+        const itemTotal = (Number(item.price) * item.quantity).toFixed(2);
+
+        return (
+            <View style={styles.bookContainer}>
+                <View style={styles.selectedBookMain}>
+                    <Image
+                        source={{ uri: `http://18.204.175.233:3001/${item.image}` }}
+                        style={styles.imgMain}
+                    />
+
+                    <View style={styles.textContent}>
+                        <View style={styles.headTextMain}>
+                            <Text style={styles.bookText} numberOfLines={1}>
+                                {item.name}
+                            </Text>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setSelectedItemId(item.id);
+                                    setModalVisible(true);
+                                }}
+                            >
+                                <Image source={images.trashIcon} style={styles.trashIcon} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <Text style={styles.bookDescription}>
+                            {/* {item.description} */}
+                            {item?.description
+                                ? `${item.description.substring(0, 25)}...`
+                                : "Lorem Ipsum is Dummy text..."}
+                        </Text>
+
+                        {/* <Text style={styles.authorName}>
+                            {item.authorName}
+                        </Text> */}
+                    </View>
+                </View>
+
+                <View style={styles.stockInfo}>
+                    <Text style={styles.stockText}>
+                        Only {remainingInventory} items in stock
+                    </Text>
+                    <Text style={styles.priceText}>
+                        ${itemTotal}
+                    </Text>
+                </View>
+            </View>
+        );
+    };
+
     return (
         <View style={{ flex: 1 }}>
             <TopHeader text="Cart" isCross={true} />
             <View style={styles.container}>
-                <ScrollView
+                <View
                     style={styles.scrollView}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.scrollContent}
+                // showsVerticalScrollIndicator={false}
+                // contentContainerStyle={styles.scrollContent}
                 >
-                    <View style={{ paddingHorizontal: width * 0.03 }}>
+
+                    <FlatList
+                        data={mergedCartItems}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={renderCartItem}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: height * 0.2 }}
+                        extraData={mergedCartItems} 
+                        ListEmptyComponent={() => (
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: height * 0.1 }}>
+                                <Text style={{ fontSize: 16, color: colors.gray }}>
+                                    Your cart is empty
+                                </Text>
+                            </View>
+                        )}
+                    />
+
+
+                    {/* <View style={{ paddingHorizontal: width * 0.03 }}>
                         <View style={styles.bookContainer}>
                             <View style={styles.selectedBookMain}>
                                 <Image
@@ -146,9 +300,9 @@ const Cart = () => {
                                 <Text style={styles.priceText}>${productData?.price || "12.56"}</Text>
                             </View>
                         </View>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.flatlistContainer}>
+                    {/* <View style={styles.flatlistContainer}>
                         <Text style={styles.sectionTitle}>Popular Selling Books</Text>
                         <FlatList
                             data={bookData}
@@ -159,26 +313,34 @@ const Cart = () => {
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.flatListContent}
                         />
-                    </View>
-                </ScrollView>
+                    </View> */}
+                </View>
+
                 <View style={styles.orderMain}>
                     <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total {totalOrderNumber} Item{totalOrderNumber > 1 ? "s" : ""}</Text>
-                        <Text style={styles.totalAmount}>${totalPrice || "25.56"}</Text>
+                        <Text style={styles.totalText}>
+                            Total {cartSummary.totalItems} Item{cartSummary.totalItems > 1 ? "s" : ""}
+                        </Text>
+                        <Text style={styles.totalAmount}>${cartSummary.totalPrice.toFixed(2)}</Text>
                     </View>
                     <CustomButton
                         btnHeight={height * 0.07}
                         btnWidth={width * 0.4}
                         text="Order Now"
                         textColor={colors.white}
-                        backgroundColor={colors.darkmarhoon}
+                        backgroundColor={mergedCartItems.length < 1 ? colors.darkmarhoon : colors.lightmarhoon}
                         borderRadius={20}
                         onPress={() => navigation.navigate("Checkout", {
-                            products: productData,
-                            totalPayment: totalPrice,
-                            remainingItems: remainingInventory,
-                            totalItems: totalOrderNumber
+                            // products: productData,
+                            // totalPayment: totalPrice,
+                            // remainingItems: remainingInventory,
+                            // totalItems: totalOrderNumber
+                            products: mergedCartItems,
+                            totalPayment: cartSummary.totalPrice,
+                            totalItems: cartSummary.totalItems,
+                            remainingItems: remainingItems,
                         })}
+                        disabled={mergedCartItems.length === 0}
                     />
                 </View>
             </View>

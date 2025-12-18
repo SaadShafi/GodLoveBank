@@ -20,56 +20,110 @@ const MediaDetails = () => {
   console.log("Video Id from the params", videoId)
   const [details, setDetails] = useState(null)
 
-  const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
-    try {
-      setLoading(true);
+  // const handleFavouritePress = async (videoId: number, isCurrentlyFavourite: boolean) => {
+  //   try {
+  //     setLoading(true);
       
-      const action = isCurrentlyFavourite ? "unfavourite" : "favourite";
+  //     const action = isCurrentlyFavourite ? "unfavourite" : "favourite";
 
-      const body ={
-        action: action,
-        type: "video",
-        videoId: videoId,
-        product: 1
-      }
+  //     const body ={
+  //       action: action,
+  //       type: "video",
+  //       videoId: videoId,
+  //       product: 1
+  //     }
       
-      const { response, error } = await apiHelper(
-        "POST",
-        "/users/favourites",
-        {},
-        {},
-        body
-      );
+  //     const { response, error } = await apiHelper(
+  //       "POST",
+  //       "/users/favourites",
+  //       {},
+  //       {},
+  //       body
+  //     );
 
-      console.log("Response from the POST favourite API!", response)
+  //     console.log("Response from the POST favourite API!", response)
 
-      if (response) {
-        setDetails(prev => ({
-          ...prev,
-          is_fav: !isCurrentlyFavourite
-        }));
+  //     if (response) {
+  //       setDetails(prev => ({
+  //         ...prev,
+  //         is_fav: !isCurrentlyFavourite
+  //       }));
         
-        Toast.show({
-          type: "success",
-          text1: "Success",
-          text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
-        });
-      }
+  //       Toast.show({
+  //         type: "success",
+  //         text1: "Success",
+  //         text2: `Video ${!isCurrentlyFavourite ? "added to" : "removed from"} favourites`
+  //       });
+  //     }
       
-      if (error) {
-        throw new Error(error.message || "Failed to update favourite");
-      }
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: error?.message || "Failed to update favourite"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (error) {
+  //       throw new Error(error.message || "Failed to update favourite");
+  //     }
+  //   } catch (error) {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Error",
+  //       text2: error?.message || "Failed to update favourite"
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
+
+  const handleFavouritePress = async (
+  videoId: number,
+  productId: number,
+  isCurrentlyFavourite: boolean
+) => {
+  try {
+    setLoading(true);
+
+    const action = isCurrentlyFavourite ? "unfavourite" : "favourite";
+
+    const body = {
+      action,
+      type: videoId ? "video" : "product",
+      videoId: videoId || null,
+      product: productId || null,
+    };
+
+    const { response, error } = await apiHelper(
+      "POST",
+      "/users/favourites",
+      {},
+      {},
+      body
+    );
+
+    if (response) {
+      setDetails(prev => ({
+        ...prev,
+        is_fav: !isCurrentlyFavourite,
+      }));
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: `${body.type === "video" ? "Video" : "Book"} ${
+          !isCurrentlyFavourite ? "added to" : "removed from"
+        } favourites`,
+      });
+    }
+
+    if (error) {
+      throw new Error(error.message || "Failed to update favourite");
+    }
+  } catch (error: any) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: error?.message || "Failed to update favourite",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const fetchDetails = async () => {
     setLoading(true)
@@ -113,9 +167,13 @@ const MediaDetails = () => {
         <TopHeader 
           isBack={true} 
           favIcon={true}  
+          // videoId={videoId}
+          // onFavouritePress={handleFavouritePress}
+          // isFavourite={details?.is_fav || false}
           videoId={videoId}
+          productId={0} // 👈 important so TopHeader knows it's a video
+          isFavourite={details?.is_fav ?? false}
           onFavouritePress={handleFavouritePress}
-          isFavourite={details?.is_fav || false}
         />
       </View>
 

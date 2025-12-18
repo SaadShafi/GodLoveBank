@@ -19,6 +19,8 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/slice/roleSlice';
 
 interface ratingProp {
   image: any;
@@ -33,11 +35,14 @@ const AddBook = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(false);
+  // const [products, setProducts] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
   const route = useRoute();
   const id = route?.params?.productId;
   console.log("Route in the AddBook Screen!", route)
-  const [details, setDetails] = useState<any[]>([])
+  const [details, setDetails] = useState<any[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch();
 
   const ratingData = [
     {
@@ -209,6 +214,11 @@ const AddBook = () => {
       const { response } = await apiHelper("POST", "/users/favourites", {}, {}, body);
 
       if (response?.data?.status) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: response.data.message
+        })
         // Update local state for product favourites
         if (productId) {
           setDetails(prev =>
@@ -234,7 +244,13 @@ const AddBook = () => {
   useEffect(() => {
     fetchProductDetail(id);
     fetchProductsReviews(id);
-  }, [])
+  }, []);
+
+   const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchProductDetail(id);
+    setRefreshing(false);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -291,10 +307,25 @@ const AddBook = () => {
             textColor={colors.white}
             backgroundColor={colors.marhoon}
             borderRadius={10}
-            onPress={() => navigation.navigate('Cart', {
-              product: products,
-              totalOrderNumber: count,
-            })}
+            onPress={() => {
+              dispatch(addToCart({
+                id: products.id,
+                name: products.name,
+                price: products.price,
+                image: products.image,
+                description: products.description,
+                inventory: products.inventory,
+                authorName: products.author,
+                quantity: count,
+              })
+            )
+
+              navigation.navigate('Cart', {
+                product: products,
+                totalOrderNumber: count,
+              })
+            }
+          }
           />
         </View>
       </View>
