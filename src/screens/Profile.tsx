@@ -31,7 +31,7 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const User = useSelector((state: RootState) => state.role.user)
-  const token = useSelector((state: any) => state.role.accessToken);
+  const token = useSelector((state: any) => state.role.user.accessToken);
   console.log("Topken from Redux to notification:", token);
 
   const BASE_URL = 'http://18.204.175.233:3001/';
@@ -202,7 +202,7 @@ const Profile = () => {
           <Text style={styles.optionText}>Push Notifications</Text>
              <TouchableOpacity
               activeOpacity={0.8}
-              onPress={toggleSwitch}
+              onPress={toggleNotification}
               style={[
                 styles.customToggleContainer,
                 { backgroundColor: isEnabled ? '#631D15' : '#767577' }
