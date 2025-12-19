@@ -8,7 +8,7 @@ import { NavigationProp, useNavigation, useRoute } from "@react-navigation/nativ
 import CustomButton from "../components/CustomButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useDispatch } from "react-redux";
-import { removeAddressData } from "../redux/slice/roleSlice";
+import { removeAddressData, removeCartItem, removeOrderData } from "../redux/slice/roleSlice";
 
 const OrderConfirmed = () => {
     const dispatch = useDispatch();
@@ -181,6 +181,7 @@ const OrderConfirmed = () => {
                         borderWidth={1}
                         borderRadius={20}
                         onPress={() => {
+                              dispatch(removeOrderData())
                             dispatch(removeAddressData())
                             navigation.popToTop();
                         }}
@@ -193,7 +194,10 @@ const OrderConfirmed = () => {
                         backgroundColor={colors.marhoon}
                         borderWidth={1}
                         borderRadius={20}
-                        onPress={() => navigation.navigate("MyOrders")}
+                        onPress={() => {
+                             dispatch(removeOrderData())
+                            navigation.navigate("MyOrders")
+                        }}
                     />
                 </View>
             </View>

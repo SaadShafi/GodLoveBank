@@ -197,8 +197,16 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <TouchableOpacity
               style={styles.headerArrow}
               activeOpacity={0.7}
+               onPress={() => {
+                // if (navigation) {
+                //   navigation.canGoBack()
+                //     ? navigation.goBack()
+                //     : navigation.navigate('Home' as never);
+                // }
+                navigation.popToTop();
+              }}
             >
-              <Image source={images.backWhite} style={styles.backArrow} />
+               <Image source={images.isBack} style={styles.backArrowBlack} />
             </TouchableOpacity>
           )}
           {isClose && (

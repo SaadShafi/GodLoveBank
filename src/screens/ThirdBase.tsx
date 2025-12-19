@@ -19,6 +19,7 @@ const ThirdBase = () => {
   const [story, setStory] = useState(null);
   // const [fullData, setFullData] = useState(null);
   const route = useRoute();
+  console.log("params in the ThirdBase", route?.params)
   const { baseAssignments, fullData } = route.params || {};
 
   useEffect(() => {
@@ -101,7 +102,8 @@ const ThirdBase = () => {
             backgroundColor={colors.marhoon}
             borderRadius={20}
             onPress={() => navigation.navigate('CreateProfile',{
-              baseAssignments
+              baseAssignments,
+              fullData: fullData
             })}
           />
         </View>

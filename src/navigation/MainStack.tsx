@@ -92,6 +92,7 @@ import InterestRepsTimer from '../screens/InterestRepsTimer';
 import CoreValuesTimer from '../screens/CoreValuesTimer';
 import CoreValuesTimerTwo from '../screens/CoreValuesTImerTwo';
 import CoreValuesTimerThree from '../screens/CoreValuesTimerThree';
+import BaseballDiamondSec from '../screens/BaseballDiamondSec';
 
 export type StackParamList = {
   Register: undefined;
@@ -103,6 +104,7 @@ export type StackParamList = {
   SetNewPassword: undefined;
   Questionnaire: undefined;
   BaseballDiamond: undefined;
+  BaseballDiamondSec: undefined;
   HomeBase: undefined;
   FirstBase: undefined;
   SecondBase: undefined;
@@ -206,6 +208,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
       <Stack.Screen name="Questionnaire" component={Questionnaire} />
       <Stack.Screen name="BaseballDiamond" component={BaseballDiamond} />
+      <Stack.Screen name="BaseballDiamondSec" component={BaseballDiamondSec} />
       <Stack.Screen name="HomeBase" component={HomeBase} />
       <Stack.Screen name="FirstBase" component={FirstBase} />
       <Stack.Screen name="SecondBase" component={SecondBase} />

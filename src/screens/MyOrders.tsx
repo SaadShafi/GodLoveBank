@@ -200,7 +200,12 @@ const MyOrders = () => {
                                 style={styles.bookImg}
                             />
                             <View style={styles.bookInfoMain}>
-                                <Text style={styles.bookHeadText}>{book.product.name}</Text>
+                                <Text style={styles.bookHeadText}>
+                                    {/* {book.product.name} */}
+                                    {book.product.name.length > 25
+                                        ? `${book.product.name.substring(0, 25)}...`
+                                        : book.product.name}
+                                </Text>
                                 <Text style={styles.bookText}>Qty: {book.qty}</Text>
                                 <Text style={styles.priceText}>${Number(book.price).toFixed(2)}</Text>
                             </View>
@@ -311,73 +316,73 @@ const MyOrders = () => {
     // }
 
     const ActionSheet = () => {
-    if (!selectedOrder) return null;
+        if (!selectedOrder) return null;
 
-    return (
-        <Modal
-            visible={isActionSheetVisible}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={closeActionSheet}
-        >
-            <TouchableOpacity
-                style={styles.modalOverlay}
-                activeOpacity={1}
-                onPress={closeActionSheet}
+        return (
+            <Modal
+                visible={isActionSheetVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={closeActionSheet}
             >
-                <View style={styles.actionSheet}>
+                <TouchableOpacity
+                    style={styles.modalOverlay}
+                    activeOpacity={1}
+                    onPress={closeActionSheet}
+                >
+                    <View style={styles.actionSheet}>
 
-                    <TouchableOpacity onPress={closeActionSheet} style={styles.actionSheetHeader}>
-                        <Image source={images.toggleBar} />
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={closeActionSheet} style={styles.actionSheetHeader}>
+                            <Image source={images.toggleBar} />
+                        </TouchableOpacity>
 
-                    <View style={styles.actionSheetHeader}>
-                        <Image source={images.status} style={styles.statusIcon} />
-                    </View>
-                    <View style={styles.orderNumberSection}>
-                        <Text style={styles.actionSheetTitle}>Order Number</Text>
-                        <Text style={styles.orderNumber}>
-                            {selectedOrder.orderNumber}
-                        </Text>
-                        <Text style={styles.orderDate}>
-                            {new Date(selectedOrder.createdAt).toLocaleDateString()}
-                        </Text>
-                    </View>
-                    <View style={styles.addressSection}>
-                        <Image source={images.locationIcon} style={styles.locationIcon} />
-                        <Text style={styles.addressText}>
-                            {selectedOrder.address?.label} # {selectedOrder.address?.postalCode}, {selectedOrder.address?.city} {selectedOrder.address?.region}
-                        </Text>
-                        <Image source={images.helpBtn} style={styles.helpBtn} />
-                    </View>
-                    <View style={styles.priceSection}>
-                        <View style={styles.priceRow}>
-                            <Text style={styles.priceLabel}>Subtotal:</Text>
-                            <Text style={styles.priceValue}>
-                                ${Number(selectedOrder.subTotal).toFixed(2)}
+                        <View style={styles.actionSheetHeader}>
+                            <Image source={images.status} style={styles.statusIcon} />
+                        </View>
+                        <View style={styles.orderNumberSection}>
+                            <Text style={styles.actionSheetTitle}>Order Number</Text>
+                            <Text style={styles.orderNumber}>
+                                {selectedOrder.orderNumber}
+                            </Text>
+                            <Text style={styles.orderDate}>
+                                {new Date(selectedOrder.createdAt).toLocaleDateString()}
                             </Text>
                         </View>
-
-                        <View style={styles.priceRow}>
-                            <Text style={styles.priceLabel}>Platform Fee:</Text>
-                            <Text style={styles.priceValue}>
-                                $ 5.99
+                        <View style={styles.addressSection}>
+                            <Image source={images.locationIcon} style={styles.locationIcon} />
+                            <Text style={styles.addressText}>
+                                {selectedOrder.address?.label} # {selectedOrder.address?.postalCode}, {selectedOrder.address?.city} {selectedOrder.address?.region}
                             </Text>
+                            <Image source={images.helpBtn} style={styles.helpBtn} />
+                        </View>
+                        <View style={styles.priceSection}>
+                            <View style={styles.priceRow}>
+                                <Text style={styles.priceLabel}>Subtotal:</Text>
+                                <Text style={styles.priceValue}>
+                                    ${Number(selectedOrder.subTotal).toFixed(2)}
+                                </Text>
+                            </View>
+
+                            <View style={styles.priceRow}>
+                                <Text style={styles.priceLabel}>Platform Fee:</Text>
+                                <Text style={styles.priceValue}>
+                                    $ 5.99
+                                </Text>
+                            </View>
+
+                            <View style={[styles.priceRow, styles.totalRow]}>
+                                <Text style={styles.totalLabel}>Total:</Text>
+                                <Text style={styles.totalValue}>
+                                    ${Number(selectedOrder.grandTotal).toFixed(2)}
+                                </Text>
+                            </View>
                         </View>
 
-                        <View style={[styles.priceRow, styles.totalRow]}>
-                            <Text style={styles.totalLabel}>Total:</Text>
-                            <Text style={styles.totalValue}>
-                                ${Number(selectedOrder.grandTotal).toFixed(2)}
-                            </Text>
-                        </View>
                     </View>
-
-                </View>
-            </TouchableOpacity>
-        </Modal>
-    );
-};
+                </TouchableOpacity>
+            </Modal>
+        );
+    };
 
 
 
@@ -396,6 +401,13 @@ const MyOrders = () => {
                     }}
                     style={{ flex: 1 }}
                     showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={() => (
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: height * 0.4 }}>
+                            <Text style={{ fontSize: fontSizes.md, color: colors.red }}>
+                                No Items in Pending
+                            </Text>
+                        </View>
+                    )}
                 />
             </View>
         )
@@ -403,19 +415,26 @@ const MyOrders = () => {
 
     const DeliveredScreen: React.FC = () => {
         return (
-            <View style={{ flex: 1 }}>
-                <FlatList
-                    data={tabsDataSec}
-                    renderItem={renderDeliveredTab}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={{
-                        top: height * 0.01,
-                        gap: height * 0.02,
-                        paddingBottom: height * 0.15,
-                    }}
-                    style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
-                />
+            // <View style={{ flex: 1 }}>
+            //     <FlatList
+            //         data={tabsDataSec}
+            //         renderItem={renderDeliveredTab}
+            //         keyExtractor={(item, index) => index.toString()}
+            //         contentContainerStyle={{
+            //             top: height * 0.01,
+            //             gap: height * 0.02,
+            //             paddingBottom: height * 0.15,
+            //         }}
+            //         style={{ flex: 1 }}
+            //         showsVerticalScrollIndicator={false}
+            //     />
+            // </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Text style={{
+                    // fontFamily: fontFamily.GilroyBold,
+                    fontSize: fontSizes.md,
+                    color: colors.red
+                }}>No Item Delivered yet</Text>
             </View>
         )
     }
@@ -457,7 +476,7 @@ const MyOrders = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <TopHeader text="My Orders" isBackBlack={true} />
+            <TopHeader text="My Orders" isBackWhite={true} />
 
             <CustomTabs
                 tabs={['Pending', 'Delivered']}

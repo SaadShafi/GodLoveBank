@@ -123,6 +123,9 @@ const roleSlice = createSlice({
       state.addressData = null;
       state.ordersData = [];
     },
+    removeOrderData: state => {
+      state.ordersData = [];
+    },
     setUserProfiles: (state, action: PayloadAction<UserProfile>) => {
       state.profileUser = action.payload;
     },
@@ -245,6 +248,7 @@ export const {
   setUserEmail,
   removeUser,
   removeAddressData,
+  removeOrderData,
   setFullName,
   setUserProfiles,
   setUserId,
