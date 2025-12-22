@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     backgroundColor: colors.lightGray,
-    width: width * 0.25
+    width: width * 0.25,
   },
   dateText: {
     fontSize: fontSizes.sm,
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingBottom: Platform.OS === 'ios' ? 20 : height * 0.1,
+    paddingBottom: Platform.OS === 'ios' ? 20: height * 0.1,
   },
   sendBtn: {
     width: 22,

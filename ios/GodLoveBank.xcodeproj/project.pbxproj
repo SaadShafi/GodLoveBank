@@ -25,8 +25,8 @@
 		7DD7BCFF8897454E85017A69 /* Urbanist-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 488D6339445B4FCAAE87EE1F /* Urbanist-ExtraBold.ttf */; };
 		7F334FBCD09742AF8F431618 /* Urbanist-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22C7AD8B79454EE1A1CE055E /* Urbanist-SemiBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		98C00C7899B5CBE89F9FD2FB /* libPods-GodLoveBank.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F9DEE98DB6F58670EA01E3 /* libPods-GodLoveBank.a */; };
 		B1A1B8DD2AC848A29D1E5392 /* Gilroy-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE3528BBC1C4476A974B17E9 /* Gilroy-Medium.ttf */; };
+		B223560AAA5AECD05F935E36 /* libPods-GodLoveBank.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E113A9E63EB81AB43CED7D63 /* libPods-GodLoveBank.a */; };
 		C737EA7A2FEC46F4AD9C9679 /* Urbanist-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5B6631D69174B828613660F /* Urbanist-ExtraLight.ttf */; };
 		C9F30ED93928444FAC289A54 /* Urbanist-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3773D51D80243C5BB87B95A /* Urbanist-Thin.ttf */; };
 		E4C4E7F0BDF04F8880F3D413 /* Urbanist-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A54C9C86688742A8AE0E48B6 /* Urbanist-Light.ttf */; };
@@ -41,7 +41,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = GodLoveBank/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = GodLoveBank/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		22C7AD8B79454EE1A1CE055E /* Urbanist-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-SemiBold.ttf"; path = "../src/assets/Fonts/Urbanist-SemiBold.ttf"; sourceTree = "<group>"; };
-		27A4AD25400CC5DA97338188 /* Pods-GodLoveBank.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GodLoveBank.debug.xcconfig"; path = "Target Support Files/Pods-GodLoveBank/Pods-GodLoveBank.debug.xcconfig"; sourceTree = "<group>"; };
 		2EA06D83B2554F2B8DA57517 /* Gilroy-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Black.ttf"; path = "../src/assets/Fonts/Gilroy-Black.ttf"; sourceTree = "<group>"; };
 		488D6339445B4FCAAE87EE1F /* Urbanist-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-ExtraBold.ttf"; path = "../src/assets/Fonts/Urbanist-ExtraBold.ttf"; sourceTree = "<group>"; };
 		4B6FE98189484656B377895A /* Gilroy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Regular.ttf"; path = "../src/assets/Fonts/Gilroy-Regular.ttf"; sourceTree = "<group>"; };
@@ -54,11 +53,12 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GodLoveBank/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9AE03DB8370547588F708875 /* Gilroy-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Thin.ttf"; path = "../src/assets/Fonts/Gilroy-Thin.ttf"; sourceTree = "<group>"; };
 		9CDEF1F978474DA4BEA3040B /* Urbanist-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-Medium.ttf"; path = "../src/assets/Fonts/Urbanist-Medium.ttf"; sourceTree = "<group>"; };
+		A08849F4B5310A09AC2D6040 /* Pods-GodLoveBank.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GodLoveBank.release.xcconfig"; path = "Target Support Files/Pods-GodLoveBank/Pods-GodLoveBank.release.xcconfig"; sourceTree = "<group>"; };
+		A43DF7819C8CE18F55E6CA10 /* Pods-GodLoveBank.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GodLoveBank.debug.xcconfig"; path = "Target Support Files/Pods-GodLoveBank/Pods-GodLoveBank.debug.xcconfig"; sourceTree = "<group>"; };
 		A54C9C86688742A8AE0E48B6 /* Urbanist-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-Light.ttf"; path = "../src/assets/Fonts/Urbanist-Light.ttf"; sourceTree = "<group>"; };
-		AF3AD63D48AD5474C2EE7FCE /* Pods-GodLoveBank.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GodLoveBank.release.xcconfig"; path = "Target Support Files/Pods-GodLoveBank/Pods-GodLoveBank.release.xcconfig"; sourceTree = "<group>"; };
 		B3773D51D80243C5BB87B95A /* Urbanist-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-Thin.ttf"; path = "../src/assets/Fonts/Urbanist-Thin.ttf"; sourceTree = "<group>"; };
 		C65ADD6FEFA640A79F9469C2 /* Urbanist-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-Regular.ttf"; path = "../src/assets/Fonts/Urbanist-Regular.ttf"; sourceTree = "<group>"; };
-		D6F9DEE98DB6F58670EA01E3 /* libPods-GodLoveBank.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GodLoveBank.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E113A9E63EB81AB43CED7D63 /* libPods-GodLoveBank.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GodLoveBank.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADC55F3A1274123A89EE79C /* Gilroy-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Heavy.ttf"; path = "../src/assets/Fonts/Gilroy-Heavy.ttf"; sourceTree = "<group>"; };
 		EE3528BBC1C4476A974B17E9 /* Gilroy-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Medium.ttf"; path = "../src/assets/Fonts/Gilroy-Medium.ttf"; sourceTree = "<group>"; };
 		F5B6631D69174B828613660F /* Urbanist-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Urbanist-ExtraLight.ttf"; path = "../src/assets/Fonts/Urbanist-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98C00C7899B5CBE89F9FD2FB /* libPods-GodLoveBank.a in Frameworks */,
+				B223560AAA5AECD05F935E36 /* libPods-GodLoveBank.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,14 +86,6 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 			);
 			name = GodLoveBank;
-			sourceTree = "<group>";
-		};
-		251135B8CD9719C51259ED2A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D6F9DEE98DB6F58670EA01E3 /* libPods-GodLoveBank.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		47CB7A80B2D54D71B50A7686 /* Resources */ = {
@@ -122,6 +114,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		646334D2EEC9A0282772C504 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E113A9E63EB81AB43CED7D63 /* libPods-GodLoveBank.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
@@ -129,7 +129,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				47CB7A80B2D54D71B50A7686 /* Resources */,
 				A8B99EC92ED669C878DCA226 /* Pods */,
-				251135B8CD9719C51259ED2A /* Frameworks */,
+				646334D2EEC9A0282772C504 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,8 +147,8 @@
 		A8B99EC92ED669C878DCA226 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				27A4AD25400CC5DA97338188 /* Pods-GodLoveBank.debug.xcconfig */,
-				AF3AD63D48AD5474C2EE7FCE /* Pods-GodLoveBank.release.xcconfig */,
+				A43DF7819C8CE18F55E6CA10 /* Pods-GodLoveBank.debug.xcconfig */,
+				A08849F4B5310A09AC2D6040 /* Pods-GodLoveBank.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -160,13 +160,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "GodLoveBank" */;
 			buildPhases = (
-				146CDBC039BD12BEDC448EB5 /* [CP] Check Pods Manifest.lock */,
+				6CD4A93CBFE6D68F9FAB42C2 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4A8298FAB859A485271A5D5A /* [CP] Embed Pods Frameworks */,
-				370B89CEF1B20F4810688348 /* [CP] Copy Pods Resources */,
+				95C2789E5EB3265312A61F59 /* [CP] Embed Pods Frameworks */,
+				86834624845D58E7C0DC6E99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -257,7 +257,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		146CDBC039BD12BEDC448EB5 /* [CP] Check Pods Manifest.lock */ = {
+		6CD4A93CBFE6D68F9FAB42C2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -279,7 +279,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		370B89CEF1B20F4810688348 /* [CP] Copy Pods Resources */ = {
+		86834624845D58E7C0DC6E99 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,7 +296,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GodLoveBank/Pods-GodLoveBank-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4A8298FAB859A485271A5D5A /* [CP] Embed Pods Frameworks */ = {
+		95C2789E5EB3265312A61F59 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -329,7 +329,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27A4AD25400CC5DA97338188 /* Pods-GodLoveBank.debug.xcconfig */;
+			baseConfigurationReference = A43DF7819C8CE18F55E6CA10 /* Pods-GodLoveBank.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -349,6 +349,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = GodLoveBank;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "GodLoveBank/GodLoveBank-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -357,7 +358,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF3AD63D48AD5474C2EE7FCE /* Pods-GodLoveBank.release.xcconfig */;
+			baseConfigurationReference = A08849F4B5310A09AC2D6040 /* Pods-GodLoveBank.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -376,6 +377,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = GodLoveBank;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "GodLoveBank/GodLoveBank-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

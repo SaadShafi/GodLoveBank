@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     height: height * 0.085,
     resizeMode: 'cover',
     borderRadius: width * 0.09,
-    marginRight: width * 0.05,
+    marginRight: width * 0.065,
     left: height * 0.02
   },
   profileTextContainer: {

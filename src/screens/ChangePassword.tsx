@@ -274,7 +274,7 @@ const ChangePassword = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top: Platform.OS === 'ios' ? height * 0.05 : height 
+    top: Platform.OS === 'ios' ? height * 0.05 : height * 0.001
   },
   textMain: {
     alignItems: 'center',

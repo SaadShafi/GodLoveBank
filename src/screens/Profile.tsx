@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {
   Image,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -30,7 +31,7 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const User = useSelector((state: RootState) => state.role.user)
-  const token = useSelector((state: any) => state.role.accessToken);
+  const token = useSelector((state: any) => state.role.user.accessToken);
   console.log("Topken from Redux to notification:", token);
 
   const BASE_URL = 'http://18.204.175.233:3001/';
@@ -199,13 +200,23 @@ const Profile = () => {
 
         <View style={styles.optionRow}>
           <Text style={styles.optionText}>Push Notifications</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#631D15' }}
-            thumbColor={isEnabled ? '#fff' : '#f4f3f4'}
-            ios_backgroundColor="#ccc"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
+             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={toggleNotification}
+              style={[
+                styles.customToggleContainer,
+                { backgroundColor: isEnabled ? '#631D15' : '#767577' }
+              ]}
+            >
+              <View style={[
+                styles.customToggleCircle,
+                {
+                  backgroundColor: isEnabled ? '#fff' : '#f4f3f4',
+                  transform: [{ translateX: isEnabled ? 
+                    (Platform.OS === 'ios' ? 20 : 22) : 0 }]
+                }
+              ]} />
+            </TouchableOpacity>
         </View>
       </View>
 
@@ -346,16 +357,18 @@ const styles = StyleSheet.create({
     height: height * 0.18,
     borderRadius: width * 0.2,
     marginBottom: 6,
+    top: Platform.OS === 'ios' ? height * 0.05 : height * 0.001,
     resizeMode: 'cover',
   },
   profileText: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.md,
     color: colors.black,
+    top: Platform.OS === 'ios' ? height * 0.06 : height * 0
   },
   optionsWrapper: {
     paddingHorizontal: width * 0.05,
-    top: height * 0.017,
+    top: Platform.OS === 'ios' ? height * 0.06 : height * 0.017,
   },
   optionRow: {
     flexDirection: 'row',
@@ -377,7 +390,7 @@ const styles = StyleSheet.create({
     height: height * 0.1,
   },
   btnMain: {
-    top: height * 0.028,
+    top: Platform.OS === 'ios' ? height * 0.07 : height * 0.028,
     alignItems: 'center',
   },
 
@@ -464,6 +477,18 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     color: colors.black
   },
+customToggleContainer: {
+  width: 40,
+  height: 20,
+  borderRadius: 16,
+  justifyContent: 'center',
+  paddingHorizontal: 2,
+},
+customToggleCircle: {
+  width: 15,
+  height: 15,
+  borderRadius: 14,
+},
 });
 
 export default Profile;

@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -56,7 +56,7 @@ const SpiritualGrowth = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: colors.purple,
-    height: height * 0.14,
+    height: Platform.OS === 'ios' ? height * 0.14: height * 0.1,
     width: width * 0.9999,
     alignSelf: 'center',
     borderBottomRightRadius: 34,
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     position: 'absolute',
+    top: height * 0.02
   },
   text: {
     color: colors.white,

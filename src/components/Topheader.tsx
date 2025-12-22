@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
     width: width * 0.1,
     height: width * 0.1,
     resizeMode: 'contain',
-    right: width * 0.42
+    right: Platform.OS === 'ios' ? width * 0.42 : width * 0.42
   }
 });
 
