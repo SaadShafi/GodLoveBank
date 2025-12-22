@@ -177,10 +177,12 @@ const LoveDepositReps = () => {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() =>
-                navigation.navigate(screenMap[item.id], { title: item.name }) // use name instead of title
+                navigation.navigate(screenMap[item.id], {
+                  coreValue: item,
+                })
               }>
               <View style={[styles.buttonContainer, { backgroundColor: item.colorCode }]}>
-                <Text style={[styles.buttonText, { color: item.textColor || colors.white }]}>
+                <Text style={[styles.buttonText, { color: colors.white }]}>
                   {item.name}
                 </Text>
               </View>

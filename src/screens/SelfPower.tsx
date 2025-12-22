@@ -1,5 +1,5 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useEffect, useRef, useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -16,10 +16,17 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Sound from 'react-native-sound';
 
 const SelfPower = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [selectedCount, setSelectedCount] = useState<number | null>(null);
+  const soundRef = useRef<Sound | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const route = useRoute<any>();
+  const { coreValue } = route.params || {};
+  console.log('Self Power Data:', coreValue);
+
 
   const toggleCount = (count: number) => {
     setSelectedCount(selectedCount === count ? null : count);
@@ -46,6 +53,43 @@ const SelfPower = () => {
     </TouchableOpacity>
   );
 
+
+    Sound.setCategory('Playback');
+
+  const playAudio = () => {
+    if (!coreValue?.audioUrl) {
+    console.log('Audio URL not found');
+    return;
+  }
+
+  const audioFullUrl = `http://18.204.175.233:3001/${coreValue.audioUrl}`;
+
+  console.log('Playing:', audioFullUrl);
+
+  soundRef.current?.stop();
+  soundRef.current?.release();
+
+  soundRef.current = new Sound(audioFullUrl, undefined, (error) => {
+    if (error) {
+      console.log('Sound load error:', error);
+      return;
+    }
+
+    soundRef.current.play((success) => {
+      if (!success) {
+        console.log('Playback failed');
+      }
+    });
+  });
+};
+
+useEffect(() => {
+  return () => {
+    soundRef.current?.stop();
+    soundRef.current?.release();
+  };
+}, []);
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       {/* ✅ Fixed header on top */}
@@ -67,7 +111,8 @@ const SelfPower = () => {
           ))}
         </View>
 
-        <Text style={styles.jan}>APRIL</Text>
+        {/* <Text style={styles.jan}>APRIL</Text>0 */}
+        <Text style={styles.jan}>{coreValue?.type}</Text>
         <Text style={styles.luke}>1. Jesus’ Temptation (Mt. 4:1-11)</Text>
         <Text style={styles.peter}>2. Paul & Silas Jailed (Acts 16:1-34)</Text>
         <Text style={styles.nanas}>3. Hezekiah’s Illness (2 Kgs 20:1-11)</Text>
@@ -90,7 +135,8 @@ const SelfPower = () => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate("CoreValuesTimer", { coreValueId: 19, fromScreen: 'SelfPower' })}
+
             />
           </View>
 
@@ -108,7 +154,7 @@ const SelfPower = () => {
             />
           </View>
         </View>
-        <TouchableOpacity activeOpacity={0.7}>
+        <TouchableOpacity activeOpacity={0.7} onPress={playAudio}>
           <Image source={images.audio} style={styles.audio} />
         </TouchableOpacity>
       </ScrollView>

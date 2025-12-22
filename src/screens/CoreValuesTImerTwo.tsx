@@ -1,6 +1,6 @@
 
 
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
 import {
   Image,
@@ -18,6 +18,8 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const CoreValuesTimerTwo = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -26,16 +28,35 @@ const CoreValuesTimerTwo = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [loading, setLoading] = useState(false);
+  const route = useRoute<any>();
+  const coreValueId = route.params?.coreValueId;
+  console.log("Received CoreValueId:", coreValueId);
 
-  // Time options for the carousel
-  const timeOptions = ['30 Min', '01 Hour', '2 Hour'];
+  // ✅ UPDATED: 6 time options
+  const timeOptions = [
+    '5 Min',
+    '10 Min',
+    '15 Min',
+    '20 Min',
+    '25 Min',
+    '30 Min',
+  ];
 
-  // Convert selected time to seconds
+  const getApiTimeFormat = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+  return `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
+ // ✅ UPDATED: dynamic minutes to seconds
   const getTimeInSeconds = (time: string) => {
-    if (time === '30 Min') return 30 * 60;
-    if (time === '01 Hour') return 60 * 60;
-    if (time === '2 Hour') return 2 * 60 * 60;
-    return 0;
+    const minutes = parseInt(time); // "5 Min" -> 5
+    return minutes * 60;
   };
 
   // Format time to HH:MM:SS
@@ -51,10 +72,7 @@ const CoreValuesTimerTwo = () => {
 
   // Start timer
   const startTimer = () => {
-    if (timeLeft === 0) {
-      setTimeLeft(getTimeInSeconds(selectedTime));
-    }
-    setIsRunning(true);
+    setIsRunning(true); // ✅ start counting
   };
 
   // Stop timer
@@ -64,32 +82,88 @@ const CoreValuesTimerTwo = () => {
 
   // Reset timer when selection changes
   useEffect(() => {
-    setTimeLeft(getTimeInSeconds(selectedTime));
-    setIsRunning(false);
-  }, [selectedTime]);
+  if (isRunning && timeLeft < getTimeInSeconds(selectedTime)) {
+    timerRef.current = setInterval(() => {
+      setTimeLeft(prevTime => {
+        if (prevTime >= getTimeInSeconds(selectedTime) - 1) {
+          setIsRunning(false); // stop automatically at max time
+          return getTimeInSeconds(selectedTime);
+        }
+        return prevTime + 1; // ✅ count up
+      });
+    }, 1000);
+  } else if (timerRef.current) {
+    clearInterval(timerRef.current);
+  }
 
-  // Timer logic
-  useEffect(() => {
-    if (isRunning && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(prevTime => {
-          if (prevTime <= 1) {
-            setIsRunning(false);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-    } else if (timerRef.current) {
+  return () => {
+    if (timerRef.current) {
       clearInterval(timerRef.current);
     }
+  };
+  }, [isRunning, timeLeft, selectedTime]);
 
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
+    const handlecoretimer = async () => {
+      if (!coreValueId) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Core Value ID not found",
+        });
+        return;
+      }
+  
+      setLoading(true);
+  
+      try {
+        // Dynamic time from timer
+        const apiTime = getApiTimeFormat(timeLeft || getTimeInSeconds(selectedTime));
+  
+        const body = {
+          coreValueId: coreValueId, // ✅ dynamic
+          time: apiTime,            // ✅ dynamic
+        };
+  
+        const { response, error } = await apiHelper(
+          "POST",
+          "core-values/log",
+          {},
+          {},
+          body
+        );
+  
+        if (response?.data?.data) {
+          const receivedCoreValueId = response.data.data.coreValueId; // 16 etc.
+          console.log("Received CoreValueTimerTwo CoreValueId from API:", receivedCoreValueId);
+  
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Core Timer Value Successfully",
+          });
+  
+          navigation.navigate("CoreValuesTimerThree", {
+            coreValueId: receivedCoreValueId, // <-- yahan pass kar rahe hain
+            fromScreen: route.params?.fromScreen || 'SelfHonesty',
+          });
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: error?.message || "Failed to Core Timer Value",
+          });
+        }
+      } catch (err) {
+        console.error("Core Timer Value error:", err);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "An error occurred while logging Core Timer Value",
+        });
+      } finally {
+        setLoading(false);
       }
     };
-  }, [isRunning, timeLeft]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -129,18 +203,22 @@ const CoreValuesTimerTwo = () => {
 
         <Text style={styles.selected}>Select Time (1 Min = 6 Reps)</Text>
 
-        {/* Time Selection Carousel */}
-        <View style={styles.carouselContainer}>
+          {/* Time Selection Slider */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carouselContainer}
+        >
           {timeOptions.map((time, index) => (
             <TouchableOpacity
               key={index}
               style={[
                 styles.timeOption,
                 selectedTime === time && styles.selectedTimeOption,
+                { marginRight: width * 0.04 }, // ✅ GAP
               ]}
               onPress={() => setSelectedTime(time)}
             >
-              {/* Timer Icon */}
               <Image
                 source={images.time}
                 style={[
@@ -158,7 +236,7 @@ const CoreValuesTimerTwo = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         <View style={styles.btn1}>
           <CustomButton
@@ -170,7 +248,7 @@ const CoreValuesTimerTwo = () => {
             borderColor={colors.marhoon}
             borderWidth={1}
             borderRadius={20}
-            onPress={() => navigation.navigate('CoreValuesTimerThree')}
+            onPress={handlecoretimer}
           />
         </View>
       </ScrollView>
