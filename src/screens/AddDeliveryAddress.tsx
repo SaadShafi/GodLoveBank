@@ -206,7 +206,7 @@ const AddDeliveryddress = () => {
     return (
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
             <View style={{ flex: 1, backgroundColor: colors.white }}>
-                <TopHeader text="Add Delivhhy Address" isBackBlack={true} />
+                <TopHeader text="Add Delivery Address" isBackBlack={true} />
                 <View style={styles.container}>
                     <Text style={styles.headText}>Add Delivery Address</Text>
                     <View style={styles.inputMain}>

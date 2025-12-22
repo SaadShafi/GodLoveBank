@@ -37,7 +37,8 @@ const CreateProfile = () => {
   const [relationshipStatus, setRelationshipStatus] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const route = useRoute();
-  const homeBase = route.params?.baseAssignments?.homeBase?.category;
+  console.log("Params in the create Profile Screen!", route?.params)
+  const homeBase = route.params?.fullData?.newSelfStory?.title;
   const capitalizedHomeBase = homeBase.charAt(0).toUpperCase() + homeBase.slice(1);
   const fullName = useSelector((state: RootState) => state.role.fullName)
   console.log("FullName in create Profile", fullName)
@@ -274,7 +275,7 @@ const CreateProfile = () => {
             textColor={colors.white}
             btnHeight={height * 0.065}
             btnWidth={width * 0.85}
-            backgroundColor={profileImage ? colors.marhoon : colors.lightGray}
+            backgroundColor={profileImage ? colors.marhoon : colors.darkGray}
             borderRadius={20}
             onPress={handleCreateProfile}
             disabled={!profileImage}
@@ -291,11 +292,11 @@ const CreateProfile = () => {
             <ActivityIndicator size="large" color={colors.brown} />
           </View>
         )}
-        {!profileImage && (
+        {/* {!profileImage && (
           <Text style={{ color: 'red', marginTop: 8, fontSize: 12 }}>
             Profile picture is required
           </Text>
-        )}
+        )} */}
       </View>
 
       {/* ✅ Success Modal - placed outside container */}

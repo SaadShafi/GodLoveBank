@@ -17,6 +17,7 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface TopHeaderProps {
   text?: string;
@@ -96,7 +97,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isBackHome = false,
   isCross = false,
 }) => {
-  const navigation = useNavigation<NavigationProp<any>>();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const User = useSelector((state: RootState) => state.role.user)
   const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
   const displayName = fullName.length > 10 ? `${fullName.slice(0, 8)}...` : fullName;
@@ -153,11 +154,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <Pressable
               style={styles.headerArrow}
               onPress={() => {
-                if (navigation) {
-                  navigation.canGoBack()
-                    ? navigation.goBack()
-                    : navigation.navigate('Home' as never);
-                }
+                // if (navigation) {
+                //   navigation.canGoBack()
+                //     ? navigation.goBack()
+                //     : navigation.navigate('Home' as never);
+                // }
+                navigation.popToTop();
               }}
             >
               <Image source={images.crossBlack} style={styles.crossImg} />
@@ -195,8 +197,16 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <TouchableOpacity
               style={styles.headerArrow}
               activeOpacity={0.7}
+               onPress={() => {
+                // if (navigation) {
+                //   navigation.canGoBack()
+                //     ? navigation.goBack()
+                //     : navigation.navigate('Home' as never);
+                // }
+                navigation.popToTop();
+              }}
             >
-              <Image source={images.backWhite} style={styles.backArrow} />
+               <Image source={images.isBack} style={styles.backArrowBlack} />
             </TouchableOpacity>
           )}
           {isClose && (

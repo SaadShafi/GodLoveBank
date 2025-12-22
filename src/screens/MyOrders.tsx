@@ -27,6 +27,7 @@ const MyOrders = () => {
     const [isActionSheetVisible, setIsActionSheetVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<tabProp | null>(null);
     const [loading, setLoading] = useState(false);
+    const [products, setProducts] = useState<any[]>([]);
 
     const tabsData = [
         {
@@ -124,26 +125,99 @@ const MyOrders = () => {
         setSelectedOrder(null);
     }
 
-    const renderPendingTab = ({ item }: { item: tabProp }) => {
+    // const renderPendingTab = ({ item }: { item: tabProp }) => {
+    //     return (
+    //         <View style={{ alignItems: "center" }}>
+    //             {/* <View style={styles.bookCardMain}>
+    //                 <View style={{ flexDirection: "row" }}>
+    //                     <Image 
+    //                         source={item.bookImg} 
+    //                         // source={{ uri: `http://18.204.175.233:3001/${item?.orderItems?.product.image}` }}
+    //                         style={styles.bookImg} 
+    //                     />
+    //                     <View style={styles.bookInfoMain}>
+    //                         <Text style={styles.bookHeadText}>{item.headText}</Text>
+    //                         <View style={{}}>
+    //                             <Text style={styles.bookText}>{item.qty}</Text>
+    //                         </View>
+    //                     </View>
+    //                     <Text style={styles.priceText}>{item.price}</Text>
+    //                 </View>
+    //                 <View style={styles.btnMain}>
+    //                     <CustomButton
+    //                         btnHeight={height * 0.038}
+    //                         btnWidth={width * 0.8}
+    //                         backgroundColor={colors.marhoon}
+    //                         text={item.btnText}
+    //                         textColor={colors.white}
+    //                         borderRadius={20}
+    //                         onPress={() => handleOrderDetailsPress(item)}
+    //                     />
+    //                 </View>
+    //             </View> */}
+    //             <View style={styles.bookCardMain}>
+    //                 <Text style={styles.orderNumber}>Order#: {order.orderNumber}</Text>
+
+    //                 {order.orderItems.map(book => (
+    //                     <View key={book.id} style={{ flexDirection: "row", marginTop: 10 }}>
+    //                         <Image
+    //                             source={{ uri: `http://18.204.175.233:3001/${book.product.image}` }}
+    //                             style={styles.bookImg}
+    //                         />
+    //                         <View style={styles.bookInfoMain}>
+    //                             <Text style={styles.bookHeadText}>{book.product.name}</Text>
+    //                             <Text style={styles.bookText}>Qty: {book.qty}</Text>
+    //                         </View>
+    //                         <Text style={styles.priceText}>${Number(book.price).toFixed(2)}</Text>
+    //                     </View>
+    //                 ))}
+
+    //                 <View style={styles.btnMain}>
+    //                     <CustomButton
+    //                         btnHeight={height * 0.038}
+    //                         btnWidth={width * 0.8}
+    //                         backgroundColor={colors.marhoon}
+    //                         text="Order Details"
+    //                         textColor={colors.white}
+    //                         borderRadius={20}
+    //                         onPress={() => handleOrderDetailsPress(order)}
+    //                     />
+    //                 </View>
+    //             </View>
+    //         </View>
+    //     )
+    // }
+
+    const renderPendingTab = ({ item }: { item: any }) => {
         return (
             <View style={{ alignItems: "center" }}>
                 <View style={styles.bookCardMain}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Image source={item.bookImg} style={styles.bookImg} />
-                        <View style={styles.bookInfoMain}>
-                            <Text style={styles.bookHeadText}>{item.headText}</Text>
-                            <View style={{}}>
-                                <Text style={styles.bookText}>{item.qty}</Text>
+                    <Text style={styles.orderNumber}>Order#: {item.orderNumber}</Text>
+                    {(item.orderItems || []).map(book => (
+                        <View key={book.id} style={{ flexDirection: "row", marginTop: 10 }}>
+                            <Image
+                                source={{ uri: `http://18.204.175.233:3001/${book.product.image}` }}
+                                style={styles.bookImg}
+                            />
+                            <View style={styles.bookInfoMain}>
+                                <Text style={styles.bookHeadText}>
+                                    {/* {book.product.name} */}
+                                    {book.product.name.length > 25
+                                        ? `${book.product.name.substring(0, 25)}...`
+                                        : book.product.name}
+                                </Text>
+                                <Text style={styles.bookText}>Qty: {book.qty}</Text>
+                                <Text style={styles.priceText}>${Number(book.price).toFixed(2)}</Text>
                             </View>
                         </View>
-                        <Text style={styles.priceText}>{item.price}</Text>
-                    </View>
+                    ))}
+
                     <View style={styles.btnMain}>
                         <CustomButton
                             btnHeight={height * 0.038}
                             btnWidth={width * 0.8}
                             backgroundColor={colors.marhoon}
-                            text={item.btnText}
+                            text="Order Details"
                             textColor={colors.white}
                             borderRadius={20}
                             onPress={() => handleOrderDetailsPress(item)}
@@ -151,8 +225,8 @@ const MyOrders = () => {
                     </View>
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     const renderDeliveredTab = ({ item }: { item: tabProp }) => {
         return (
@@ -162,7 +236,7 @@ const MyOrders = () => {
                         <Image source={item.bookImg} style={styles.bookImg} />
                         <View style={styles.bookInfoMain}>
                             <Text style={styles.bookHeadText}>{item.headText}</Text>
-                            <View style={{ }}>
+                            <View style={{}}>
                                 <Text style={styles.bookText}>{item.qty}</Text>
                                 <Text style={styles.bookText}>{item.dev_date}</Text>
                             </View>
@@ -185,8 +259,65 @@ const MyOrders = () => {
         )
     }
 
+    // const ActionSheet = () => {
+    //     return (
+    //         <Modal
+    //             visible={isActionSheetVisible}
+    //             animationType="slide"
+    //             transparent={true}
+    //             onRequestClose={closeActionSheet}
+    //         >
+    //             <TouchableOpacity
+    //                 style={styles.modalOverlay}
+    //                 activeOpacity={1}
+    //                 onPress={closeActionSheet}
+    //             >
+    //                 <View style={styles.actionSheet}>
+
+    //                     <TouchableOpacity onPress={closeActionSheet} style={styles.actionSheetHeader}>
+    //                         <Image source={images.toggleBar} />
+    //                     </TouchableOpacity>
+
+    //                     <View style={styles.actionSheetHeader}>
+    //                         <Image source={images.status} style={styles.statusIcon} />
+    //                     </View>
+
+
+    //                     <View style={styles.orderNumberSection}>
+    //                         <Text style={styles.actionSheetTitle}>Order Number</Text>
+    //                         <Text style={styles.orderNumber}>{products.orderNumber || "#1245325"}</Text>
+    //                         <Text style={styles.orderDate}>26 OCT, 2023</Text>
+    //                     </View>
+
+    //                     <View style={styles.addressSection}>
+    //                         <Image source={images.locationIcon} style={styles.locationIcon} />
+    //                         <Text style={styles.addressText}>House # 73 New York, NY 10007, USA</Text>
+    //                         <Image source={images.helpBtn} style={styles.helpBtn} />
+    //                     </View>
+
+    //                     <View style={styles.priceSection}>
+    //                         <View style={styles.priceRow}>
+    //                             <Text style={styles.priceLabel}>Subtotal:</Text>
+    //                             <Text style={styles.priceValue}>$59.70</Text>
+    //                         </View>
+    //                         <View style={styles.priceRow}>
+    //                             <Text style={styles.priceLabel}>Platform Fee:</Text>
+    //                             <Text style={styles.priceValue}>$2.82</Text>
+    //                         </View>
+    //                         <View style={[styles.priceRow, styles.totalRow]}>
+    //                             <Text style={styles.totalLabel}>Total:</Text>
+    //                             <Text style={styles.totalValue}>$75.37</Text>
+    //                         </View>
+    //                     </View>
+    //                 </View>
+    //             </TouchableOpacity>
+    //         </Modal>
+    //     )
+    // }
 
     const ActionSheet = () => {
+        if (!selectedOrder) return null;
+
         return (
             <Modal
                 visible={isActionSheetVisible}
@@ -208,47 +339,61 @@ const MyOrders = () => {
                         <View style={styles.actionSheetHeader}>
                             <Image source={images.status} style={styles.statusIcon} />
                         </View>
-
-
                         <View style={styles.orderNumberSection}>
                             <Text style={styles.actionSheetTitle}>Order Number</Text>
-                            <Text style={styles.orderNumber}>#1245325</Text>
-                            <Text style={styles.orderDate}>26 OCT, 2023</Text>
+                            <Text style={styles.orderNumber}>
+                                {selectedOrder.orderNumber}
+                            </Text>
+                            <Text style={styles.orderDate}>
+                                {new Date(selectedOrder.createdAt).toLocaleDateString()}
+                            </Text>
                         </View>
-
                         <View style={styles.addressSection}>
-                            <Image source={images.locationIcon} style={styles.locationIcon}/>
-                            <Text style={styles.addressText}>House # 73 New York, NY 10007, USA</Text>
+                            <Image source={images.locationIcon} style={styles.locationIcon} />
+                            <Text style={styles.addressText}>
+                                {selectedOrder.address?.label} # {selectedOrder.address?.postalCode}, {selectedOrder.address?.city} {selectedOrder.address?.region}
+                            </Text>
                             <Image source={images.helpBtn} style={styles.helpBtn} />
                         </View>
-
                         <View style={styles.priceSection}>
                             <View style={styles.priceRow}>
                                 <Text style={styles.priceLabel}>Subtotal:</Text>
-                                <Text style={styles.priceValue}>$59.70</Text>
+                                <Text style={styles.priceValue}>
+                                    ${Number(selectedOrder.subTotal).toFixed(2)}
+                                </Text>
                             </View>
+
                             <View style={styles.priceRow}>
                                 <Text style={styles.priceLabel}>Platform Fee:</Text>
-                                <Text style={styles.priceValue}>$2.82</Text>
+                                <Text style={styles.priceValue}>
+                                    $ 5.99
+                                </Text>
                             </View>
+
                             <View style={[styles.priceRow, styles.totalRow]}>
                                 <Text style={styles.totalLabel}>Total:</Text>
-                                <Text style={styles.totalValue}>$75.37</Text>
+                                <Text style={styles.totalValue}>
+                                    ${Number(selectedOrder.grandTotal).toFixed(2)}
+                                </Text>
                             </View>
                         </View>
+
                     </View>
                 </TouchableOpacity>
             </Modal>
-        )
-    }
+        );
+    };
+
+
 
     const PendingScreen: React.FC = () => {
         return (
             <View style={{ flex: 1, top: height * 0.01 }}>
                 <FlatList
-                    data={tabsData}
+                    // data={tabsData}
+                    data={products}
                     renderItem={renderPendingTab}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => item._id || index.toString()}
                     contentContainerStyle={{
                         top: height * 0.01,
                         gap: height * 0.02,
@@ -256,6 +401,13 @@ const MyOrders = () => {
                     }}
                     style={{ flex: 1 }}
                     showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={() => (
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: height * 0.4 }}>
+                            <Text style={{ fontSize: fontSizes.md, color: colors.red }}>
+                                No Items in Pending
+                            </Text>
+                        </View>
+                    )}
                 />
             </View>
         )
@@ -263,28 +415,35 @@ const MyOrders = () => {
 
     const DeliveredScreen: React.FC = () => {
         return (
-            <View style={{ flex: 1 }}>
-                <FlatList
-                    data={tabsDataSec}
-                    renderItem={renderDeliveredTab}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={{
-                        top: height * 0.01,
-                        gap: height * 0.02,
-                        paddingBottom: height * 0.15,
-                    }}
-                    style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
-                />
+            // <View style={{ flex: 1 }}>
+            //     <FlatList
+            //         data={tabsDataSec}
+            //         renderItem={renderDeliveredTab}
+            //         keyExtractor={(item, index) => index.toString()}
+            //         contentContainerStyle={{
+            //             top: height * 0.01,
+            //             gap: height * 0.02,
+            //             paddingBottom: height * 0.15,
+            //         }}
+            //         style={{ flex: 1 }}
+            //         showsVerticalScrollIndicator={false}
+            //     />
+            // </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Text style={{
+                    // fontFamily: fontFamily.GilroyBold,
+                    fontSize: fontSizes.md,
+                    color: colors.red
+                }}>No Item Delivered yet</Text>
             </View>
         )
     }
 
-    const fetchMyOrders = async() => {
+    const fetchMyOrders = async () => {
         try {
             setLoading(true)
 
-            const {response, error} = await apiHelper(
+            const { response, error } = await apiHelper(
                 "GET",
                 "/orders/history",
                 {},
@@ -294,7 +453,8 @@ const MyOrders = () => {
 
             console.log("Reponse from the Fetched Orders API!", response)
 
-            if(response?.data) {
+            if (response?.data) {
+                setProducts(response.data.data)
                 Toast.show({
                     type: "success",
                     text1: "Success",
@@ -312,11 +472,11 @@ const MyOrders = () => {
 
     useEffect(() => {
         fetchMyOrders();
-    },[])
+    }, [])
 
     return (
         <View style={{ flex: 1 }}>
-            <TopHeader text="My Orders" isBackBlack={true} />
+            <TopHeader text="My Orders" isBackWhite={true} />
 
             <CustomTabs
                 tabs={['Pending', 'Delivered']}
@@ -337,14 +497,16 @@ const styles = StyleSheet.create({
         width: width * 0.85,
     },
     bookImg: {
-        width: width * 0.4,
-        height: height * 0.12,
-        resizeMode: "contain"
+        width: width * 0.2,
+        height: height * 0.1,
+        resizeMode: "cover",
+        borderRadius: 10
     },
     bookInfoMain: {
         flexDirection: "column",
-        top: height * 0.03,
-        left: width * 0.01
+        top: height * 0.01,
+        gap: height * 0.01,
+        left: width * 0.02
     },
     bookHeadText: {
         fontFamily: fontFamily.GilroyBold,
@@ -353,14 +515,14 @@ const styles = StyleSheet.create({
     },
     bookText: {
         fontFamily: fontFamily.GilroyMedium,
-        fontSize: fontSizes.sm,
+        fontSize: fontSizes.sm2,
         color: colors.black
     },
     priceText: {
         fontFamily: fontFamily.GilroyBold,
         fontSize: fontSizes.sm2,
         color: colors.marhoon,
-        left: width * 0.05
+        // left: width * 0.05
     },
     priceTextSec: {
         fontFamily: fontFamily.GilroyBold,
@@ -416,7 +578,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     locationIcon: {
-        width: width * 0.09, 
+        width: width * 0.09,
         resizeMode: "contain"
     },
     addressItem: {

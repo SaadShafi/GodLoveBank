@@ -108,7 +108,6 @@ const MediaLibrary = () => {
     >
       <View style={styles.recentVideoThumbnail}>
         <Image
-          // source={item.image}
           source={{ uri: item.video.thumbnailUrl }}
           style={styles.videoImage}
           resizeMode="cover"
@@ -117,9 +116,9 @@ const MediaLibrary = () => {
           <Text style={styles.durationText}>{item.video.duration || "00:00"}</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.video.id, item.is_fav)}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => handleFavouritePress(item.video.id, item.video.isFav)}>
           <Image
-            source={item.is_fav ? images.filledFav : images.favIcon}
+            source={item.video.isFav ? images.filledFav : images.favIcon}
             style={styles.faviconWatch} />
         </TouchableOpacity>
 
@@ -145,8 +144,6 @@ const MediaLibrary = () => {
             style={styles.favIcon} />
         </TouchableOpacity>
       </View>
-
-      {/* Text content below the video */}
       <View style={styles.relatedTextContent}>
         <View style={styles.dummyContainer}>
           <Text
@@ -176,7 +173,7 @@ const MediaLibrary = () => {
           borderRadius={12}
           fontSize={fontSizes.xsm}
           onPress={() => {
-            handlePostVideo(item.id); // <-- Send the unique video ID
+            handlePostVideo(item.id); 
             navigation.navigate('MediaDetails', { VideoID: item.id });
           }}
         />

@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
-import { setOrdersData } from '../redux/slice/roleSlice';
+import { addToCart, setOrdersData } from '../redux/slice/roleSlice';
 
 interface Prop {
   headText?: string;
@@ -38,6 +38,7 @@ const ECommerce = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<any[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const recommendedData = [
     {
@@ -194,7 +195,7 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            // onPress={() => navigation.navigate('Cart')}
+          // onPress={() => navigation.navigate('Cart')}
           >
             <Text style={styles.addButtonText}>{item.btnText}</Text>
           </TouchableOpacity>
@@ -302,7 +303,22 @@ const ECommerce = () => {
           <TouchableOpacity
             style={styles.addButton}
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Cart', { product: item })}
+            onPress={() => {
+              dispatch(
+                addToCart({
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  image: item.image,
+                  description: item.description,
+                  inventory: item.inventory,
+                  authorName: item.author,
+                  quantity: 1,
+                })
+              );
+
+              navigation.navigate('Cart', { product: item })
+            }}
           >
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
@@ -351,7 +367,6 @@ const ECommerce = () => {
 
       if (response?.data.data.products) {
         setProducts(response.data.data.products);
-        dispatch(setOrdersData(response.data.data.products))
 
         Toast.show({
           type: "success",
@@ -416,8 +431,15 @@ const ECommerce = () => {
 
   useEffect(() => {
     fetchCategories()
-    fetchProducts(); 
-  }, [])
+    fetchProducts();
+  }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -464,6 +486,8 @@ const ECommerce = () => {
                 marginTop: height * 0.01,
                 left: width * 0.03,
               }}
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
             />
           </View>
 
@@ -526,7 +550,7 @@ const ECommerce = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                   paddingHorizontal: 10,
-                  marginTop: height * 0.01,
+                  marginTop: height * 0.01, 
                   left: width * 0.03,
                 }}
               />
