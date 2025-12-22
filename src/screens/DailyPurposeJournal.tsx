@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import CustomButton from '../components/CustomButton';
@@ -8,10 +8,115 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const DailyPurposeJournal = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
+  const [goals, setGoals] = useState<string[]>(Array(10).fill(''));
+  const [journalGoal, setJournalGoal] = useState<string>('');
+  const [loading, setLoading] = useState('');
+
+
+ const handleGoals = async () => {
+  // ✅ sirf wo items jahan text ho
+  const selectedGoals = goals.filter((text) => text.trim() !== '');
+
+  console.log("Selected Goals:", selectedGoals);
+
+  if (selectedGoals.length === 0) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Please enter at least one goal",
+    });
+    return;
+  }
+
+  setLoading(true);
+
+  const body = {
+    categoryCode: 1,
+    items: selectedGoals,
+  };
+
+  try {
+    const { response } = await apiHelper(
+      "POST",
+      "tools/daily-journal",
+      {},
+      {},
+      body
+    );
+
+    if (response?.data?.data) {
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Goals saved successfully",
+      });
+
+      navigation.navigate("PurposePlanner");
+    }
+  } catch (err: any) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Failed to save goals",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+  const fetchPlanner = async () => {
+      try {
+        const { response } = await apiHelper(
+          "GET",
+          "general/metadata",
+          {}
+        );
+    
+        if (response?.status) {
+          const categories =
+            response?.data?.enums?.journalCategories || {};
+            console.log("Daily Purpose Journal fetched:", response.data.data);
+    
+    
+          // ✅ Sirf required categories
+          setJournalGoal(categories?.["4"] ?? "Daily Purpose Journal");
+    
+    
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Goals fetched successfully",
+          });
+    
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: response?.message || "Failed to fetch goals",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Something went wrong",
+        });
+      }
+      };
+    
+    useEffect(() => {
+      fetchPlanner();
+    }, []);
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -29,7 +134,10 @@ const DailyPurposeJournal = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.headContainer}>
-          <Text style={styles.goals}>DAILY PURPOSE JOURNAL</Text>
+          {/* <Text style={styles.goals}>DAILY PURPOSE JOURNAL</Text> */}
+          {journalGoal ? (
+            <Text style={styles.title}>{journalGoal}</Text>
+          ) : null}
         </View>
 
         <View style={styles.headrecordContainer}>
@@ -46,7 +154,11 @@ const DailyPurposeJournal = () => {
                 inputWidth={width * 0.85}
                 backgroundColor={colors.lightGray}
                 borderRadius={15}
-                onChangeText={setEmail}
+                 onChangeText={(text) => {
+                  const newGoals = [...goals];
+                  newGoals[index] = text;
+                  setGoals(newGoals);
+                }}
               />
             </View>
           ))}
@@ -64,7 +176,11 @@ const DailyPurposeJournal = () => {
                 inputWidth={width * 0.85}
                 backgroundColor={colors.lightGray}
                 borderRadius={15}
-                onChangeText={setEmail}
+                 onChangeText={(text) => {
+                  const newGoals = [...goals];
+                  newGoals[index] = text;
+                  setGoals(newGoals);
+                }}
               />
             </View>
           ))}
@@ -79,7 +195,7 @@ const DailyPurposeJournal = () => {
             borderColor={colors.marhoon}
             borderWidth={2}
             borderRadius={20}
-            onPress={() => navigation.navigate('PurposePlanner')}
+            onPress={handleGoals}
           />
         </View>
       </ScrollView>
@@ -147,6 +263,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: 'center',
   },
+    title: {
+  fontSize: 22,
+  fontFamily: fontFamily.UrbanistBold,
+  // marginVertical: 16,
+  alignSelf: 'center',
+  color: colors.black
+},
 });
 
 export default DailyPurposeJournal;

@@ -105,6 +105,12 @@ const CoreValuesTimer = () => {
 
 
   const handlecoretimer = async () => {
+    if (isRunning && timerRef.current) {
+      // Stop the timer immediately if running
+      clearInterval(timerRef.current);
+      setIsRunning(false);
+  }
+  
     if (!coreValueId) {
       Toast.show({
         type: "error",

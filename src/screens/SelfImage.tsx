@@ -140,7 +140,7 @@ useEffect(() => {
               backgroundColor={colors.lightmarhoon}
               text="Continue"
               textColor={colors.white}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate("CoreValuesTimer", { coreValueId: 22, fromScreen: 'SelfImage' })}
             />
           </View>
 

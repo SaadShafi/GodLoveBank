@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { fontFamily } from '../assets/Fonts';
@@ -9,17 +9,129 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const PurposeGoals = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState('');
   const [checkedStates, setCheckedStates] = useState(Array(10).fill(false));
+  const [purposeGoal, setPurposeGoal] = useState<string>('');
+  const [presentGoal, setPresentGoal] = useState<string>('');
+  const [goals, setGoals] = useState<string[]>(Array(10).fill(''));
+
+
 
   const handleCheckboxPress = (index: number) => {
     const newCheckedStates = [...checkedStates];
     newCheckedStates[index] = !newCheckedStates[index];
     setCheckedStates(newCheckedStates);
   };
+
+
+    const handleGoals = async () => {
+  // ✅ sirf wo items jahan text bhi ho + checkbox bhi
+  const selectedGoals = goals.filter(
+    (text, index) => text.trim() !== '' && checkedStates[index]
+  );
+
+  console.log("Selected Goals:", selectedGoals);
+
+  if (selectedGoals.length === 0) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Please enter goal and check at least one box",
+    });
+    return;
+  }
+
+  setLoading(true);
+
+  const body = {
+    categoryCode: 1,
+    items: selectedGoals,
+  };
+
+  try {
+    const { response } = await apiHelper(
+      "POST",
+      "tools/daily-journal",
+      {},
+      {},
+      body,
+    );
+
+    if (response?.data?.data) {
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Goals saved successfully",
+      });
+
+      navigation.navigate("PurposePlanner");
+    }
+  } catch (err: any) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Failed to save goals",
+    });
+  } finally {
+    setLoading(false);
+  }
+  };
+
+
+
+    const fetchPlanner = async () => {
+  try {
+    const { response } = await apiHelper(
+      "GET",
+      "general/metadata",
+      {}
+    );
+
+    if (response?.status) {
+      const categories =
+        response?.data?.enums?.journalCategories || {};
+        console.log("Categories fetched:", response.data.data);
+
+
+      // ✅ Sirf required categories
+      setPurposeGoal(categories?.["1"] ?? "Purpose Time Goals");
+      setPresentGoal(categories?.["2"] ?? "Present Time Goals");
+
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Goals fetched successfully",
+      });
+
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: response?.message || "Failed to fetch goals",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Something went wrong",
+    });
+  }
+  };
+
+useEffect(() => {
+  fetchPlanner();
+}, []);
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -36,20 +148,27 @@ const PurposeGoals = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.goals}>PURPOSE TIME GOALS</Text>
+        {/* <Text style={styles.goals}>PURPOSE TIME GOALS</Text> */}
+        {purposeGoal ? (
+          <Text style={styles.title}>{purposeGoal}</Text>
+        ) : null}
 
         <View style={{ gap: height * 0.02 }}>
           {[0, 1, 2, 3, 4].map(index => (
             <View key={index} style={styles.inputRow}>
               <View style={{ left: width * 0.07, top: height * 0.02 }}>
-                <CustomTextInput
+               <CustomTextInput
                   placeholder="Time Goals"
                   placeholderTextColor={colors.black}
                   inputHeight={height * 0.06}
                   inputWidth={width * 0.75}
                   backgroundColor={colors.lightGray}
                   borderRadius={15}
-                  onChangeText={setEmail}
+                  onChangeText={(text) => {
+                    const updatedGoals = [...goals];
+                    updatedGoals[index] = text;
+                    setGoals(updatedGoals);
+                  }}
                 />
               </View>
               <BouncyCheckbox
@@ -66,21 +185,28 @@ const PurposeGoals = () => {
           ))}
         </View>
 
-        <Text style={styles.present}>PRESENT TIME GOALS</Text>
+        {/* <Text style={styles.present}>PRESENT TIME GOALS</Text> */}
+        {presentGoal ? (
+          <Text style={styles.presenttitle}>{presentGoal}</Text>
+        ) : null}
 
         <View style={{ gap: height * 0.02, top: height * 0.055 }}>
           {[5, 6, 7, 8, 9].map(index => (
             <View key={index} style={styles.inputRow}>
               <View style={{ left: width * 0.07, top: height * 0.02 }}>
                 <CustomTextInput
-                  placeholder="Time Goals"
-                  placeholderTextColor={colors.black}
-                  inputHeight={height * 0.06}
-                  inputWidth={width * 0.75}
-                  backgroundColor={colors.lightGray}
-                  borderRadius={15}
-                  onChangeText={setEmail}
-                />
+                    placeholder="Time Goals"
+                    placeholderTextColor={colors.black}
+                    inputHeight={height * 0.06}
+                    inputWidth={width * 0.75}
+                    backgroundColor={colors.lightGray}
+                    borderRadius={15}
+                    onChangeText={(text) => {
+                      const updatedGoals = [...goals];
+                      updatedGoals[index] = text;
+                      setGoals(updatedGoals);
+                    }}
+                  />
               </View>
               <BouncyCheckbox
                 size={25}
@@ -105,7 +231,7 @@ const PurposeGoals = () => {
             borderColor={colors.marhoon}
             borderWidth={2}
             borderRadius={20}
-            onPress={() => navigation.navigate('PurposePlanner')}
+            onPress={handleGoals}
           />
         </View>
       </ScrollView>
@@ -155,6 +281,20 @@ const styles = StyleSheet.create({
     left: width * 0.1,
     top: height * 0.02,
   },
+  title: {
+  fontSize: 22,
+  fontFamily: fontFamily.UrbanistBold,
+  marginVertical: 16,
+  alignSelf: 'center',
+  color: colors.black
+},
+presenttitle:{
+  fontSize: 22,
+  fontFamily: fontFamily.UrbanistBold,
+  top: height * 0.05,
+  alignSelf: 'center',
+  color: colors.black
+}
 });
 
 export default PurposeGoals;

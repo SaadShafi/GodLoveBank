@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { fontFamily } from '../assets/Fonts';
@@ -9,17 +9,113 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const PlannedTimeGoals = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState('');
   const [checkedStates, setCheckedStates] = useState(Array(10).fill(false));
+  const [goals, setGoals] = useState<string[]>(Array(10).fill(''));
+  const [plannedGoal, setPlannedGoal] = useState<string>('');
+
 
   const handleCheckboxPress = (index: number) => {
     const newCheckedStates = [...checkedStates];
     newCheckedStates[index] = !newCheckedStates[index];
     setCheckedStates(newCheckedStates);
   };
+
+  const handleGoals = async () => {
+    // ✅ sirf wo items jahan text bhi ho + checkbox bhi
+    const selectedGoals = goals.filter(
+      (text, index) => text.trim() !== '' && checkedStates[index]
+    );
+  
+    console.log("Selected Goals:", selectedGoals);
+  
+    setLoading(true);
+  
+    const body = {
+      categoryCode: 1,
+      items: selectedGoals,
+    };
+  
+    try {
+      const { response } = await apiHelper(
+        "POST",
+        "tools/daily-journal",
+        {},
+        {},
+        body,
+      );
+  
+      if (response?.data?.data) {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Goals saved successfully",
+        });
+  
+        navigation.navigate("PurposePlanner");
+      }
+    } catch (err: any) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Failed to save goals",
+      });
+    } finally {
+      setLoading(false);
+    }
+    };
+
+
+  const fetchPlanner = async () => {
+    try {
+      const { response } = await apiHelper(
+        "GET",
+        "general/metadata",
+        {}
+      );
+  
+      if (response?.status) {
+        const categories =
+          response?.data?.enums?.journalCategories || {};
+          console.log("Planned Time fetched:", response.data.data);
+  
+  
+        // ✅ Sirf required categories
+        setPlannedGoal(categories?.["3"] ?? "PLANNED TIME GOALS");
+  
+  
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Goals fetched successfully",
+        });
+  
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: response?.message || "Failed to fetch goals",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong",
+      });
+    }
+    };
+  
+  useEffect(() => {
+    fetchPlanner();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -36,7 +132,10 @@ const PlannedTimeGoals = () => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.goals}>PLANNED TIME GOALS</Text>
+        {/* <Text style={styles.goals}>PLANNED TIME GOALS</Text> */}
+        {plannedGoal ? (
+                  <Text style={styles.title}>{plannedGoal}</Text>
+                ) : null}
 
         <View style={{ gap: height * 0.02 }}>
           {[0, 1, 2, 3, 4].map(index => (
@@ -107,7 +206,7 @@ const PlannedTimeGoals = () => {
             borderColor={colors.marhoon}
             borderWidth={2}
             borderRadius={20}
-            onPress={() => navigation.navigate('PurposePlanner')}
+            onPress={handleGoals}
           />
         </View>
       </ScrollView>
@@ -157,6 +256,13 @@ const styles = StyleSheet.create({
     left: width * 0.1,
     top: height * 0.02,
   },
+  title: {
+  fontSize: 22,
+  fontFamily: fontFamily.UrbanistBold,
+  marginVertical: 16,
+  alignSelf: 'center',
+  color: colors.black
+},
 });
 
 export default PlannedTimeGoals;
