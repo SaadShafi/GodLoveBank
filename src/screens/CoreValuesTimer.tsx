@@ -178,7 +178,7 @@ const CoreValuesTimer = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackReps={true}
           text={
             <Text style={styles.headerText}>CORE VALUE (ROM. 12:1-3; NIV)</Text>
           }

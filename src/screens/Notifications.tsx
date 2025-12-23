@@ -89,46 +89,6 @@ export default function NotificationsScreen() {
     }
   };
 
-//   const fetchNotification = async () => {
-//   setLoading(true);
-//   try {
-//     const { response, error } = await apiHelper(
-//       'GET',
-//       'notifications',
-//       {},
-//       token
-//     );
-
-//     const notificationsData = response?.data?.data?.notifications;
-
-//     if (Array.isArray(notificationsData)) {
-//       setNotifications(notificationsData);
-
-//       if (notificationsData.length === 0) {
-//         Toast.show({
-//           type: 'success',
-//           text1: 'No success',
-//           text2: 'Notifications fetched successfully',
-//         });
-//       }
-//     } else {
-//       Toast.show({
-//         type: 'error',
-//         text1: 'Error',
-//         text2: error?.message || 'Invalid notification data',
-//       });
-//     }
-//   } catch (err) {
-//     console.error('Notification fetch error:', err);
-//     Toast.show({
-//       type: 'error',
-//       text1: 'Error',
-//       text2: 'An error occurred while fetching notifications',
-//     });
-//   } finally {
-//     setLoading(false);
-//   }
-// };
   useEffect(() => {
     fetchNotification();
   }, []);

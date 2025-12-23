@@ -319,6 +319,8 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 const InterestRepsTimer = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -327,16 +329,35 @@ const InterestRepsTimer = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [taskText, setTaskText] = useState("");
 
-  // Time options for the carousel
-  const timeOptions = ['30 Min', '01 Hour', '2 Hour'];
 
-  // Convert selected time to seconds
+
+  // ✅ UPDATED: 6 time options
+  const timeOptions = [
+    '5 Min',
+    '10 Min',
+    '15 Min',
+    '20 Min',
+    '25 Min',
+    '30 Min',
+  ];
+
+  const getApiTimeFormat = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
+  // ✅ UPDATED: dynamic minutes to seconds
   const getTimeInSeconds = (time: string) => {
-    if (time === '30 Min') return 30 * 60;
-    if (time === '01 Hour') return 60 * 60;
-    if (time === '2 Hour') return 2 * 60 * 60;
-    return 0;
+    const minutes = parseInt(time); // "5 Min" -> 5
+    return minutes * 60;
   };
 
   // Format time to HH:MM:SS
@@ -352,10 +373,7 @@ const InterestRepsTimer = () => {
 
   // Start timer
   const startTimer = () => {
-    if (timeLeft === 0) {
-      setTimeLeft(getTimeInSeconds(selectedTime));
-    }
-    setIsRunning(true);
+    setIsRunning(true); // ✅ start counting
   };
 
   // Stop timer
@@ -363,34 +381,88 @@ const InterestRepsTimer = () => {
     setIsRunning(false);
   };
 
-  // Reset timer when selection changes
   useEffect(() => {
-    setTimeLeft(getTimeInSeconds(selectedTime));
-    setIsRunning(false);
-  }, [selectedTime]);
+  if (isRunning && timeLeft < getTimeInSeconds(selectedTime)) {
+    timerRef.current = setInterval(() => {
+      setTimeLeft(prevTime => {
+        if (prevTime >= getTimeInSeconds(selectedTime) - 1) {
+          setIsRunning(false); // stop automatically at max time
+          return getTimeInSeconds(selectedTime);
+        }
+        return prevTime + 1; // ✅ count up
+      });
+    }, 1000);
+  } else if (timerRef.current) {
+    clearInterval(timerRef.current);
+  }
 
-  // Timer logic
-  useEffect(() => {
-    if (isRunning && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(prevTime => {
-          if (prevTime <= 1) {
-            setIsRunning(false);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-    } else if (timerRef.current) {
+  return () => {
+    if (timerRef.current) {
       clearInterval(timerRef.current);
     }
+  };
+  }, [isRunning, timeLeft, selectedTime]);
 
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+
+  const handlecoretimer = async () => {
+    // Stop timer if running
+    if (isRunning && timerRef.current) {
+      clearInterval(timerRef.current);
+      setIsRunning(false);
+  }
+
+  setLoading(true);
+
+  try {
+    // Dynamic time from timer
+    const apiTime = getApiTimeFormat(
+      timeLeft || getTimeInSeconds(selectedTime)
+    );
+
+    // ✅ UPDATED BODY (as per API)
+    const body = {
+      time: apiTime,
+      task: taskText, // <-- input / state value
     };
-  }, [isRunning, timeLeft]);
+
+    console.log("Love Deposit Body:", body);
+
+    const { response, error } = await apiHelper(
+      "POST",
+      "tools/love-deposit/log",
+      {},
+      {},
+      body
+    );
+
+    if (response?.data?.data) {
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Love deposit logged successfully",
+      });
+      console.log("API RESPONSE:", response?.data);
+      navigation.navigate("DepositInterestReps");
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error?.message || "Record already added for today",
+      });
+    }
+  } catch (err) {
+    console.error("Love Deposit error:", err);
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "An error occurred while logging love deposit",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -438,30 +510,34 @@ const InterestRepsTimer = () => {
 
         <View style={{ alignSelf: 'center', top: height * 0.05 }}>
           <CustomTextInput
-            placeholder="EXERCISING"
+            placeholder="Type here"
             placeholderTextColor={colors.black}
             inputHeight={height * 0.06}
             inputWidth={width * 0.9}
             backgroundColor={colors.lightGray}
             borderRadius={20}
-            onChangeText={setEmail}
+            onChangeText={setTaskText}
           />
         </View>
 
         <Text style={styles.selected}>Select Time (1 Min = 6 Reps)</Text>
 
         {/* Time Selection Carousel */}
-        <View style={styles.carouselContainer}>
+         <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carouselContainer}
+        >
           {timeOptions.map((time, index) => (
             <TouchableOpacity
               key={index}
               style={[
                 styles.timeOption,
                 selectedTime === time && styles.selectedTimeOption,
+                { marginRight: width * 0.04 }, // ✅ GAP
               ]}
               onPress={() => setSelectedTime(time)}
             >
-              {/* Timer Icon */}
               <Image
                 source={images.time}
                 style={[
@@ -479,7 +555,7 @@ const InterestRepsTimer = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         <View style={styles.btn1}>
           <CustomButton
@@ -491,7 +567,7 @@ const InterestRepsTimer = () => {
             borderColor={colors.marhoon}
             borderWidth={1}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={handlecoretimer}
           />
         </View>
       </ScrollView>

@@ -25,6 +25,7 @@ interface TopHeaderProps {
   title?: string;
   transparent?: boolean;
   isBack?: boolean;
+  isBackReps?: boolean;
   isBackBlack?: boolean;
   steps?: string;
   isMenu?: boolean;
@@ -70,6 +71,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   textIcon = false,
   transparent = false,
   isBack = false,
+  isBackReps = false,
   isBackBlack = false,
   isMenu = false,
   notification = false,
@@ -187,6 +189,20 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   // navigation.canGoBack()
                   // ? navigation.goBack()
                   navigation.navigate('Home');
+                }
+              }}
+            >
+              <Image source={images.backIcon} style={styles.backArrow} />
+            </Pressable>
+          )}
+          {isBackReps && (
+            <Pressable
+              style={styles.headerArrow}
+              onPress={() => {
+                if (navigation) {
+                  // navigation.canGoBack()
+                  // ? navigation.goBack()
+                  navigation.navigate('LoveDepositReps');
                 }
               }}
             >

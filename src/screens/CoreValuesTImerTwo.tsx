@@ -176,7 +176,7 @@ const CoreValuesTimerTwo = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackReps={true}
           text={
             <Text style={styles.headerText}>BIBLE STORIES (2 TIM. 2:15)</Text>
           }

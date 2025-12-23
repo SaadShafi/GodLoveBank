@@ -176,7 +176,7 @@ const CoreValuesTimerThree = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackReps={true}
           text={
             <Text style={styles.headerText}>DEPOSIT REP'S (MT. 25:14-30)</Text>
           }
