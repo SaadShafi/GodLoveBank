@@ -4,8 +4,9 @@ import {
   NavigationProp,
   useNavigation,
 } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   Platform,
@@ -36,10 +37,26 @@ const DrawerNavigator = () => {
   const User = useSelector((state: RootState) => state.role.user);
   console.log("User ID from redux in the Drawer!", User);
 
+    const [loadingUser, setLoadingUser] = useState(true);
+
+  useEffect(() => {
+    if (User?.id) {
+      setLoadingUser(false);
+    }
+  }, [User]);
+
+  if (loadingUser) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.white }}>
+        <ActivityIndicator size="large" color={colors.marhoon} />
+      </View>
+    );
+  }
+
 
   return (
     <Drawer.Navigator
-      key={User?.id}  // forces re-render when user changes
+      key={User?.id} 
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
@@ -53,7 +70,7 @@ const DrawerNavigator = () => {
       }}
     >
       <Drawer.Screen
-        name="MainApp"
+        name="MainTabs"
         component={BottomTabs}
         options={{ swipeEnabled: false }}
       />
@@ -67,7 +84,6 @@ const CustomDrawerContent = (props: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const User = useSelector((state: RootState) => state.role.user);
   const [imgError, setImgError] = useState(false);
-  console.log("User from redux in the Drawer!", User);
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -92,8 +108,6 @@ const CustomDrawerContent = (props: any) => {
         routes: [{ name: 'SignInEmail' }],
       }),
     );
-
-    console.log('User logged out successfully');
   };
 
   const handleNavigation = (routeName: string) => {
@@ -132,7 +146,7 @@ const CustomDrawerContent = (props: any) => {
   const BASE_URL = 'http://18.204.175.233:3001/';
 
   const getFullImageUrl = (path: string) => {
-    if (!path) return null;
+    if (!path) return undefined;
     return `${BASE_URL}${path}`;
   };
 
@@ -150,16 +164,15 @@ const CustomDrawerContent = (props: any) => {
             activeOpacity={0.7}
           >
             <Image
-              // source={images.drawerProf}
               // source={
-              //   User?.image
+              //   !imgError && User?.image
               //     ? { uri: getFullImageUrl(User.image) }
               //     : images.drawerProf
               // }
+              // style={styles.profileImage}
+              // onError={() => setImgError(true)}
               source={
-                !imgError && User?.image
-                  ? { uri: getFullImageUrl(User.image) }
-                  : images.drawerProf
+                !imgError && User?.image ? { uri: getFullImageUrl(User.image) } : images.drawerProf
               }
               style={styles.profileImage}
               onError={() => setImgError(true)}
