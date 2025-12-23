@@ -7,8 +7,11 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const Home = () => {
+  const User = useSelector((state: RootState) => state.role.user);
   console.log(" ----- Home Screen Rendered ----")
   const navigation = useNavigation<NavigationProp<any>>();
   // if (!item?.image) console.warn(`Item ${item.id} has no image`);
@@ -199,7 +202,7 @@ const Home = () => {
         keyExtractor={item => item.id}
         ListHeaderComponent={
           <>
-            <Text style={styles.welcome}>Welcome jaydon</Text>
+            <Text style={styles.welcome}>Welcome  {User?.firstName || "Jaydon"}</Text>
             <Text style={styles.values}>Core Values</Text>
             <Image 
               // source={images.background} 

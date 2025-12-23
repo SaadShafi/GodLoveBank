@@ -4,6 +4,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios';
+import { io, Socket } from 'socket.io-client';
 import { hideLoader, showLoader } from '../redux/slice/screenSlice';
 import { store } from '../redux/store';
 
@@ -68,7 +69,7 @@ interface ApiResponse<T = any> {
 export const apiHelper = async <T = any>(
   method: HttpMethod,
   endPoint: string,
-  params: Record<string, any> = {}, 
+  params: Record<string, any> = {},
   customHeaders: Record<string, string> = {},
   body: any = null,
 ): Promise<ApiResponse<T>> => {
@@ -80,7 +81,7 @@ export const apiHelper = async <T = any>(
         'Content-Type': 'application/json',
         ...customHeaders,
       },
-       ...(params && Object.keys(params).length > 0 && { params }), 
+       ...(params && Object.keys(params).length > 0 && { params }),
       ...(method !== 'GET' && { data: body }),
     };
 
