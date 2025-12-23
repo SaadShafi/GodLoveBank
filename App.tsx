@@ -8,6 +8,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import { colors } from './src/utilities/colors';
+import BottomTabs from './src/navigation/BottomTabs';
 
 const App = () => {
   return (
@@ -16,21 +17,7 @@ const App = () => {
         <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
           <NavigationContainer>
             <MainStack />
-            <Toast
-              config={{
-                custom_otp: ({ text1, text2 }) => (
-                  <View style={styles.toastContainer}>
-                    {/* <Text style={styles.text1}>
-                    Hi <Text style={styles.bold}>Alex!</Text> Here is your
-                    One-Time Password <Text style={styles.bold}>52610</Text>
-                  </Text>
-                  <Text style={styles.text2}>
-                    <Text style={styles.bold}>Valid for 10 mins.</Text>
-                  </Text> */}
-                  </View>
-                ),
-              }}
-            />
+            <Toast/>
           </NavigationContainer>
         </PersistGate>
       </Provider>

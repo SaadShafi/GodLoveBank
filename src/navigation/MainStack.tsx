@@ -93,8 +93,10 @@ import CoreValuesTimer from '../screens/CoreValuesTimer';
 import CoreValuesTimerTwo from '../screens/CoreValuesTImerTwo';
 import CoreValuesTimerThree from '../screens/CoreValuesTimerThree';
 import BaseballDiamondSec from '../screens/BaseballDiamondSec';
+import BottomTabs from './BottomTabs';
 
 export type StackParamList = {
+  AppDrawer: undefined;
   Register: undefined;
   Onboarding: undefined;
   Registeration: undefined;
@@ -214,7 +216,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="SecondBase" component={SecondBase} />
       <Stack.Screen name="ThirdBase" component={ThirdBase} />
       <Stack.Screen name="CreateProfile" component={CreateProfile} />
-      <Stack.Screen name="Home" component={DrawerNavigator} />
+       <Stack.Screen name="AppDrawer" component={DrawerNavigator} />
+      {/* <Stack.Screen name="Home" component={DrawerNavigator} /> */}
       {/* <Stack.Screen name="Home" component={BottomTabs} /> */}
       <Stack.Screen name="SpiritualGrowth" component={SpiritualGrowth} />
       <Stack.Screen name="SelfHonesty" component={SelfHonesty} />

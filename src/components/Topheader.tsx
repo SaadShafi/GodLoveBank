@@ -18,6 +18,8 @@ import { fontSizes } from '../utilities/fontsizes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+
 
 interface TopHeaderProps {
   text?: string;
@@ -65,6 +67,8 @@ interface TopHeaderProps {
   isCross?: boolean;
 }
 
+type DrawerNavProp = DrawerNavigationProp<any>;
+
 const TopHeader: React.FC<TopHeaderProps> = ({
   text,
   textIcon = false,
@@ -97,13 +101,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isBackHome = false,
   isCross = false,
 }) => {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  // const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [imgError, setImgError] = useState(false)
+  const drawerNavigation = useNavigation<DrawerNavProp>();
+  const navigation = useNavigation<any>();
   const User = useSelector((state: RootState) => state.role.user)
   const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
   const displayName = fullName.length > 10 ? `${fullName.slice(0, 8)}...` : fullName;
 
   const handleDrawer = () => {
-    navigation.dispatch(DrawerActions.openDrawer());
+    // navigation.dispatch(DrawerActions.openDrawer());
+    drawerNavigation.openDrawer();
     console.log("Drawer Icon Clicked!")
   };
 
@@ -123,14 +131,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const BASE_URL = 'http://18.204.175.233:3001/';
 
   const getFullImageUrl = (path: string) => {
-    if (!path) return null;
+    if (!path) return undefined;
     return `${BASE_URL}${path}`;
   };
 
   return (
     <View
       style={{
-        zIndex: 20,
+        // zIndex: 20,
         backgroundColor: isBlueBg ? colors.darkBlue : 'transparent',
       }}
     >
@@ -334,12 +342,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 >
                   <Image
                     // source={images.headerprofile}
-                    source={
-                      User?.image
-                        ? { uri: getFullImageUrl(User.image) }
-                        : images.drawerProf
-                    }
-                    style={styles.isChatImg}
+                    // source={
+                    //   User?.image
+                    //     ? { uri: getFullImageUrl(User.image) }
+                    //     : images.drawerProf
+                    // }
+                    // style={styles.isChatImg}
+                     source={User?.image && !imgError ? { uri: getFullImageUrl(User.image) } : images.drawerProf} 
+  style={styles.isChatImg}
+  onError={() => setImgError(true)} // <-- prevent broken images
                   />
                 </TouchableOpacity>
                 <TouchableOpacity

@@ -46,7 +46,7 @@ const SignInEmail = () => {
         {},
         body,
       );
-      console.log('Response from SignIn Api: ', response?.data);
+      // console.log('Response from SignIn Api: ', response?.data);
 
       if (response?.data) {
         Toast.show({
@@ -56,22 +56,21 @@ const SignInEmail = () => {
         });
 
         const token = response.data.data.accessToken;
-        console.log("AccessToken CHECK!!", token);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
-          }),
-        );
+        // console.log("AccessToken CHECK!!", token);
         dispatch(setLogin());
         dispatch(setToken(token))
         dispatch(setUser(response.data.data.user))
         dispatch(removeAddressData())
-        console.log("User response in EMail SignIN!", response.data.data.user)
-        console.log("Accesstoken dispatching", token)
+
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'AppDrawer' }],
+          }),
+        );
       }
       else {
-        console.log("Error Message", error)
+        // console.log("Error Message", error)
         Toast.show({
           type: "error",
           text1: "Error",
