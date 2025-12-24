@@ -16,7 +16,7 @@ const AmenPrinciples = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackHome={true}
           text={<Text style={styles.headerText}>THE A-M-E-N PRINCIPLE</Text>}
         />
       </View>

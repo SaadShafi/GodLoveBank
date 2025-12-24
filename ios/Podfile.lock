@@ -2571,7 +2571,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNGestureHandler (2.29.1):
+  - RNGestureHandler (2.30.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2809,7 +2809,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNScreens (4.18.0):
+  - RNScreens (4.19.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2836,10 +2836,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNScreens/common (= 4.18.0)
+    - RNScreens/common (= 4.19.0)
     - SocketRocket
     - Yoga
-  - RNScreens/common (4.18.0):
+  - RNScreens/common (4.19.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2896,7 +2896,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNSVG (15.15.0):
+  - RNSVG (15.15.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2922,10 +2922,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.15.0)
+    - RNSVG/common (= 15.15.1)
     - SocketRocket
     - Yoga
-  - RNSVG/common (15.15.0):
+  - RNSVG/common (15.15.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -3342,12 +3342,12 @@ SPEC CHECKSUMS:
   ReactCommon: 116d6ee71679243698620d8cd9a9042541e44aa6
   RNBootSplash: 98a34471966945e8dacd1da8f0c2f87cbc2e2df7
   RNCAsyncStorage: 29f0230e1a25f36c20b05f65e2eb8958d6526e82
-  RNGestureHandler: 29bbca60c881e5243e219e3fe0016060002ed389
+  RNGestureHandler: e37bdb684df1ac17c7e1d8f71a3311b2793c186b
   RNImageCropPicker: 5fd4ceaead64d8c53c787e4e559004f97bc76df7
   RNReanimated: 196d4b56ac1d7ffa2f168d4d36631f0add849456
-  RNScreens: d821082c6dd1cb397cc0c98b026eeafaa68be479
+  RNScreens: ffbb0296608eb3560de641a711bbdb663ed1f6b4
   RNSound: d5dd3ca86d9978e1c2736dfa943ba619fc9fc504
-  RNSVG: cf603fc57ab18c03f523483e7f18db3472c599e1
+  RNSVG: d260beec1775108e1bd065a0ed666ff2c5565158
   RNVectorIcons: 791f13226ec4a3fd13062eda9e892159f0981fae
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   TOCropViewController: 797deaf39c90e6e9ddd848d88817f6b9a8a09888

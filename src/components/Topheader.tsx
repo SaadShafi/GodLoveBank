@@ -196,7 +196,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 if (navigation) {
                   // navigation.canGoBack()
                   // ? navigation.goBack()
-                  navigation.navigate('Home');
+                  navigation.navigate('AppDrawer');
                 }
               }}
             >

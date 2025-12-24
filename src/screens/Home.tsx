@@ -162,6 +162,7 @@ const Home = () => {
 
   const renderItem = ({ item, index }: any) => {
       if (!item.image) console.warn(`Item ${item.id} has no image`);
+      
       return (
     <View style={{ gap: height * 0.02 }}>
       {index === 1 && (
@@ -191,6 +192,8 @@ const Home = () => {
     </View>
     )
   };
+
+  
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>

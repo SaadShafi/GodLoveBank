@@ -9,18 +9,90 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
+
+interface CardType {
+  toolId: number;
+  subject: string;
+  answer: string;
+  mate: string;
+  example: string;
+  invitation: string;
+}
 
 const TheAmenPrinciple = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const [firstName, setFirstName] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [mate, setMate] = useState('');
-  const [example, setExample] = useState('');
-  const [invitation, setInvitation] = useState('');
+  const [cards, setCards] = useState<CardType[]>([
+    {
+      toolId: 1,
+      subject: '',
+      answer: '',
+      mate: '',
+      example: '',
+      invitation: '',
+    },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  // Update any field in a card
+  const updateCardField = (index: number, field: keyof CardType, value: string) => {
+    const updatedCards = [...cards];
+    updatedCards[index][field] = value;
+    setCards(updatedCards);
+  };
+
+  const handleAmenPress = async () => {
+    setLoading(true);
+    try {
+      for (const card of cards) {
+        const body = {
+          toolId: card.toolId,
+          answer: card.answer,
+          mate: card.mate,
+          example: card.example,
+          invitation: card.invitation,
+        };
+
+        const { response, error } = await apiHelper(
+          'POST',
+          'tools/tools-of-thinking/log',
+          {},
+          {},
+          body
+        );
+
+        if (!response?.data?.data) {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: error?.message || 'Failed to log',
+          });
+          setLoading(false);
+          return;
+        }
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'All Tools of Thinking logs created successfully',
+      });
+      navigation.navigate('AmenPrinciples');
+    } catch (err) {
+      console.error('Tools of Thinking error:', err);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'An error occurred while logging Tools of Thinking',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
           isBack={true}
@@ -28,139 +100,106 @@ const TheAmenPrinciple = () => {
         />
       </View>
 
-      {/* Scrollable content */}
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <Image source={images.sound} style={styles.img} />
-
         <Image source={images.doctrine} style={styles.img} />
 
-        <Text style={styles.subject}>Write in Subject</Text>
-        <View style={styles.custom}>
-          <CustomTextInput
-            placeholder="Type Here"
-            placeholderTextColor={colors.black}
-            inputHeight={height * 0.065}
-            inputWidth={width * 0.9}
-            borderRadius={20}
-            value={firstName}
-            onChangeText={setFirstName}
-            keyboardType="default"
-            fontFamily={fontFamily.UrbanistMedium}
-            fontSize={fontSizes.sm2}
-          />
-        </View>
-
-        <View style={{ gap: height * 0.02 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.95,
-            }}
-          >
-            <Image source={images.bible} style={styles.img1} />
-            <View style={styles.answer}>
+        {cards.map((card, index) => (
+          <View key={card.toolId} style={{ gap: height * 0.02 }}>
+            <Text style={styles.subject}>Write in Subject</Text>
+            <View style={styles.custom}>
               <CustomTextInput
-                placeholder="ANSWER"
+                placeholder="Type Here"
                 placeholderTextColor={colors.black}
                 inputHeight={height * 0.065}
-                inputWidth={width * 0.3}
+                inputWidth={width * 0.9}
                 borderRadius={20}
-                value={answer}
-                onChangeText={setAnswer}
+                value={card.subject}
+                onChangeText={(val) => updateCardField(index, 'subject', val)}
                 keyboardType="default"
                 fontFamily={fontFamily.UrbanistMedium}
                 fontSize={fontSizes.sm2}
               />
             </View>
-          </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.95,
-            }}
-          >
-            <Image source={images.mate} style={styles.img1} />
-            <View style={styles.answer}>
-              <CustomTextInput
-                placeholder="MATE"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.065}
-                inputWidth={width * 0.3}
-                borderRadius={20}
-                value={mate}
-                onChangeText={setMate}
-                keyboardType="default"
-                fontFamily={fontFamily.UrbanistMedium}
-                fontSize={fontSizes.sm2}
-              />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.95 }}>
+              <Image source={images.bible} style={styles.img1} />
+              <View style={styles.answer}>
+                <CustomTextInput
+                  placeholder="ANSWER"
+                  placeholderTextColor={colors.black}
+                  inputHeight={height * 0.065}
+                  inputWidth={width * 0.3}
+                  borderRadius={20}
+                  value={card.answer}
+                  onChangeText={(val) => updateCardField(index, 'answer', val)}
+                  keyboardType="default"
+                  fontFamily={fontFamily.UrbanistMedium}
+                  fontSize={fontSizes.sm2}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.95 }}>
+              <Image source={images.mate} style={styles.img1} />
+              <View style={styles.answer}>
+                <CustomTextInput
+                  placeholder="MATE"
+                  placeholderTextColor={colors.black}
+                  inputHeight={height * 0.065}
+                  inputWidth={width * 0.3}
+                  borderRadius={20}
+                  value={card.mate}
+                  onChangeText={(val) => updateCardField(index, 'mate', val)}
+                  keyboardType="default"
+                  fontFamily={fontFamily.UrbanistMedium}
+                  fontSize={fontSizes.sm2}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.95 }}>
+              <Image source={images.example} style={styles.img1} />
+              <View style={styles.answer}>
+                <CustomTextInput
+                  placeholder="EXAMPLE"
+                  placeholderTextColor={colors.black}
+                  inputHeight={height * 0.065}
+                  inputWidth={width * 0.3}
+                  borderRadius={20}
+                  value={card.example}
+                  onChangeText={(val) => updateCardField(index, 'example', val)}
+                  keyboardType="default"
+                  fontFamily={fontFamily.UrbanistMedium}
+                  fontSize={fontSizes.sm2}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.95 }}>
+              <Image source={images.self} style={styles.img1} />
+              <View style={styles.answer}>
+                <CustomTextInput
+                  placeholder="INVITATION"
+                  placeholderTextColor={colors.black}
+                  inputHeight={height * 0.065}
+                  inputWidth={width * 0.3}
+                  borderRadius={20}
+                  value={card.invitation}
+                  onChangeText={(val) => updateCardField(index, 'invitation', val)}
+                  keyboardType="default"
+                  fontFamily={fontFamily.UrbanistMedium}
+                  fontSize={fontSizes.sm2}
+                />
+              </View>
             </View>
           </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.95,
-            }}
-          >
-            <Image source={images.example} style={styles.img1} />
-            <View style={styles.answer}>
-              <CustomTextInput
-                placeholder="EXAMPLE"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.065}
-                inputWidth={width * 0.3}
-                borderRadius={20}
-                value={example}
-                onChangeText={setExample}
-                keyboardType="default"
-                fontFamily={fontFamily.UrbanistMedium}
-                fontSize={fontSizes.sm2}
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width * 0.95,
-            }}
-          >
-            <Image source={images.self} style={styles.img1} />
-            <View style={styles.answer}>
-              <CustomTextInput
-                placeholder="INVITATION"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.065}
-                inputWidth={width * 0.3}
-                borderRadius={20}
-                value={invitation}
-                onChangeText={setInvitation}
-                keyboardType="default"
-                fontFamily={fontFamily.UrbanistMedium}
-                fontSize={fontSizes.sm2}
-              />
-            </View>
-          </View>
-        </View>
+        ))}
       </ScrollView>
+
       <View style={styles.audioContainer}>
         <Text style={styles.audio}>Audio Explanation</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            top: height * 0.03,
-            gap: width * 0.02,
-          }}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', top: height * 0.03, gap: width * 0.02 }}>
           <Image source={images.play} />
           <Image source={images.timer} style={{ top: height * 0.02 }} />
         </View>
@@ -173,13 +212,15 @@ const TheAmenPrinciple = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={handleAmenPress}
+            loading={loading}
           />
         </View>
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   mainContainer: {

@@ -155,7 +155,8 @@ const images: { [key: string]: ImageSourcePropType } = {
   stop: require('../Images/stop.png'),
   forward: require("../Images/forward.png"),
   crossBlack: require("../Images/crossBlack.png"),
-  filledFav: require("../Images/filledfav.png")
+  filledFav: require("../Images/filledfav.png"),
+  pause: require('../Images/pause.png')
 };
 
 export default images;

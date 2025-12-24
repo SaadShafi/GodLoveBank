@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -17,42 +18,127 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { apiHelper } from '../services';
+
+interface CardType {
+  id: number;
+  toolId: number;
+  acknowledge: string;
+  ask: string;
+  abide: string;
+  answer: string;
+  mate: string;
+  example: string;
+  invitation: string;
+}
 
 const AAACard = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const [email, setEmail] = useState('');
-  const [cards, setCards] = useState([{ id: 1 }]);
+  const [loading, setLoading] = useState(false);
+
+  const [cards, setCards] = useState<CardType[]>([
+    {
+      id: 1,
+      toolId: 1,  
+      acknowledge: '',
+      ask: '',
+      abide: '',
+      answer: '',
+      mate: '',
+      example: '',
+      invitation: '',
+    },
+  ]);
 
   const addCard = () => {
     const newCardId = Date.now();
-    setCards([...cards, { id: newCardId }]);
+    setCards([
+      ...cards,
+      {
+        id: newCardId,
+        toolId: newCardId, // dynamic toolId
+        acknowledge: '',
+        ask: '',
+        abide: '',
+        answer: '',
+        mate: '',
+        example: '',
+        invitation: '',
+      },
+    ]);
   };
 
   const deleteCard = (cardId: number) => {
-    if (cards.length > 0) {
-      setCards(cards.filter(card => card.id !== cardId));
-    }
+    setCards(cards.filter(card => card.id !== cardId));
   };
 
-  const handleAddCardPress = () => {
-    addCard();
+  const updateCardField = (cardId: number, field: keyof CardType, value: string) => {
+    setCards(cards.map(card => (card.id === cardId ? { ...card, [field]: value } : card)));
+  };
+
+  const handleAAAPress = async () => {
+    setLoading(true);
+    try {
+      for (const card of cards) {
+        const body = {
+          toolId: card.toolId,
+          acknowledge: card.acknowledge,
+          ask: card.ask,
+          abide: card.abide,
+          answer: card.answer,
+          mate: card.mate,
+          example: card.example,
+          invitation: card.invitation,
+        };
+
+        const { response, error } = await apiHelper(
+          'POST',
+          'tools/tools-of-thinking/log',
+          {},
+          {},
+          body
+        );
+
+        if (!response?.data?.data) {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: error?.message || 'Failed to log',
+          });
+          setLoading(false);
+          return;
+        }
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'All Tools of Thinking logs created successfully',
+      });
+      navigation.navigate('HolySpirits');
+    } catch (err) {
+      console.error('Tools of Thinking error:', err);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'An error occurred while logging Tools of Thinking',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
           isBack={true}
           addCard={true}
-          onAddCardPress={handleAddCardPress}
-          text={
-            <Text style={styles.headerText}>The Holy Spirits AAA Card</Text>
-          }
+          onAddCardPress={addCard}
+          text={<Text style={styles.headerText}>The Holy Spirits AAA Card</Text>}
         />
       </View>
 
-      {/* Scrollable content */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -60,88 +146,64 @@ const AAACard = () => {
         <Image source={images.AAA} style={styles.img} />
 
         {cards.map((card, index) => (
-          <View
-            key={card.id}
-            style={[styles.cardContainer, index > 0 && styles.cardSeparator]}
-          >
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => deleteCard(card.id)}
-            >
-              <Text style={styles.deleteText}>×</Text>
-            </TouchableOpacity>
+  <View
+    key={card.id}
+    style={[styles.cardContainer, index > 0 && styles.cardSeparator]}
+  >
+    <TouchableOpacity
+      style={styles.deleteButton}
+      onPress={() => deleteCard(card.id)}
+    >
+      <Text style={styles.deleteText}>×</Text>
+    </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                width: width * 0.7,
-                justifyContent: 'space-between',
-                top: height * 0.01,
-              }}
-            >
-              <Text style={styles.request}>Request {index + 1}</Text>
-              <Text style={styles.acknowledge}>ACKNOWLEDGE</Text>
-            </View>
+    <Text style={styles.request}>Request {index + 1}</Text>
 
-            <Text style={styles.holy}>Honor the Holy Spirit as LORD here:</Text>
+    {/* Acknowledge Container */}
+    <View style={styles.inputContainer}>
+      <Text style={styles.inputLabel}>ACKNOWLEDGE</Text>
+      <CustomMultiInput
+        placeholder="Acknowledge"
+        inputHeight={height * 0.1}
+        inputWidth={width * 0.85}
+        backgroundColor={colors.lightGray}
+        borderRadius={20}
+        onChangeText={text => updateCardField(card.id, 'acknowledge', text)}
+      />
+    </View>
 
-            <View style={styles.ackContainer}>
-              <CustomMultiInput
-                placeholder="Honor the Holy Spirit"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.1}
-                inputWidth={width * 0.85}
-                backgroundColor={colors.lightGray}
-                borderRadius={20}
-                onChangeText={setEmail}
-              />
-            </View>
+    {/* Ask Container */}
+    <View style={styles.inputContainer}>
+      <Text style={styles.inputLabel}>ASK</Text>
+      <CustomMultiInput
+        placeholder="Ask"
+        inputHeight={height * 0.1}
+        inputWidth={width * 0.85}
+        backgroundColor={colors.lightGray}
+        borderRadius={20}
+        onChangeText={text => updateCardField(card.id, 'ask', text)}
+      />
+    </View>
 
-            <Text style={styles.ask}>ASK</Text>
-            <Text style={styles.details}>
-              Enter details of your request here:
-            </Text>
-            <View style={styles.askContainer}>
-              <CustomMultiInput
-                placeholder="Spirit as LORD"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.1}
-                inputWidth={width * 0.85}
-                backgroundColor={colors.lightGray}
-                borderRadius={20}
-                onChangeText={setEmail}
-              />
-            </View>
-
-            <Text style={styles.abide}>ABIDE</Text>
-            <Text style={styles.long}>
-              Enter long will you abide to the End:
-            </Text>
-            <View style={styles.spiritContainer}>
-              <CustomMultiInput
-                placeholder="Spirit as LORD"
-                placeholderTextColor={colors.black}
-                inputHeight={height * 0.1}
-                inputWidth={width * 0.85}
-                backgroundColor={colors.lightGray}
-                borderRadius={20}
-                onChangeText={setEmail}
-              />
-            </View>
-          </View>
-        ))}
+    {/* Abide Container */}
+    <View style={styles.inputContainer}>
+      <Text style={styles.inputLabel}>ABIDE</Text>
+      <CustomMultiInput
+        placeholder="Abide"
+        inputHeight={height * 0.1}
+        inputWidth={width * 0.85}
+        backgroundColor={colors.lightGray}
+        borderRadius={20}
+        onChangeText={text => updateCardField(card.id, 'abide', text)}
+      />
+    </View>
+  </View>
+          ))}
       </ScrollView>
 
       <View style={styles.audioContainer}>
         <Text style={styles.audio}>Audio Explanation</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            top: height * 0.03,
-            gap: width * 0.02,
-          }}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', top: height * 0.03, gap: width * 0.02 }}>
           <Image source={images.play} />
           <Image source={images.timer} style={{ top: height * 0.02 }} />
         </View>
@@ -154,7 +216,8 @@ const AAACard = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={handleAAAPress}
+            loading={loading}
           />
         </View>
       </View>
@@ -359,6 +422,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: height * 0.16,
   },
+  inputContainer: {
+  marginTop: height * 0.02,
+  marginBottom: height * 0.03,
+  alignItems: 'center',
+  width: '100%',
+},
+
+inputLabel: {
+  fontFamily: fontFamily.GilroyBold,
+  fontSize: fontSizes.lg,
+  color: colors.black,
+  marginBottom: height * 0.01,
+},
+
 });
 
 export default AAACard;

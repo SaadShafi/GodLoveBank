@@ -190,7 +190,7 @@
 // export default RepsHistory;
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Image,
   Modal,
@@ -207,6 +207,8 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import Toast from 'react-native-toast-message';
+import { apiHelper } from '../services';
 
 // Mock data - replace with your actual data
 const mockRepsData = {
@@ -223,15 +225,26 @@ const AAACardHistory = () => {
   const [isCalendarVisible, setCalendarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [filteredReps, setFilteredReps] = useState<any[]>([]);
+  const [repsData, setRepsData] = useState<any>({});
+  const [todayReps, setTodayReps] = useState<any[]>([]);
+  const [weekReps, setWeekReps] = useState<any[]>([]);
+  const [monthReps, setMonthReps] = useState<any[]>([]);
+  
 
   const handleDateSelect = (day: any) => {
-    const dateString = day.dateString;
-    setSelectedDate(dateString);
-    setCalendarVisible(false);
+  console.log("📅 DAY SELECTED 👉", day);
+
+  const dateString = day.dateString;
+  console.log("📅 SELECTED DATE 👉", dateString);
+
+  setSelectedDate(dateString);
+  setCalendarVisible(false);
+
+  fetchAAAHistory(dateString);
 
     // Filter reps based on selected date
-    const repsForDate = mockRepsData[dateString] || [];
-    setFilteredReps(repsForDate);
+    // const repsForDate = mockRepsData[dateString] || [];
+    // setFilteredReps(repsForDate);
   };
 
   const formatDate = (dateString: string) => {
@@ -244,6 +257,121 @@ const AAACardHistory = () => {
       day: 'numeric',
     });
   };
+
+  const fetchAAAHistory = async (date?: string) => {
+    try {
+      console.log("📡 fetchAAAHistory CALLED with date 👉", date);
+
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    const params = {
+      date: date || todayDate,
+    };
+
+    console.log("📤 API PARAMS 👉", params);
+
+    const apiRes = await apiHelper(
+      "GET",
+      "tools/tools-of-thinking/logs/details",
+      params
+    );
+
+    console.log("📥 FULL API RESPONSE 👉", apiRes);
+
+    const res = apiRes?.response;
+    console.log("📥 API response 👉", res);
+
+    if (res?.status === 200) {
+      const logs = Array.isArray(res?.data?.data)
+        ? res.data.data
+        : [];
+
+      console.log("✅ AAA LOGS 👉", logs);
+      console.log("🔢 TOTAL LOGS COUNT 👉", logs.length);
+
+      // ✅ SUCCESS TOAST
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'AAA Card History fetched successfully',
+      });
+
+      /**
+       * 🔥 MAP DATA BY DATE
+       */
+      const mappedData: any = {};
+
+      logs.forEach((item: any, index: number) => {
+        console.log(`➡️ LOG ${index} 👉`, item);
+
+        const dateKey = item.logDate; // YYYY-MM-DD
+
+        if (!mappedData[dateKey]) {
+          mappedData[dateKey] = [];
+        }
+
+        mappedData[dateKey].push({
+          type: item?.tool?.name || 'AAA Request',
+          reps: 1,
+        });
+      });
+
+      console.log("🗂️ FINAL MAPPED DATA 👉", mappedData);
+
+      // 🔥 SET MAIN DATA
+      setRepsData(mappedData);
+
+      /**
+       * ✅ TODAY DATA
+       */
+      const todayRepsData = mappedData[todayDate] || [];
+      setTodayReps(todayRepsData);
+
+      /**
+       * ✅ WEEK DATA (simple version – same data)
+       * later 7 days logic bhi laga sakte hain
+       */
+      setWeekReps(todayRepsData);
+
+      /**
+       * ✅ MONTH DATA (simple version)
+       */
+      setMonthReps(todayRepsData);
+
+      console.log("📆 TODAY REPS 👉", todayRepsData);
+      console.log("📆 WEEK REPS 👉", todayRepsData);
+      console.log("📆 MONTH REPS 👉", todayRepsData);
+
+      /**
+       * ✅ SELECTED DATE FILTER
+       */
+      if (date) {
+        console.log("📌 FILTERED DATA FOR DATE 👉", date, mappedData[date]);
+        setFilteredReps(mappedData[date] || []);
+      }
+    } else {
+      console.log("❌ API FAILED 👉", res);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Failed',
+        text2: res?.message || 'Unable to fetch AAA Card History',
+      });
+    }
+  } catch (error: any) {
+    console.log("🔥 API CATCH ERROR 👉", error);
+
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: error?.message || 'Something went wrong',
+    });
+  }
+  };
+
+    useEffect(() => {
+      fetchAAAHistory();
+        }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -313,66 +441,49 @@ const AAACardHistory = () => {
         </TouchableOpacity>
 
         {/* Show filtered results when a date is selected */}
-        {selectedDate && filteredReps.length > 0 && (
-          <View style={styles.dateSection}>
-            <Text style={styles.dateLabel}>{formatDate(selectedDate)}</Text>
-            {filteredReps.map((rep, index) => (
-              <View key={index} style={styles.repMind}>
-                <Text style={styles.mindfulness}>{rep.type}</Text>
-                <Text style={styles.reps}>{rep.reps} Reps</Text>
-              </View>
-            ))}
-            <View style={styles.divider}>
-              <Text style={styles.totalText}>
-                Total {filteredReps.reduce((sum, rep) => sum + rep.reps, 0)}{' '}
-                Reps
-              </Text>
-            </View>
-          </View>
-        )}
+      {!selectedDate && (
+  <>
+    {/* TODAY */}
+    <View style={styles.dateSection}>
+      <Text style={styles.dateLabel}>Today</Text>
 
-        {/* Show default sections when no date is selected */}
-        {!selectedDate && (
-          <>
-            {/* Today Section */}
-            <View style={styles.dateSection}>
-              <Text style={styles.dateLabel}>Today</Text>
+      {todayReps.length > 0 ? (
+        <View style={styles.repMind}>
+          <Text style={styles.mindfulness}>
+            {formatDate(new Date().toISOString().split('T')[0])}
+          </Text>
+          <Text style={styles.reps}>
+            {todayReps.length} Request
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.repMind}>
+          <Text style={styles.mindfulness}>No Request Today</Text>
+          <Text style={styles.reps}>0 Request</Text>
+        </View>
+      )}
+    </View>
 
-              <TouchableOpacity
-                style={styles.repMind}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('AAARequestCardHistory')}
-              >
-                <Text style={styles.mindfulness}>19 November, 2025</Text>
-                <Text style={styles.reps}>12 April, 2023</Text>
-              </TouchableOpacity>
-            </View>
+    {/* WEEK */}
+    <View style={styles.dateSection}>
+      <Text style={styles.dateLabel}>Week</Text>
+      <View style={styles.repMind}>
+        <Text style={styles.mindfulness}>This Week</Text>
+        <Text style={styles.reps}>{weekReps.length} Request</Text>
+      </View>
+    </View>
 
-            <View style={styles.dateSection}>
-              <Text style={styles.dateLabel}>Week</Text>
-              <TouchableOpacity style={styles.repMind} activeOpacity={0.7}>
-                <Text style={styles.mindfulness}>12 April, 2023</Text>
-                <Text style={styles.reps}>3 Request</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.repMind} activeOpacity={0.7}>
-                <Text style={styles.mindfulness}>12 April, 2023</Text>
-                <Text style={styles.reps}>3 Request</Text>
-              </TouchableOpacity>
-            </View>
+    {/* MONTH */}
+    <View style={styles.dateSection}>
+      <Text style={styles.dateLabel}>Month</Text>
+      <View style={styles.repMind}>
+        <Text style={styles.mindfulness}>This Month</Text>
+        <Text style={styles.reps}>{monthReps.length} Request</Text>
+      </View>
+    </View>
+  </>
+)}
 
-            <View style={styles.dateSection}>
-              <Text style={styles.dateLabel}>Month</Text>
-              <TouchableOpacity style={styles.repMind} activeOpacity={0.7}>
-                <Text style={styles.mindfulness}>12 April, 2023</Text>
-                <Text style={styles.reps}>3 Request</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.repMind} activeOpacity={0.7}>
-                <Text style={styles.mindfulness}>12 April, 2023</Text>
-                <Text style={styles.reps}>3 Request</Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        )}
 
         {/* Show message when no reps found for selected date */}
         {selectedDate && filteredReps.length === 0 && (
