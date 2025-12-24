@@ -156,7 +156,9 @@ const images: { [key: string]: ImageSourcePropType } = {
   forward: require("../Images/forward.png"),
   crossBlack: require("../Images/crossBlack.png"),
   filledFav: require("../Images/filledfav.png"),
-  pause: require('../Images/pause.png')
+  pause: require('../Images/pause.png'),
+  PlayButtonImg: require('../Images/PlayButtonImg.png'),
+  PauseButtonImg: require('../Images/PauseButtonImg.png')
 };
 
 export default images;

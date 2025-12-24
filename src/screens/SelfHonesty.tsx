@@ -26,6 +26,7 @@ const SelfHonesty = () => {
   const [selectedCount, setSelectedCount] = useState<number | null>(null); // ✅ single selection
   const soundRef = useRef<Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const route = useRoute<any>();
   const { coreValue } = route.params || {};
   console.log('Self Honesty Data:', coreValue);
@@ -86,6 +87,36 @@ const SelfHonesty = () => {
   });
 };
 
+const toggleAudio = () => {
+  if (isAudioPlaying) {
+    // If audio is playing, pause it
+    soundRef.current?.pause();
+    setIsAudioPlaying(false);
+  } else {
+    // If audio is not playing, start it
+    if (!coreValue?.audioUrl) return;
+    const audioFullUrl = `http://18.204.175.233:3001/${coreValue.audioUrl}`;
+
+    // Release previous instance
+    soundRef.current?.stop();
+    soundRef.current?.release();
+
+    soundRef.current = new Sound(audioFullUrl, undefined, (error) => {
+      if (error) {
+        console.log('Sound load error:', error);
+        return;
+      }
+
+      soundRef.current?.play((success) => {
+        setIsAudioPlaying(false); // when playback ends, reset icon
+        if (!success) console.log('Playback failed');
+      });
+
+      setIsAudioPlaying(true); // start playing
+    });
+  }
+};
+  
 useEffect(() => {
   return () => {
     soundRef.current?.stop();
@@ -161,12 +192,29 @@ useEffect(() => {
             />
           </View>
         </View>
-        {/* <TouchableOpacity activeOpacity={0.7}>
-          <Image source={images.audio} style={styles.audio} />
+        {/* <TouchableOpacity activeOpacity={0.7} onPress={playAudio}>
+          <View style={{flexDirection:'row', alignSelf:'center'}}>
+            <View>
+              <Image source={images.audio} style={styles.audio}/>
+            </View>
+            <View>
+               <Image
+              source={isAudioPlaying ? images.PlayButtonImg : images.PauseButtonImg}
+              style={styles.audio}
+          />
+            </View>
+          </View>
         </TouchableOpacity> */}
-        <TouchableOpacity activeOpacity={0.7} onPress={playAudio}>
-          <Image source={images.audio} style={styles.audio} />
+        <TouchableOpacity activeOpacity={0.7} onPress={toggleAudio}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', gap: width * 0.02 }}>
+              <Image source={images.audio} style={styles.audio} />
+              <Image
+                 source={isAudioPlaying ? images.PlayButtonImg : images.PauseButtonImg} // corrected
+                   style={styles.audio}
+                />
+            </View>
         </TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
   );
