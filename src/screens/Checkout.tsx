@@ -31,8 +31,9 @@ const Checkout = () => {
     const itemsTotal = Number(totalPayment || 0);
     const deliveryFee = 5.99;
     const salesTaxRate = 0.15;
+    const platformFees = 5.99;
     const salesTax = +(itemsTotal * salesTaxRate).toFixed(2);
-    const finalTotal = +(itemsTotal + deliveryFee + salesTax).toFixed(2);
+    const finalTotal = +(itemsTotal + deliveryFee + platformFees).toFixed(2);
     const dispatch = useDispatch();
 
     const toggleModal = () => {
@@ -50,12 +51,6 @@ const Checkout = () => {
                 subTotal: finalTotal,
                 deliveryCharges: deliveryFee,
                 deliveryType: "delivery",
-                // orderItems: [
-                //     {
-                //         productId: productsData.id,
-                //         qty: totalItems
-                //     }
-                // ]
                 orderItems: productsData.map((item: any) => ({
                     productId: Number(item.id),
                     qty: item.quantity
@@ -139,41 +134,6 @@ const Checkout = () => {
                             <Text style={styles.addressText}>{addressData.address}</Text>
                         </View>
                     )}
-                    {/* <View style={styles.OrderMain}>
-                        <Text style={styles.headText}>Order Details</Text>
-                        <View style={styles.bookContainer}>
-                            <View style={styles.selectedBookMain}>
-                                <Image
-                                    source={images.recBookSec}
-                                    source={{ uri: `http://18.204.175.233:3001/${productsData?.image}` }}
-                                    style={styles.imgMain}
-                                />
-                                <View style={styles.textContent}>
-                                    <View style={styles.headTextMain}>
-                                        <Text style={styles.bookText}>
-                                            {productsData?.name
-                                                ? `${productsData.name.substring(0, 15)}...`
-                                                : "Mapo Tofu"}
-                                        </Text>
-                                        <TouchableOpacity activeOpacity={0.7} onPress={() => setModalVisible(true)}>
-                                            <Image source={images.trashIcon} style={styles.trashIcon} />
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Text style={styles.bookDescription}>
-                                        {productsData?.description
-                                            ? `${productsData.description.substring(0, 25)}...`
-                                            : "Lorem Ipsum is Dummy text..."}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={styles.stockInfo}>
-                                <Text style={styles.stockText}>Only {remainingItems.map(item => `Product ${item.productId}: ${item.remaining}`).join(', ')} items in stock</Text>
-                                <Text style={styles.priceText}>${productsData?.price || "12.56"}</Text>
-                            </View>
-                        </View>
-                    </View> */}
-
-
                     <View style={styles.OrderMain}>
                         <Text style={styles.headText}>Order Details</Text>
                         {productsData && productsData.length > 0 ? (
@@ -222,8 +182,8 @@ const Checkout = () => {
                                 <Text style={styles.listTextOne}>${deliveryFee.toFixed(2)}</Text>
                             </View>
                             <View style={styles.listMain}>
-                                <Text style={styles.listTextOne}>Sales Tax</Text>
-                                <Text style={styles.listTextOne}>${salesTax.toFixed(2)}</Text>
+                                <Text style={styles.listTextOne}>Platform Fees</Text>
+                                <Text style={styles.listTextOne}>${platformFees.toFixed(2)}</Text>
                             </View>
                             <View style={styles.listMain}>
                                 <Text style={styles.listTextTwo}>Total Payment</Text>

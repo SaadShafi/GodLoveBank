@@ -192,7 +192,7 @@ const AddDeliveryddress = () => {
     };
 
     const handleSave = () => {
-        if (!name || !region || !city || !code || !address || !selectedLabel || !agree) {
+        if (!name || !region || !city || !code || !address || !selectedLabel) {
             Alert.alert("Error", "Please fill all fields and select a label.");
             return;
         }
@@ -296,28 +296,6 @@ const AddDeliveryddress = () => {
                                 </View>
                             </View>
                         </Modal>
-                        {/* <CustomSelect
-                            inputWidth={width * 0.85}
-                            inputHeight={height * 0.07}
-                            selectElements={regionOption}
-                            borderColor={colors.lightGray}
-                            borderWidth={1}
-                            inputColor={colors.lightGray}
-                            borderRadius={20}
-                            onChangeText={value => setRegion(value)}
-                            setSelectedElement={setRegion}
-                        /> */}
-                        {/* <CustomSelect
-                            inputWidth={width * 0.85}
-                            inputHeight={height * 0.07}
-                            selectElements={cityOption}
-                            borderColor={colors.lightGray}
-                            borderWidth={1}
-                            inputColor={colors.lightGray}
-                            borderRadius={20}
-                            onChangeText={value => setCity(value)}
-                            setSelectedElement={setCity}
-                        /> */}
                         <CustomTextInput
                             placeholder="Enter your Region"
                             placeholderTextColor={colors.black}
@@ -402,9 +380,10 @@ const AddDeliveryddress = () => {
                                     borderRadius: 8,
                                 }}
                                 onPress={() => setAgree(!agree)}
-                                text="Make Default Delivery Address"
-                                textStyle={styles.checkboxText}
+                                // text="Make Default Delivery Address"
+                                // textStyle={styles.checkboxText}
                             />
+                            <Text style={styles.checkboxText}>Make Default Delivery Address</Text>
                         </View>
                     </View>
                     <View style={styles.btnMain}>
@@ -465,6 +444,8 @@ const styles = StyleSheet.create({
         color: colors.darkmarhoon
     },
     checkboxMain: {
+        flexDirection: "row",
+        // alignItems: "center",
         marginTop: height * 0.02
     },
     checkboxText: {

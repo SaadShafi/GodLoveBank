@@ -581,6 +581,7 @@ const styles = StyleSheet.create({
   recommendedBooksMain: {
     alignItems: 'center',
     marginTop: height * 0.02,
+    height: height * 0.39
   },
   recommendedHeadText: {
     flexDirection: 'row',
@@ -600,13 +601,13 @@ const styles = StyleSheet.create({
   },
   bookCard: {
     width: width * 0.47,
-    height: height * 0.33,
+    height: height * 0.345,
     marginRight: 15,
     backgroundColor: colors.white,
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 10,
     shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: { width: width * 0.09, height: height * 0.35 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
@@ -658,6 +659,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    top: height * 0.01
   },
   amount: {
     fontFamily: fontFamily.GilroySemiBold,
@@ -687,7 +689,7 @@ const styles = StyleSheet.create({
   curriculumMain: {
     alignItems: 'center',
     marginTop: height * 0.03,
-    height: height * 0.37,
+    height: height * 0.39,
   },
   loaderOverlay: {
     position: 'absolute',
