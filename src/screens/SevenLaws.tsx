@@ -135,7 +135,7 @@ const SevenLaws = () => {
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('AppDrawer')}
           />
         </View>
       </View>

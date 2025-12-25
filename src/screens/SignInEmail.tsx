@@ -1,7 +1,7 @@
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Keyboard, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Keyboard, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -15,6 +15,9 @@ import { removeAddressData, setFullName, setLogin, setToken, setUser, setUserEma
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { RootState } from '../redux/store';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+
 
 type Props = NativeStackScreenProps<StackParamList, 'Onboarding'>;
 
@@ -29,6 +32,56 @@ const SignInEmail = () => {
   const [password, setPassword] = useState('');
   const [fcmToken, setFcmToken] = useState('');
   const dispatch = useDispatch();
+
+useEffect(() => {
+ GoogleSignin.configure({
+  webClientId: '1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com',
+  offlineAccess: true,
+});
+
+}, []);
+
+
+
+const handleGoogleSignIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+
+    // Attempt silent sign-in first
+    let userInfo;
+    try {
+      userInfo = await GoogleSignin.signInSilently();
+    } catch {
+      // If silent sign-in fails, use normal sign-in
+      userInfo = await GoogleSignin.signIn();
+    }
+
+    const idToken = userInfo.idToken;
+    if (!idToken) throw new Error('No ID token found');
+
+    console.log('Google idToken:', idToken);
+
+    // Send token to backend
+    const response = await fetch('auth/google-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    });
+    const data = await response.json();
+    console.log('Backend response:', data);
+
+  } catch (error: any) {
+    console.log('Google Sign-In error:', error);
+    Toast.show({
+      type: 'error',
+      text1: 'Google Sign-In Failed',
+      text2: error.message,
+    });
+  }
+};
+
+
+
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -145,9 +198,11 @@ const SignInEmail = () => {
           <View style={styles.belowMain}>
             <Image source={images.continue} style={styles.continueImg} />
             <View style={styles.socialMain}>
-              <Image source={images.googleIcon} style={styles.scialImg} />
+              {/* <Image source={images.googleIcon} style={styles.scialImg} /> */}
+              <TouchableOpacity activeOpacity={0.7} onPress={handleGoogleSignIn}>
+                <Image source={images.googleIcon} style={styles.scialImg} />
+              </TouchableOpacity>
               <Image source={images.appleIcon} style={styles.scialImg} />
-              {/* <Image source={images.facebookIcon} style={styles.scialImg} /> */}
             </View>
             <View style={styles.memberMain}>
               <Text style={styles.memberText}>Not a member?</Text>

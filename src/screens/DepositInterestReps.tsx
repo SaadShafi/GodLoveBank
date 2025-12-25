@@ -24,7 +24,7 @@ const DepositInterestReps = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackHome={true}
           text={
             <Text style={styles.headerText}>COMPOUNDING INTEREST REPS</Text>
           }

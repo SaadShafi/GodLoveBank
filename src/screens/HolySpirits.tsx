@@ -24,7 +24,7 @@ const HolySpirits = () => {
       {/* Header stays fixed */}
       <View style={styles.mainContainer}>
         <TopHeader
-          isBack={true}
+          isBackHome={true}
           text={
             <Text style={styles.headerText}>The Holy Spirits AAA Card</Text>
           }

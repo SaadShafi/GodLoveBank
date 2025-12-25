@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -198,10 +198,23 @@ const TheAmenPrinciple = () => {
       </ScrollView>
 
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
+        {/* <Text style={styles.audio}>Audio Explanation</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', top: height * 0.03, gap: width * 0.02 }}>
           <Image source={images.play} />
           <Image source={images.timer} style={{ top: height * 0.02 }} />
+        </View> */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            top: height * 0.03,
+            gap: width * 0.02,
+          }}
+        >
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
@@ -306,8 +319,9 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',

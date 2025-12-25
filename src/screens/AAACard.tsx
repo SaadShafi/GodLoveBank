@@ -202,10 +202,23 @@ const AAACard = () => {
       </ScrollView>
 
       <View style={styles.audioContainer}>
-        <Text style={styles.audio}>Audio Explanation</Text>
+        {/* <Text style={styles.audio}>Audio Explanation</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', top: height * 0.03, gap: width * 0.02 }}>
           <Image source={images.play} />
           <Image source={images.timer} style={{ top: height * 0.02 }} />
+        </View> */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            top: height * 0.03,
+            gap: width * 0.02,
+          }}
+        >
+          <TouchableOpacity>
+            <Image source={images.playbutton} />
+          </TouchableOpacity>
+          <Text style={styles.audio}>Audio Explanation</Text>
         </View>
 
         <View style={styles.btn}>
@@ -351,12 +364,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
   },
-  audio: {
+   audio: {
     fontFamily: fontFamily.GilroyBold,
     fontSize: fontSizes.sm2,
     color: colors.white,
-    left: width * 0.22,
-    top: height * 0.04,
+    // left: width * 0.22,
+    // top: height * 0.04,
+    alignSelf: 'center',
   },
   btn: {
     alignSelf: 'center',

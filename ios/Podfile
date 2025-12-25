@@ -6,6 +6,7 @@ require Pod::Executable.execute_command('node', ['-p',
   )', __dir__]).strip
 
 platform :ios, "18.0"
+use_modular_headers!   # <-- ADD THIS LINE
 # platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
