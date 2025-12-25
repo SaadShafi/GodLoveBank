@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1034653006135",
+    "project_id": "gods-love-bank",
+    "storage_bucket": "gods-love-bank.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034653006135:android:9cd53c271e717d235982b2",
+        "android_client_info": {
+          "package_name": "com.godlovebank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034653006135-bvc9fnvtknnldbh49mpmo7hq7n4ion52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.godlovebank",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYxursIyOTqen-vRARZqwR2eIhs1YBxfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

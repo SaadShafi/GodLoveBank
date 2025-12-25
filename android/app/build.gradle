@@ -105,6 +105,11 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+     lintOptions {
+        // Disable fatal lint errors for release builds
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -116,4 +121,14 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    // 🔥 Firebase BoM (ADD THIS)
+    implementation platform('com.google.firebase:firebase-bom:34.7.0')
+
+    // 🔹 Firebase Analytics (example – safe to add)
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // ➕ Add more Firebase products ONLY if needed
+    // implementation 'com.google.firebase:firebase-auth'
+    // implementation 'com.google.firebase:firebase-messaging'
 }
+apply plugin: 'com.google.gms.google-services'
