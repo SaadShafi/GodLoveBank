@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
@@ -9,7 +9,7 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 
 const SpiritualGrowth = () => {
-  const navigation = useNavigation<NavigationProp<any>>();
+    const navigation = useNavigation<NavigationProp<any>>();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGreen }}>

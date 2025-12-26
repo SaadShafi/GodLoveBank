@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.UrbanistExtraBold,
     fontSize: fontSizes.lg2,
     color: colors.black,
-    // top: height * 0.05,
+    marginTop: height * 0.03,
     left: width * 0.05,
   },
   valuesSec: {

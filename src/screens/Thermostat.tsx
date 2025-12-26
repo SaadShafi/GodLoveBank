@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import {
   Image,
   Platform,
@@ -15,9 +15,31 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useRef, useState } from 'react';
+import Video from 'react-native-video';
 
 const Thermostat = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const videoRef = useRef<Video>(null);
   const navigation = useNavigation<NavigationProp<any>>();
+  const route = useRoute();
+  const tool = (route.params as any)?.tool;
+  const fullUrl = tool?.audioUrl ? `http://18.204.175.233:3001/${tool.audioUrl}` : '';
+  console.log("Params in the Daily Prayer Macro Strategy Screen!", route.params);
+
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -121,10 +143,19 @@ const Thermostat = () => {
             gap: width * 0.02,
           }}
         >
-          <TouchableOpacity>
-            <Image source={images.playbutton} />
+          <TouchableOpacity activeOpacity={0.7} onPress={handlePlayPause}>
+            <Image source={isPlaying ? images.play : images.playbutton} />
           </TouchableOpacity>
           <Text style={styles.audio}>Audio Explanation</Text>
+        </View>
+        <View style={{ marginTop: height * 0.05, paddingHorizontal: width * 0.05 }}>
+          <View style={{ height: 4, backgroundColor: colors.darkGray, borderRadius: 30 }}>
+            <View style={{ height: '100%', width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`, backgroundColor: colors.marhoon, borderRadius: 2 }} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: height * 0.01 }}>
+            <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
+            <Text style={styles.timeText}>{formatTime(duration)}</Text>
+          </View>
         </View>
 
         <View style={styles.btn}>
@@ -139,6 +170,23 @@ const Thermostat = () => {
           />
         </View>
       </View>
+      <Video
+        ref={videoRef}
+        source={{ uri: fullUrl }}
+        paused={!isPlaying}
+        onProgress={(data) => {
+          console.log('onProgress', data.currentTime);
+          setCurrentTime(data.currentTime);
+        }}
+        onLoad={(data) => {
+          console.log('onLoad', data.duration);
+          setDuration(data.duration);
+        }}
+        onEnd={() => { videoRef.current?.seek(0); setIsPlaying(false); setCurrentTime(0); }}
+        playInBackground={false}
+        playWhenInactive={false}
+        style={{ height: 0 }}
+      />
     </View>
   );
 };
@@ -148,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purple,
     width: width,
     // height: height * 0.1,
-    height:  Platform.OS === 'ios' ? height * 0.15 : height * 0.1,
+    height: Platform.OS === 'ios' ? height * 0.15 : height * 0.1,
     justifyContent: 'center',
     paddingHorizontal: width * 0.04,
     borderBottomRightRadius: 34,
@@ -249,7 +297,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignSelf: 'center',
-    top: height * 0.05,
+    top: height * 0.01,
+  },
+  timeText: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.white,
   },
 });
 
