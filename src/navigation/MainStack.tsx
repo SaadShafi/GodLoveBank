@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import AAACard from '../screens/AAACard';
 import AAACardHistory from '../screens/AAACardHistory';
 import AAARequestCardHistory from '../screens/AAARequestCardHistory';
@@ -196,9 +198,11 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 
 const MainStack: React.FC = () => {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isAuthenticated);
+
   return (
     <Stack.Navigator
-      initialRouteName="Onboarding"
+      initialRouteName={isLoggedIn ? "AppDrawer" : "Onboarding"}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Onboarding" component={Onboarding} />
