@@ -163,39 +163,6 @@ const Home = () => {
     },
   ];
 
-  const renderItem = ({ item, index }: any) => {
-    if (!item.image) console.warn(`Item ${item.id} has no image`);
-
-    return (
-      <View style={{ gap: height * 0.02 }}>
-        {index === 1 && (
-          <View style={styles.toolsContainer}>
-            <Text style={styles.toolsText}>Tools of Thinking</Text>
-          </View>
-        )}
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.containerSec}>
-            <View style={styles.headTextMain}>
-              <View style={styles.headText}>
-                <Text style={styles.title}>{item.title1}</Text>
-                <Text style={styles.title}>{item.title2}</Text>
-              </View>
-              {/* <Image source={item.image} style={styles.itemImg}/> */}
-              <Image
-                source={item.image ? item.image : images.Heart}
-                style={styles.itemImg}
-              />
-            </View>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
-              <Text style={styles.startBtnText}>Start</Text>
-              <Image source={images.forward} style={styles.forwardImg} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    )
-  };
-
   const fetchtoolsofthinking = async () => {
     try {
       const { response } = await apiHelper(
@@ -218,7 +185,7 @@ const Home = () => {
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: response?.message || "Failed to fetch Tool of Thinking ",
+          text2: "Failed to fetch Tool of Thinking ",
         });
       }
     } catch (error) {
@@ -226,7 +193,7 @@ const Home = () => {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: "Something went wrong",
+        text2: error?.message || "Something went wrong",
       });
     }
   };
@@ -234,6 +201,36 @@ const Home = () => {
   useEffect(() => {
     fetchtoolsofthinking();
   }, []);
+
+  const renderItem = ({ item, index }: any) => {
+    return (
+      <View style={{ gap: height * 0.02 }}>
+        {index === 1 && (
+          <View style={styles.toolsContainer}>
+            <Text style={styles.toolsText}>Tools of Thinking</Text>
+          </View>
+        )}
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.containerSec}>
+            <View style={styles.headTextMain}>
+              <View style={styles.headText}>
+                <Text style={styles.title}>{item.title1}</Text>
+                <Text style={styles.title}>{item.title2}</Text>
+              </View>
+              <Image
+                source={item.image ? item.image : images.Heart}
+                style={styles.itemImg}
+              />
+            </View>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
+              <Text style={styles.startBtnText}>Start</Text>
+              <Image source={images.forward} style={styles.forwardImg} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    )
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
