@@ -15,6 +15,7 @@ import { removeAddressData, setFullName, setLogin, setToken, setUser, setUserEma
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 import { RootState } from '../redux/store';
+import { login } from '../redux/slice/authSlice';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'; // Only if you use react-native-firebase
@@ -110,6 +111,7 @@ const SignInEmail = () => {
         const token = response.data.data.accessToken;
         // console.log("AccessToken CHECK!!", token);
         dispatch(setLogin());
+        dispatch(login({ token, user: response.data.data.user }));
         dispatch(setToken(token))
         dispatch(setUser(response.data.data.user))
         dispatch(removeAddressData())

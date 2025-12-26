@@ -1,4 +1,3 @@
-
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import MainStack from './src/navigation/MainStack';
@@ -13,13 +12,13 @@ import './src/firebase/firebaseConfig'; // 🔥 MUST
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const App = () => {
-useEffect(() => {
-  GoogleSignin.configure({
-    webClientId: '1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com',
-    offlineAccess: true,
-    forceCodeForRefreshToken: true,
-  });
-}, []);
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+    });
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
