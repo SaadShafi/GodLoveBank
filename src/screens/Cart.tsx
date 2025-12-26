@@ -51,36 +51,13 @@ const Cart = () => {
         }
         : null;
 
-    // const mergedCartItems = React.useMemo(() => {
-    //     const map = new Map<number, any>();
-
-    //     cartItems?.forEach(item => {
-    //         map.set(item.id, item);
-    //     });
-
-    //     if (paramCartItem) {
-    //         const existing = map.get(paramCartItem.id);
-
-    //         map.set(paramCartItem.id, {
-    //             ...paramCartItem,
-    //             quantity: existing
-    //                 ? existing.quantity + paramCartItem.quantity
-    //                 : paramCartItem.quantity,
-    //         });
-    //     }
-
-    //     return Array.from(map.values());
-    // }, [cartItems, paramCartItem]);
-
     const mergedCartItems = React.useMemo(() => {
         const map = new Map<number, any>();
 
-        // Add all items from Redux first
         cartItems?.forEach(item => {
             map.set(item.id, item);
         });
 
-        // Only add paramCartItem if it's not already in Redux
         if (paramCartItem && !map.has(paramCartItem.id)) {
             map.set(paramCartItem.id, paramCartItem);
         }
@@ -203,7 +180,9 @@ const Cart = () => {
                     <View style={styles.textContent}>
                         <View style={styles.headTextMain}>
                             <Text style={styles.bookText} numberOfLines={1}>
-                                {item.name}
+                                {item?.name
+                                    ? `${item.name.substring(0, 15)}...`
+                                    : "Demo Name"}
                             </Text>
 
                             <TouchableOpacity

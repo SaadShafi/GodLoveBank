@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, ViewBase, Image, Modal, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, ViewBase, Image, Modal, TouchableOpacity, ActivityIndicator } from "react-native";
 import TopHeader from "../components/Topheader";
 import CustomTabs from "../components/CustomTabs";
 import images from "../assets/Images";
@@ -125,69 +125,6 @@ const MyOrders = () => {
         setSelectedOrder(null);
     }
 
-    // const renderPendingTab = ({ item }: { item: tabProp }) => {
-    //     return (
-    //         <View style={{ alignItems: "center" }}>
-    //             {/* <View style={styles.bookCardMain}>
-    //                 <View style={{ flexDirection: "row" }}>
-    //                     <Image 
-    //                         source={item.bookImg} 
-    //                         // source={{ uri: `http://18.204.175.233:3001/${item?.orderItems?.product.image}` }}
-    //                         style={styles.bookImg} 
-    //                     />
-    //                     <View style={styles.bookInfoMain}>
-    //                         <Text style={styles.bookHeadText}>{item.headText}</Text>
-    //                         <View style={{}}>
-    //                             <Text style={styles.bookText}>{item.qty}</Text>
-    //                         </View>
-    //                     </View>
-    //                     <Text style={styles.priceText}>{item.price}</Text>
-    //                 </View>
-    //                 <View style={styles.btnMain}>
-    //                     <CustomButton
-    //                         btnHeight={height * 0.038}
-    //                         btnWidth={width * 0.8}
-    //                         backgroundColor={colors.marhoon}
-    //                         text={item.btnText}
-    //                         textColor={colors.white}
-    //                         borderRadius={20}
-    //                         onPress={() => handleOrderDetailsPress(item)}
-    //                     />
-    //                 </View>
-    //             </View> */}
-    //             <View style={styles.bookCardMain}>
-    //                 <Text style={styles.orderNumber}>Order#: {order.orderNumber}</Text>
-
-    //                 {order.orderItems.map(book => (
-    //                     <View key={book.id} style={{ flexDirection: "row", marginTop: 10 }}>
-    //                         <Image
-    //                             source={{ uri: `http://18.204.175.233:3001/${book.product.image}` }}
-    //                             style={styles.bookImg}
-    //                         />
-    //                         <View style={styles.bookInfoMain}>
-    //                             <Text style={styles.bookHeadText}>{book.product.name}</Text>
-    //                             <Text style={styles.bookText}>Qty: {book.qty}</Text>
-    //                         </View>
-    //                         <Text style={styles.priceText}>${Number(book.price).toFixed(2)}</Text>
-    //                     </View>
-    //                 ))}
-
-    //                 <View style={styles.btnMain}>
-    //                     <CustomButton
-    //                         btnHeight={height * 0.038}
-    //                         btnWidth={width * 0.8}
-    //                         backgroundColor={colors.marhoon}
-    //                         text="Order Details"
-    //                         textColor={colors.white}
-    //                         borderRadius={20}
-    //                         onPress={() => handleOrderDetailsPress(order)}
-    //                     />
-    //                 </View>
-    //             </View>
-    //         </View>
-    //     )
-    // }
-
     const renderPendingTab = ({ item }: { item: any }) => {
         return (
             <View style={{ alignItems: "center" }}>
@@ -259,62 +196,6 @@ const MyOrders = () => {
         )
     }
 
-    // const ActionSheet = () => {
-    //     return (
-    //         <Modal
-    //             visible={isActionSheetVisible}
-    //             animationType="slide"
-    //             transparent={true}
-    //             onRequestClose={closeActionSheet}
-    //         >
-    //             <TouchableOpacity
-    //                 style={styles.modalOverlay}
-    //                 activeOpacity={1}
-    //                 onPress={closeActionSheet}
-    //             >
-    //                 <View style={styles.actionSheet}>
-
-    //                     <TouchableOpacity onPress={closeActionSheet} style={styles.actionSheetHeader}>
-    //                         <Image source={images.toggleBar} />
-    //                     </TouchableOpacity>
-
-    //                     <View style={styles.actionSheetHeader}>
-    //                         <Image source={images.status} style={styles.statusIcon} />
-    //                     </View>
-
-
-    //                     <View style={styles.orderNumberSection}>
-    //                         <Text style={styles.actionSheetTitle}>Order Number</Text>
-    //                         <Text style={styles.orderNumber}>{products.orderNumber || "#1245325"}</Text>
-    //                         <Text style={styles.orderDate}>26 OCT, 2023</Text>
-    //                     </View>
-
-    //                     <View style={styles.addressSection}>
-    //                         <Image source={images.locationIcon} style={styles.locationIcon} />
-    //                         <Text style={styles.addressText}>House # 73 New York, NY 10007, USA</Text>
-    //                         <Image source={images.helpBtn} style={styles.helpBtn} />
-    //                     </View>
-
-    //                     <View style={styles.priceSection}>
-    //                         <View style={styles.priceRow}>
-    //                             <Text style={styles.priceLabel}>Subtotal:</Text>
-    //                             <Text style={styles.priceValue}>$59.70</Text>
-    //                         </View>
-    //                         <View style={styles.priceRow}>
-    //                             <Text style={styles.priceLabel}>Platform Fee:</Text>
-    //                             <Text style={styles.priceValue}>$2.82</Text>
-    //                         </View>
-    //                         <View style={[styles.priceRow, styles.totalRow]}>
-    //                             <Text style={styles.totalLabel}>Total:</Text>
-    //                             <Text style={styles.totalValue}>$75.37</Text>
-    //                         </View>
-    //                     </View>
-    //                 </View>
-    //             </TouchableOpacity>
-    //         </Modal>
-    //     )
-    // }
-
     const ActionSheet = () => {
         if (!selectedOrder) return null;
 
@@ -363,17 +244,17 @@ const MyOrders = () => {
                                 </Text>
                             </View>
 
-                            <View style={styles.priceRow}>
+                            {/* <View style={styles.priceRow}>
                                 <Text style={styles.priceLabel}>Platform Fee:</Text>
                                 <Text style={styles.priceValue}>
                                     $ 5.99
                                 </Text>
-                            </View>
+                            </View> */}
 
                             <View style={[styles.priceRow, styles.totalRow]}>
                                 <Text style={styles.totalLabel}>Total:</Text>
                                 <Text style={styles.totalValue}>
-                                    ${Number(selectedOrder.grandTotal).toFixed(2)}
+                                    ${Number(selectedOrder.subTotal).toFixed(2)}
                                 </Text>
                             </View>
                         </View>
@@ -383,8 +264,6 @@ const MyOrders = () => {
             </Modal>
         );
     };
-
-
 
     const PendingScreen: React.FC = () => {
         return (
@@ -431,7 +310,6 @@ const MyOrders = () => {
             // </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 <Text style={{
-                    // fontFamily: fontFamily.GilroyBold,
                     fontSize: fontSizes.md,
                     color: colors.red
                 }}>No Item Delivered yet</Text>
@@ -468,6 +346,9 @@ const MyOrders = () => {
                 text2: error?.message
             })
         }
+        finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -485,11 +366,27 @@ const MyOrders = () => {
             />
 
             <ActionSheet />
+            {loading && (
+                <View style={styles.loaderOverlay}>
+                    <ActivityIndicator size="large" color={colors.brown} />
+                </View>
+            )}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+    },
     bookCardMain: {
         backgroundColor: colors.white,
         padding: 15,

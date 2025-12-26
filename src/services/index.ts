@@ -14,7 +14,7 @@ const instance = axios.create({
   
    transformResponse: [
     (data) => {
-      if (!data || data === 'null') return null;
+      if (!data || /^\s*null\s*$/i.test(data)) return null;
       try {
         return JSON.parse(data);
       } catch {
@@ -73,6 +73,7 @@ export const apiHelper = async <T = any>(
   customHeaders: Record<string, string> = {},
   body: any = null,
 ): Promise<ApiResponse<T>> => {
+
   try {
     const config: AxiosRequestConfig = {
       method,

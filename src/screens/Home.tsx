@@ -9,6 +9,9 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useEffect } from 'react';
+import { apiHelper } from '../services';
+import Toast from 'react-native-toast-message';
 
 const Home = () => {
   const User = useSelector((state: RootState) => state.role.user);
@@ -193,7 +196,43 @@ const Home = () => {
     )
   };
 
-  
+    const fetchtoolsofthinking = async () => {
+        try {
+          const { response } = await apiHelper(
+            "GET",
+            "tools/tools-of-thinking",
+            {}
+          );
+      
+          if (response?.status) {
+      
+            Toast.show({
+              type: "success",
+              text1: "Success",
+              text2: "Tool of Thinking fetched successfully",
+            });
+            console.log("Tools of Thiking", response.data.data)
+      
+          } else {
+            Toast.show({
+              type: "error",
+              text1: "Error",
+              text2: response?.message || "Failed to fetch Tool of Thinking ",
+            });
+          }
+        } catch (error) {
+          console.log(error);
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Something went wrong",
+          });
+        }
+        };
+      
+      useEffect(() => {
+        fetchtoolsofthinking();
+      }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>

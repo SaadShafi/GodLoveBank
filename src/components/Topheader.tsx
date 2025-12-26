@@ -19,6 +19,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { apiHelper } from '../services';
+import { useNotificationCount } from '../hooks/notificationContext';
 
 
 interface TopHeaderProps {
@@ -103,13 +105,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   isBackHome = false,
   isCross = false,
 }) => {
-  // const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState(false);
+  const [notiCount, setNotiCount] = useState(0)
   const drawerNavigation = useNavigation<DrawerNavProp>();
   const navigation = useNavigation<any>();
   const User = useSelector((state: RootState) => state.role.user)
   const fullName = User?.firstName && User?.lastName ? `${User.firstName} ${User.lastName}` : "Name";
   const displayName = fullName.length > 10 ? `${fullName.slice(0, 8)}...` : fullName;
+  const { count, refreshCount } = useNotificationCount();
 
   const handleDrawer = () => {
     // navigation.dispatch(DrawerActions.openDrawer());
@@ -137,10 +140,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     return `${BASE_URL}${path}`;
   };
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refreshCount();
+    });
+    refreshCount();
+    return unsubscribe;
+  }, [navigation, refreshCount]);
+
   return (
     <View
       style={{
-        // zIndex: 20,
         backgroundColor: isBlueBg ? colors.darkBlue : 'transparent',
       }}
     >
@@ -221,7 +231,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             <TouchableOpacity
               style={styles.headerArrow}
               activeOpacity={0.7}
-               onPress={() => {
+              onPress={() => {
                 // if (navigation) {
                 //   navigation.canGoBack()
                 //     ? navigation.goBack()
@@ -230,7 +240,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 navigation.popToTop();
               }}
             >
-               <Image source={images.isBack} style={styles.backArrowBlack} />
+              <Image source={images.isBack} style={styles.backArrowBlack} />
             </TouchableOpacity>
           )}
           {isClose && (
@@ -279,6 +289,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <TouchableOpacity
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
+                {count > 0 && (  
+                  <View style={styles.notificationBadge}>
+                    <Text style={styles.notificationCount}>
+                      {count > 99 ? '99+' : count}  
+                    </Text>
+                  </View>
+                )}
                 <Image source={images.bell} style={styles.bellImg} />
               </TouchableOpacity>
             </View>
@@ -288,6 +305,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               <TouchableOpacity
                 onPress={() => navigation.navigate('NotificationsScreen')}
               >
+                {count > 0 && (  
+                  <View style={styles.notificationBadgeSec}>
+                    <Text style={styles.notificationCountSec}>
+                      {count > 99 ? '99+' : count}  
+                    </Text>
+                  </View>
+                )}
                 <Image source={images.bell} style={styles.bellImgSec} />
               </TouchableOpacity>
             </View>
@@ -364,9 +388,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                     //     : images.drawerProf
                     // }
                     // style={styles.isChatImg}
-                     source={User?.image && !imgError ? { uri: getFullImageUrl(User.image) } : images.drawerProf} 
-  style={styles.isChatImg}
-  onError={() => setImgError(true)} // <-- prevent broken images
+                    source={User?.image && !imgError ? { uri: getFullImageUrl(User.image) } : images.drawerProf}
+                    style={styles.isChatImg}
+                    onError={() => setImgError(true)} // <-- prevent broken images
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -400,6 +424,51 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 };
 
 const styles = StyleSheet.create({
+  notificationBadge: {
+    position: 'absolute',
+    top: -5, // Adjust as needed
+    right: width * 0.29, // Adjust position based on your bellImg width
+    backgroundColor: colors.red,
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+    borderWidth: 2,
+    borderColor: colors.white,
+  },
+
+  notificationBadgeSec: {
+    position: 'absolute',
+    top: -5, // Adjust as needed
+    right: -width * 0.01, // Adjust position based on your bellImgSec width
+    backgroundColor: colors.red,
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+    borderWidth: 2,
+    borderColor: colors.white,
+  },
+
+  notificationCount: {
+    color: colors.white,
+    fontSize: fontSizes.xsm,
+    fontFamily: fontFamily.Inter,
+    fontWeight: 'bold',
+    paddingHorizontal: 4,
+  },
+
+  notificationCountSec: {
+    color: colors.white,
+    fontSize: fontSizes.xsm,
+    fontFamily: fontFamily.Inter,
+    fontWeight: 'bold',
+    paddingHorizontal: 4,
+  },
   isChatImg: {
     width: width * 0.1,
     height: width * 0.1,

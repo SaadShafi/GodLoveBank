@@ -127,7 +127,7 @@ const handleGoogleSignIn = async () => {
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: error?.message
+          text2: "Please Enter a valid Email or Password"
         })
       }
     } catch (error) {
