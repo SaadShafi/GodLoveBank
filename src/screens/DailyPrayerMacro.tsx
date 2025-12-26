@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
@@ -7,9 +7,15 @@ import TopHeader from '../components/Topheader';
 import { height, width } from '../utilities';
 import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
+import { useEffect, useState } from 'react';
 
 const DailyPrayerMacro = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioPath, setAudioPath] = useState('');
   const navigation = useNavigation<NavigationProp<any>>();
+  const route = useRoute();
+  const tool  = route.params;
+  console.log("Params in the Daily Prayer Macro Strategy Screen!", route.params);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -24,8 +30,6 @@ const DailyPrayerMacro = () => {
           }
         />
       </View>
-
-      {/* Scrollable content */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -79,18 +83,6 @@ const DailyPrayerMacro = () => {
         </View>
       </ScrollView>
       <View style={styles.audioContainer}>
-        {/* <Text style={styles.audio}>Audio Explanation</Text> */}
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            top: height * 0.03,
-            gap: width * 0.02,
-          }}
-        >
-          <Image source={images.play} />
-          <Image source={images.timer} style={{ top: height * 0.02 }} />
-        </View> */}
         <View
           style={{
             flexDirection: 'row',
@@ -100,7 +92,8 @@ const DailyPrayerMacro = () => {
           }}
         >
           <TouchableOpacity>
-            <Image source={images.playbutton} />
+            {/* <Image source={images.playbutton} /> */}
+            <Image source={isPlaying ? images.play : images.playbutton} />
           </TouchableOpacity>
           <Text style={styles.audio}>Audio Explanation</Text>
         </View>
