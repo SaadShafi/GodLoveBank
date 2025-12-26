@@ -1,5 +1,7 @@
 import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Video from 'react-native-video';
+import { useRef } from 'react';
 import { fontFamily } from '../assets/Fonts';
 import images from '../assets/Images';
 import CustomButton from '../components/CustomButton';
@@ -11,11 +13,25 @@ import { useEffect, useState } from 'react';
 
 const DailyPrayerMacro = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioPath, setAudioPath] = useState('');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const videoRef = useRef<Video>(null);
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute();
-  const tool  = route.params;
+  const tool = (route.params as any)?.tool;
+  const fullUrl = tool?.audioUrl ? `http://18.204.175.233:3001/${tool.audioUrl}` : '';
   console.log("Params in the Daily Prayer Macro Strategy Screen!", route.params);
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -91,18 +107,27 @@ const DailyPrayerMacro = () => {
             gap: width * 0.02,
           }}
         >
-          <TouchableOpacity>
-            {/* <Image source={images.playbutton} /> */}
+          <TouchableOpacity activeOpacity={0.7} onPress={handlePlayPause}>
             <Image source={isPlaying ? images.play : images.playbutton} />
           </TouchableOpacity>
           <Text style={styles.audio}>Audio Explanation</Text>
+        </View>
+
+        <View style={{ marginTop: height * 0.05, paddingHorizontal: width * 0.05 }}>
+          <View style={{ height: 4, backgroundColor: colors.darkGray, borderRadius: 30 }}>
+            <View style={{ height: '100%', width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`, backgroundColor: colors.marhoon, borderRadius: 2 }} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: height * 0.01 }}>
+            <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
+            <Text style={styles.timeText}>{formatTime(duration)}</Text>
+          </View>
         </View>
 
         <View style={styles.btn}>
           <CustomButton
             text="Done"
             textColor={colors.white}
-            btnHeight={height * 0.065}
+            btnHeight={height * 0.063}
             btnWidth={width * 0.85}
             backgroundColor={colors.marhoon}
             borderRadius={20}
@@ -110,6 +135,23 @@ const DailyPrayerMacro = () => {
           />
         </View>
       </View>
+      <Video
+        ref={videoRef}
+        source={{ uri: fullUrl }}
+        paused={!isPlaying}
+        onProgress={(data) => {
+          console.log('onProgress', data.currentTime);
+          setCurrentTime(data.currentTime);
+        }}
+        onLoad={(data) => {
+          console.log('onLoad', data.duration);
+          setDuration(data.duration);
+        }}
+        onEnd={() => { videoRef.current?.seek(0); setIsPlaying(false); setCurrentTime(0); }}
+        playInBackground={false}
+        playWhenInactive={false}
+        style={{ height: 0 }}
+      />
     </View>
   );
 };
@@ -208,7 +250,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignSelf: 'center',
-    top: height * 0.05,
+    top: height * 0.01,
+  },
+  timeText: {
+    fontFamily: fontFamily.GilroyRegular,
+    fontSize: fontSizes.sm,
+    color: colors.white,
   },
 });
 

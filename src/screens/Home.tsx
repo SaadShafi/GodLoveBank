@@ -319,7 +319,7 @@ const Home = () => {
               {/* <Text style={styles.title}>{item.title1 || item.name}</Text> */}
               {/* <Text style={styles.title}>{item.title2 || ""}</Text> */}
             </View>
-            <Image source={item.image ? item.image : images.Heart} style={styles.itemImg} />
+            <Image source={{uri: `http://18.204.175.233:3001/${item.image}`}} style={styles.itemImg} />
           </View>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -339,29 +339,6 @@ const Home = () => {
       <View>
         <TopHeader isMenu={true} notification={true} isProfile={true} />
       </View>
-      {/* <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        ListHeaderComponent={
-          <>
-            <Text style={styles.welcome}>Welcome  {User?.firstName || "Jaydon"}</Text>
-            <Text style={styles.values}>Core Values</Text>
-            <Image
-              source={images.background ? images.background : images.background}
-              style={styles.img}
-            />
-          </>
-        }
-        renderItem={renderItem}
-        contentContainerStyle={{
-          paddingBottom: height * 0.1,
-          rowGap: height * 0.03,
-        }}
-        showsVerticalScrollIndicator={false}
-      /> */}
-
-
-
       <ImageBackground
         source={images.background}
         style={{ flex: 1 }}
@@ -391,7 +368,7 @@ const Home = () => {
           }}
           contentContainerStyle={{
             paddingBottom: height * 0.1,
-            rowGap: height * 0.03,
+            rowGap: -height * 0.02,
           }}
           showsVerticalScrollIndicator={false}
         />
