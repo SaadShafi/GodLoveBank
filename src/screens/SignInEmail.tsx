@@ -33,52 +33,52 @@ const SignInEmail = () => {
   const [fcmToken, setFcmToken] = useState('');
   const dispatch = useDispatch();
 
-useEffect(() => {
- GoogleSignin.configure({
-  webClientId: '1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com',
-  offlineAccess: true,
-});
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '1034653006135-0gerpm0bvooml0p25vjm9pfikjbnuupb.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
 
-}, []);
+  }, []);
 
 
 
-const handleGoogleSignIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-
-    // Attempt silent sign-in first
-    let userInfo;
+  const handleGoogleSignIn = async () => {
     try {
-      userInfo = await GoogleSignin.signInSilently();
-    } catch {
-      // If silent sign-in fails, use normal sign-in
-      userInfo = await GoogleSignin.signIn();
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+
+      // Attempt silent sign-in first
+      let userInfo;
+      try {
+        userInfo = await GoogleSignin.signInSilently();
+      } catch {
+        // If silent sign-in fails, use normal sign-in
+        userInfo = await GoogleSignin.signIn();
+      }
+
+      const idToken = userInfo.idToken;
+      if (!idToken) throw new Error('No ID token found');
+
+      console.log('Google idToken:', idToken);
+
+      // Send token to backend
+      const response = await fetch('auth/google-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      const data = await response.json();
+      console.log('Backend response:', data);
+
+    } catch (error: any) {
+      console.log('Google Sign-In error:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Google Sign-In Failed',
+        text2: error.message,
+      });
     }
-
-    const idToken = userInfo.idToken;
-    if (!idToken) throw new Error('No ID token found');
-
-    console.log('Google idToken:', idToken);
-
-    // Send token to backend
-    const response = await fetch('auth/google-login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
-    });
-    const data = await response.json();
-    console.log('Backend response:', data);
-
-  } catch (error: any) {
-    console.log('Google Sign-In error:', error);
-    Toast.show({
-      type: 'error',
-      text1: 'Google Sign-In Failed',
-      text2: error.message,
-    });
-  }
-};
+  };
 
 
 

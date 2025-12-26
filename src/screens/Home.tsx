@@ -9,7 +9,7 @@ import { colors } from '../utilities/colors';
 import { fontSizes } from '../utilities/fontsizes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { apiHelper } from '../services';
 import Toast from 'react-native-toast-message';
 
@@ -17,8 +17,8 @@ const Home = () => {
   const User = useSelector((state: RootState) => state.role.user);
   console.log(" ----- Home Screen Rendered ----")
   const navigation = useNavigation<NavigationProp<any>>();
-  // if (!item?.image) console.warn(`Item ${item.id} has no image`);
   if (!images.background) console.warn('Background image is missing');
+  const [tools, setTools] = useState<any[]>([])
 
   const data = [
     {
@@ -164,75 +164,76 @@ const Home = () => {
   ];
 
   const renderItem = ({ item, index }: any) => {
-      if (!item.image) console.warn(`Item ${item.id} has no image`);
-      
-      return (
-    <View style={{ gap: height * 0.02 }}>
-      {index === 1 && (
-        <View style={styles.toolsContainer}>
-          <Text style={styles.toolsText}>Tools of Thinking</Text>
-        </View>
-      )}
-      <View style={{alignItems: "center"}}>
-        <View style={styles.containerSec}>
-          <View style={styles.headTextMain}>
-            <View style={styles.headText}>
-              <Text style={styles.title}>{item.title1}</Text>
-              <Text style={styles.title}>{item.title2}</Text>
-            </View>
-            {/* <Image source={item.image} style={styles.itemImg}/> */}
-            <Image 
-              source={item.image ? item.image : images.Heart} 
-              style={styles.itemImg} 
-            />
+    if (!item.image) console.warn(`Item ${item.id} has no image`);
+
+    return (
+      <View style={{ gap: height * 0.02 }}>
+        {index === 1 && (
+          <View style={styles.toolsContainer}>
+            <Text style={styles.toolsText}>Tools of Thinking</Text>
           </View>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
-            <Text style={styles.startBtnText}>Start</Text>
-            <Image source={images.forward} style={styles.forwardImg}/>
-          </TouchableOpacity>
+        )}
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.containerSec}>
+            <View style={styles.headTextMain}>
+              <View style={styles.headText}>
+                <Text style={styles.title}>{item.title1}</Text>
+                <Text style={styles.title}>{item.title2}</Text>
+              </View>
+              {/* <Image source={item.image} style={styles.itemImg}/> */}
+              <Image
+                source={item.image ? item.image : images.Heart}
+                style={styles.itemImg}
+              />
+            </View>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate(item.navigate)} style={styles.startBtnMain}>
+              <Text style={styles.startBtnText}>Start</Text>
+              <Image source={images.forward} style={styles.forwardImg} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
     )
   };
 
-    const fetchtoolsofthinking = async () => {
-        try {
-          const { response } = await apiHelper(
-            "GET",
-            "tools/tools-of-thinking",
-            {}
-          );
-      
-          if (response?.status) {
-      
-            Toast.show({
-              type: "success",
-              text1: "Success",
-              text2: "Tool of Thinking fetched successfully",
-            });
-            console.log("Tools of Thiking", response.data.data)
-      
-          } else {
-            Toast.show({
-              type: "error",
-              text1: "Error",
-              text2: response?.message || "Failed to fetch Tool of Thinking ",
-            });
-          }
-        } catch (error) {
-          console.log(error);
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: "Something went wrong",
-          });
-        }
-        };
-      
-      useEffect(() => {
-        fetchtoolsofthinking();
-      }, []);
+  const fetchtoolsofthinking = async () => {
+    try {
+      const { response } = await apiHelper(
+        "GET",
+        "tools/tools-of-thinking",
+        {}
+      );
+
+      if (response?.status) {
+
+        // Toast.show({
+        //   type: "success",
+        //   text1: "Success",
+        //   text2: "Tool of Thinking fetched successfully",
+        // });
+        console.log("Tools of Thiking", response.data.data)
+        setTools(response.data.data)
+
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: response?.message || "Failed to fetch Tool of Thinking ",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchtoolsofthinking();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
@@ -246,11 +247,10 @@ const Home = () => {
           <>
             <Text style={styles.welcome}>Welcome  {User?.firstName || "Jaydon"}</Text>
             <Text style={styles.values}>Core Values</Text>
-            <Image 
-              // source={images.background} 
-               source={images.background ? images.background : images.background} 
-              style={styles.img} 
-              />
+            <Image
+              source={images.background ? images.background : images.background}
+              style={styles.img}
+            />
           </>
         }
         renderItem={renderItem}
